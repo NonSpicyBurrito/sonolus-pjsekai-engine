@@ -1,0 +1,121 @@
+import { defineScripts, ParticleEffect } from 'sonolus.js'
+import { autoNoteEffect } from './auto-note-effect'
+import { autoSFX } from './auto-sfx'
+import {
+    slotGlowCyanSprite,
+    slotGlowGreenSprite,
+    slotGlowRedSprite,
+    slotGlowYellowSprite,
+} from './common/slot-glow-sprite'
+import {
+    slotCyanSprite,
+    slotGreenSprite,
+    slotRedSprite,
+    slotYellowSprite,
+} from './common/slot-sprite'
+import { flickNote } from './flick-note'
+import { initialization } from './initialization'
+import { simLine } from './sim-line'
+import { slideConnector } from './slide-connector'
+import { slideEnd } from './slide-end'
+import { slideEndFlick } from './slide-end-flick'
+import { slideStart } from './slide-start'
+import { slideTick } from './slide-tick'
+import { slotEffect } from './slot-effect'
+import { slotGlowEffect } from './slot-glow-effect'
+import { stage } from './stage'
+import { tapNote } from './tap-note'
+
+export const scripts = defineScripts({
+    initialization,
+    stage,
+
+    tapNote: () => tapNote(false),
+    flickNote: () => flickNote(false),
+    slideStart: () => slideStart(false),
+    slideTick: () => slideTick(false),
+    slideEnd: () => slideEnd(false),
+    slideEndFlick: () => slideEndFlick(false),
+    slideConnector: () => slideConnector(false),
+
+    criticalTapNote: () => tapNote(true),
+    criticalFlickNote: () => flickNote(true),
+    criticalSlideStart: () => slideStart(true),
+    criticalSlideTick: () => slideTick(true),
+    criticalSlideEnd: () => slideEnd(true),
+    criticalSlideEndFlick: () => slideEndFlick(true),
+    criticalSlideConnector: () => slideConnector(true),
+
+    slideHiddenTick: () => slideTick(false, false),
+
+    autoSFX,
+    simLine,
+
+    slotTapEffect: () => slotEffect(slotCyanSprite),
+    slotFlickEffect: () => slotEffect(slotRedSprite),
+    slotSlideEffect: () => slotEffect(slotGreenSprite),
+    slotCriticalEffect: () => slotEffect(slotYellowSprite),
+
+    slotTapGlowEffect: () => slotGlowEffect(slotGlowCyanSprite),
+    slotFlickGlowEffect: () => slotGlowEffect(slotGlowRedSprite),
+    slotSlideGlowEffect: () => slotGlowEffect(slotGlowGreenSprite),
+    slotCriticalGlowEffect: () => slotGlowEffect(slotGlowYellowSprite),
+
+    autoTapNoteEffect: () =>
+        autoNoteEffect(
+            ParticleEffect.NoteCircularTapCyan,
+            ParticleEffect.NoteLinearTapCyan,
+            0,
+            'cyan',
+            'normal'
+        ),
+    autoFlickNoteEffect: () =>
+        autoNoteEffect(
+            ParticleEffect.NoteCircularTapRed,
+            ParticleEffect.NoteLinearTapRed,
+            ParticleEffect.NoteLinearAlternativeRed,
+            'red',
+            'flick'
+        ),
+    autoSlideNoteEffect: () =>
+        autoNoteEffect(
+            ParticleEffect.NoteCircularTapGreen,
+            ParticleEffect.NoteLinearTapGreen,
+            0,
+            'green',
+            'normal'
+        ),
+    autoTickNoteEffect: () =>
+        autoNoteEffect(
+            ParticleEffect.NoteCircularAlternativeGreen,
+            ParticleEffect.NoteLinearTapGreen,
+            0,
+            'green',
+            'tick'
+        ),
+
+    autoCriticalTapNoteEffect: () =>
+        autoNoteEffect(
+            ParticleEffect.NoteCircularTapYellow,
+            ParticleEffect.NoteLinearTapYellow,
+            0,
+            'yellow',
+            'normal'
+        ),
+    autoCriticalFlickNoteEffect: () =>
+        autoNoteEffect(
+            ParticleEffect.NoteCircularTapYellow,
+            ParticleEffect.NoteLinearTapYellow,
+            ParticleEffect.NoteLinearAlternativeYellow,
+            'yellow',
+            'flick'
+        ),
+    autoCriticalTickNoteEffect: () =>
+        autoNoteEffect(
+            ParticleEffect.NoteCircularAlternativeYellow,
+            ParticleEffect.NoteLinearTapYellow,
+            0,
+            'yellow',
+            'tick'
+        ),
+})

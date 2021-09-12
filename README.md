@@ -71,8 +71,9 @@ Engine Thumbnail.
 -   `engineThumbnail.buffer`: buffer of file.
 -   `engineThumbnail.hash`: hash of file.
 
-### `fromSus(sus)`
+### `fromSus(sus, offset)`
 
 Converts sus chart to Level Data.
 
 -   `sus`: sus chart.
+-   `offset`: chart offset (default: `0`).

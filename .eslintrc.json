@@ -16,7 +16,7 @@
     "overrides": [
         {
             "files": [
-                "src/lib/**.ts"
+                "src/lib/**/*.ts"
             ],
             "rules": {
                 "@typescript-eslint/explicit-module-boundary-types": "error"

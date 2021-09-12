@@ -1,6 +1,5 @@
 import { SEntity, SLevelData } from 'sonolus.js'
-import * as SusAnalyzer from 'sus-analyzer'
-import { ISusNotes } from 'sus-analyzer'
+import { analyze, NoteObject } from './analyze'
 
 type Wrapper = {
     group: number
@@ -10,14 +9,13 @@ type Wrapper = {
 }
 
 type NoteInfo = {
-    note: ISusNotes
+    note: NoteObject
     key: string
     time: number
     isCritical: boolean
 }
 
 const ticksPerBeat = 480
-const ticksPerMeasure = ticksPerBeat * 4
 
 export function fromSus(
     sus: string,
@@ -44,7 +42,7 @@ export function fromSus(
         slideHiddenTickIndex: number
     }
 ): SLevelData {
-    const score = SusAnalyzer.getScore(sus, ticksPerBeat)
+    const score = analyze(sus, ticksPerBeat)
 
     const flickMods = new Map<string, -1 | 0 | 1>()
     const criticalMods = new Set<string>()
@@ -54,10 +52,10 @@ export function fromSus(
 
     const slides = new Set<string>()
 
-    score.slideNotes.forEach((notes) => {
-        notes.forEach((note) => {
+    score.slides.forEach((slide) => {
+        slide.forEach((note) => {
             const key = getKey(note)
-            switch (note.noteType) {
+            switch (note.type) {
                 case 1:
                 case 2:
                 case 3:
@@ -67,9 +65,9 @@ export function fromSus(
             }
         })
     })
-    score.airNotes.forEach((note) => {
+    score.directionalNotes.forEach((note) => {
         const key = getKey(note)
-        switch (note.noteType) {
+        switch (note.type) {
             case 1:
                 flickMods.set(key, -1)
                 break
@@ -88,9 +86,9 @@ export function fromSus(
                 break
         }
     })
-    score.shortNotes.forEach((note) => {
+    score.tapNotes.forEach((note) => {
         const key = getKey(note)
-        switch (note.noteType) {
+        switch (note.type) {
             case 2:
                 criticalMods.add(key)
                 break
@@ -118,14 +116,14 @@ export function fromSus(
     ]
 
     const taps = new Set<string>()
-    score.shortNotes
+    score.tapNotes
         .filter((note) => note.lane > 1 && note.lane < 14)
         .forEach((note) => {
             const key = getKey(note)
             if (slides.has(key)) return
 
-            const time = getTime(note.measure, note.tick)
-            switch (note.noteType) {
+            const time = score.toTime(note.tick)
+            switch (note.type) {
                 case 1: {
                     if (taps.has(key)) break
                     taps.add(key)
@@ -181,26 +179,23 @@ export function fromSus(
             }
         })
 
-    score.slideNotes.forEach((notes) => {
-        const startNote = notes.find(
-            ({ noteType }) => noteType === 1 || noteType === 2
-        )
+    score.slides.forEach((slide) => {
+        const startNote = slide.find(({ type }) => type === 1 || type === 2)
         if (!startNote) return
 
         const isStartCritical = criticalMods.has(getKey(startNote))
-        const hiddenStartTicks =
-            getTotalTicks(startNote.measure, startNote.tick) + ticksPerBeat / 2
+        const hiddenStartTicks = startNote.tick + ticksPerBeat / 2
 
         let head: NoteInfo | undefined
         let ref: Wrapper | undefined
         const connectedNotes: NoteInfo[] = []
-        notes.forEach((note) => {
+        slide.forEach((note) => {
             const key = getKey(note)
-            const time = getTime(note.measure, note.tick)
+            const time = score.toTime(note.tick)
             const isCritical = isStartCritical || criticalMods.has(key)
 
             let newHead: NoteInfo | undefined
-            switch (note.noteType) {
+            switch (note.type) {
                 case 1: {
                     wrappers.push({
                         group: 0,
@@ -371,8 +366,8 @@ export function fromSus(
                 },
             })
 
-            const beginTicks = getTotalTicks(head.note.measure, head.note.tick)
-            const endTicks = getTotalTicks(note.measure, note.tick)
+            const beginTicks = head.note.tick
+            const endTicks = note.tick
             for (
                 let i = hiddenStartTicks;
                 i < endTicks;
@@ -380,10 +375,7 @@ export function fromSus(
             ) {
                 if (i < beginTicks) continue
 
-                const measure = Math.floor(i / ticksPerMeasure)
-                const tick = i % ticksPerMeasure
-
-                const t = getTime(measure, tick)
+                const t = score.toTime(i)
                 const y = ease((t - h.time) / (time - h.time), easeType)
                 const lane = h.note.lane + (note.lane - h.note.lane) * y
                 const width = h.note.width + (note.width - h.note.width) * y
@@ -416,22 +408,10 @@ export function fromSus(
     })
 
     return { entities: wrappers.map(({ entity }) => entity) }
-
-    function getTime(measure: number, tick: number) {
-        let time = (tick * 60) / score.BPMs[measure] / ticksPerBeat
-        for (let i = 0; i < measure; i++) {
-            time += (score.BEATs[i] * 60) / score.BPMs[i]
-        }
-        return time
-    }
 }
 
-function getKey(note: ISusNotes) {
-    return `${note.measure}-${note.tick}-${note.lane}-${note.width}`
-}
-
-function getTotalTicks(measure: number, tick: number) {
-    return measure * ticksPerMeasure + tick
+function getKey(note: NoteObject) {
+    return `${note.tick}-${note.lane}-${note.width}`
 }
 
 function ease(x: number, type: 0 | 1 | -1) {

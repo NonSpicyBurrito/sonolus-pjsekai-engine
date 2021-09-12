@@ -1,6 +1,6 @@
 import { SLevelData } from 'sonolus.js'
-import { fromSus as _fromSus } from './convert'
 import { Resource } from './Resource'
+import { fromSus as _fromSus } from './sus/convert'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const archetypes = require('./archetypes')

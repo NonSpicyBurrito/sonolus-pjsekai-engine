@@ -30,7 +30,7 @@ import {
     screen,
     stage,
 } from './constants'
-import { NoteData, NoteDataPointer } from './note'
+import { NoteData } from './note'
 import { rectBySize } from './utils'
 
 export function playEmptyLaneEffect(index: Code<number>) {
@@ -52,18 +52,24 @@ export function playEmptyLaneEffect(index: Code<number>) {
     )
 }
 
-export function playNoteLaneEffect(noteData: NoteDataPointer = NoteData) {
+export function playNoteLaneEffect(
+    center: Code<number> = NoteData.center,
+    width: Code<number> = NoteData.width
+) {
+    const l = Multiply(Subtract(center, width), lane.w)
+    const r = Multiply(Add(center, width), lane.w)
+
     return And(
         options.isLaneEffectEnabled,
         SpawnParticleEffect(
             ParticleEffect.LaneLinear,
-            Remap(origin, lane.b, 0, noteData.laneL, screen.b),
+            Remap(origin, lane.b, 0, l, screen.b),
             screen.b,
-            Remap(origin, lane.b, 0, noteData.laneL, stage.t),
+            Remap(origin, lane.b, 0, l, stage.t),
             stage.t,
-            Remap(origin, lane.b, 0, noteData.laneR, stage.t),
+            Remap(origin, lane.b, 0, r, stage.t),
             stage.t,
-            Remap(origin, lane.b, 0, noteData.laneR, screen.b),
+            Remap(origin, lane.b, 0, r, screen.b),
             screen.b,
             0.3,
             false

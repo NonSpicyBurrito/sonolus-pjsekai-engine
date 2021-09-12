@@ -55,14 +55,6 @@ export class NoteDataPointer extends Pointer {
     public get direction() {
         return this.to<number>(3)
     }
-
-    public get laneL() {
-        return this.to<number>(16)
-    }
-
-    public get laneR() {
-        return this.to<number>(17)
-    }
 }
 
 export const NoteData = createEntityData(NoteDataPointer)
@@ -163,13 +155,6 @@ export function preprocessNote(
     return [
         applyLevelSpeed(NoteData.time),
         applyMirrorCenters(NoteData.center),
-
-        NoteData.laneL.set(
-            Multiply(Subtract(NoteData.center, NoteData.width), lane.w)
-        ),
-        NoteData.laneR.set(
-            Multiply(Add(NoteData.center, NoteData.width), lane.w)
-        ),
 
         noteSpawnTime.set(getSpawnTime(NoteData.time)),
         noteZ.set(getZ(layer, NoteData.time, NoteData.center)),

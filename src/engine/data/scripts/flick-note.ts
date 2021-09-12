@@ -26,7 +26,6 @@ import {
     TouchX,
     TouchY,
 } from 'sonolus.js'
-import { scripts } from '.'
 import { options } from '../../configuration/options'
 import { buckets } from '../buckets'
 import {
@@ -45,7 +44,6 @@ import {
     applyMirrorDirections,
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
-    initializeAutoNoteEffect,
     initializeNoteSimLine,
     InputState,
     noteBottom,
@@ -106,14 +104,7 @@ export function flickNote(isCritical: boolean): SScript {
 
     const shouldSpawn = GreaterOr(Time, noteSpawnTime)
 
-    const initialize = [
-        initializeNoteSimLine(),
-        initializeAutoNoteEffect(
-            isCritical
-                ? scripts.autoCriticalFlickNoteEffectIndex
-                : scripts.autoFlickNoteEffectIndex
-        ),
-    ]
+    const initialize = initializeNoteSimLine()
 
     const touch = Or(options.isAutoplay, [
         And(
@@ -146,6 +137,8 @@ export function flickNote(isCritical: boolean): SScript {
         ]
     )
 
+    const terminate = And(options.isAutoplay, playVisualEffects())
+
     return {
         preprocess: {
             code: preprocess,
@@ -164,6 +157,9 @@ export function flickNote(isCritical: boolean): SScript {
         },
         updateParallel: {
             code: updateParallel,
+        },
+        terminate: {
+            code: terminate,
         },
     }
 
@@ -190,6 +186,15 @@ export function flickNote(isCritical: boolean): SScript {
             InputBucket.set(bucket),
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
 
+            playVisualEffects(),
+            isCritical
+                ? playCriticalFlickJudgmentSFX()
+                : playFlickJudgmentSFX(),
+        ]
+    }
+
+    function playVisualEffects() {
+        return [
             playNoteLaneEffect(),
             playNoteEffect(
                 isCritical
@@ -204,9 +209,6 @@ export function flickNote(isCritical: boolean): SScript {
                 'flick'
             ),
             playSlotEffect(isCritical ? 'yellow' : 'red'),
-            isCritical
-                ? playCriticalFlickJudgmentSFX()
-                : playFlickJudgmentSFX(),
         ]
     }
 }

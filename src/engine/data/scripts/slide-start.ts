@@ -21,7 +21,6 @@ import {
     TouchST,
     TouchStarted,
 } from 'sonolus.js'
-import { scripts } from '.'
 import { options } from '../../configuration/options'
 import { buckets } from '../buckets'
 import { Layer, windows } from './common/constants'
@@ -33,7 +32,6 @@ import {
 import {
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
-    initializeAutoNoteEffect,
     initializeNoteSimLine,
     InputState,
     noteBottom,
@@ -78,14 +76,7 @@ export function slideStart(isCritical: boolean): SScript {
 
     const shouldSpawn = GreaterOr(Time, noteSpawnTime)
 
-    const initialize = [
-        initializeNoteSimLine(),
-        initializeAutoNoteEffect(
-            isCritical
-                ? scripts.autoCriticalTapNoteEffectIndex
-                : scripts.autoSlideNoteEffectIndex
-        ),
-    ]
+    const initialize = initializeNoteSimLine()
 
     const touch = Or(
         options.isAutoplay,
@@ -111,6 +102,8 @@ export function slideStart(isCritical: boolean): SScript {
         ])
     )
 
+    const terminate = And(options.isAutoplay, playVisualEffects())
+
     return {
         preprocess: {
             code: preprocess,
@@ -130,6 +123,9 @@ export function slideStart(isCritical: boolean): SScript {
         updateParallel: {
             code: updateParallel,
         },
+        terminate: {
+            code: terminate,
+        },
     }
 
     function onComplete() {
@@ -144,6 +140,13 @@ export function slideStart(isCritical: boolean): SScript {
             InputBucket.set(bucket),
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
 
+            playVisualEffects(),
+            playTapJudgmentSFX(),
+        ]
+    }
+
+    function playVisualEffects() {
+        return [
             playNoteLaneEffect(),
             playNoteEffect(
                 isCritical
@@ -156,7 +159,6 @@ export function slideStart(isCritical: boolean): SScript {
                 'normal'
             ),
             playSlotEffect(isCritical ? 'yellow' : 'green'),
-            playTapJudgmentSFX(),
         ]
     }
 }

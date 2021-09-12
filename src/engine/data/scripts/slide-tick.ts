@@ -12,14 +12,12 @@ import {
     Subtract,
     Time,
 } from 'sonolus.js'
-import { scripts } from '.'
 import { options } from '../../configuration/options'
 import { Layer } from './common/constants'
 import { playNoteEffect } from './common/effect'
 import {
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
-    initializeAutoNoteEffect,
     noteBottom,
     NoteData,
     noteScale,
@@ -52,14 +50,6 @@ export function slideTick(isCritical: boolean, isVisible = true): SScript {
 
     const shouldSpawn = GreaterOr(Time, noteSpawnTime)
 
-    const initialize =
-        isVisible &&
-        initializeAutoNoteEffect(
-            isCritical
-                ? scripts.autoCriticalTickNoteEffectIndex
-                : scripts.autoTickNoteEffectIndex
-        )
-
     const touch = Or(
         options.isAutoplay,
         And(
@@ -87,6 +77,8 @@ export function slideTick(isCritical: boolean, isVisible = true): SScript {
             ])
     )
 
+    const terminate = And(options.isAutoplay, playVisualEffects())
+
     return {
         preprocess: {
             code: preprocess,
@@ -97,22 +89,23 @@ export function slideTick(isCritical: boolean, isVisible = true): SScript {
         shouldSpawn: {
             code: shouldSpawn,
         },
-        initialize: {
-            code: initialize,
-        },
         touch: {
             code: touch,
         },
         updateParallel: {
             code: updateParallel,
         },
+        terminate: {
+            code: terminate,
+        },
     }
 
     function onComplete() {
-        return [
-            InputJudgment.set(1),
-            InputAccuracy.set(0),
+        return [InputJudgment.set(1), InputAccuracy.set(0), playVisualEffects()]
+    }
 
+    function playVisualEffects() {
+        return (
             isVisible && [
                 playNoteEffect(
                     isCritical
@@ -127,7 +120,7 @@ export function slideTick(isCritical: boolean, isVisible = true): SScript {
                 isCritical
                     ? playCriticalTickJudgmentSFX()
                     : playTapJudgmentSFX(),
-            ],
-        ]
+            ]
+        )
     }
 }

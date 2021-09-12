@@ -1,5 +1,4 @@
-import { defineScripts, ParticleEffect } from 'sonolus.js'
-import { autoNoteEffect } from './auto-note-effect'
+import { defineScripts } from 'sonolus.js'
 import { autoSFX } from './auto-sfx'
 import {
     slotGlowCyanSprite,
@@ -60,62 +59,4 @@ export const scripts = defineScripts({
     slotFlickGlowEffect: () => slotGlowEffect(slotGlowRedSprite),
     slotSlideGlowEffect: () => slotGlowEffect(slotGlowGreenSprite),
     slotCriticalGlowEffect: () => slotGlowEffect(slotGlowYellowSprite),
-
-    autoTapNoteEffect: () =>
-        autoNoteEffect(
-            ParticleEffect.NoteCircularTapCyan,
-            ParticleEffect.NoteLinearTapCyan,
-            0,
-            'cyan',
-            'normal'
-        ),
-    autoFlickNoteEffect: () =>
-        autoNoteEffect(
-            ParticleEffect.NoteCircularTapRed,
-            ParticleEffect.NoteLinearTapRed,
-            ParticleEffect.NoteLinearAlternativeRed,
-            'red',
-            'flick'
-        ),
-    autoSlideNoteEffect: () =>
-        autoNoteEffect(
-            ParticleEffect.NoteCircularTapGreen,
-            ParticleEffect.NoteLinearTapGreen,
-            0,
-            'green',
-            'normal'
-        ),
-    autoTickNoteEffect: () =>
-        autoNoteEffect(
-            ParticleEffect.NoteCircularAlternativeGreen,
-            ParticleEffect.NoteLinearTapGreen,
-            0,
-            'green',
-            'tick'
-        ),
-
-    autoCriticalTapNoteEffect: () =>
-        autoNoteEffect(
-            ParticleEffect.NoteCircularTapYellow,
-            ParticleEffect.NoteLinearTapYellow,
-            0,
-            'yellow',
-            'normal'
-        ),
-    autoCriticalFlickNoteEffect: () =>
-        autoNoteEffect(
-            ParticleEffect.NoteCircularTapYellow,
-            ParticleEffect.NoteLinearTapYellow,
-            ParticleEffect.NoteLinearAlternativeYellow,
-            'yellow',
-            'flick'
-        ),
-    autoCriticalTickNoteEffect: () =>
-        autoNoteEffect(
-            ParticleEffect.NoteCircularAlternativeYellow,
-            ParticleEffect.NoteLinearTapYellow,
-            0,
-            'yellow',
-            'tick'
-        ),
 })

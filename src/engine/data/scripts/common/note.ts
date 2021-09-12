@@ -215,10 +215,6 @@ export function initializeNoteSimLine() {
     )
 }
 
-export function initializeAutoNoteEffect(index: number) {
-    return And(options.isAutoplay, Spawn(index, [EntityInfo.index]))
-}
-
 export function updateNoteY() {
     return [
         noteScale.set(approachNote(NoteData.time)),

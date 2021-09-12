@@ -33,6 +33,6 @@ export const engineConfiguration = new Resource('EngineConfiguration')
 export const engineData = new Resource('EngineData')
 export const engineThumbnail = new Resource('thumbnail.png')
 
-export function fromSus(sus: string): SLevelData {
-    return _fromSus(sus, archetypes)
+export function fromSus(sus: string, offset = 0): SLevelData {
+    return _fromSus(sus, offset, archetypes)
 }

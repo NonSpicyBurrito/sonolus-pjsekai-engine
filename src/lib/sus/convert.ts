@@ -19,6 +19,7 @@ const ticksPerBeat = 480
 
 export function fromSus(
     sus: string,
+    offset: number,
     archetypes: {
         initializationIndex: number
         stageIndex: number
@@ -122,7 +123,7 @@ export function fromSus(
             const key = getKey(note)
             if (slides.has(key)) return
 
-            const time = score.toTime(note.tick)
+            const time = toTime(note.tick)
             switch (note.type) {
                 case 1: {
                     if (taps.has(key)) break
@@ -191,7 +192,7 @@ export function fromSus(
         const connectedNotes: NoteInfo[] = []
         slide.forEach((note) => {
             const key = getKey(note)
-            const time = score.toTime(note.tick)
+            const time = toTime(note.tick)
             const isCritical = isStartCritical || criticalMods.has(key)
 
             let newHead: NoteInfo | undefined
@@ -375,7 +376,7 @@ export function fromSus(
             ) {
                 if (i < beginTicks) continue
 
-                const t = score.toTime(i)
+                const t = toTime(i)
                 const y = ease((t - h.time) / (time - h.time), easeType)
                 const lane = h.note.lane + (note.lane - h.note.lane) * y
                 const width = h.note.width + (note.width - h.note.width) * y
@@ -408,6 +409,10 @@ export function fromSus(
     })
 
     return { entities: wrappers.map(({ entity }) => entity) }
+
+    function toTime(tick: number) {
+        return score.toTime(tick) + offset
+    }
 }
 
 function getKey(note: NoteObject) {

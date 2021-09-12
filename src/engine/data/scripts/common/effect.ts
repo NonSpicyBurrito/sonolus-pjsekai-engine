@@ -6,6 +6,7 @@ import {
     EntityMemory,
     Floor,
     GreaterOr,
+    HasSkinSprite,
     LessOr,
     Multiply,
     ParticleEffect,
@@ -18,6 +19,8 @@ import {
 } from 'sonolus.js'
 import { scripts } from '..'
 import { options } from '../../../configuration/options'
+import { getSlotSprite } from '../slot-effect'
+import { getSlotGlowSprite } from '../slot-glow-effect'
 import {
     circularTapEffect,
     circularTickEffectSize,
@@ -28,18 +31,6 @@ import {
     stage,
 } from './constants'
 import { NoteData, NoteDataPointer } from './note'
-import {
-    slotGlowCyanSprite,
-    slotGlowGreenSprite,
-    slotGlowRedSprite,
-    slotGlowYellowSprite,
-} from './slot-glow-sprite'
-import {
-    slotCyanSprite,
-    slotGreenSprite,
-    slotRedSprite,
-    slotYellowSprite,
-} from './slot-sprite'
 import { rectBySize } from './utils'
 
 export function playEmptyLaneEffect(index: Code<number>) {
@@ -174,58 +165,32 @@ export function playNoteEffect(
 }
 
 export function playSlotEffect(
-    type: 'red' | 'green' | 'yellow' | 'cyan',
+    color: number,
     center: Code<number> = NoteData.center,
     width: Code<number> = NoteData.width,
     temp1: Pointer<number> = EntityMemory.to<number>(62),
     temp2: Pointer<number> = EntityMemory.to<number>(63)
 ) {
+    const slotSprite = getSlotSprite(color)
+    const slotGlowSprite = getSlotGlowSprite(color)
+
     return And(options.isSlotEffectEnabled, [
+        And(HasSkinSprite(slotSprite), [
+            temp1.set(Floor(Subtract(center, width))),
+            temp2.set(Ceil(Add(center, width))),
+            [...Array(12).keys()]
+                .map((i) => i - 5.5)
+                .map((center) =>
+                    And(
+                        GreaterOr(center, temp1),
+                        LessOr(center, temp2),
+                        Spawn(scripts.slotEffectIndex, [slotSprite, center])
+                    )
+                ),
+        ]),
         And(
-            {
-                red: slotRedSprite,
-                green: slotGreenSprite,
-                yellow: slotYellowSprite,
-                cyan: slotCyanSprite,
-            }[type].exists,
-            [
-                temp1.set(Floor(Subtract(center, width))),
-                temp2.set(Ceil(Add(center, width))),
-                [...Array(12).keys()]
-                    .map((i) => i - 5.5)
-                    .map((center) =>
-                        And(
-                            GreaterOr(center, temp1),
-                            LessOr(center, temp2),
-                            Spawn(
-                                {
-                                    red: scripts.slotFlickEffectIndex,
-                                    green: scripts.slotSlideEffectIndex,
-                                    yellow: scripts.slotCriticalEffectIndex,
-                                    cyan: scripts.slotTapEffectIndex,
-                                }[type],
-                                [center]
-                            )
-                        )
-                    ),
-            ]
-        ),
-        And(
-            {
-                red: slotGlowRedSprite,
-                green: slotGlowGreenSprite,
-                yellow: slotGlowYellowSprite,
-                cyan: slotGlowCyanSprite,
-            }[type].exists,
-            Spawn(
-                {
-                    red: scripts.slotFlickGlowEffectIndex,
-                    green: scripts.slotSlideGlowEffectIndex,
-                    yellow: scripts.slotCriticalGlowEffectIndex,
-                    cyan: scripts.slotTapGlowEffectIndex,
-                }[type],
-                [center, width]
-            )
+            HasSkinSprite(slotGlowSprite),
+            Spawn(scripts.slotGlowEffectIndex, [slotGlowSprite, center, width])
         ),
     ])
 }

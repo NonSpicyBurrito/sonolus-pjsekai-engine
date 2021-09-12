@@ -154,7 +154,7 @@ export function tapNote(isCritical: boolean): SScript {
                 0,
                 'normal'
             ),
-            playSlotEffect(isCritical ? 'yellow' : 'cyan'),
+            playSlotEffect(isCritical ? 4 : 6),
         ]
     }
 }

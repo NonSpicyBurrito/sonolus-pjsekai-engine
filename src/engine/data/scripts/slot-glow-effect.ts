@@ -1,36 +1,44 @@
 import {
     Abs,
     Add,
+    customSkinSprite,
     Divide,
+    Draw,
     EntityMemory,
     GreaterOr,
+    Lerp,
+    Multiply,
     Or,
+    Power,
     SScript,
+    Subtract,
     Time,
     Unlerp,
 } from 'sonolus.js'
-import { Layer } from './common/constants'
-import {
-    calculateSlotGlowLayout,
-    getSlotGlowLayout,
-    SlotGlowSprite,
-} from './common/slot-glow-sprite'
+import { engineId, lane, Layer } from './common/constants'
 
-export function slotGlowEffect(slotGlowSprite: SlotGlowSprite): SScript {
-    const center = EntityMemory.to<number>(0)
-    const width = EntityMemory.to<number>(1)
+export function slotGlowEffect(): SScript {
+    const sprite = EntityMemory.to<number>(0)
+    const center = EntityMemory.to<number>(1)
+    const width = EntityMemory.to<number>(2)
 
-    const startTime = EntityMemory.to<number>(2)
-    const endTime = EntityMemory.to<number>(3)
+    const startTime = EntityMemory.to<number>(3)
+    const endTime = EntityMemory.to<number>(4)
 
-    const layout = getSlotGlowLayout(EntityMemory.to(4))
-    const z = EntityMemory.to<number>(8)
+    const tL = EntityMemory.to<number>(5)
+    const tR = EntityMemory.to<number>(6)
+    const bL = EntityMemory.to<number>(7)
+    const bR = EntityMemory.to<number>(8)
+    const z = EntityMemory.to<number>(9)
 
     const initialize = [
         startTime.set(Time),
         endTime.set(Add(startTime, 0.25)),
 
-        calculateSlotGlowLayout(center, width, layout),
+        tL.set(Multiply(Subtract(center, width), lane.w, 1.25)),
+        tR.set(Multiply(Add(center, width), lane.w, 1.25)),
+        bL.set(Multiply(Subtract(center, width), lane.w)),
+        bR.set(Multiply(Add(center, width), lane.w)),
         z.set(
             Add(
                 Layer.SlotGlowEffect,
@@ -40,10 +48,28 @@ export function slotGlowEffect(slotGlowSprite: SlotGlowSprite): SScript {
         ),
     ]
 
-    const updateParallel = Or(
-        GreaterOr(Time, endTime),
-        slotGlowSprite.draw(layout, z, Unlerp(endTime, startTime, Time))
-    )
+    const a = EntityMemory.to<number>(32)
+    const p = EntityMemory.to<number>(33)
+    const t = EntityMemory.to<number>(34)
+
+    const updateParallel = Or(GreaterOr(Time, endTime), [
+        a.set(Unlerp(endTime, startTime, Time)),
+        p.set(Subtract(1, Power(a, 3))),
+        t.set(Add(lane.b, Multiply(lane.w, 4, p))),
+        Draw(
+            sprite,
+            bL,
+            lane.b,
+            Lerp(bL, tL, p),
+            t,
+            Lerp(bR, tR, p),
+            t,
+            bR,
+            lane.b,
+            z,
+            a
+        ),
+    ])
 
     return {
         initialize: {
@@ -53,4 +79,8 @@ export function slotGlowEffect(slotGlowSprite: SlotGlowSprite): SScript {
             code: updateParallel,
         },
     }
+}
+
+export function getSlotGlowSprite(color: number) {
+    return customSkinSprite(engineId, 60 + color)
 }

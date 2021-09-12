@@ -158,7 +158,7 @@ export function slideStart(isCritical: boolean): SScript {
                 0,
                 'normal'
             ),
-            playSlotEffect(isCritical ? 'yellow' : 'green'),
+            playSlotEffect(isCritical ? 4 : 2),
         ]
     }
 }

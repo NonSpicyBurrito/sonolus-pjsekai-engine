@@ -197,7 +197,7 @@ export function slideEndFlick(isCritical: boolean): SScript {
                     : ParticleEffect.NoteLinearAlternativeRed,
                 'flick'
             ),
-            playSlotEffect(isCritical ? 'yellow' : 'red'),
+            playSlotEffect(isCritical ? 4 : 1),
         ]
     }
 }

@@ -1,17 +1,5 @@
 import { defineScripts } from 'sonolus.js'
 import { autoSFX } from './auto-sfx'
-import {
-    slotGlowCyanSprite,
-    slotGlowGreenSprite,
-    slotGlowRedSprite,
-    slotGlowYellowSprite,
-} from './common/slot-glow-sprite'
-import {
-    slotCyanSprite,
-    slotGreenSprite,
-    slotRedSprite,
-    slotYellowSprite,
-} from './common/slot-sprite'
 import { flickNote } from './flick-note'
 import { initialization } from './initialization'
 import { simLine } from './sim-line'
@@ -50,13 +38,6 @@ export const scripts = defineScripts({
     autoSFX,
     simLine,
 
-    slotTapEffect: () => slotEffect(slotCyanSprite),
-    slotFlickEffect: () => slotEffect(slotRedSprite),
-    slotSlideEffect: () => slotEffect(slotGreenSprite),
-    slotCriticalEffect: () => slotEffect(slotYellowSprite),
-
-    slotTapGlowEffect: () => slotGlowEffect(slotGlowCyanSprite),
-    slotFlickGlowEffect: () => slotGlowEffect(slotGlowRedSprite),
-    slotSlideGlowEffect: () => slotGlowEffect(slotGlowGreenSprite),
-    slotCriticalGlowEffect: () => slotGlowEffect(slotGlowYellowSprite),
+    slotEffect,
+    slotGlowEffect,
 })

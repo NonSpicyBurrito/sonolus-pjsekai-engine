@@ -422,7 +422,7 @@ export function fromSus(
 }
 
 function getKey(note: NoteObject) {
-    return `${note.tick}-${note.lane}-${note.width}`
+    return `${note.tick}-${note.lane}`
 }
 
 function ease(x: number, type: 0 | 1 | -1) {

@@ -28,6 +28,7 @@ Engine ID: `2`
 | 40-46 | Diamond       |
 | 50-56 | Slot          |
 | 60-66 | Slot Glow     |
+| 71-94 | Flick Arrow   |
 
 ### Effect Clips
 

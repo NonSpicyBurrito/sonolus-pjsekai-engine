@@ -32,7 +32,6 @@ import { buckets } from '../buckets'
 import {
     arrowRedSprite,
     arrowYellowSprite,
-    calculateArrowLayout,
     getArrowLayout,
 } from './common/arrow-sprite'
 import { Layer, minFlickVR, windows } from './common/constants'
@@ -81,18 +80,17 @@ export function slideEndFlick(isCritical: boolean): SScript {
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
     const arrowLayout = getArrowLayout(EntityMemory.to(8))
-    const arrowZ = EntityMemory.to<number>(16)
+    const arrowZ = EntityMemory.to<number>(17)
 
     const preprocess = [
         preprocessNote(bucket, window.good.late, 0.75, Layer.NoteBody),
         applyMirrorDirections(NoteData.direction),
         calculateNoteLayout(NoteData.center, NoteData.width, noteLayout),
-        calculateArrowLayout(
+        arrowSprite.calculateLayout(
             NoteData.center,
             NoteData.width,
             NoteData.direction,
-            arrowLayout,
-            arrowZ
+            arrowLayout
         ),
         arrowZ.set(Subtract(Layer.NoteArrow, Divide(NoteData.time, 1000))),
     ]

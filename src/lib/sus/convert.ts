@@ -181,7 +181,12 @@ export function fromSus(
             }
         })
 
+    const slideKeys = new Set<string>()
     score.slides.forEach((slide) => {
+        const key = slide.map(getKey).join('|')
+        if (slideKeys.has(key)) return
+        slideKeys.add(key)
+
         const startNote = slide.find(({ type }) => type === 1 || type === 2)
         if (!startNote) return
 

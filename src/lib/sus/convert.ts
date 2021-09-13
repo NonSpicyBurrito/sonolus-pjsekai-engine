@@ -16,6 +16,7 @@ type NoteInfo = {
 }
 
 const ticksPerBeat = 480
+const ticksPerHidden = ticksPerBeat / 2
 
 export function fromSus(
     sus: string,
@@ -185,7 +186,8 @@ export function fromSus(
         if (!startNote) return
 
         const isStartCritical = criticalMods.has(getKey(startNote))
-        const hiddenStartTicks = startNote.tick + ticksPerBeat / 2
+        const minHiddenTick =
+            Math.floor(startNote.tick / ticksPerHidden + 1) * ticksPerHidden
 
         let head: NoteInfo | undefined
         let ref: Wrapper | undefined
@@ -367,15 +369,14 @@ export function fromSus(
                 },
             })
 
-            const beginTicks = head.note.tick
-            const endTicks = note.tick
             for (
-                let i = hiddenStartTicks;
-                i < endTicks;
-                i += ticksPerBeat / 2
+                let i = Math.max(
+                    Math.ceil(head.note.tick / ticksPerHidden) * ticksPerHidden,
+                    minHiddenTick
+                );
+                i < note.tick;
+                i += ticksPerHidden
             ) {
-                if (i < beginTicks) continue
-
                 const t = toTime(i)
                 const y = ease((t - h.time) / (time - h.time), easeType)
                 const lane = h.note.lane + (note.lane - h.note.lane) * y

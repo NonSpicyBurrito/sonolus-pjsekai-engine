@@ -27,7 +27,7 @@ import {
     preprocessNote,
     updateNoteY,
 } from './common/note'
-import { playCriticalTickJudgmentSFX, playTapJudgmentSFX } from './common/sfx'
+import { playCriticalTickJudgmentSFX, playTickJudgmentSFX } from './common/sfx'
 import {
     calculateTickLayout,
     getTickLayout,
@@ -119,7 +119,7 @@ export function slideTick(isCritical: boolean, isVisible = true): SScript {
                 ),
                 isCritical
                     ? playCriticalTickJudgmentSFX()
-                    : playTapJudgmentSFX(),
+                    : playTickJudgmentSFX(),
             ]
         )
     }

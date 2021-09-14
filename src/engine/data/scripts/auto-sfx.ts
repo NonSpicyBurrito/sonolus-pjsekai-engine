@@ -20,6 +20,7 @@ import {
     getCriticalFlickClip,
     getCriticalTapClip,
     getCriticalTickClip,
+    getTickClip,
 } from './common/sfx'
 
 export function autoSFX(): SScript {
@@ -58,6 +59,7 @@ export function autoSFX(): SScript {
                             archetypes.flickNoteIndex,
                             EffectClip.PerfectAlternative,
                         ],
+                        [archetypes.slideTickIndex, getTickClip()],
                         [
                             archetypes.slideEndFlickIndex,
                             EffectClip.PerfectAlternative,

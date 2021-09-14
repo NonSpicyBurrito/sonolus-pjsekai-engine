@@ -32,11 +32,12 @@ Engine ID: `2`
 
 ### Effect Clips
 
-| ID  | Sprite         |
+| ID  | Clip           |
 | --- | -------------- |
 | 1   | Critical Tap   |
 | 2   | Critical Tick  |
 | 3   | Critical Flick |
+| 4   | Tick           |
 
 ## Documentation
 

@@ -14,6 +14,7 @@ import {
     criticalTapClip,
     criticalTickClip,
     minSFXDistance,
+    tickClip,
 } from './constants'
 
 export function getCriticalTapClip(judgment: Code<number> = 1) {
@@ -38,6 +39,10 @@ export function getCriticalFlickClip(judgment: Code<number> = 1) {
         criticalFlickClip,
         Add(EffectClip.MissAlternative, judgment)
     )
+}
+
+export function getTickClip(judgment: Code<number> = 1) {
+    return If(HasEffectClip(tickClip), tickClip, Add(EffectClip.Miss, judgment))
 }
 
 export function playStageSFX() {
@@ -76,5 +81,12 @@ export function playCriticalFlickJudgmentSFX() {
     return And(
         options.isSFXEnabled,
         Play(getCriticalFlickClip(InputJudgment), minSFXDistance)
+    )
+}
+
+export function playTickJudgmentSFX() {
+    return And(
+        options.isSFXEnabled,
+        Play(getTickClip(InputJudgment), minSFXDistance)
     )
 }

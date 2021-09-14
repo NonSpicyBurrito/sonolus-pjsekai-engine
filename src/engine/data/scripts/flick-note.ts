@@ -21,6 +21,7 @@ import {
     Time,
     TouchDX,
     TouchDY,
+    TouchId,
     TouchStarted,
     TouchVR,
     TouchX,
@@ -65,11 +66,8 @@ import {
     playCriticalFlickJudgmentSFX,
     playFlickJudgmentSFX,
 } from './common/sfx'
-import {
-    checkDirection,
-    checkTouchYInHitbox,
-    isTouchOccupied,
-} from './common/touch'
+import { checkDirection, checkTouchYInHitbox } from './common/touch'
+import { anyOccupied, tapOccupied } from './input'
 
 export function flickNote(isCritical: boolean): SScript {
     const bucket = isCritical
@@ -109,7 +107,7 @@ export function flickNote(isCritical: boolean): SScript {
             Not(bool(noteInputState)),
             checkNoteTimeInEarlyWindow(window.good.early),
             TouchStarted,
-            Not(isTouchOccupied),
+            Not(tapOccupied.contains(TouchId)),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
             onActivate()
@@ -163,7 +161,8 @@ export function flickNote(isCritical: boolean): SScript {
 
     function onActivate() {
         return [
-            isTouchOccupied.set(true),
+            anyOccupied.add(TouchId),
+            tapOccupied.add(TouchId),
             noteInputState.set(InputState.Activated),
         ]
     }

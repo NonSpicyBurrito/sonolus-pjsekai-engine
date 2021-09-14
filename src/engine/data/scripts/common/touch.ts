@@ -8,13 +8,10 @@ import {
     LessOr,
     Multiply,
     SwitchInteger,
-    TemporaryMemory,
     TouchX,
     TouchY,
 } from 'sonolus.js'
 import { lane } from './constants'
-
-export const isTouchOccupied = TemporaryMemory.to<boolean>(0)
 
 export function checkTouchXInHitbox(
     left: Code<number>,

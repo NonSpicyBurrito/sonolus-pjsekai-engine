@@ -2,6 +2,7 @@ import { defineScripts } from 'sonolus.js'
 import { autoSFX } from './auto-sfx'
 import { flickNote } from './flick-note'
 import { initialization } from './initialization'
+import { input } from './input'
 import { simLine } from './sim-line'
 import { slideConnector } from './slide-connector'
 import { slideEnd } from './slide-end'
@@ -16,6 +17,7 @@ import { tapNote } from './tap-note'
 export const scripts = defineScripts({
     initialization,
     stage,
+    input,
 
     tapNote: () => tapNote(false),
     flickNote: () => flickNote(false),

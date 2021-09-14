@@ -8,6 +8,9 @@ export const archetypes = defineArchetypes({
     stage: {
         script: scripts.stageIndex,
     },
+    input: {
+        script: scripts.inputIndex,
+    },
 
     tapNote: {
         script: scripts.tapNoteIndex,

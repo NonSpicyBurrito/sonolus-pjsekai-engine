@@ -17,6 +17,7 @@ import {
     SScript,
     Subtract,
     Time,
+    TouchId,
     TouchST,
     TouchStarted,
 } from 'sonolus.js'
@@ -50,7 +51,8 @@ import {
     noteYellowSprite,
 } from './common/note-sprite'
 import { playCriticalTapJudgmentSFX, playTapJudgmentSFX } from './common/sfx'
-import { checkTouchYInHitbox, isTouchOccupied } from './common/touch'
+import { checkTouchYInHitbox } from './common/touch'
+import { anyOccupied, tapOccupied } from './input'
 
 export function tapNote(isCritical: boolean): SScript {
     const bucket = isCritical
@@ -80,7 +82,7 @@ export function tapNote(isCritical: boolean): SScript {
             Not(bool(noteInputState)),
             checkNoteTimeInEarlyWindow(window.good.early),
             TouchStarted,
-            Not(isTouchOccupied),
+            Not(tapOccupied.contains(TouchId)),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
             onComplete()
@@ -126,7 +128,8 @@ export function tapNote(isCritical: boolean): SScript {
 
     function onComplete() {
         return [
-            isTouchOccupied.set(true),
+            anyOccupied.add(TouchId),
+            tapOccupied.add(TouchId),
             noteInputState.set(InputState.Terminated),
 
             InputJudgment.set(

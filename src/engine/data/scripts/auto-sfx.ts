@@ -28,7 +28,7 @@ export function autoSFX(): SScript {
     const noteInfo = EntityInfo.of(noteIndex)
     const noteData = NoteData.of(noteIndex)
 
-    const initialize = noteIndex.set(2)
+    const initialize = noteIndex.set(3)
 
     const updateParallel = Or(
         Switch(

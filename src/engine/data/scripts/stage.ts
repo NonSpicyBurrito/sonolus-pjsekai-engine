@@ -39,15 +39,12 @@ import {
     stage as stageC,
 } from './common/constants'
 import { playEmptyLaneEffect } from './common/effect'
-import { List } from './common/list'
 import { playStageSFX } from './common/sfx'
-import { checkTouchYInHitbox, isTouchOccupied } from './common/touch'
+import { checkTouchYInHitbox } from './common/touch'
 import { rectByEdge } from './common/utils'
+import { anyOccupied } from './input'
 
 export function stage(): SScript {
-    const emptyTouchIds = new List<number>(EntityMemory.to(0), 10)
-    const previousIds = new List<number>(EntityMemory.to(11), 10)
-
     const spawnOrder = -999
 
     const shouldSpawn = Equal(EntityInfo.of(0).state, State.Despawned)
@@ -55,24 +52,15 @@ export function stage(): SScript {
     const touch = Or(
         options.isAutoplay,
         And(
+            Not(anyOccupied.contains(TouchId)),
             checkTouchYInHitbox(),
             GreaterOr(TouchX, Multiply(lane.w, -6)),
             LessOr(TouchX, Multiply(lane.w, 6)),
-            If(
-                TouchStarted,
-                And(Not(isTouchOccupied), onEmptyTap()),
-                And(previousIds.contains(TouchId), onEmptyMove())
-            )
+            If(TouchStarted, onEmptyTap(), onEmptyMove())
         )
     )
 
-    const updateParallel = [
-        drawStageCover(),
-        drawStage(),
-
-        emptyTouchIds.copyTo(previousIds),
-        emptyTouchIds.clear(),
-    ]
+    const updateParallel = [drawStageCover(), drawStage()]
 
     return {
         spawnOrder: {
@@ -206,12 +194,7 @@ export function stage(): SScript {
     function onEmptyTap() {
         const index = EntityMemory.to<number>(32)
 
-        return [
-            emptyTouchIds.add(TouchId),
-
-            index.set(xToIndex(TouchX)),
-            playEmpty(index),
-        ]
+        return [index.set(xToIndex(TouchX)), playEmpty(index)]
     }
 
     function onEmptyMove() {
@@ -219,8 +202,6 @@ export function stage(): SScript {
         const indexOld = EntityMemory.to<number>(33)
 
         return [
-            emptyTouchIds.add(TouchId),
-
             indexNew.set(xToIndex(TouchX)),
             indexOld.set(xToIndex(Subtract(TouchX, TouchDX))),
             And(NotEqual(indexNew, indexOld), playEmpty(indexNew)),

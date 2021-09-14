@@ -24,6 +24,7 @@ export function fromSus(
     archetypes: {
         initializationIndex: number
         stageIndex: number
+        inputIndex: number
 
         tapNoteIndex: number
         flickNoteIndex: number
@@ -113,6 +114,13 @@ export function fromSus(
             time: -999,
             entity: {
                 archetype: archetypes.stageIndex,
+            },
+        },
+        {
+            group: -1,
+            time: -998,
+            entity: {
+                archetype: archetypes.inputIndex,
             },
         },
     ]

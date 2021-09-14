@@ -18,6 +18,7 @@ import {
     SScript,
     Subtract,
     Time,
+    TouchId,
     TouchST,
     TouchStarted,
 } from 'sonolus.js'
@@ -52,7 +53,8 @@ import {
     noteYellowSprite,
 } from './common/note-sprite'
 import { playTapJudgmentSFX } from './common/sfx'
-import { checkTouchYInHitbox, isTouchOccupied } from './common/touch'
+import { checkTouchYInHitbox } from './common/touch'
+import { anyOccupied, tapOccupied } from './input'
 
 export function slideStart(isCritical: boolean): SScript {
     const bucket = isCritical
@@ -84,7 +86,7 @@ export function slideStart(isCritical: boolean): SScript {
             Not(bool(noteInputState)),
             checkNoteTimeInEarlyWindow(window.good.early),
             TouchStarted,
-            Not(isTouchOccupied),
+            Not(tapOccupied.contains(TouchId)),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
             onComplete()
@@ -130,7 +132,7 @@ export function slideStart(isCritical: boolean): SScript {
 
     function onComplete() {
         return [
-            isTouchOccupied.set(true),
+            anyOccupied.add(TouchId),
             noteInputState.set(InputState.Terminated),
 
             InputJudgment.set(

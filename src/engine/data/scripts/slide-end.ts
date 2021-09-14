@@ -18,6 +18,7 @@ import {
     Subtract,
     Time,
     TouchEnded,
+    TouchId,
     TouchT,
 } from 'sonolus.js'
 import { options } from '../../configuration/options'
@@ -51,6 +52,7 @@ import {
 } from './common/note-sprite'
 import { playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
+import { tapOccupied } from './input'
 
 export function slideEnd(isCritical: boolean): SScript {
     const bucket = isCritical
@@ -80,6 +82,7 @@ export function slideEnd(isCritical: boolean): SScript {
             Not(bool(noteInputState)),
             checkNoteTimeInEarlyWindow(window.good.early),
             TouchEnded,
+            Not(tapOccupied.contains(TouchId)),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
             onComplete()

@@ -11,11 +11,13 @@ import {
 } from 'sonolus.js'
 
 export class List<T extends DataType> {
+    public readonly pointer: Pointer
     private readonly count: Pointer<number>
     private readonly buffer: Pointer<T>
     private readonly size: number
 
     public constructor(pointer: Pointer, size: number) {
+        this.pointer = pointer
         this.count = pointer.to(0)
         this.buffer = pointer.to(1)
         this.size = size
@@ -44,11 +46,8 @@ export class List<T extends DataType> {
     }
 
     public copyTo(list: List<T>) {
-        return [
-            list.clear(),
-            [...Array(this.size).keys()].map((i) =>
-                And(Less(i, this.count), list.add(this.buffer.to(i)))
-            ),
-        ]
+        return [...Array(this.size + 1).keys()].map((i) =>
+            list.pointer.to(i).set(this.pointer.to(i))
+        )
     }
 }

@@ -60,7 +60,7 @@ import {
 } from './common/note-sprite'
 import { checkTouchXInHitbox, checkTouchYInHitbox } from './common/touch'
 import { rectByEdge } from './common/utils'
-import { anyOccupied } from './input'
+import { disallowEmpties } from './input'
 
 const leniency = 0.75
 
@@ -241,7 +241,7 @@ export function slideConnector(isCritical: boolean): SScript {
                 ConnectorData.headSharedMemory.slideHitboxR
             ),
             [
-                anyOccupied.add(TouchId),
+                disallowEmpties.add(TouchId),
                 ConnectorData.headSharedMemory.slideTime.set(Time),
             ]
         )

@@ -52,7 +52,7 @@ import {
 } from './common/note-sprite'
 import { playCriticalTapJudgmentSFX, playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
-import { anyOccupied, noStartAllowed, tapOccupied } from './input'
+import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
 export function tapNote(isCritical: boolean): SScript {
     const bucket = isCritical
@@ -82,7 +82,7 @@ export function tapNote(isCritical: boolean): SScript {
             Not(bool(noteInputState)),
             checkNoteTimeInEarlyWindow(window.good.early),
             TouchStarted,
-            Not(noStartAllowed),
+            Not(disallowStart),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
             onComplete()
@@ -128,9 +128,9 @@ export function tapNote(isCritical: boolean): SScript {
 
     function onComplete() {
         return [
-            noStartAllowed.set(true),
-            anyOccupied.add(TouchId),
-            tapOccupied.add(TouchId),
+            disallowStart.set(true),
+            disallowEmpties.add(TouchId),
+            disallowEnds.add(TouchId),
             noteInputState.set(InputState.Terminated),
 
             InputJudgment.set(

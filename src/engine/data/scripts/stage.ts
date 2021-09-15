@@ -42,7 +42,7 @@ import { playEmptyLaneEffect } from './common/effect'
 import { playStageSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { rectByEdge } from './common/utils'
-import { anyOccupied } from './input'
+import { disallowEmpties } from './input'
 
 export function stage(): SScript {
     const spawnOrder = -999
@@ -52,7 +52,7 @@ export function stage(): SScript {
     const touch = Or(
         options.isAutoplay,
         And(
-            Not(anyOccupied.contains(TouchId)),
+            Not(disallowEmpties.contains(TouchId)),
             checkTouchYInHitbox(),
             GreaterOr(TouchX, Multiply(lane.w, -6)),
             LessOr(TouchX, Multiply(lane.w, 6)),

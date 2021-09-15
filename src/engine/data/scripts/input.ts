@@ -10,7 +10,7 @@ import {
 import { options } from '../../configuration/options'
 import { List } from './common/list'
 
-export const noStartAllowed = TemporaryMemory.to<boolean>(0)
+export const disallowStart = TemporaryMemory.to<boolean>(0)
 
 class TouchList {
     private readonly old: List<number>
@@ -26,20 +26,20 @@ class TouchList {
     }
 
     public update(touchId: Code<number>) {
-        return And(this.contains(touchId), this.add(touchId))
+        return And(this.old.contains(touchId), this.now.add(touchId))
     }
 
     public add(touchId: Code<number>) {
-        return this.now.add(touchId)
+        return Or(this.now.contains(touchId), this.now.add(touchId))
     }
 
     public contains(touchId: Code<number>) {
-        return Or(this.old.contains(touchId), this.now.contains(touchId))
+        return this.now.contains(touchId)
     }
 }
 
-export const anyOccupied = new TouchList(0, 16)
-export const tapOccupied = new TouchList(32, 16)
+export const disallowEmpties = new TouchList(0, 16)
+export const disallowEnds = new TouchList(32, 16)
 
 export function input(): SScript {
     const spawnOrder = -998
@@ -47,13 +47,13 @@ export function input(): SScript {
     const shouldSpawn = true
 
     const updateSequential = Or(options.isAutoplay, [
-        anyOccupied.flush(),
-        tapOccupied.flush(),
+        disallowEmpties.flush(),
+        disallowEnds.flush(),
     ])
 
     const touch = Or(options.isAutoplay, [
-        anyOccupied.update(TouchId),
-        tapOccupied.update(TouchId),
+        disallowEmpties.update(TouchId),
+        disallowEnds.update(TouchId),
     ])
 
     return {
@@ -68,7 +68,6 @@ export function input(): SScript {
         },
         touch: {
             code: touch,
-            order: 1000,
         },
     }
 }

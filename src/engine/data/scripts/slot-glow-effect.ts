@@ -15,6 +15,7 @@ import {
     Time,
     Unlerp,
 } from 'sonolus.js'
+import { options } from '../../configuration/options'
 import { engineId, lane, Layer } from './common/constants'
 
 export function slotGlowEffect(): SScript {
@@ -31,12 +32,14 @@ export function slotGlowEffect(): SScript {
     const bR = EntityMemory.to<number>(8)
     const z = EntityMemory.to<number>(9)
 
+    const tw = Multiply(lane.w, Lerp(1, 1.25, options.slotEffectSize))
+
     const initialize = [
         startTime.set(Time),
         endTime.set(Add(startTime, 0.25)),
 
-        tL.set(Multiply(Subtract(center, width), lane.w, 1.25)),
-        tR.set(Multiply(Add(center, width), lane.w, 1.25)),
+        tL.set(Multiply(Subtract(center, width), tw)),
+        tR.set(Multiply(Add(center, width), tw)),
         bL.set(Multiply(Subtract(center, width), lane.w)),
         bR.set(Multiply(Add(center, width), lane.w)),
         z.set(
@@ -55,7 +58,7 @@ export function slotGlowEffect(): SScript {
     const updateParallel = Or(GreaterOr(Time, endTime), [
         a.set(Unlerp(endTime, startTime, Time)),
         p.set(Subtract(1, Power(a, 3))),
-        t.set(Add(lane.b, Multiply(lane.w, 4, p))),
+        t.set(Add(lane.b, Multiply(lane.w, 4, options.slotEffectSize, p))),
         Draw(
             sprite,
             bL,

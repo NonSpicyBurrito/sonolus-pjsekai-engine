@@ -1,6 +1,16 @@
-import { And, Code, LevelMemory, Or, SScript, TouchId } from 'sonolus.js'
+import {
+    And,
+    Code,
+    LevelMemory,
+    Or,
+    SScript,
+    TemporaryMemory,
+    TouchId,
+} from 'sonolus.js'
 import { options } from '../../configuration/options'
 import { List } from './common/list'
+
+export const noStartAllowed = TemporaryMemory.to<boolean>(0)
 
 class TouchList {
     private readonly old: List<number>

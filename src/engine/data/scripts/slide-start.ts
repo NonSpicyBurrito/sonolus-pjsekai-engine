@@ -54,7 +54,7 @@ import {
 } from './common/note-sprite'
 import { playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
-import { anyOccupied, tapOccupied } from './input'
+import { anyOccupied, noStartAllowed } from './input'
 
 export function slideStart(isCritical: boolean): SScript {
     const bucket = isCritical
@@ -86,7 +86,7 @@ export function slideStart(isCritical: boolean): SScript {
             Not(bool(noteInputState)),
             checkNoteTimeInEarlyWindow(window.good.early),
             TouchStarted,
-            Not(tapOccupied.contains(TouchId)),
+            Not(noStartAllowed),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
             onComplete()
@@ -132,6 +132,7 @@ export function slideStart(isCritical: boolean): SScript {
 
     function onComplete() {
         return [
+            noStartAllowed.set(true),
             anyOccupied.add(TouchId),
             noteInputState.set(InputState.Terminated),
 

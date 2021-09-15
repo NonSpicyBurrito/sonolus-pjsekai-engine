@@ -28,6 +28,16 @@ export const options = defineOptions({
         step: 0.1,
         display: 'number',
     },
+    noteEffectSize: {
+        name: '#NOTE_EFFECT_SIZE',
+        scope: 'Sekai',
+        type: 'slider',
+        def: 1,
+        min: 0.1,
+        max: 2,
+        step: 0.05,
+        display: 'percentage',
+    },
     connectorAlpha: {
         name: '#CONNECTOR_ALPHA',
         scope: 'Sekai',

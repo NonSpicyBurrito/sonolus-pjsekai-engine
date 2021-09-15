@@ -174,42 +174,48 @@ export const noteOnScreenDuration = Lerp(
 
 // Tap Effect
 
-const circularTapEffectHeight = Multiply(lane.w, 1.05)
+const circularTapEffectHeight = Multiply(lane.w, 1.05, options.noteEffectSize)
 const circularTapEffectTop = Add(lane.b, circularTapEffectHeight)
 const circularTapEffectBottom = Subtract(lane.b, circularTapEffectHeight)
 export const circularTapEffect = {
     t: circularTapEffectTop,
     b: circularTapEffectBottom,
 
-    w: Multiply(lane.w, 1.75),
+    w: Multiply(lane.w, 1.75, options.noteEffectSize),
     tw: Remap(origin, lane.b, 0, lane.w, circularTapEffectTop),
     bw: Remap(origin, lane.b, 0, lane.w, circularTapEffectBottom),
 }
 
-export const circularTickEffectSize = Multiply(lane.w, 4)
+export const circularTickEffectSize = Multiply(
+    lane.w,
+    4,
+    options.noteEffectSize
+)
 
 export const linearTapEffect = {
-    t: Add(lane.b, Multiply(lane.w, 2)),
+    t: Add(lane.b, Multiply(lane.w, 2, options.noteEffectSize)),
 
-    tw: Multiply(lane.w, 1.125),
+    w: Multiply(lane.w, options.noteEffectSize),
+    tw: Multiply(lane.w, Lerp(1, 1.125, options.noteEffectSize)),
 }
 
 // Hold Effect
 
-const circularHoldEffectHeight = Multiply(lane.w, 1.05 * 2)
+const circularHoldEffectHeight = Multiply(lane.w, 2.1, options.noteEffectSize)
 const circularHoldEffectTop = Add(lane.b, circularHoldEffectHeight)
 const circularHoldEffectBottom = Subtract(lane.b, circularHoldEffectHeight)
 export const circularHoldEffect = {
     t: circularHoldEffectTop,
     b: circularHoldEffectBottom,
 
-    w: Multiply(lane.w, 1.75 * 2),
+    w: Multiply(lane.w, 3.5, options.noteEffectSize),
     tw: Remap(origin, lane.b, 0, lane.w, circularHoldEffectTop),
     bw: Remap(origin, lane.b, 0, lane.w, circularHoldEffectBottom),
 }
 
 export const linearHoldEffect = {
-    t: Add(lane.b, Multiply(lane.w, 2)),
+    t: Add(lane.b, Multiply(lane.w, 2, options.noteEffectSize)),
 
-    tw: Multiply(lane.w, 1.125),
+    w: Multiply(lane.w, options.noteEffectSize),
+    tw: Multiply(lane.w, Lerp(1, 1.125, options.noteEffectSize)),
 }

@@ -87,7 +87,7 @@ export function playNoteEffect(
 ) {
     const flickDirectionShear = SwitchInteger(
         direction,
-        [Multiply(lane.w, -2), Multiply(lane.w, 2)],
+        [Multiply(linearTapEffect.w, -2), Multiply(linearTapEffect.w, 2)],
         0
     )
 
@@ -133,13 +133,16 @@ export function playNoteEffect(
         type !== 'tick' &&
             SpawnParticleEffect(
                 linear,
-                Subtract(Multiply(center, lane.w), lane.w),
+                Subtract(Multiply(center, lane.w), linearTapEffect.w),
                 lane.b,
-                Subtract(Multiply(center, linearTapEffect.tw), lane.w),
+                Subtract(
+                    Multiply(center, linearTapEffect.tw),
+                    linearTapEffect.w
+                ),
                 linearTapEffect.t,
-                Add(Multiply(center, linearTapEffect.tw), lane.w),
+                Add(Multiply(center, linearTapEffect.tw), linearTapEffect.w),
                 linearTapEffect.t,
-                Add(Multiply(center, lane.w), lane.w),
+                Add(Multiply(center, lane.w), linearTapEffect.w),
                 lane.b,
                 0.5,
                 false
@@ -148,19 +151,25 @@ export function playNoteEffect(
         type === 'flick' &&
             SpawnParticleEffect(
                 alternative,
-                Subtract(Multiply(center, lane.w), lane.w),
+                Subtract(Multiply(center, lane.w), linearTapEffect.w),
                 lane.b,
                 Add(
-                    Subtract(Multiply(center, linearTapEffect.tw), lane.w),
+                    Subtract(
+                        Multiply(center, linearTapEffect.tw),
+                        linearTapEffect.w
+                    ),
                     flickDirectionShear
                 ),
                 linearTapEffect.t,
                 Add(
-                    Add(Multiply(center, linearTapEffect.tw), lane.w),
+                    Add(
+                        Multiply(center, linearTapEffect.tw),
+                        linearTapEffect.w
+                    ),
                     flickDirectionShear
                 ),
                 linearTapEffect.t,
-                Add(Multiply(center, lane.w), lane.w),
+                Add(Multiply(center, lane.w), linearTapEffect.w),
                 lane.b,
                 0.32,
                 false

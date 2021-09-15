@@ -436,16 +436,22 @@ export function slideConnector(isCritical: boolean): SScript {
 
                         MoveParticleEffect(
                             linearId,
-                            Subtract(Multiply(center, lane.w), lane.w),
+                            Subtract(
+                                Multiply(center, lane.w),
+                                linearHoldEffect.w
+                            ),
                             lane.b,
                             Subtract(
                                 Multiply(center, linearHoldEffect.tw),
-                                lane.w
+                                linearHoldEffect.w
                             ),
                             linearHoldEffect.t,
-                            Add(Multiply(center, linearHoldEffect.tw), lane.w),
+                            Add(
+                                Multiply(center, linearHoldEffect.tw),
+                                linearHoldEffect.w
+                            ),
                             linearHoldEffect.t,
-                            Add(Multiply(center, lane.w), lane.w),
+                            Add(Multiply(center, lane.w), linearHoldEffect.w),
                             lane.b
                         ),
                     ],

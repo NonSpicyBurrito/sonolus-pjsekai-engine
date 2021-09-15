@@ -30,6 +30,7 @@ export const engineInfo = {
     description: {
         en: [
             'A recreation of Project Sekai: Colorful Stage! engine in Sonolus.',
+            `Version: ${version}`,
             '',
             'GitHub Repository',
             'https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine',

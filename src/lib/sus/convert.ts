@@ -244,6 +244,7 @@ export function fromSus(
                     wrappers.push({
                         group: 0,
                         time,
+                        ref,
                         entity: {
                             archetype: isCritical
                                 ? flickMod === undefined
@@ -419,7 +420,7 @@ export function fromSus(
         if (!wrapper.ref) return
         if (!wrapper.entity.data) return
 
-        wrapper.entity.data.values.unshift(wrappers.indexOf(wrapper.ref))
+        wrapper.entity.data.values.push(wrappers.indexOf(wrapper.ref))
     })
 
     return { entities: wrappers.map(({ entity }) => entity) }

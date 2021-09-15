@@ -17,6 +17,7 @@ import {
     Min,
     MoveParticleEffect,
     Multiply,
+    Not,
     NotEqual,
     Or,
     ParticleEffect,
@@ -64,8 +65,36 @@ import { anyOccupied } from './input'
 const leniency = 0.75
 
 class ConnectorDataPointer extends Pointer {
-    public get headIndex() {
+    public get headTime() {
         return this.to<number>(0)
+    }
+
+    public get headCenter() {
+        return this.to<number>(1)
+    }
+
+    public get headWidth() {
+        return this.to<number>(2)
+    }
+
+    public get tailTime() {
+        return this.to<number>(3)
+    }
+
+    public get tailCenter() {
+        return this.to<number>(4)
+    }
+
+    public get tailWidth() {
+        return this.to<number>(5)
+    }
+
+    public get easeType() {
+        return this.to<number>(6)
+    }
+
+    public get headIndex() {
+        return this.to<number>(7)
     }
 
     public get headInfo() {
@@ -74,34 +103,6 @@ class ConnectorDataPointer extends Pointer {
 
     public get headSharedMemory() {
         return NoteSharedMemory.of(this.headIndex)
-    }
-
-    public get headTime() {
-        return this.to<number>(1)
-    }
-
-    public get headCenter() {
-        return this.to<number>(2)
-    }
-
-    public get headWidth() {
-        return this.to<number>(3)
-    }
-
-    public get tailTime() {
-        return this.to<number>(4)
-    }
-
-    public get tailCenter() {
-        return this.to<number>(5)
-    }
-
-    public get tailWidth() {
-        return this.to<number>(6)
-    }
-
-    public get easeType() {
-        return this.to<number>(7)
     }
 }
 
@@ -211,33 +212,37 @@ export function slideConnector(isCritical: boolean): SScript {
 
     const noteScale = EntityMemory.to<number>(32)
 
+    const updateSequential = And(
+        Not(options.isAutoplay),
+        GreaterOr(Time, ConnectorData.headTime),
+        [
+            noteScale.set(
+                ease(
+                    Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time)
+                )
+            ),
+            ConnectorData.headSharedMemory.slideHitboxL.set(
+                Lerp(headHitboxL, tailHitboxL, noteScale)
+            ),
+            ConnectorData.headSharedMemory.slideHitboxR.set(
+                Lerp(headHitboxR, tailHitboxR, noteScale)
+            ),
+        ]
+    )
+
     const touch = Or(
         options.isAutoplay,
         And(
             GreaterOr(Time, ConnectorData.headTime),
             NotEqual(ConnectorData.headSharedMemory.slideTime, Time),
             checkTouchYInHitbox(),
+            checkTouchXInHitbox(
+                ConnectorData.headSharedMemory.slideHitboxL,
+                ConnectorData.headSharedMemory.slideHitboxR
+            ),
             [
-                noteScale.set(
-                    ease(
-                        Unlerp(
-                            ConnectorData.headTime,
-                            ConnectorData.tailTime,
-                            Time
-                        )
-                    )
-                ),
-
-                And(
-                    checkTouchXInHitbox(
-                        Lerp(headHitboxL, tailHitboxL, noteScale),
-                        Lerp(headHitboxR, tailHitboxR, noteScale)
-                    ),
-                    [
-                        anyOccupied.add(TouchId),
-                        ConnectorData.headSharedMemory.slideTime.set(Time),
-                    ]
-                ),
+                anyOccupied.add(TouchId),
+                ConnectorData.headSharedMemory.slideTime.set(Time),
             ]
         )
     )
@@ -467,6 +472,9 @@ export function slideConnector(isCritical: boolean): SScript {
         },
         shouldSpawn: {
             code: shouldSpawn,
+        },
+        updateSequential: {
+            code: updateSequential,
         },
         touch: {
             code: touch,

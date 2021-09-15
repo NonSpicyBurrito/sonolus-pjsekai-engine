@@ -55,6 +55,14 @@ export class NoteDataPointer extends Pointer {
     public get direction() {
         return this.to<number>(3)
     }
+
+    public get headIndex() {
+        return this.to<number>(4)
+    }
+
+    public get headSharedMemory() {
+        return NoteSharedMemory.of(this.headIndex)
+    }
 }
 
 export const NoteData = createEntityData(NoteDataPointer)
@@ -64,6 +72,14 @@ export const NoteData = createEntityData(NoteDataPointer)
 export class NoteSharedMemoryPointer extends Pointer {
     public get slideTime() {
         return this.to<number>(0)
+    }
+
+    public get slideHitboxL() {
+        return this.to<number>(1)
+    }
+
+    public get slideHitboxR() {
+        return this.to<number>(2)
     }
 }
 

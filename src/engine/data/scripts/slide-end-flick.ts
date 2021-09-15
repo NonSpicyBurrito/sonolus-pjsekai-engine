@@ -6,6 +6,7 @@ import {
     Equal,
     Greater,
     GreaterOr,
+    If,
     InputAccuracy,
     InputBucket,
     InputBucketValue,
@@ -66,7 +67,11 @@ import {
     playCriticalFlickJudgmentSFX,
     playFlickJudgmentSFX,
 } from './common/sfx'
-import { checkDirection, checkTouchYInHitbox } from './common/touch'
+import {
+    checkDirection,
+    checkTouchXInHitbox,
+    checkTouchYInHitbox,
+} from './common/touch'
 
 export function slideEndFlick(isCritical: boolean): SScript {
     const bucket = isCritical
@@ -108,12 +113,26 @@ export function slideEndFlick(isCritical: boolean): SScript {
             checkNoteTimeInEarlyWindow(window.good.early),
             GreaterOr(TouchVR, minFlickVR),
             checkTouchYInHitbox(Subtract(TouchY, TouchDY)),
-            checkTouchXInNoteHitbox(Subtract(TouchX, TouchDX)),
-            Or(
+            If(
                 checkNoteTimeInEarlyWindow(0),
-                TouchEnded,
-                Not(checkTouchYInHitbox()),
-                Not(checkTouchXInNoteHitbox())
+                checkTouchXInNoteHitbox(Subtract(TouchX, TouchDX)),
+                And(
+                    checkTouchXInHitbox(
+                        NoteData.headSharedMemory.slideHitboxL,
+                        NoteData.headSharedMemory.slideHitboxR,
+                        Subtract(TouchX, TouchDX)
+                    ),
+                    Or(
+                        TouchEnded,
+                        Not(checkTouchYInHitbox()),
+                        Not(
+                            checkTouchXInHitbox(
+                                NoteData.headSharedMemory.slideHitboxL,
+                                NoteData.headSharedMemory.slideHitboxR
+                            )
+                        )
+                    )
+                )
             ),
             onComplete()
         )

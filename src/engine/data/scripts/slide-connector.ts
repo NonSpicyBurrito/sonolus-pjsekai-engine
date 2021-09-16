@@ -350,6 +350,7 @@ export function slideConnector(isCritical: boolean): SScript {
             ),
 
             And(
+                options.isNoteEffectEnabled,
                 Or(
                     HasParticleEffect(circularParticleEffect),
                     HasParticleEffect(linearParticleEffect)
@@ -364,6 +365,7 @@ export function slideConnector(isCritical: boolean): SScript {
             ),
 
             And(
+                options.isNoteEffectEnabled,
                 HasParticleEffect(circularParticleEffect),
                 If(
                     Or(
@@ -415,6 +417,7 @@ export function slideConnector(isCritical: boolean): SScript {
             ),
 
             And(
+                options.isNoteEffectEnabled,
                 HasParticleEffect(linearParticleEffect),
                 If(
                     Or(

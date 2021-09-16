@@ -1,6 +1,7 @@
 import {
     Add,
     And,
+    bool,
     Ceil,
     Code,
     EntityMemory,
@@ -205,6 +206,7 @@ export function playSlotEffect(
         ]),
         And(
             HasSkinSprite(slotGlowSprite),
+            bool(options.slotEffectSize),
             Spawn(scripts.slotGlowEffectIndex, [slotGlowSprite, center, width])
         ),
     ])

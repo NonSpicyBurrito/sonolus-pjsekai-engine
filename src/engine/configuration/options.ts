@@ -43,7 +43,7 @@ export const options = defineOptions({
         scope: 'Sekai',
         type: 'slider',
         def: 1,
-        min: 0.1,
+        min: 0,
         max: 2,
         step: 0.05,
         display: 'percentage',

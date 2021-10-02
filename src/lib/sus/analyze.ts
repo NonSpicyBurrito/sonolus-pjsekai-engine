@@ -18,7 +18,7 @@ export type Score = {
     toTime: (tick: number) => number
 }
 
-const beatsPerMeasure = 4
+type ToTick = (measure: number, p: number, q: number) => number
 
 export function analyze(sus: string, ticksPerBeat: number): Score {
     const lines = sus
@@ -32,6 +32,44 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
                 line.substring(index + 1).trim(),
             ]
         })
+
+    const barLengthObjects: { measure: number; length: number }[] = []
+
+    lines.forEach((line) => {
+        const [header, data] = line
+
+        if (header.length !== 5) return
+        if (!header.endsWith('02')) return
+
+        const measure = +header.substring(0, 3)
+        if (isNaN(measure)) return
+
+        barLengthObjects.push({ measure, length: +data })
+    })
+
+    let ticks = 0
+    const bars = barLengthObjects
+        .sort((a, b) => a.measure - b.measure)
+        .map(({ measure, length }, i, values) => {
+            const prev = values[i - 1]
+            if (prev) {
+                ticks += (measure - prev.measure) * prev.length * ticksPerBeat
+            }
+
+            return { measure, ticksPerMeasure: length * ticksPerBeat, ticks }
+        })
+        .reverse()
+
+    const toTick: ToTick = (measure, p, q) => {
+        const bar = bars.find((bar) => measure >= bar.measure)
+        if (!bar) throw 'Unexpected missing bar'
+
+        return (
+            bar.ticks +
+            (measure - bar.measure) * bar.ticksPerMeasure +
+            (p * bar.ticksPerMeasure) / q
+        )
+    }
 
     const bpms = new Map<string, number>()
     const bpmChangeObjects: RawObject[] = []
@@ -50,13 +88,13 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
 
         // BPM Change
         if (header.length === 5 && header.endsWith('08')) {
-            bpmChangeObjects.push(...toRawObjects(line, ticksPerBeat))
+            bpmChangeObjects.push(...toRawObjects(line, toTick))
             return
         }
 
         // Tap Notes
         if (header.length === 5 && header[3] === '1') {
-            tapNotes.push(...toNoteObjects(line, ticksPerBeat))
+            tapNotes.push(...toNoteObjects(line, toTick))
             return
         }
 
@@ -65,16 +103,16 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
             const channel = header[5]
             const stream = streams.get(channel)
             if (stream) {
-                stream.push(...toNoteObjects(line, ticksPerBeat))
+                stream.push(...toNoteObjects(line, toTick))
             } else {
-                streams.set(channel, toNoteObjects(line, ticksPerBeat))
+                streams.set(channel, toNoteObjects(line, toTick))
             }
             return
         }
 
         // Directional Notes
         if (header.length === 5 && header[3] === '5') {
-            directionalNotes.push(...toNoteObjects(line, ticksPerBeat))
+            directionalNotes.push(...toNoteObjects(line, toTick))
             return
         }
     })
@@ -135,11 +173,11 @@ function toSlides(stream: NoteObject[]) {
     return slides
 }
 
-function toNoteObjects(line: Line, ticksPerBeat: number) {
+function toNoteObjects(line: Line, toTick: ToTick) {
     const [header] = line
     const lane = parseInt(header[4], 36)
 
-    return toRawObjects(line, ticksPerBeat).map(({ tick, value }) => {
+    return toRawObjects(line, toTick).map(({ tick, value }) => {
         const width = parseInt(value[1], 36)
 
         return {
@@ -151,15 +189,13 @@ function toNoteObjects(line: Line, ticksPerBeat: number) {
     })
 }
 
-function toRawObjects([header, data]: Line, ticksPerBeat: number) {
+function toRawObjects([header, data]: Line, toTick: ToTick) {
     const measure = +header.substring(0, 3)
     return (data.match(/.{2}/g) || [])
         .map(
             (value, i, values) =>
                 value !== '00' && {
-                    tick:
-                        measure * beatsPerMeasure * ticksPerBeat +
-                        (i * beatsPerMeasure * ticksPerBeat) / values.length,
+                    tick: toTick(measure, i, values.length),
                     value,
                 }
         )

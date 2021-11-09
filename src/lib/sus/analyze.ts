@@ -21,16 +21,26 @@ export type Score = {
 type ToTick = (measure: number, p: number, q: number) => number
 
 export function analyze(sus: string, ticksPerBeat: number): Score {
-    const lines = sus
-        .split('\n')
+    const lines: Line[] = []
+    const meta = new Map<string, string>()
+
+    sus.split('\n')
         .map((line) => line.trim())
-        .filter((line) => line.startsWith('#') && line.includes(':'))
-        .map((line): Line => {
-            const index = line.indexOf(':')
-            return [
-                line.substring(1, index).trim(),
-                line.substring(index + 1).trim(),
-            ]
+        .filter((line) => line.startsWith('#'))
+        .forEach((line) => {
+            const isLine = line.includes(':')
+
+            const index = line.indexOf(isLine ? ':' : ' ')
+            if (index === -1) return
+
+            const left = line.substring(1, index).trim()
+            const right = line.substring(index + 1).trim()
+
+            if (isLine) {
+                lines.push([left, right])
+            } else {
+                meta.set(left, right)
+            }
         })
 
     const barLengthObjects: { measure: number; length: number }[] = []
@@ -133,12 +143,14 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
         })
         .reverse()
 
+    const waveOffset = +(meta.get('WAVEOFFSET') || '0')
     const toTime = (tick: number) => {
         const timing = timings.find((timing) => tick >= timing.tick)
         if (!timing) throw 'Unexpected missing timing'
 
         return (
             timing.time +
+            -waveOffset +
             ((tick - timing.tick) * 60) / ticksPerBeat / timing.bpm
         )
     }

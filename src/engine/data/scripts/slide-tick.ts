@@ -8,7 +8,7 @@ import {
     Less,
     Or,
     ParticleEffect,
-    SScript,
+    Script,
     Subtract,
     Time,
 } from 'sonolus.js'
@@ -36,7 +36,7 @@ import {
 } from './common/tick-sprite'
 import { checkTouchYInHitbox } from './common/touch'
 
-export function slideTick(isCritical: boolean, isVisible = true): SScript {
+export function slideTick(isCritical: boolean, isVisible = true): Script {
     const tickSprite = isCritical ? tickYellowSprite : tickGreenSprite
 
     const tickLayout = getTickLayout(EntityMemory.to(0))

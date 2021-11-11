@@ -8,14 +8,14 @@ import {
     GreaterOr,
     Multiply,
     Or,
-    SScript,
+    Script,
     Subtract,
     Time,
     Unlerp,
 } from 'sonolus.js'
 import { baseNote, engineId, Layer } from './common/constants'
 
-export function slotEffect(): SScript {
+export function slotEffect(): Script {
     const sprite = EntityMemory.to<number>(0)
     const center = EntityMemory.to<number>(1)
 

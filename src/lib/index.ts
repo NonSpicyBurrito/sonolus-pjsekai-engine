@@ -1,4 +1,4 @@
-import { SLevelData } from 'sonolus.js'
+import { LevelData } from 'sonolus-core'
 import { Resource } from './Resource'
 import { fromSus as _fromSus } from './sus/convert'
 
@@ -42,6 +42,6 @@ export const engineConfiguration = new Resource('EngineConfiguration')
 export const engineData = new Resource('EngineData')
 export const engineThumbnail = new Resource('thumbnail.png')
 
-export function fromSus(sus: string, offset = 0): SLevelData {
+export function fromSus(sus: string, offset = 0): LevelData {
     return _fromSus(sus, offset, archetypes)
 }

@@ -8,8 +8,8 @@ import {
     Lerp,
     Multiply,
     Or,
+    Script,
     SkinSprite,
-    SScript,
     State,
     Subtract,
     Switch,
@@ -21,7 +21,7 @@ import { baseNote, lane, Layer, origin } from './common/constants'
 import { approachNote, NoteData } from './common/note'
 import { rectByEdge } from './common/utils'
 
-export function simLine(): SScript {
+export function simLine(): Script {
     const rIndex = EntityMemory.to<number>(0)
     const lIndex = Subtract(rIndex, 1)
 

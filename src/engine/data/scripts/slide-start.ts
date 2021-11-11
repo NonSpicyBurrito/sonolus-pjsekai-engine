@@ -15,7 +15,7 @@ import {
     Not,
     Or,
     ParticleEffect,
-    SScript,
+    Script,
     Subtract,
     Time,
     TouchId,
@@ -56,7 +56,7 @@ import { playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowStart } from './input'
 
-export function slideStart(isCritical: boolean): SScript {
+export function slideStart(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalSlideStartIndex
         : buckets.slideStartIndex

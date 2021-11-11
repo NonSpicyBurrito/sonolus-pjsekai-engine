@@ -10,7 +10,7 @@ import {
     Multiply,
     Or,
     Power,
-    SScript,
+    Script,
     Subtract,
     Time,
     Unlerp,
@@ -18,7 +18,7 @@ import {
 import { options } from '../../configuration/options'
 import { engineId, lane, Layer } from './common/constants'
 
-export function slotGlowEffect(): SScript {
+export function slotGlowEffect(): Script {
     const sprite = EntityMemory.to<number>(0)
     const center = EntityMemory.to<number>(1)
     const width = EntityMemory.to<number>(2)

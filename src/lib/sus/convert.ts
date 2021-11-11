@@ -1,10 +1,10 @@
-import { SEntity, SLevelData } from 'sonolus.js'
+import { LevelData, LevelDataEntity } from 'sonolus-core'
 import { analyze, NoteObject } from './analyze'
 
 type Wrapper = {
     group: number
     time: number
-    entity: SEntity
+    entity: LevelDataEntity
     ref?: Wrapper
 }
 
@@ -44,7 +44,7 @@ export function fromSus(
 
         slideHiddenTickIndex: number
     }
-): SLevelData {
+): LevelData {
     const score = analyze(sus, ticksPerBeat)
 
     const flickMods = new Map<string, -1 | 0 | 1>()

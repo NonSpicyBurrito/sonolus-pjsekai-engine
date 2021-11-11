@@ -14,7 +14,7 @@ import {
     Not,
     Or,
     ParticleEffect,
-    SScript,
+    Script,
     Subtract,
     Time,
     TouchEnded,
@@ -54,7 +54,7 @@ import { playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEnds } from './input'
 
-export function slideEnd(isCritical: boolean): SScript {
+export function slideEnd(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalSlideEndIndex
         : buckets.slideEndIndex

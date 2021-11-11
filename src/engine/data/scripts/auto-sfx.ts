@@ -8,7 +8,7 @@ import {
     GreaterOr,
     Or,
     PlayScheduled,
-    SScript,
+    Script,
     Subtract,
     Switch,
     Time,
@@ -23,7 +23,7 @@ import {
     getTickClip,
 } from './common/sfx'
 
-export function autoSFX(): SScript {
+export function autoSFX(): Script {
     const noteIndex = EntityMemory.to<number>(0)
     const noteInfo = EntityInfo.of(noteIndex)
     const noteData = NoteData.of(noteIndex)

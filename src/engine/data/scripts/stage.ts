@@ -18,8 +18,8 @@ import {
     NotEqual,
     Or,
     Remap,
+    Script,
     SkinSprite,
-    SScript,
     State,
     Subtract,
     TouchDX,
@@ -44,7 +44,7 @@ import { checkTouchYInHitbox } from './common/touch'
 import { rectByEdge } from './common/utils'
 import { disallowEmpties } from './input'
 
-export function stage(): SScript {
+export function stage(): Script {
     const spawnOrder = -999
 
     const shouldSpawn = Equal(EntityInfo.of(0).state, State.Despawned)

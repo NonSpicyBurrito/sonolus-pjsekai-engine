@@ -23,9 +23,9 @@ import {
     ParticleEffect,
     Pointer,
     Power,
+    Script,
     SkinSprite,
     SpawnParticleEffect,
-    SScript,
     State,
     Subtract,
     SwitchInteger,
@@ -108,7 +108,7 @@ class ConnectorDataPointer extends Pointer {
 
 const ConnectorData = createEntityData(ConnectorDataPointer)
 
-export function slideConnector(isCritical: boolean): SScript {
+export function slideConnector(isCritical: boolean): Script {
     const connectionSprite = isCritical
         ? SkinSprite.NoteConnectionYellowSeamless
         : SkinSprite.NoteConnectionGreenSeamless

@@ -3,7 +3,7 @@ import {
     Code,
     LevelMemory,
     Or,
-    SScript,
+    Script,
     TemporaryMemory,
     TouchId,
 } from 'sonolus.js'
@@ -41,7 +41,7 @@ class TouchList {
 export const disallowEmpties = new TouchList(0, 16)
 export const disallowEnds = new TouchList(32, 16)
 
-export function input(): SScript {
+export function input(): Script {
     const spawnOrder = -998
 
     const shouldSpawn = true

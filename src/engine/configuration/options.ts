@@ -1,15 +1,16 @@
+import { OptionName } from 'sonolus-core'
 import { defineOptions } from 'sonolus.js'
 
 export const options = defineOptions({
     isAutoplay: {
-        name: '#AUTO',
+        name: OptionName.AutoPlay,
         scope: 'Sekai',
         standard: true,
         type: 'toggle',
         def: 0,
     },
     speed: {
-        name: '#SPEED',
+        name: OptionName.LevelSpeed,
         standard: true,
         type: 'slider',
         def: 1,
@@ -19,7 +20,7 @@ export const options = defineOptions({
         display: 'percentage',
     },
     noteSpeed: {
-        name: '#NOTE_SPEED',
+        name: OptionName.NoteSpeed,
         scope: 'Sekai',
         type: 'slider',
         def: 6,
@@ -29,7 +30,7 @@ export const options = defineOptions({
         display: 'number',
     },
     noteEffectSize: {
-        name: '#NOTE_EFFECT_SIZE',
+        name: OptionName.NoteEffectSize,
         scope: 'Sekai',
         type: 'slider',
         def: 1,
@@ -39,7 +40,7 @@ export const options = defineOptions({
         display: 'percentage',
     },
     slotEffectSize: {
-        name: '#SLOT_EFFECT_SIZE',
+        name: OptionName.SlotEffectSize,
         scope: 'Sekai',
         type: 'slider',
         def: 1,
@@ -49,7 +50,7 @@ export const options = defineOptions({
         display: 'percentage',
     },
     connectorAlpha: {
-        name: '#CONNECTOR_ALPHA',
+        name: OptionName.ConnectorTransparency,
         scope: 'Sekai',
         type: 'slider',
         def: 1,
@@ -59,7 +60,7 @@ export const options = defineOptions({
         display: 'percentage',
     },
     stageCover: {
-        name: '#STAGE_COVER_VERTICAL',
+        name: OptionName.VerticalStageCover,
         scope: 'Sekai',
         type: 'slider',
         def: 0,
@@ -69,42 +70,42 @@ export const options = defineOptions({
         display: 'percentage',
     },
     isMirrorEnabled: {
-        name: '#MIRROR',
+        name: OptionName.MirrorLevel,
         type: 'toggle',
         def: 0,
     },
     isSimLineEnabled: {
-        name: '#SIMLINE',
+        name: OptionName.SimultaneousLineVisibility,
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     isSFXEnabled: {
-        name: '#EFFECT',
+        name: OptionName.SFX,
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     isNoteEffectEnabled: {
-        name: '#NOTE_EFFECT',
+        name: OptionName.NoteEffect,
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     isLaneEffectEnabled: {
-        name: '#LANE_EFFECT',
+        name: OptionName.LaneEffect,
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     isSlotEffectEnabled: {
-        name: '#SLOT_EFFECT',
+        name: OptionName.SlotEffect,
         scope: 'Sekai',
         type: 'toggle',
         def: 1,
     },
     isStageAspectRatioLocked: {
-        name: '#STAGE_ASPECTRATIO_LOCK',
+        name: OptionName.LockStageAspectRatio,
         scope: 'Sekai',
         type: 'toggle',
         def: 1,

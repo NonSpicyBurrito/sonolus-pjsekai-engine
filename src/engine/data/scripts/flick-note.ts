@@ -16,7 +16,7 @@ import {
     NotEqual,
     Or,
     ParticleEffect,
-    SScript,
+    Script,
     Subtract,
     Time,
     TouchDX,
@@ -69,7 +69,7 @@ import {
 import { checkDirection, checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
-export function flickNote(isCritical: boolean): SScript {
+export function flickNote(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalFlickNoteIndex
         : buckets.flickNoteIndex

@@ -8,8 +8,8 @@ import {
     HorizontalAlign,
     Multiply,
     PerfectMultiplier,
+    Script,
     Spawn,
-    SScript,
     Subtract,
     UIComboConfiguration,
     UIComboText,
@@ -31,7 +31,7 @@ import { archetypes } from '../archetypes'
 import { buckets } from '../buckets'
 import { screen, stage, windows } from './common/constants'
 
-export function initialization(): SScript {
+export function initialization(): Script {
     const preprocess = [setupUI(), setupBuckets(), setupScore(), setupLife()]
 
     const spawnOrder = -1000

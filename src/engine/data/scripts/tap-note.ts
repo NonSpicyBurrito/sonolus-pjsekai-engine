@@ -14,7 +14,7 @@ import {
     Not,
     Or,
     ParticleEffect,
-    SScript,
+    Script,
     Subtract,
     Time,
     TouchId,
@@ -54,7 +54,7 @@ import { playCriticalTapJudgmentSFX, playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
-export function tapNote(isCritical: boolean): SScript {
+export function tapNote(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalTapNoteIndex
         : buckets.tapNoteIndex

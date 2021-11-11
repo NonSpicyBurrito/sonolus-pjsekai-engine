@@ -17,7 +17,7 @@ import {
     NotEqual,
     Or,
     ParticleEffect,
-    SScript,
+    Script,
     Subtract,
     Time,
     TouchDX,
@@ -73,7 +73,7 @@ import {
     checkTouchYInHitbox,
 } from './common/touch'
 
-export function slideEndFlick(isCritical: boolean): SScript {
+export function slideEndFlick(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalSlideEndFlickIndex
         : buckets.slideEndFlickIndex

@@ -79,3 +79,10 @@ Converts sus chart to Level Data.
 
 -   `sus`: sus chart.
 -   `offset`: chart offset (default: `0`).
+
+### `fromFannithm(fannithm, offset)`
+
+Converts Fannithm chart to Level Data.
+
+-   `fannithm`: Fannithm chart.
+-   `offset`: chart offset (default: `0`).

@@ -1,4 +1,5 @@
 import { LevelData } from 'sonolus-core'
+import { Fannithm, fromFannithm as _fromFannithm } from './fannithm/convert'
 import { Resource } from './Resource'
 import { fromSus as _fromSus } from './sus/convert'
 
@@ -44,4 +45,8 @@ export const engineThumbnail = new Resource('thumbnail.png')
 
 export function fromSus(sus: string, offset = 0): LevelData {
     return _fromSus(sus, offset, archetypes)
+}
+
+export function fromFannithm(fannithm: Fannithm, offset = 0): LevelData {
+    return _fromFannithm(fannithm, offset, archetypes)
 }

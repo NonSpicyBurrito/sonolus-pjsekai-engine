@@ -54,6 +54,8 @@ import { playCriticalTapJudgmentSFX, playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
+const leniency = 0.75
+
 export function tapNote(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalTapNoteIndex
@@ -66,7 +68,7 @@ export function tapNote(isCritical: boolean): Script {
     const noteLayout = getNoteLayout(EntityMemory.to(0))
 
     const preprocess = [
-        preprocessNote(bucket, window.good.late, 0.625, Layer.NoteBody),
+        preprocessNote(bucket, window.good.late, leniency, Layer.NoteBody),
         calculateNoteLayout(NoteData.center, NoteData.width, noteLayout),
     ]
 

@@ -69,6 +69,8 @@ import {
 import { checkDirection, checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
+const leniency = 1
+
 export function flickNote(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalFlickNoteIndex
@@ -84,7 +86,7 @@ export function flickNote(isCritical: boolean): Script {
     const arrowZ = EntityMemory.to<number>(17)
 
     const preprocess = [
-        preprocessNote(bucket, window.good.late, 0.75, Layer.NoteBody),
+        preprocessNote(bucket, window.good.late, leniency, Layer.NoteBody),
         applyMirrorDirections(NoteData.direction),
         calculateNoteLayout(NoteData.center, NoteData.width, noteLayout),
         arrowSprite.calculateLayout(

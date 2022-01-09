@@ -56,6 +56,8 @@ import { playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowStart } from './input'
 
+const leniency = 1
+
 export function slideStart(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalSlideStartIndex
@@ -68,7 +70,7 @@ export function slideStart(isCritical: boolean): Script {
     const noteLayout = getNoteLayout(EntityMemory.to(0))
 
     const preprocess = [
-        preprocessNote(bucket, window.good.late, 0.75, Layer.NoteBody),
+        preprocessNote(bucket, window.good.late, leniency, Layer.NoteBody),
         calculateNoteLayout(NoteData.center, NoteData.width, noteLayout),
 
         NoteSharedMemory.slideTime.set(-1000),

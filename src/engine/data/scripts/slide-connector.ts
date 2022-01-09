@@ -62,7 +62,7 @@ import { checkTouchXInHitbox, checkTouchYInHitbox } from './common/touch'
 import { rectByEdge } from './common/utils'
 import { disallowEmpties } from './input'
 
-const leniency = 0.75
+const leniency = 1
 
 class ConnectorDataPointer extends Pointer {
     public get headTime() {

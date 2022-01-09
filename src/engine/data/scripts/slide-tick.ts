@@ -36,13 +36,15 @@ import {
 } from './common/tick-sprite'
 import { checkTouchYInHitbox } from './common/touch'
 
+const leniency = 1
+
 export function slideTick(isCritical: boolean, isVisible = true): Script {
     const tickSprite = isCritical ? tickYellowSprite : tickGreenSprite
 
     const tickLayout = getTickLayout(EntityMemory.to(0))
 
     const preprocess = [
-        preprocessNote(-1, -0.125, 0.75, Layer.NoteTick),
+        preprocessNote(-1, -0.125, leniency, Layer.NoteTick),
         calculateTickLayout(NoteData.center, NoteData.width, tickLayout),
     ]
 

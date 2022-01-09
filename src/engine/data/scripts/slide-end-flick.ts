@@ -73,6 +73,8 @@ import {
     checkTouchYInHitbox,
 } from './common/touch'
 
+const leniency = 1
+
 export function slideEndFlick(isCritical: boolean): Script {
     const bucket = isCritical
         ? buckets.criticalSlideEndFlickIndex
@@ -88,7 +90,7 @@ export function slideEndFlick(isCritical: boolean): Script {
     const arrowZ = EntityMemory.to<number>(17)
 
     const preprocess = [
-        preprocessNote(bucket, window.good.late, 0.75, Layer.NoteBody),
+        preprocessNote(bucket, window.good.late, leniency, Layer.NoteBody),
         applyMirrorDirections(NoteData.direction),
         calculateNoteLayout(NoteData.center, NoteData.width, noteLayout),
         arrowSprite.calculateLayout(

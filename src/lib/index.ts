@@ -37,7 +37,7 @@ export const engineInfo = {
             'https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine',
         ].join('\n'),
     },
-}
+} as const
 
 export const engineConfiguration = new Resource('EngineConfiguration')
 export const engineData = new Resource('EngineData')

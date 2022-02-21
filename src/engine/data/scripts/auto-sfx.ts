@@ -1,8 +1,8 @@
+import { EffectClip } from 'sonolus-core'
 import {
     Add,
     And,
     AudioOffset,
-    EffectClip,
     EntityInfo,
     EntityMemory,
     GreaterOr,

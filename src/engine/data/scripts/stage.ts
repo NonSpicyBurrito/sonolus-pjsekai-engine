@@ -1,3 +1,4 @@
+import { SkinSprite } from 'sonolus-core'
 import {
     And,
     bool,
@@ -19,7 +20,6 @@ import {
     Or,
     Remap,
     Script,
-    SkinSprite,
     State,
     Subtract,
     TouchDX,

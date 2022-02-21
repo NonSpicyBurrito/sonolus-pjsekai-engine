@@ -1,3 +1,4 @@
+import { SkinSprite } from 'sonolus-core'
 import {
     Add,
     Code,
@@ -7,7 +8,6 @@ import {
     If,
     Multiply,
     Pointer,
-    SkinSprite,
     Subtract,
 } from 'sonolus.js'
 import { baseNote, engineId, halfNoteHeight, lane } from './constants'

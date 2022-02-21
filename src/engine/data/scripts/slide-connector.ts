@@ -1,3 +1,4 @@
+import { ParticleEffect, SkinSprite } from 'sonolus-core'
 import {
     Add,
     And,
@@ -20,11 +21,9 @@ import {
     Not,
     NotEqual,
     Or,
-    ParticleEffect,
     Pointer,
     Power,
     Script,
-    SkinSprite,
     SpawnParticleEffect,
     State,
     Subtract,

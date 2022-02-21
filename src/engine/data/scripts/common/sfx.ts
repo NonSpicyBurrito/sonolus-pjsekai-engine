@@ -1,8 +1,8 @@
+import { EffectClip } from 'sonolus-core'
 import {
     Add,
     And,
     Code,
-    EffectClip,
     HasEffectClip,
     If,
     InputJudgment,

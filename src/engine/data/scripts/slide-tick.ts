@@ -1,3 +1,4 @@
+import { ParticleEffect } from 'sonolus-core'
 import {
     And,
     EntityMemory,
@@ -7,7 +8,6 @@ import {
     InputOffset,
     Less,
     Or,
-    ParticleEffect,
     Script,
     Subtract,
     Time,

@@ -1,4 +1,5 @@
-import { defineBuckets, SkinSprite } from 'sonolus.js'
+import { SkinSprite } from 'sonolus-core'
+import { defineBuckets } from 'sonolus.js'
 
 export const buckets = defineBuckets({
     tapNote: {

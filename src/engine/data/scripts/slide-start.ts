@@ -1,3 +1,4 @@
+import { ParticleEffect } from 'sonolus-core'
 import {
     And,
     bool,
@@ -14,7 +15,6 @@ import {
     Multiply,
     Not,
     Or,
-    ParticleEffect,
     Script,
     Subtract,
     Time,

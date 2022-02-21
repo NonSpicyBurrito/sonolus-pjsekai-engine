@@ -1,3 +1,4 @@
+import { SkinSprite } from 'sonolus-core'
 import {
     And,
     Draw,
@@ -9,7 +10,6 @@ import {
     Multiply,
     Or,
     Script,
-    SkinSprite,
     State,
     Subtract,
     Switch,

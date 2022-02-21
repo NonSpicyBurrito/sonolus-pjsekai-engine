@@ -1,3 +1,4 @@
+import { ParticleEffect } from 'sonolus-core'
 import {
     Add,
     And,
@@ -10,7 +11,6 @@ import {
     HasSkinSprite,
     LessOr,
     Multiply,
-    ParticleEffect,
     Pointer,
     Remap,
     Spawn,

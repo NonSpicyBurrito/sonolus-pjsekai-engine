@@ -78,8 +78,7 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
         })
         .reverse()
 
-    const toTick: ToTick = (susMeasure, p, q) => {
-        const measure = susMeasure
+    const toTick: ToTick = (measure, p, q) => {
         const bar = bars.find((bar) => measure >= bar.measure)
         if (!bar) throw 'Unexpected missing bar'
 

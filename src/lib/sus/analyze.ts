@@ -1,4 +1,5 @@
 type Line = [string, string]
+type MeasureChange = [number, number]
 type RawObject = {
     tick: number
     value: string
@@ -23,6 +24,7 @@ type ToTick = (measure: number, p: number, q: number) => number
 export function analyze(sus: string, ticksPerBeat: number): Score {
     const lines: Line[] = []
     const meta = new Map<string, string>()
+    const measureChanges: MeasureChange[] = []
 
     sus.split('\n')
         .map((line) => line.trim())
@@ -38,6 +40,8 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
 
             if (isLine) {
                 lines.push([left, right])
+            } else if (left === 'MEASUREBS') {
+                measureChanges.unshift([lines.length, +right])
             } else {
                 meta.set(left, right)
             }
@@ -45,13 +49,17 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
 
     const barLengthObjects: { measure: number; length: number }[] = []
 
-    lines.forEach((line) => {
+    lines.forEach((line, index) => {
         const [header, data] = line
 
         if (header.length !== 5) return
         if (!header.endsWith('02')) return
 
-        const measure = +header.substring(0, 3)
+        const measure =
+            +header.substring(0, 3) +
+            (measureChanges.find(
+                ([changeIndex]) => changeIndex <= index
+            )?.[1] ?? 0)
         if (isNaN(measure)) return
 
         barLengthObjects.push({ measure, length: +data })
@@ -87,8 +95,11 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
     const directionalNotes: NoteObject[] = []
     const streams = new Map<string, NoteObject[]>()
 
-    lines.forEach((line) => {
+    lines.forEach((line, index) => {
         const [header, data] = line
+        const measureOffset =
+            measureChanges.find(([changeIndex]) => changeIndex <= index)?.[1] ??
+            0
 
         // BPM
         if (header.length === 5 && header.startsWith('BPM')) {
@@ -98,13 +109,13 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
 
         // BPM Change
         if (header.length === 5 && header.endsWith('08')) {
-            bpmChangeObjects.push(...toRawObjects(line, toTick))
+            bpmChangeObjects.push(...toRawObjects(line, measureOffset, toTick))
             return
         }
 
         // Tap Notes
         if (header.length === 5 && header[3] === '1') {
-            tapNotes.push(...toNoteObjects(line, toTick))
+            tapNotes.push(...toNoteObjects(line, measureOffset, toTick))
             return
         }
 
@@ -113,16 +124,16 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
             const channel = header[5]
             const stream = streams.get(channel)
             if (stream) {
-                stream.push(...toNoteObjects(line, toTick))
+                stream.push(...toNoteObjects(line, measureOffset, toTick))
             } else {
-                streams.set(channel, toNoteObjects(line, toTick))
+                streams.set(channel, toNoteObjects(line, measureOffset, toTick))
             }
             return
         }
 
         // Directional Notes
         if (header.length === 5 && header[3] === '5') {
-            directionalNotes.push(...toNoteObjects(line, toTick))
+            directionalNotes.push(...toNoteObjects(line, measureOffset, toTick))
             return
         }
     })
@@ -185,11 +196,11 @@ function toSlides(stream: NoteObject[]) {
     return slides
 }
 
-function toNoteObjects(line: Line, toTick: ToTick) {
+function toNoteObjects(line: Line, measureOffset: number, toTick: ToTick) {
     const [header] = line
     const lane = parseInt(header[4], 36)
 
-    return toRawObjects(line, toTick).map(({ tick, value }) => {
+    return toRawObjects(line, measureOffset, toTick).map(({ tick, value }) => {
         const width = parseInt(value[1], 36)
 
         return {
@@ -201,8 +212,12 @@ function toNoteObjects(line: Line, toTick: ToTick) {
     })
 }
 
-function toRawObjects([header, data]: Line, toTick: ToTick) {
-    const measure = +header.substring(0, 3)
+function toRawObjects(
+    [header, data]: Line,
+    measureOffset: number,
+    toTick: ToTick
+) {
+    const measure = +header.substring(0, 3) + measureOffset
     return (data.match(/.{2}/g) || [])
         .map(
             (value, i, values) =>

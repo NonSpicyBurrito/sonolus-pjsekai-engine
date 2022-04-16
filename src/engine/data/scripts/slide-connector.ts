@@ -472,27 +472,13 @@ export function slideConnector(isCritical: boolean): Script {
     ]
 
     return {
-        preprocess: {
-            code: preprocess,
-        },
-        spawnOrder: {
-            code: spawnOrder,
-        },
-        shouldSpawn: {
-            code: shouldSpawn,
-        },
-        updateSequential: {
-            code: updateSequential,
-        },
-        touch: {
-            code: touch,
-        },
-        updateParallel: {
-            code: updateParallel,
-        },
-        terminate: {
-            code: terminate,
-        },
+        preprocess,
+        spawnOrder,
+        shouldSpawn,
+        updateSequential,
+        touch,
+        updateParallel,
+        terminate,
     }
 }
 

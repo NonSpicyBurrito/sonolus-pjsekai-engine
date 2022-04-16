@@ -81,11 +81,7 @@ export function simLine(): Script {
     )
 
     return {
-        initialize: {
-            code: initialize,
-        },
-        updateParallel: {
-            code: updateParallel,
-        },
+        initialize,
+        updateParallel,
     }
 }

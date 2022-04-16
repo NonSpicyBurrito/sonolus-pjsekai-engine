@@ -46,15 +46,9 @@ export function initialization(): Script {
     ]
 
     return {
-        preprocess: {
-            code: preprocess,
-        },
-        spawnOrder: {
-            code: spawnOrder,
-        },
-        updateSequential: {
-            code: updateSequential,
-        },
+        preprocess,
+        spawnOrder,
+        updateSequential,
     }
 
     function setupUI() {

@@ -88,11 +88,7 @@ export function autoSFX(): Script {
     )
 
     return {
-        initialize: {
-            code: initialize,
-        },
-        updateParallel: {
-            code: updateParallel,
-        },
+        initialize,
+        updateParallel,
     }
 }

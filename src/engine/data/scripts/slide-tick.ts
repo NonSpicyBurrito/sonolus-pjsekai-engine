@@ -82,24 +82,12 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
     const terminate = And(options.isAutoplay, playVisualEffects())
 
     return {
-        preprocess: {
-            code: preprocess,
-        },
-        spawnOrder: {
-            code: spawnOrder,
-        },
-        shouldSpawn: {
-            code: shouldSpawn,
-        },
-        touch: {
-            code: touch,
-        },
-        updateParallel: {
-            code: updateParallel,
-        },
-        terminate: {
-            code: terminate,
-        },
+        preprocess,
+        spawnOrder,
+        shouldSpawn,
+        touch,
+        updateParallel,
+        terminate,
     }
 
     function onComplete() {

@@ -75,12 +75,8 @@ export function slotGlowEffect(): Script {
     ])
 
     return {
-        initialize: {
-            code: initialize,
-        },
-        updateParallel: {
-            code: updateParallel,
-        },
+        initialize,
+        updateParallel,
     }
 }
 

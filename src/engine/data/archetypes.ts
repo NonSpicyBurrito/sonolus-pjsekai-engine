@@ -2,15 +2,9 @@ import { defineArchetypes } from 'sonolus.js'
 import { scripts } from './scripts'
 
 export const archetypes = defineArchetypes({
-    initialization: {
-        script: scripts.initializationIndex,
-    },
-    stage: {
-        script: scripts.stageIndex,
-    },
-    input: {
-        script: scripts.inputIndex,
-    },
+    initialization: scripts.initializationIndex,
+    stage: scripts.stageIndex,
+    input: scripts.inputIndex,
 
     tapNote: {
         script: scripts.tapNoteIndex,
@@ -36,9 +30,7 @@ export const archetypes = defineArchetypes({
         script: scripts.slideEndFlickIndex,
         input: true,
     },
-    slideConnector: {
-        script: scripts.slideConnectorIndex,
-    },
+    slideConnector: scripts.slideConnectorIndex,
 
     criticalTapNote: {
         script: scripts.criticalTapNoteIndex,
@@ -64,9 +56,7 @@ export const archetypes = defineArchetypes({
         script: scripts.criticalSlideEndFlickIndex,
         input: true,
     },
-    criticalSlideConnector: {
-        script: scripts.criticalSlideConnectorIndex,
-    },
+    criticalSlideConnector: scripts.criticalSlideConnectorIndex,
 
     slideHiddenTick: {
         script: scripts.slideHiddenTickIndex,

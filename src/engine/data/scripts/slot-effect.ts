@@ -63,12 +63,8 @@ export function slotEffect(): Script {
     )
 
     return {
-        initialize: {
-            code: initialize,
-        },
-        updateParallel: {
-            code: updateParallel,
-        },
+        initialize,
+        updateParallel,
     }
 }
 

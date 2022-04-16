@@ -1,16 +1,6 @@
-import {
-    And,
-    Code,
-    LevelMemory,
-    Or,
-    Script,
-    TemporaryMemory,
-    TouchId,
-} from 'sonolus.js'
+import { And, Code, LevelMemory, Or, Script, TouchId } from 'sonolus.js'
 import { options } from '../../configuration/options'
 import { List } from './common/list'
-
-export const disallowStart = TemporaryMemory.to<boolean>(0)
 
 class TouchList {
     private readonly old: List<number>
@@ -38,8 +28,9 @@ class TouchList {
     }
 }
 
-export const disallowEmpties = new TouchList(0, 16)
-export const disallowEnds = new TouchList(32, 16)
+export const disallowStart = LevelMemory.to<boolean>(0)
+export const disallowEmpties = new TouchList(1, 16)
+export const disallowEnds = new TouchList(33, 16)
 
 export function input(): Script {
     const spawnOrder = -998
@@ -52,6 +43,7 @@ export function input(): Script {
     ])
 
     const touch = Or(options.isAutoplay, [
+        disallowStart.set(false),
         disallowEmpties.update(TouchId),
         disallowEnds.update(TouchId),
     ])

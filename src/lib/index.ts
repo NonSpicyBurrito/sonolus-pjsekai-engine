@@ -10,7 +10,7 @@ export const version = '0.1.0'
 
 export const engineInfo = {
     name: 'pjsekai',
-    version: 4,
+    version: 5,
     title: {
         en: 'Project Sekai',
         ja: 'プロセカ',

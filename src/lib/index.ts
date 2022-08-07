@@ -10,20 +10,20 @@ export const version = '0.1.0'
 
 export const engineInfo = {
     name: 'pjsekai',
-    version: 5,
+    version: 6,
     title: {
         en: 'Project Sekai',
         ja: 'プロセカ',
         ko: '프로젝트 세카이',
-        'zh-hans': '世界计划',
-        'zh-hant': '世界計劃',
+        zhs: '世界计划',
+        zht: '世界計劃',
     },
     subtitle: {
         en: 'Project Sekai: Colorful Stage!',
         ja: 'プロジェクトセカイ カラフルステージ!',
         ko: '프로젝트 세카이: 컬러풀 스테이지!',
-        'zh-hans': '世界计划 彩色舞台',
-        'zh-hant': '世界計畫 繽紛舞台！',
+        zhs: '世界计划 彩色舞台',
+        zht: '世界計畫 繽紛舞台！',
     },
     author: {
         en: 'Burrito',

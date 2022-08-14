@@ -82,16 +82,16 @@ export function initialization(): Script {
                 Add(
                     screen.l,
                     0.05,
-                    Multiply(0.15, UIPrimaryMetricConfiguration.scale)
+                    Multiply(0.715, UIPrimaryMetricConfiguration.scale)
                 ),
                 Subtract(
                     0.95,
-                    Multiply(0.025, UIPrimaryMetricConfiguration.scale)
+                    Multiply(0.035, UIPrimaryMetricConfiguration.scale)
                 ),
-                0,
                 1,
-                Multiply(0.575, UIPrimaryMetricConfiguration.scale),
-                Multiply(0.1, UIPrimaryMetricConfiguration.scale),
+                1,
+                0,
+                Multiply(0.08, UIPrimaryMetricConfiguration.scale),
                 0,
                 UIPrimaryMetricConfiguration.alpha,
                 HorizontalAlign.Right,
@@ -119,16 +119,16 @@ export function initialization(): Script {
                     screen.r,
                     0.1,
                     Multiply(0.15, UIMenuConfiguration.scale),
-                    Multiply(0.025, UISecondaryMetricConfiguration.scale)
+                    Multiply(0.035, UISecondaryMetricConfiguration.scale)
                 ),
                 Subtract(
                     0.95,
-                    Multiply(0.025, UISecondaryMetricConfiguration.scale)
+                    Multiply(0.035, UISecondaryMetricConfiguration.scale)
                 ),
                 1,
                 1,
-                Multiply(0.375, UISecondaryMetricConfiguration.scale),
-                Multiply(0.1, UISecondaryMetricConfiguration.scale),
+                0,
+                Multiply(0.08, UISecondaryMetricConfiguration.scale),
                 0,
                 UISecondaryMetricConfiguration.alpha,
                 HorizontalAlign.Right,

@@ -1,9 +1,3 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "strict": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  }
+  "extends": "@tsconfig/node16/tsconfig.json"
 }

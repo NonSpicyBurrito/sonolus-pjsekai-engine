@@ -91,26 +91,31 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
     }
 
     function onComplete() {
-        return [InputJudgment.set(1), InputAccuracy.set(0), playVisualEffects()]
+        return [
+            InputJudgment.set(1),
+            InputAccuracy.set(0),
+
+            playVisualEffects(),
+            isVisible &&
+                (isCritical
+                    ? playCriticalTickJudgmentSFX()
+                    : playTickJudgmentSFX()),
+        ]
     }
 
     function playVisualEffects() {
         return (
-            isVisible && [
-                playNoteEffect(
-                    isCritical
-                        ? ParticleEffect.NoteCircularAlternativeYellow
-                        : ParticleEffect.NoteCircularAlternativeGreen,
-                    isCritical
-                        ? ParticleEffect.NoteLinearTapYellow
-                        : ParticleEffect.NoteLinearTapGreen,
-                    0,
-                    'tick'
-                ),
+            isVisible &&
+            playNoteEffect(
                 isCritical
-                    ? playCriticalTickJudgmentSFX()
-                    : playTickJudgmentSFX(),
-            ]
+                    ? ParticleEffect.NoteCircularAlternativeYellow
+                    : ParticleEffect.NoteCircularAlternativeGreen,
+                isCritical
+                    ? ParticleEffect.NoteLinearTapYellow
+                    : ParticleEffect.NoteLinearTapGreen,
+                0,
+                'tick'
+            )
         )
     }
 }

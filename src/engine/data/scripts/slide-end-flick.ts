@@ -87,7 +87,7 @@ export function slideEndFlick(isCritical: boolean): Script {
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
     const arrowLayout = getArrowLayout(EntityMemory.to(8))
-    const arrowZ = EntityMemory.to<number>(17)
+    const arrowZ = EntityMemory.to<number>(18)
 
     const preprocess = [
         preprocessNote(bucket, window.good.late, leniency, Layer.NoteBody),

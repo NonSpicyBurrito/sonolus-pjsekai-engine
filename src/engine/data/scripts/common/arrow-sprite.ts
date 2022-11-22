@@ -6,26 +6,30 @@ import {
     Clamp,
     Code,
     customSkinSprite,
+    Divide,
     Draw,
     HasSkinSprite,
     If,
     Lerp,
     Max,
     Min,
+    Mod,
     Multiply,
     Pointer,
     Round,
     Subtract,
     SwitchInteger,
+    TemporaryMemory,
+    Time,
 } from 'sonolus.js'
 import { engineId, lane, origin } from './constants'
 import { getLayout, Tuple } from './utils'
 
-export type ArrowLayout = Tuple<Code<number>, 9>
-export type WritableArrowLayout = Tuple<Pointer<number>, 9>
+export type ArrowLayout = Tuple<Code<number>, 10>
+export type WritableArrowLayout = Tuple<Pointer<number>, 10>
 
 export function getArrowLayout(pointer: Pointer) {
-    return getLayout(pointer, 9)
+    return getLayout(pointer, 10)
 }
 
 export class ArrowSprite {
@@ -44,7 +48,7 @@ export class ArrowSprite {
         direction: Code<number>,
         layout: WritableArrowLayout
     ) {
-        const [sprite, x1, y1, x2, y2, x3, y3, x4, y4] = layout
+        const [sprite, x1, y1, x2, y2, x3, y3, x4, y4, dx] = layout
 
         const size = Clamp(Round(Multiply(width, 2)), 1, 6)
         const spriteUp = customSkinSprite(engineId, Add(this.base, size))
@@ -80,6 +84,7 @@ export class ArrowSprite {
                 sprite.set(
                     SwitchInteger(direction, [spriteSide, spriteSide], spriteUp)
                 ),
+                dx.set(Multiply(lane.w, SwitchInteger(direction, [-1, 1]))),
             ],
             [
                 sprite.set(Max(0.5, Min(1.5, Multiply(width, 0.5)))),
@@ -99,6 +104,7 @@ export class ArrowSprite {
                 ),
 
                 sprite.set(this.fallback),
+                dx.set(Multiply(lane.w, SwitchInteger(direction, [-1, 1]))),
             ]
         )
 
@@ -122,21 +128,31 @@ export class ArrowSprite {
     }
 
     public draw(scale: Code<number>, layout: ArrowLayout, z: Code<number>) {
-        const [sprite, x1, y1, x2, y2, x3, y3, x4, y4] = layout
+        const [sprite, x1, y1, x2, y2, x3, y3, x4, y4, dx] = layout
 
-        return Draw(
-            sprite,
-            Multiply(x1, scale),
-            Lerp(origin, y1, scale),
-            Multiply(x2, scale),
-            Lerp(origin, y2, scale),
-            Multiply(x3, scale),
-            Lerp(origin, y3, scale),
-            Multiply(x4, scale),
-            Lerp(origin, y4, scale),
-            Add(z, 1),
-            1
-        )
+        const t = TemporaryMemory.to<number>(0)
+        const tx = TemporaryMemory.to<number>(1)
+        const ty = TemporaryMemory.to<number>(2)
+
+        return [
+            t.set(Divide(Mod(Time, 0.5), 0.5)),
+            tx.set(Multiply(dx, t)),
+            ty.set(Multiply(lane.w, 2, t)),
+
+            Draw(
+                sprite,
+                Multiply(Add(x1, tx), scale),
+                Lerp(origin, Add(y1, ty), scale),
+                Multiply(Add(x2, tx), scale),
+                Lerp(origin, Add(y2, ty), scale),
+                Multiply(Add(x3, tx), scale),
+                Lerp(origin, Add(y3, ty), scale),
+                Multiply(Add(x4, tx), scale),
+                Lerp(origin, Add(y4, ty), scale),
+                Add(z, 1),
+                Subtract(1, t)
+            ),
+        ]
     }
 }
 

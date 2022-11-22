@@ -27,6 +27,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "fs-extra": "^10.1.0",
     "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.2.0",
     "sonolus-core": "^5.1.1",
     "sonolus.js": "^7.1.0",
     "ts-node": "^10.9.1",

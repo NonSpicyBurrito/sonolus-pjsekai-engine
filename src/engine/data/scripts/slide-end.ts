@@ -11,6 +11,7 @@ import {
     InputBucketValue,
     InputJudgment,
     InputOffset,
+    LessOr,
     Multiply,
     Not,
     Or,
@@ -84,7 +85,13 @@ export function slideEnd(isCritical: boolean): Script {
             Not(bool(noteInputState)),
             checkNoteTimeInEarlyWindow(window.good.early),
             TouchEnded,
-            Not(disallowEnds.contains(TouchId)),
+            Or(
+                Not(disallowEnds.contains(TouchId)),
+                LessOr(
+                    disallowEnds.get(TouchId),
+                    Subtract(NoteData.time, window.good.early)
+                )
+            ),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
             onComplete()

@@ -1,5 +1,6 @@
 import { ParticleEffect } from 'sonolus-core'
 import {
+    Add,
     And,
     bool,
     EntityMemory,
@@ -118,7 +119,7 @@ export function tapNote(isCritical: boolean): Script {
         return [
             disallowStart.set(true),
             disallowEmpties.add(TouchId),
-            disallowEnds.add(TouchId),
+            disallowEnds.add(TouchId, Add(NoteData.time, window.good.late)),
             noteInputState.set(InputState.Terminated),
 
             InputJudgment.set(

@@ -18,7 +18,7 @@ import {
     Subtract,
     SwitchInteger,
 } from 'sonolus.js'
-import { baseNote, engineId, lane, origin } from './constants'
+import { engineId, lane, origin } from './constants'
 import { getLayout, Tuple } from './utils'
 
 export type ArrowLayout = Tuple<Code<number>, 9>
@@ -61,9 +61,9 @@ export class ArrowSprite {
                     )
                 ),
                 x1.set(Multiply(Subtract(center, sprite), lane.w)),
-                y1.set(baseNote.t),
+                y1.set(lane.b),
                 x2.set(x1),
-                y2.set(Add(baseNote.t, Multiply(Abs(sprite), 2, lane.w))),
+                y2.set(Add(lane.b, Multiply(Abs(sprite), 2, lane.w))),
                 x3.set(Multiply(Add(center, sprite), lane.w)),
                 y3.set(y2),
                 x4.set(x3),
@@ -87,13 +87,11 @@ export class ArrowSprite {
                     direction,
                     [rotate(Math.PI / 6), rotate(-Math.PI / 6)],
                     [
-                        x1.set(Multiply(Subtract(center, sprite), baseNote.tw)),
-                        y1.set(baseNote.t),
+                        x1.set(Multiply(Subtract(center, sprite), lane.w)),
+                        y1.set(lane.b),
                         x2.set(x1),
-                        y2.set(
-                            Add(baseNote.t, Multiply(sprite, 2, baseNote.tw))
-                        ),
-                        x3.set(Multiply(Add(center, sprite), baseNote.tw)),
+                        y2.set(Add(lane.b, Multiply(sprite, 2, lane.w))),
+                        x3.set(Multiply(Add(center, sprite), lane.w)),
                         y3.set(y2),
                         x4.set(x3),
                         y4.set(y1),
@@ -111,22 +109,14 @@ export class ArrowSprite {
             const c4 = rotateCoefficient(1, 0, a)
 
             return [
-                x1.set(
-                    Multiply(Add(center, Multiply(sprite, c1.x)), baseNote.tw)
-                ),
-                y1.set(Add(baseNote.t, Multiply(sprite, c1.y, baseNote.tw))),
-                x2.set(
-                    Multiply(Add(center, Multiply(sprite, c2.x)), baseNote.tw)
-                ),
-                y2.set(Add(baseNote.t, Multiply(sprite, c2.y, baseNote.tw))),
-                x3.set(
-                    Multiply(Add(center, Multiply(sprite, c3.x)), baseNote.tw)
-                ),
-                y3.set(Add(baseNote.t, Multiply(sprite, c3.y, baseNote.tw))),
-                x4.set(
-                    Multiply(Add(center, Multiply(sprite, c4.x)), baseNote.tw)
-                ),
-                y4.set(Add(baseNote.t, Multiply(sprite, c4.y, baseNote.tw))),
+                x1.set(Multiply(Add(center, Multiply(sprite, c1.x)), lane.w)),
+                y1.set(Add(lane.b, Multiply(sprite, c1.y, lane.w))),
+                x2.set(Multiply(Add(center, Multiply(sprite, c2.x)), lane.w)),
+                y2.set(Add(lane.b, Multiply(sprite, c2.y, lane.w))),
+                x3.set(Multiply(Add(center, Multiply(sprite, c3.x)), lane.w)),
+                y3.set(Add(lane.b, Multiply(sprite, c3.y, lane.w))),
+                x4.set(Multiply(Add(center, Multiply(sprite, c4.x)), lane.w)),
+                y4.set(Add(lane.b, Multiply(sprite, c4.y, lane.w))),
             ]
         }
     }

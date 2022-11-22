@@ -1,4 +1,3 @@
-import { EffectClip } from 'sonolus-core'
 import {
     Add,
     And,
@@ -20,6 +19,8 @@ import {
     getCriticalFlickClip,
     getCriticalTapClip,
     getCriticalTickClip,
+    getFlickClip,
+    getTapClip,
     getTickClip,
 } from './common/sfx'
 
@@ -55,15 +56,9 @@ export function autoSFX(): Script {
                 Switch(
                     noteInfo.archetype,
                     [
-                        [
-                            archetypes.flickNoteIndex,
-                            EffectClip.PerfectAlternative,
-                        ],
+                        [archetypes.flickNoteIndex, getFlickClip()],
                         [archetypes.slideTickIndex, getTickClip()],
-                        [
-                            archetypes.slideEndFlickIndex,
-                            EffectClip.PerfectAlternative,
-                        ],
+                        [archetypes.slideEndFlickIndex, getFlickClip()],
                         [archetypes.criticalTapNoteIndex, getCriticalTapClip()],
                         [
                             archetypes.criticalFlickNoteIndex,
@@ -78,7 +73,7 @@ export function autoSFX(): Script {
                             getCriticalFlickClip(),
                         ],
                     ],
-                    EffectClip.Perfect
+                    getTapClip()
                 ),
                 noteData.time,
                 minSFXDistance

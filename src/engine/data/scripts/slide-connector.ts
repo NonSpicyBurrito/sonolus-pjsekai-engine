@@ -14,6 +14,7 @@ import {
     HasParticleEffect,
     If,
     Lerp,
+    Less,
     Max,
     Min,
     MoveParticleEffect,
@@ -276,6 +277,7 @@ export function slideConnector(isCritical: boolean): Script {
                     Or(
                         options.isAutoplay,
                         NotEqual(ConnectorData.headInfo.state, State.Despawned),
+                        Less(Time, ConnectorData.headTime),
                         Equal(ConnectorData.headSharedMemory.slideTime, Time)
                     ),
                     1,

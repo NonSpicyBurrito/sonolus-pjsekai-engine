@@ -15,6 +15,7 @@ import {
     InputOffset,
     Lerp,
     LessOr,
+    Mod,
     Multiply,
     Pointer,
     Power,
@@ -127,8 +128,16 @@ export function getSpawnTime(time: Code<number>) {
     return Subtract(time, noteOnScreenDuration)
 }
 
-export function getZ(layer: number, time: Code<number>, center: Code<number>) {
-    return Subtract(layer, Divide(time, 1000), Divide(center, -10000))
+export function getZ(
+    layer: number,
+    time: Code<number> = NoteData.time,
+    index: Code<number> = EntityInfo.index
+) {
+    return Subtract(
+        layer,
+        Divide(Mod(time, 10), 10),
+        Divide(Mod(index, 100), 100000)
+    )
 }
 
 export function applyLevelSpeed(...times: Pointer<number>[]) {
@@ -173,7 +182,7 @@ export function preprocessNote(
         applyMirrorCenters(NoteData.center),
 
         noteSpawnTime.set(getSpawnTime(NoteData.time)),
-        noteZ.set(getZ(layer, NoteData.time, NoteData.center)),
+        noteZ.set(getZ(layer)),
         calculateHitbox(
             NoteData.center,
             NoteData.width,

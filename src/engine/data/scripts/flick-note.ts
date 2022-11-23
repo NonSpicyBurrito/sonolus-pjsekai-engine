@@ -3,7 +3,6 @@ import {
     Add,
     And,
     bool,
-    Divide,
     EntityMemory,
     Equal,
     Greater,
@@ -45,6 +44,7 @@ import {
     applyMirrorDirections,
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
+    getZ,
     initializeNoteSimLine,
     InputState,
     noteBottom,
@@ -96,7 +96,7 @@ export function flickNote(isCritical: boolean): Script {
             NoteData.direction,
             arrowLayout
         ),
-        arrowZ.set(Subtract(Layer.NoteArrow, Divide(NoteData.time, 1000))),
+        arrowZ.set(getZ(Layer.NoteArrow)),
     ]
 
     const spawnOrder = noteSpawnTime

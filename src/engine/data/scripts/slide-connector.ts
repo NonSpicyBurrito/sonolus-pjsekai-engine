@@ -135,10 +135,11 @@ export function slideConnector(isCritical: boolean): Script {
     const tailHitboxL = EntityMemory.to<number>(23)
     const tailHitboxR = EntityMemory.to<number>(24)
 
-    const slideZ = EntityMemory.to<number>(25)
+    const connectorZ = EntityMemory.to<number>(25)
+    const slideZ = EntityMemory.to<number>(26)
 
-    const circularId = EntityMemory.to<number>(26)
-    const linearId = EntityMemory.to<number>(27)
+    const circularId = EntityMemory.to<number>(27)
+    const linearId = EntityMemory.to<number>(28)
 
     const preprocess = [
         applyLevelSpeed(ConnectorData.headTime, ConnectorData.tailTime),
@@ -197,11 +198,18 @@ export function slideConnector(isCritical: boolean): Script {
             tailHitboxR
         ),
 
+        connectorZ.set(
+            getZ(
+                Layer.NoteConnector,
+                ConnectorData.headTime,
+                ConnectorData.headIndex
+            )
+        ),
         slideZ.set(
             getZ(
                 Layer.NoteSlide,
                 ConnectorData.headTime,
-                ConnectorData.headCenter
+                ConnectorData.headIndex
             )
         ),
     ]
@@ -324,7 +332,7 @@ export function slideConnector(isCritical: boolean): Script {
                 connectorTop,
                 Multiply(Lerp(headR, tailR, shXScale), shYScale),
                 connectorBottom,
-                Layer.NoteConnector,
+                connectorZ,
                 alpha
             ),
         ]),

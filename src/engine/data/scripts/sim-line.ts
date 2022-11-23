@@ -18,7 +18,7 @@ import {
 import { options } from '../../configuration/options'
 import { archetypes } from '../archetypes'
 import { baseNote, lane, Layer, origin } from './common/constants'
-import { approachNote, NoteData } from './common/note'
+import { approachNote, getZ, NoteData } from './common/note'
 import { rectByEdge } from './common/utils'
 
 export function simLine(): Script {
@@ -34,6 +34,8 @@ export function simLine(): Script {
     const lineScale = EntityMemory.to<number>(5)
     const lineB = EntityMemory.to<number>(6)
     const lineT = EntityMemory.to<number>(7)
+
+    const z = EntityInfo.to<number>(8)
 
     const initialize = [
         time.set(NoteData.of(rIndex).time),
@@ -54,6 +56,8 @@ export function simLine(): Script {
 
         lineL.set(Multiply(NoteData.of(lIndex).center, lane.w)),
         lineR.set(Multiply(NoteData.of(rIndex).center, lane.w)),
+
+        z.set(getZ(Layer.SimLine, time, rIndex)),
     ]
 
     const updateParallel = Or(
@@ -74,7 +78,7 @@ export function simLine(): Script {
                     lineB,
                     lineT
                 ),
-                Layer.SimLine,
+                z,
                 1
             ),
         ]

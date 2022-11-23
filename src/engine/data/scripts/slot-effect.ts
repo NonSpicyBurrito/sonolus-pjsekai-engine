@@ -2,7 +2,6 @@ import {
     Abs,
     Add,
     customSkinSprite,
-    Divide,
     Draw,
     EntityMemory,
     GreaterOr,
@@ -14,6 +13,7 @@ import {
     Unlerp,
 } from 'sonolus.js'
 import { baseNote, engineId, Layer } from './common/constants'
+import { getZ } from './common/note'
 
 export function slotEffect(): Script {
     const sprite = EntityMemory.to<number>(0)
@@ -36,13 +36,7 @@ export function slotEffect(): Script {
         tR.set(Multiply(Add(center, 0.5), baseNote.tw)),
         bL.set(Multiply(Subtract(center, 0.5), baseNote.bw)),
         bR.set(Multiply(Add(center, 0.5), baseNote.bw)),
-        z.set(
-            Add(
-                Layer.SlotEffect,
-                Divide(Time, 1000),
-                Divide(Abs(center), -10000)
-            )
-        ),
+        z.set(getZ(Layer.SlotEffect, Multiply(Time, -1), Abs(center))),
     ]
 
     const updateParallel = Or(

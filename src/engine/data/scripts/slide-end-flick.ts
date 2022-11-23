@@ -2,7 +2,6 @@ import { ParticleEffect } from 'sonolus-core'
 import {
     And,
     bool,
-    Divide,
     EntityMemory,
     Equal,
     Greater,
@@ -45,6 +44,7 @@ import {
     applyMirrorDirections,
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
+    getZ,
     initializeNoteSimLine,
     InputState,
     noteBottom,
@@ -99,7 +99,7 @@ export function slideEndFlick(isCritical: boolean): Script {
             NoteData.direction,
             arrowLayout
         ),
-        arrowZ.set(Subtract(Layer.NoteArrow, Divide(NoteData.time, 1000))),
+        arrowZ.set(getZ(Layer.NoteArrow)),
     ]
 
     const spawnOrder = noteSpawnTime

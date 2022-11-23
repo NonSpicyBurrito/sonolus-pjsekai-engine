@@ -149,7 +149,7 @@ export class ArrowSprite {
                 Lerp(origin, Add(y3, ty), scale),
                 Multiply(Add(x4, tx), scale),
                 Lerp(origin, Add(y4, ty), scale),
-                Add(z, 1),
+                z,
                 Subtract(1, t)
             ),
         ]

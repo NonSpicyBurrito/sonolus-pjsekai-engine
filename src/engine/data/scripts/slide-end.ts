@@ -35,6 +35,7 @@ import {
     checkTouchXInNoteHitbox,
     initializeNoteSimLine,
     InputState,
+    isNotHidden,
     noteBottom,
     NoteData,
     noteInputState,
@@ -102,11 +103,11 @@ export function slideEnd(isCritical: boolean): Script {
         And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
         Equal(noteInputState, InputState.Terminated),
         Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        [
+        And(isNotHidden(), [
             updateNoteY(),
 
             noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
-        ]
+        ])
     )
 
     const terminate = And(options.isAutoplay, playVisualEffects())

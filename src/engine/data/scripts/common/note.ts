@@ -8,6 +8,7 @@ import {
     EntityInfo,
     EntityMemory,
     Equal,
+    GreaterOr,
     If,
     InputAccuracy,
     InputBucket,
@@ -17,6 +18,7 @@ import {
     LessOr,
     Mod,
     Multiply,
+    Or,
     Pointer,
     Power,
     Spawn,
@@ -137,6 +139,16 @@ export function getZ(
         layer,
         Divide(Mod(time, 10), 10),
         Divide(Mod(index, 100), 100000)
+    )
+}
+
+export function isNotHidden(time: Code<number> = NoteData.time) {
+    return Or(
+        LessOr(options.hidden, 0),
+        GreaterOr(
+            Divide(Subtract(time, Time), noteOnScreenDuration),
+            options.hidden
+        )
     )
 }
 

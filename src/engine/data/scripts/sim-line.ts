@@ -18,7 +18,7 @@ import {
 import { options } from '../../configuration/options'
 import { archetypes } from '../archetypes'
 import { baseNote, lane, Layer, origin } from './common/constants'
-import { approachNote, getZ, NoteData } from './common/note'
+import { approachNote, getZ, isNotHidden, NoteData } from './common/note'
 import { rectByEdge } from './common/utils'
 
 export function simLine(): Script {
@@ -65,7 +65,7 @@ export function simLine(): Script {
         And(isSlide, GreaterOr(Time, time)),
         Equal(EntityInfo.of(lIndex).state, State.Despawned),
         Equal(EntityInfo.of(rIndex).state, State.Despawned),
-        [
+        And(isNotHidden(time), [
             lineScale.set(approachNote(time)),
             lineB.set(Lerp(origin, baseNote.b, lineScale)),
             lineT.set(Lerp(origin, baseNote.t, lineScale)),
@@ -81,7 +81,7 @@ export function simLine(): Script {
                 z,
                 1
             ),
-        ]
+        ])
     )
 
     return {

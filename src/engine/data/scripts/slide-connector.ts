@@ -10,11 +10,13 @@ import {
     EntityInfo,
     EntityMemory,
     Equal,
+    Greater,
     GreaterOr,
     HasParticleEffect,
     If,
     Lerp,
     Less,
+    LessOr,
     Max,
     Min,
     MoveParticleEffect,
@@ -272,11 +274,18 @@ export function slideConnector(isCritical: boolean): Script {
 
     const alpha = EntityMemory.to<number>(44)
 
+    const hiddenTime = Add(Time, Multiply(options.hidden, noteOnScreenDuration))
+
     const updateParallel = Or(GreaterOr(Time, ConnectorData.tailTime), [
         vhTime.set(Max(ConnectorData.headTime, Time)),
         vtTime.set(
             Min(ConnectorData.tailTime, Add(Time, noteOnScreenDuration))
         ),
+
+        And(Greater(options.hidden, 0), [
+            vhTime.set(Max(vhTime, hiddenTime)),
+            vtTime.set(Max(vtTime, hiddenTime)),
+        ]),
 
         alpha.set(
             Multiply(
@@ -344,21 +353,24 @@ export function slideConnector(isCritical: boolean): Script {
                 )
             ),
 
-            noteSprite.draw(
-                1,
-                baseNote.b,
-                baseNote.t,
-                [
-                    Lerp(headLayout[0], tailLayout[0], noteScale),
-                    Lerp(headLayout[1], tailLayout[1], noteScale),
-                    Lerp(headLayout[2], tailLayout[2], noteScale),
-                    Lerp(headLayout[3], tailLayout[3], noteScale),
-                    Lerp(headLayout[4], tailLayout[4], noteScale),
-                    Lerp(headLayout[5], tailLayout[5], noteScale),
-                    Lerp(headLayout[6], tailLayout[6], noteScale),
-                    Lerp(headLayout[7], tailLayout[7], noteScale),
-                ],
-                slideZ
+            And(
+                LessOr(options.hidden, 0),
+                noteSprite.draw(
+                    1,
+                    baseNote.b,
+                    baseNote.t,
+                    [
+                        Lerp(headLayout[0], tailLayout[0], noteScale),
+                        Lerp(headLayout[1], tailLayout[1], noteScale),
+                        Lerp(headLayout[2], tailLayout[2], noteScale),
+                        Lerp(headLayout[3], tailLayout[3], noteScale),
+                        Lerp(headLayout[4], tailLayout[4], noteScale),
+                        Lerp(headLayout[5], tailLayout[5], noteScale),
+                        Lerp(headLayout[6], tailLayout[6], noteScale),
+                        Lerp(headLayout[7], tailLayout[7], noteScale),
+                    ],
+                    slideZ
+                )
             ),
 
             And(

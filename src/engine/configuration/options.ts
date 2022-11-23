@@ -9,6 +9,16 @@ export const options = defineOptions({
         type: 'toggle',
         def: 0,
     },
+    hidden: {
+        name: OptionName.Hidden,
+        standard: true,
+        type: 'slider',
+        def: 0,
+        min: 0,
+        max: 1,
+        step: 0.05,
+        display: 'percentage',
+    },
     speed: {
         name: OptionName.LevelSpeed,
         standard: true,

@@ -18,6 +18,7 @@ import { playNoteEffect } from './common/effect'
 import {
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
+    isNotHidden,
     noteBottom,
     NoteData,
     noteScale,
@@ -66,7 +67,7 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
         And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
         GreaterOr(Subtract(Time, NoteData.time, InputOffset), 0),
         isVisible &&
-            And(Less(Time, NoteData.time), [
+            And(Less(Time, NoteData.time), isNotHidden(), [
                 updateNoteY(),
 
                 tickSprite.draw(

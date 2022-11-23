@@ -261,10 +261,27 @@ export function slideConnector(isCritical: boolean): Script {
 
     const center = EntityMemory.to<number>(43)
 
+    const alpha = EntityMemory.to<number>(44)
+
     const updateParallel = Or(GreaterOr(Time, ConnectorData.tailTime), [
         vhTime.set(Max(ConnectorData.headTime, Time)),
         vtTime.set(
             Min(ConnectorData.tailTime, Add(Time, noteOnScreenDuration))
+        ),
+
+        alpha.set(
+            Multiply(
+                options.connectorAlpha,
+                If(
+                    Or(
+                        options.isAutoplay,
+                        NotEqual(ConnectorData.headInfo.state, State.Despawned),
+                        Equal(ConnectorData.headSharedMemory.slideTime, Time)
+                    ),
+                    1,
+                    0.5
+                )
+            )
         ),
 
         [...Array(10).keys()].map((i) => [
@@ -306,21 +323,7 @@ export function slideConnector(isCritical: boolean): Script {
                 Multiply(Lerp(headR, tailR, shXScale), shYScale),
                 connectorBottom,
                 Layer.NoteConnector,
-                Multiply(
-                    options.connectorAlpha,
-                    If(
-                        Or(
-                            options.isAutoplay,
-                            Equal(ConnectorData.headInfo.state, State.Spawned),
-                            Equal(
-                                ConnectorData.headSharedMemory.slideTime,
-                                Time
-                            )
-                        ),
-                        1,
-                        0.5
-                    )
-                )
+                alpha
             ),
         ]),
 

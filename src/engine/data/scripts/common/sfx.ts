@@ -6,6 +6,7 @@ import {
     HasEffectClip,
     If,
     InputJudgment,
+    Not,
     Play,
 } from 'sonolus.js'
 import { options } from '../../../configuration/options'
@@ -35,7 +36,8 @@ export const getFlickClip = (judgment: Code<number> = 1) =>
 export const getCriticalFlickClip = (judgment: Code<number> = 1) =>
     getClip(criticalFlickClip, getFlickClip(judgment))
 
-export const playStageSFX = () => playSFX(EffectClip.Stage)
+export const playStageSFX = () =>
+    And(options.isSFXEnabled, Play(EffectClip.Stage, minSFXDistance))
 
 export const playTapJudgmentSFX = () => playJudgmentSFX(getTapClip)
 
@@ -55,8 +57,9 @@ export const playCriticalFlickJudgmentSFX = () =>
 const getClip = (id: Code<number>, fallback: Code<number>) =>
     If(HasEffectClip(id), id, fallback)
 
-const playSFX = (id: Code<number>) =>
-    And(options.isSFXEnabled, Play(id, minSFXDistance))
-
 const playJudgmentSFX = (getClip: (judgment: Code<number>) => Code<number>) =>
-    playSFX(getClip(InputJudgment))
+    And(
+        options.isSFXEnabled,
+        Not(options.isAutoSFX),
+        Play(getClip(InputJudgment), minSFXDistance)
+    )

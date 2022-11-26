@@ -96,6 +96,12 @@ export const options = defineOptions({
         type: 'toggle',
         def: 1,
     },
+    isAutoSFX: {
+        name: OptionName.AutoSFX,
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 0,
+    },
     isNoteEffectEnabled: {
         name: OptionName.NoteEffect,
         scope: 'Sekai',

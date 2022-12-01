@@ -43,10 +43,18 @@ export const engineConfiguration = new Resource('EngineConfiguration')
 export const engineData = new Resource('EngineData')
 export const engineThumbnail = new Resource('thumbnail.png')
 
-export function fromSus(sus: string, offset = 0): LevelData {
-    return _fromSus(sus, offset, archetypes)
+export function fromSus(
+    sus: string,
+    bgmOffset = 0,
+    chartOffset = 0
+): LevelData {
+    return _fromSus(sus, bgmOffset, chartOffset, archetypes)
 }
 
-export function fromFannithm(fannithm: Fannithm, offset = 0): LevelData {
-    return _fromFannithm(fannithm, offset, archetypes)
+export function fromFannithm(
+    fannithm: Fannithm,
+    bgmOffset = 0,
+    chartOffset = 0
+): LevelData {
+    return _fromFannithm(fannithm, bgmOffset, chartOffset, archetypes)
 }

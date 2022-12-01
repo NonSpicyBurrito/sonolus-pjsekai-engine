@@ -20,7 +20,8 @@ const ticksPerHidden = ticksPerBeat / 2
 
 export function fromSus(
     sus: string,
-    offset: number,
+    bgmOffset: number,
+    chartOffset: number,
     archetypes: {
         initializationIndex: number
         stageIndex: number
@@ -423,10 +424,13 @@ export function fromSus(
         wrapper.entity.data.values.push(wrappers.indexOf(wrapper.ref))
     })
 
-    return { entities: wrappers.map(({ entity }) => entity) }
+    return {
+        bgmOffset,
+        entities: wrappers.map(({ entity }) => entity),
+    }
 
     function toTime(tick: number) {
-        return score.toTime(tick) + offset
+        return score.toTime(tick) + chartOffset
     }
 }
 

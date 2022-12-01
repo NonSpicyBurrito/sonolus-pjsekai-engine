@@ -102,7 +102,8 @@ const ticksPerHidden = 0.5
 
 export function fromFannithm(
     fannithm: Fannithm,
-    offset: number,
+    bgmOffset: number,
+    chartOffset: number,
     archetypes: {
         initializationIndex: number
         stageIndex: number
@@ -149,7 +150,9 @@ export function fromFannithm(
             if (!timing) throw 'Unexpected missing timing'
 
             return (
-                timing.time + offset + ((tick - timing.tick) * 60) / timing.bpm
+                timing.time +
+                chartOffset +
+                ((tick - timing.tick) * 60) / timing.bpm
             )
         })
     })
@@ -476,7 +479,10 @@ export function fromFannithm(
         wrapper.entity.data.values.push(wrappers.indexOf(wrapper.ref))
     })
 
-    return { entities: wrappers.map(({ entity }) => entity) }
+    return {
+        bgmOffset,
+        entities: wrappers.map(({ entity }) => entity),
+    }
 
     function toTime(timelineId: string, beat: Beat) {
         const toTime = timelineToTimes.get(timelineId)

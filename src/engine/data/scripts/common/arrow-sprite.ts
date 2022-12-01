@@ -87,7 +87,7 @@ export class ArrowSprite {
                 dx.set(Multiply(lane.w, SwitchInteger(direction, [-1, 1]))),
             ],
             [
-                sprite.set(Max(0.5, Min(1.5, Multiply(width, 0.5)))),
+                sprite.set(Max(1, Min(3, width))),
                 SwitchInteger(
                     direction,
                     [rotate(Math.PI / 6), rotate(-Math.PI / 6)],

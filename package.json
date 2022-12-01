@@ -28,8 +28,8 @@
     "fs-extra": "^10.1.0",
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.2.0",
-    "sonolus-core": "^5.1.1",
-    "sonolus.js": "^7.1.0",
+    "sonolus-core": "^6.0.0-beta.6",
+    "sonolus.js": "^8.0.0-beta.3",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.9.3"

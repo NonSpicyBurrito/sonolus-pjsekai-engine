@@ -25,24 +25,14 @@ export function checkTouchYInHitbox(y: Code<number> = TouchY) {
     return LessOr(y, Lerp(lane.t, lane.b, 0.7))
 }
 
-export function checkDirection(
-    x: Code<number>,
-    y: Code<number>,
-    direction: Code<number>
-) {
+export function checkDirection(x: Code<number>, y: Code<number>, direction: Code<number>) {
     return SwitchInteger(
         direction,
-        [
-            isSameDirection(x, y, Math.PI / 2 + 1),
-            isSameDirection(x, y, Math.PI / 2 - 1),
-        ],
+        [isSameDirection(x, y, Math.PI / 2 + 1), isSameDirection(x, y, Math.PI / 2 - 1)],
         true
     )
 }
 
 function isSameDirection(x: Code<number>, y: Code<number>, angle: number) {
-    return Greater(
-        Add(Multiply(x, Math.cos(angle)), Multiply(y, Math.sin(angle))),
-        0
-    )
+    return Greater(Add(Multiply(x, Math.cos(angle)), Multiply(y, Math.sin(angle))), 0)
 }

@@ -200,8 +200,7 @@ export function fromSus(
         if (!startNote) return
 
         const isStartCritical = criticalMods.has(getKey(startNote))
-        const minHiddenTick =
-            Math.floor(startNote.tick / ticksPerHidden + 1) * ticksPerHidden
+        const minHiddenTick = Math.floor(startNote.tick / ticksPerHidden + 1) * ticksPerHidden
 
         let head: NoteInfo | undefined
         let ref: Wrapper | undefined
@@ -223,11 +222,7 @@ export function fromSus(
                                 : archetypes.slideStartIndex,
                             data: {
                                 index: 0,
-                                values: [
-                                    time,
-                                    note.lane - 8 + note.width / 2,
-                                    note.width / 2,
-                                ],
+                                values: [time, note.lane - 8 + note.width / 2, note.width / 2],
                             },
                         },
                     })
@@ -294,11 +289,7 @@ export function fromSus(
                                 : archetypes.slideTickIndex,
                             data: {
                                 index: 0,
-                                values: [
-                                    time,
-                                    note.lane - 8 + note.width / 2,
-                                    note.width / 2,
-                                ],
+                                values: [time, note.lane - 8 + note.width / 2, note.width / 2],
                             },
                         },
                     })
@@ -330,11 +321,7 @@ export function fromSus(
                 return
             }
 
-            const easeType = easeInMods.has(head.key)
-                ? 0
-                : easeOutMods.has(head.key)
-                ? 1
-                : -1
+            const easeType = easeInMods.has(head.key) ? 0 : easeOutMods.has(head.key) ? 1 : -1
 
             const h = head
             connectedNotes.forEach((info) => {
@@ -351,11 +338,7 @@ export function fromSus(
                             : archetypes.slideTickIndex,
                         data: {
                             index: 0,
-                            values: [
-                                info.time,
-                                lane - 8 + width / 2,
-                                width / 2,
-                            ],
+                            values: [info.time, lane - 8 + width / 2, width / 2],
                         },
                     },
                 })

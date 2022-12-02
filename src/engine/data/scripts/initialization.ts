@@ -80,15 +80,8 @@ export function initialization(): Script {
                 true
             ),
             UIPrimaryMetricValue.set(
-                Add(
-                    screen.l,
-                    0.05,
-                    Multiply(0.715, UIPrimaryMetricConfiguration.scale)
-                ),
-                Subtract(
-                    0.95,
-                    Multiply(0.035, UIPrimaryMetricConfiguration.scale)
-                ),
+                Add(screen.l, 0.05, Multiply(0.715, UIPrimaryMetricConfiguration.scale)),
+                Subtract(0.95, Multiply(0.035, UIPrimaryMetricConfiguration.scale)),
                 1,
                 1,
                 0,
@@ -100,11 +93,7 @@ export function initialization(): Script {
             ),
 
             UISecondaryMetricBar.set(
-                Subtract(
-                    screen.r,
-                    0.1,
-                    Multiply(0.15, UIMenuConfiguration.scale)
-                ),
+                Subtract(screen.r, 0.1, Multiply(0.15, UIMenuConfiguration.scale)),
                 0.95,
                 1,
                 1,
@@ -122,10 +111,7 @@ export function initialization(): Script {
                     Multiply(0.15, UIMenuConfiguration.scale),
                     Multiply(0.035, UISecondaryMetricConfiguration.scale)
                 ),
-                Subtract(
-                    0.95,
-                    Multiply(0.035, UISecondaryMetricConfiguration.scale)
-                ),
+                Subtract(0.95, Multiply(0.035, UISecondaryMetricConfiguration.scale)),
                 1,
                 1,
                 0,
@@ -185,16 +171,10 @@ export function initialization(): Script {
             windows.slideEndFlick.normal.setBucket(buckets.slideEndFlickIndex),
 
             windows.tapNote.critical.setBucket(buckets.criticalTapNoteIndex),
-            windows.flickNote.critical.setBucket(
-                buckets.criticalFlickNoteIndex
-            ),
-            windows.slideStart.critical.setBucket(
-                buckets.criticalSlideStartIndex
-            ),
+            windows.flickNote.critical.setBucket(buckets.criticalFlickNoteIndex),
+            windows.slideStart.critical.setBucket(buckets.criticalSlideStartIndex),
             windows.slideEnd.critical.setBucket(buckets.criticalSlideEndIndex),
-            windows.slideEndFlick.critical.setBucket(
-                buckets.criticalSlideEndFlickIndex
-            ),
+            windows.slideEndFlick.critical.setBucket(buckets.criticalSlideEndFlickIndex),
         ]
     }
 
@@ -221,16 +201,12 @@ export function initialization(): Script {
                 archetypes.criticalSlideStartIndex,
                 archetypes.criticalSlideEndIndex,
                 archetypes.criticalSlideEndFlickIndex,
-            ].map((archetype) =>
-                ArchetypeLife.of(archetype).missLifeIncrement.set(-80)
-            ),
+            ].map((archetype) => ArchetypeLife.of(archetype).missLifeIncrement.set(-80)),
             [
                 archetypes.slideTickIndex,
                 archetypes.criticalSlideTickIndex,
                 archetypes.slideHiddenTickIndex,
-            ].map((archetype) =>
-                ArchetypeLife.of(archetype).missLifeIncrement.set(-40)
-            ),
+            ].map((archetype) => ArchetypeLife.of(archetype).missLifeIncrement.set(-40)),
         ]
     }
 }

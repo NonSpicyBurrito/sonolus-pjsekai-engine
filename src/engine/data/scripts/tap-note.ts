@@ -25,11 +25,7 @@ import {
 import { options } from '../../configuration/options'
 import { buckets } from '../buckets'
 import { Layer, windows } from './common/constants'
-import {
-    playNoteEffect,
-    playNoteLaneEffect,
-    playSlotEffect,
-} from './common/effect'
+import { playNoteEffect, playNoteLaneEffect, playSlotEffect } from './common/effect'
 import {
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
@@ -60,12 +56,8 @@ import { disallowEmpties, disallowEnds, disallowStart } from './input'
 const leniency = 0.75
 
 export function tapNote(isCritical: boolean): Script {
-    const bucket = isCritical
-        ? buckets.criticalTapNoteIndex
-        : buckets.tapNoteIndex
-    const window = isCritical
-        ? windows.tapNote.critical
-        : windows.tapNote.normal
+    const bucket = isCritical ? buckets.criticalTapNoteIndex : buckets.tapNoteIndex
+    const window = isCritical ? windows.tapNote.critical : windows.tapNote.normal
     const noteSprite = isCritical ? noteYellowSprite : noteCyanSprite
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
@@ -124,9 +116,7 @@ export function tapNote(isCritical: boolean): Script {
             disallowEnds.add(TouchId, Add(NoteData.time, window.good.late)),
             noteInputState.set(InputState.Terminated),
 
-            InputJudgment.set(
-                window.judge(Subtract(TouchST, InputOffset), NoteData.time)
-            ),
+            InputJudgment.set(window.judge(Subtract(TouchST, InputOffset), NoteData.time)),
             InputAccuracy.set(Subtract(TouchST, InputOffset, NoteData.time)),
             InputBucket.set(bucket),
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
@@ -143,9 +133,7 @@ export function tapNote(isCritical: boolean): Script {
                 isCritical
                     ? ParticleEffect.NoteCircularTapYellow
                     : ParticleEffect.NoteCircularTapCyan,
-                isCritical
-                    ? ParticleEffect.NoteLinearTapYellow
-                    : ParticleEffect.NoteLinearTapCyan,
+                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapCyan,
                 0,
                 'normal'
             ),

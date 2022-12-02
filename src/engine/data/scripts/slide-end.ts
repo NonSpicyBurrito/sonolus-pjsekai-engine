@@ -25,11 +25,7 @@ import {
 import { options } from '../../configuration/options'
 import { buckets } from '../buckets'
 import { Layer, windows } from './common/constants'
-import {
-    playNoteEffect,
-    playNoteLaneEffect,
-    playSlotEffect,
-} from './common/effect'
+import { playNoteEffect, playNoteLaneEffect, playSlotEffect } from './common/effect'
 import {
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
@@ -60,12 +56,8 @@ import { disallowEnds } from './input'
 const leniency = 1
 
 export function slideEnd(isCritical: boolean): Script {
-    const bucket = isCritical
-        ? buckets.criticalSlideEndIndex
-        : buckets.slideEndIndex
-    const window = isCritical
-        ? windows.slideEnd.critical
-        : windows.slideEnd.normal
+    const bucket = isCritical ? buckets.criticalSlideEndIndex : buckets.slideEndIndex
+    const window = isCritical ? windows.slideEnd.critical : windows.slideEnd.normal
     const noteSprite = isCritical ? noteYellowSprite : noteGreenSprite
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
@@ -89,10 +81,7 @@ export function slideEnd(isCritical: boolean): Script {
             TouchEnded,
             Or(
                 Not(disallowEnds.contains(TouchId)),
-                LessOr(
-                    disallowEnds.get(TouchId),
-                    Subtract(NoteData.time, window.good.early)
-                )
+                LessOr(disallowEnds.get(TouchId), Subtract(NoteData.time, window.good.early))
             ),
             checkTouchYInHitbox(),
             checkTouchXInNoteHitbox(),
@@ -127,9 +116,7 @@ export function slideEnd(isCritical: boolean): Script {
         return [
             noteInputState.set(InputState.Terminated),
 
-            InputJudgment.set(
-                window.judge(Subtract(TouchT, InputOffset), NoteData.time)
-            ),
+            InputJudgment.set(window.judge(Subtract(TouchT, InputOffset), NoteData.time)),
             InputAccuracy.set(Subtract(TouchT, InputOffset, NoteData.time)),
             InputBucket.set(bucket),
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
@@ -146,9 +133,7 @@ export function slideEnd(isCritical: boolean): Script {
                 isCritical
                     ? ParticleEffect.NoteCircularTapYellow
                     : ParticleEffect.NoteCircularTapGreen,
-                isCritical
-                    ? ParticleEffect.NoteLinearTapYellow
-                    : ParticleEffect.NoteLinearTapGreen,
+                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapGreen,
                 0,
                 'normal'
             ),

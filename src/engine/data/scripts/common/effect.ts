@@ -106,25 +106,13 @@ export function playNoteEffect(
               )
             : SpawnParticleEffect(
                   circular,
-                  Subtract(
-                      Multiply(center, circularTapEffect.bw),
-                      circularTapEffect.w
-                  ),
+                  Subtract(Multiply(center, circularTapEffect.bw), circularTapEffect.w),
                   circularTapEffect.b,
-                  Subtract(
-                      Multiply(center, circularTapEffect.tw),
-                      circularTapEffect.w
-                  ),
+                  Subtract(Multiply(center, circularTapEffect.tw), circularTapEffect.w),
                   circularTapEffect.t,
-                  Add(
-                      Multiply(center, circularTapEffect.tw),
-                      circularTapEffect.w
-                  ),
+                  Add(Multiply(center, circularTapEffect.tw), circularTapEffect.w),
                   circularTapEffect.t,
-                  Add(
-                      Multiply(center, circularTapEffect.bw),
-                      circularTapEffect.w
-                  ),
+                  Add(Multiply(center, circularTapEffect.bw), circularTapEffect.w),
                   circularTapEffect.b,
                   0.6,
                   false
@@ -135,10 +123,7 @@ export function playNoteEffect(
                 linear,
                 Subtract(Multiply(center, lane.w), linearTapEffect.w),
                 lane.b,
-                Subtract(
-                    Multiply(center, linearTapEffect.tw),
-                    linearTapEffect.w
-                ),
+                Subtract(Multiply(center, linearTapEffect.tw), linearTapEffect.w),
                 linearTapEffect.t,
                 Add(Multiply(center, linearTapEffect.tw), linearTapEffect.w),
                 linearTapEffect.t,
@@ -154,18 +139,12 @@ export function playNoteEffect(
                 Subtract(Multiply(center, lane.w), linearTapEffect.w),
                 lane.b,
                 Add(
-                    Subtract(
-                        Multiply(center, linearTapEffect.tw),
-                        linearTapEffect.w
-                    ),
+                    Subtract(Multiply(center, linearTapEffect.tw), linearTapEffect.w),
                     flickDirectionShear
                 ),
                 linearTapEffect.t,
                 Add(
-                    Add(
-                        Multiply(center, linearTapEffect.tw),
-                        linearTapEffect.w
-                    ),
+                    Add(Multiply(center, linearTapEffect.tw), linearTapEffect.w),
                     flickDirectionShear
                 ),
                 linearTapEffect.t,

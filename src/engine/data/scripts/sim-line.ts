@@ -17,13 +17,7 @@ import {
 } from 'sonolus.js'
 import { options } from '../../configuration/options'
 import { archetypes } from '../archetypes'
-import {
-    baseNote,
-    lane,
-    Layer,
-    noteOnScreenDuration,
-    origin,
-} from './common/constants'
+import { baseNote, lane, Layer, noteOnScreenDuration, origin } from './common/constants'
 import { approach, getZ, isNotHidden, NoteData } from './common/note'
 import { rectByEdge } from './common/utils'
 
@@ -52,10 +46,9 @@ export function simLine(): Script {
                 ...[lIndex, rIndex].map((index) =>
                     Switch(
                         EntityInfo.of(index).archetype,
-                        [
-                            archetypes.slideStartIndex,
-                            archetypes.criticalSlideStartIndex,
-                        ].map((archetype) => [archetype, true]),
+                        [archetypes.slideStartIndex, archetypes.criticalSlideStartIndex].map(
+                            (archetype) => [archetype, true]
+                        ),
                         false
                     )
                 )
@@ -80,12 +73,7 @@ export function simLine(): Script {
 
             Draw(
                 SkinSprite.SimultaneousConnectionNeutral,
-                ...rectByEdge(
-                    Multiply(lineL, lineScale),
-                    Multiply(lineR, lineScale),
-                    lineB,
-                    lineT
-                ),
+                ...rectByEdge(Multiply(lineL, lineScale), Multiply(lineR, lineScale), lineB, lineT),
                 z,
                 1
             ),

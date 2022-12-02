@@ -57,9 +57,7 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
 
         const measure =
             +header.substring(0, 3) +
-            (measureChanges.find(
-                ([changeIndex]) => changeIndex <= index
-            )?.[1] ?? 0)
+            (measureChanges.find(([changeIndex]) => changeIndex <= index)?.[1] ?? 0)
         if (isNaN(measure)) return
 
         barLengthObjects.push({ measure, length: +data })
@@ -97,9 +95,7 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
 
     lines.forEach((line, index) => {
         const [header, data] = line
-        const measureOffset =
-            measureChanges.find(([changeIndex]) => changeIndex <= index)?.[1] ??
-            0
+        const measureOffset = measureChanges.find(([changeIndex]) => changeIndex <= index)?.[1] ?? 0
 
         // BPM
         if (header.length === 5 && header.startsWith('BPM')) {
@@ -159,11 +155,7 @@ export function analyze(sus: string, ticksPerBeat: number): Score {
         const timing = timings.find((timing) => tick >= timing.tick)
         if (!timing) throw 'Unexpected missing timing'
 
-        return (
-            timing.time +
-            -waveOffset +
-            ((tick - timing.tick) * 60) / ticksPerBeat / timing.bpm
-        )
+        return timing.time + -waveOffset + ((tick - timing.tick) * 60) / ticksPerBeat / timing.bpm
     }
 
     return {
@@ -212,11 +204,7 @@ function toNoteObjects(line: Line, measureOffset: number, toTick: ToTick) {
     })
 }
 
-function toRawObjects(
-    [header, data]: Line,
-    measureOffset: number,
-    toTick: ToTick
-) {
+function toRawObjects([header, data]: Line, measureOffset: number, toTick: ToTick) {
     const measure = +header.substring(0, 3) + measureOffset
     return (data.match(/.{2}/g) || [])
         .map(

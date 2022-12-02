@@ -147,46 +147,16 @@ export function slideConnector(isCritical: boolean): Script {
         applyLevelSpeed(ConnectorData.headTime, ConnectorData.tailTime),
         applyMirrorCenters(ConnectorData.headCenter, ConnectorData.tailCenter),
 
-        spawnTime.set(
-            Subtract(ConnectorData.headTime, Max(noteOnScreenDuration, 0.5))
-        ),
+        spawnTime.set(Subtract(ConnectorData.headTime, Max(noteOnScreenDuration, 0.5))),
         visibleTime.set(Subtract(ConnectorData.headTime, noteOnScreenDuration)),
 
-        headL.set(
-            Multiply(
-                Subtract(ConnectorData.headCenter, ConnectorData.headWidth),
-                lane.w
-            )
-        ),
-        headR.set(
-            Multiply(
-                Add(ConnectorData.headCenter, ConnectorData.headWidth),
-                lane.w
-            )
-        ),
-        tailL.set(
-            Multiply(
-                Subtract(ConnectorData.tailCenter, ConnectorData.tailWidth),
-                lane.w
-            )
-        ),
-        tailR.set(
-            Multiply(
-                Add(ConnectorData.tailCenter, ConnectorData.tailWidth),
-                lane.w
-            )
-        ),
+        headL.set(Multiply(Subtract(ConnectorData.headCenter, ConnectorData.headWidth), lane.w)),
+        headR.set(Multiply(Add(ConnectorData.headCenter, ConnectorData.headWidth), lane.w)),
+        tailL.set(Multiply(Subtract(ConnectorData.tailCenter, ConnectorData.tailWidth), lane.w)),
+        tailR.set(Multiply(Add(ConnectorData.tailCenter, ConnectorData.tailWidth), lane.w)),
 
-        calculateNoteLayout(
-            ConnectorData.headCenter,
-            ConnectorData.headWidth,
-            headLayout
-        ),
-        calculateNoteLayout(
-            ConnectorData.tailCenter,
-            ConnectorData.tailWidth,
-            tailLayout
-        ),
+        calculateNoteLayout(ConnectorData.headCenter, ConnectorData.headWidth, headLayout),
+        calculateNoteLayout(ConnectorData.tailCenter, ConnectorData.tailWidth, tailLayout),
 
         calculateHitbox(
             ConnectorData.headCenter,
@@ -203,20 +173,8 @@ export function slideConnector(isCritical: boolean): Script {
             tailHitboxR
         ),
 
-        connectorZ.set(
-            getZ(
-                Layer.NoteConnector,
-                ConnectorData.headTime,
-                ConnectorData.headIndex
-            )
-        ),
-        slideZ.set(
-            getZ(
-                Layer.NoteSlide,
-                ConnectorData.headTime,
-                ConnectorData.headIndex
-            )
-        ),
+        connectorZ.set(getZ(Layer.NoteConnector, ConnectorData.headTime, ConnectorData.headIndex)),
+        slideZ.set(getZ(Layer.NoteSlide, ConnectorData.headTime, ConnectorData.headIndex)),
     ]
 
     const spawnOrder = spawnTime
@@ -225,23 +183,11 @@ export function slideConnector(isCritical: boolean): Script {
 
     const noteScale = EntityMemory.to<number>(32)
 
-    const updateSequential = And(
-        Not(options.isAutoplay),
-        GreaterOr(Time, ConnectorData.headTime),
-        [
-            noteScale.set(
-                ease(
-                    Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time)
-                )
-            ),
-            ConnectorData.headSharedMemory.slideHitboxL.set(
-                Lerp(headHitboxL, tailHitboxL, noteScale)
-            ),
-            ConnectorData.headSharedMemory.slideHitboxR.set(
-                Lerp(headHitboxR, tailHitboxR, noteScale)
-            ),
-        ]
-    )
+    const updateSequential = And(Not(options.isAutoplay), GreaterOr(Time, ConnectorData.headTime), [
+        noteScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time))),
+        ConnectorData.headSharedMemory.slideHitboxL.set(Lerp(headHitboxL, tailHitboxL, noteScale)),
+        ConnectorData.headSharedMemory.slideHitboxR.set(Lerp(headHitboxR, tailHitboxR, noteScale)),
+    ])
 
     const touch = Or(
         options.isAutoplay,
@@ -253,10 +199,7 @@ export function slideConnector(isCritical: boolean): Script {
                 ConnectorData.headSharedMemory.slideHitboxL,
                 ConnectorData.headSharedMemory.slideHitboxR
             ),
-            [
-                disallowEmpties.add(TouchId),
-                ConnectorData.headSharedMemory.slideTime.set(Time),
-            ]
+            [disallowEmpties.add(TouchId), ConnectorData.headSharedMemory.slideTime.set(Time)]
         )
     )
 
@@ -283,9 +226,7 @@ export function slideConnector(isCritical: boolean): Script {
         GreaterOr(Time, ConnectorData.tailTime),
         And(GreaterOr(Time, visibleTime), [
             vhTime.set(Max(ConnectorData.headTime, Time)),
-            vtTime.set(
-                Min(ConnectorData.tailTime, Add(Time, noteOnScreenDuration))
-            ),
+            vtTime.set(Min(ConnectorData.tailTime, Add(Time, noteOnScreenDuration))),
 
             And(Greater(options.hidden, 0), [
                 vhTime.set(Max(vhTime, hiddenTime)),
@@ -298,15 +239,9 @@ export function slideConnector(isCritical: boolean): Script {
                     If(
                         Or(
                             options.isAutoplay,
-                            NotEqual(
-                                ConnectorData.headInfo.state,
-                                State.Despawned
-                            ),
+                            NotEqual(ConnectorData.headInfo.state, State.Despawned),
                             Less(Time, ConnectorData.headTime),
-                            Equal(
-                                ConnectorData.headSharedMemory.slideTime,
-                                Time
-                            )
+                            Equal(ConnectorData.headSharedMemory.slideTime, Time)
                         ),
                         1,
                         0.5
@@ -318,24 +253,8 @@ export function slideConnector(isCritical: boolean): Script {
                 shTime.set(Lerp(vhTime, vtTime, i / 10)),
                 stTime.set(Lerp(vhTime, vtTime, (i + 1) / 10)),
 
-                shXScale.set(
-                    ease(
-                        Unlerp(
-                            ConnectorData.headTime,
-                            ConnectorData.tailTime,
-                            shTime
-                        )
-                    )
-                ),
-                stXScale.set(
-                    ease(
-                        Unlerp(
-                            ConnectorData.headTime,
-                            ConnectorData.tailTime,
-                            stTime
-                        )
-                    )
-                ),
+                shXScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, shTime))),
+                stXScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, stTime))),
                 shYScale.set(approach(shTime)),
                 stYScale.set(approach(stTime)),
 
@@ -358,15 +277,7 @@ export function slideConnector(isCritical: boolean): Script {
             ]),
 
             And(GreaterOr(Time, ConnectorData.headTime), [
-                noteScale.set(
-                    ease(
-                        Unlerp(
-                            ConnectorData.headTime,
-                            ConnectorData.tailTime,
-                            Time
-                        )
-                    )
-                ),
+                noteScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time))),
 
                 And(
                     LessOr(options.hidden, 0),
@@ -394,13 +305,7 @@ export function slideConnector(isCritical: boolean): Script {
                         HasParticleEffect(circularParticleEffect),
                         HasParticleEffect(linearParticleEffect)
                     ),
-                    center.set(
-                        Lerp(
-                            ConnectorData.headCenter,
-                            ConnectorData.tailCenter,
-                            noteScale
-                        )
-                    )
+                    center.set(Lerp(ConnectorData.headCenter, ConnectorData.tailCenter, noteScale))
                 ),
 
                 And(
@@ -409,10 +314,7 @@ export function slideConnector(isCritical: boolean): Script {
                     If(
                         Or(
                             options.isAutoplay,
-                            Equal(
-                                ConnectorData.headSharedMemory.slideTime,
-                                Time
-                            )
+                            Equal(ConnectorData.headSharedMemory.slideTime, Time)
                         ),
                         [
                             Or(
@@ -439,15 +341,9 @@ export function slideConnector(isCritical: boolean): Script {
                                     circularHoldEffect.w
                                 ),
                                 circularHoldEffect.t,
-                                Add(
-                                    Multiply(center, circularHoldEffect.tw),
-                                    circularHoldEffect.w
-                                ),
+                                Add(Multiply(center, circularHoldEffect.tw), circularHoldEffect.w),
                                 circularHoldEffect.t,
-                                Add(
-                                    Multiply(center, circularHoldEffect.bw),
-                                    circularHoldEffect.w
-                                ),
+                                Add(Multiply(center, circularHoldEffect.bw), circularHoldEffect.w),
                                 circularHoldEffect.b
                             ),
                         ],
@@ -464,10 +360,7 @@ export function slideConnector(isCritical: boolean): Script {
                     If(
                         Or(
                             options.isAutoplay,
-                            Equal(
-                                ConnectorData.headSharedMemory.slideTime,
-                                Time
-                            )
+                            Equal(ConnectorData.headSharedMemory.slideTime, Time)
                         ),
                         [
                             Or(
@@ -484,32 +377,17 @@ export function slideConnector(isCritical: boolean): Script {
 
                             MoveParticleEffect(
                                 linearId,
-                                Subtract(
-                                    Multiply(center, lane.w),
-                                    linearHoldEffect.w
-                                ),
+                                Subtract(Multiply(center, lane.w), linearHoldEffect.w),
                                 lane.b,
-                                Subtract(
-                                    Multiply(center, linearHoldEffect.tw),
-                                    linearHoldEffect.w
-                                ),
+                                Subtract(Multiply(center, linearHoldEffect.tw), linearHoldEffect.w),
                                 linearHoldEffect.t,
-                                Add(
-                                    Multiply(center, linearHoldEffect.tw),
-                                    linearHoldEffect.w
-                                ),
+                                Add(Multiply(center, linearHoldEffect.tw), linearHoldEffect.w),
                                 linearHoldEffect.t,
-                                Add(
-                                    Multiply(center, lane.w),
-                                    linearHoldEffect.w
-                                ),
+                                Add(Multiply(center, lane.w), linearHoldEffect.w),
                                 lane.b
                             ),
                         ],
-                        And(bool(linearId), [
-                            DestroyParticleEffect(linearId),
-                            linearId.set(0),
-                        ])
+                        And(bool(linearId), [DestroyParticleEffect(linearId), linearId.set(0)])
                     )
                 ),
             ]),

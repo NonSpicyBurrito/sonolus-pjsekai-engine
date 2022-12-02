@@ -38,8 +38,7 @@ export class ArrowSprite {
 
     public constructor(isCritical: boolean) {
         this.base = isCritical ? 82 : 70
-        this.fallback =
-            SkinSprite.DirectionalMarkerNeutral + (isCritical ? 4 : 1)
+        this.fallback = SkinSprite.DirectionalMarkerNeutral + (isCritical ? 4 : 1)
     }
 
     public calculateLayout(
@@ -57,13 +56,7 @@ export class ArrowSprite {
         return If(
             And(HasSkinSprite(spriteUp), HasSkinSprite(spriteSide)),
             [
-                sprite.set(
-                    Multiply(
-                        Clamp(width, 0, 3),
-                        0.5,
-                        SwitchInteger(direction, [1, -1], 1)
-                    )
-                ),
+                sprite.set(Multiply(Clamp(width, 0, 3), 0.5, SwitchInteger(direction, [1, -1], 1))),
                 x1.set(Multiply(Subtract(center, sprite), lane.w)),
                 y1.set(lane.b),
                 x2.set(x1),
@@ -73,17 +66,13 @@ export class ArrowSprite {
                 x4.set(x3),
                 y4.set(y1),
 
-                sprite.set(
-                    Multiply(lane.w, 0.25, SwitchInteger(direction, [1, -1]))
-                ),
+                sprite.set(Multiply(lane.w, 0.25, SwitchInteger(direction, [1, -1]))),
                 x1.set(Subtract(x1, sprite)),
                 x2.set(Subtract(x2, sprite)),
                 x3.set(Subtract(x3, sprite)),
                 x4.set(Subtract(x4, sprite)),
 
-                sprite.set(
-                    SwitchInteger(direction, [spriteSide, spriteSide], spriteUp)
-                ),
+                sprite.set(SwitchInteger(direction, [spriteSide, spriteSide], spriteUp)),
                 dx.set(Multiply(lane.w, SwitchInteger(direction, [-1, 1]))),
             ],
             [

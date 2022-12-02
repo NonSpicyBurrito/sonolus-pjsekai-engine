@@ -50,9 +50,7 @@ export class NoteSprite {
         this.mid = customSkinSprite(engineId, 20 + color)
         this.right = customSkinSprite(engineId, 30 + color)
         this.fallback = SkinSprite.NoteHeadNeutral + color
-        this.exists = And(
-            ...[this.left, this.mid, this.right].map(HasSkinSprite)
-        )
+        this.exists = And(...[this.left, this.mid, this.right].map(HasSkinSprite))
     }
 
     public draw(

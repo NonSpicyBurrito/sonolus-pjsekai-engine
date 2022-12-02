@@ -94,11 +94,7 @@ const targetAspectRatio = 16 / 9
 
 const stageWidth = If(
     options.isStageAspectRatioLocked,
-    If(
-        GreaterOr(ScreenAspectRatio, targetAspectRatio),
-        targetAspectRatio * screen.h,
-        screen.w
-    ),
+    If(GreaterOr(ScreenAspectRatio, targetAspectRatio), targetAspectRatio * screen.h, screen.w),
     screen.w
 )
 const stageHeight = If(
@@ -135,10 +131,7 @@ export const lane = {
 
 export const SekaiStageSprite = customSkinSprite(engineId, 1)
 
-const sekaiStageWidth = Multiply(
-    stage.w,
-    (1.15875 * (2048 / 1176)) / targetAspectRatio
-)
+const sekaiStageWidth = Multiply(stage.w, (1.15875 * (2048 / 1176)) / targetAspectRatio)
 const sekaiStageHeight = Multiply(stage.h, 1.15875)
 
 export const sekaiStage = {
@@ -186,11 +179,7 @@ export const circularTapEffect = {
     bw: Remap(origin, lane.b, 0, lane.w, circularTapEffectBottom),
 }
 
-export const circularTickEffectSize = Multiply(
-    lane.w,
-    4,
-    options.noteEffectSize
-)
+export const circularTickEffectSize = Multiply(lane.w, 4, options.noteEffectSize)
 
 export const linearTapEffect = {
     t: Add(lane.b, Multiply(lane.w, 2, options.noteEffectSize)),

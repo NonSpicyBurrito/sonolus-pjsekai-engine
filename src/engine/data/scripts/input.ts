@@ -35,10 +35,7 @@ class TouchDictionary {
 
     public constructor(offset: number, size: number) {
         this.old = new Dictionary<number>(LevelMemory.to(offset), size)
-        this.now = new Dictionary<number>(
-            LevelMemory.to(offset + size * 2 + 1),
-            size
-        )
+        this.now = new Dictionary<number>(LevelMemory.to(offset + size * 2 + 1), size)
     }
 
     public flush() {
@@ -46,10 +43,7 @@ class TouchDictionary {
     }
 
     public update(touchId: Code<number>) {
-        return And(
-            this.old.contains(touchId),
-            this.now.add(touchId, this.old.get(touchId))
-        )
+        return And(this.old.contains(touchId), this.now.add(touchId, this.old.get(touchId)))
     }
 
     public add(touchId: Code<number>, time: Code<number>) {
@@ -74,10 +68,7 @@ export function input(): Script {
 
     const shouldSpawn = true
 
-    const updateSequential = Or(options.isAutoplay, [
-        disallowEmpties.flush(),
-        disallowEnds.flush(),
-    ])
+    const updateSequential = Or(options.isAutoplay, [disallowEmpties.flush(), disallowEnds.flush()])
 
     const touch = Or(options.isAutoplay, [
         disallowStart.set(false),

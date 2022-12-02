@@ -25,11 +25,7 @@ import {
 import { options } from '../../configuration/options'
 import { buckets } from '../buckets'
 import { Layer, windows } from './common/constants'
-import {
-    playNoteEffect,
-    playNoteLaneEffect,
-    playSlotEffect,
-} from './common/effect'
+import { playNoteEffect, playNoteLaneEffect, playSlotEffect } from './common/effect'
 import {
     checkNoteTimeInEarlyWindow,
     checkTouchXInNoteHitbox,
@@ -61,12 +57,8 @@ import { disallowEmpties, disallowStart } from './input'
 const leniency = 1
 
 export function slideStart(isCritical: boolean): Script {
-    const bucket = isCritical
-        ? buckets.criticalSlideStartIndex
-        : buckets.slideStartIndex
-    const window = isCritical
-        ? windows.slideStart.critical
-        : windows.slideStart.normal
+    const bucket = isCritical ? buckets.criticalSlideStartIndex : buckets.slideStartIndex
+    const window = isCritical ? windows.slideStart.critical : windows.slideStart.normal
     const noteSprite = isCritical ? noteYellowSprite : noteGreenSprite
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
@@ -101,22 +93,11 @@ export function slideStart(isCritical: boolean): Script {
         And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
         Equal(noteInputState, InputState.Terminated),
         Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        And(
-            Less(Time, NoteData.time),
-            GreaterOr(Time, noteVisibleTime),
-            isNotHidden(),
-            [
-                updateNoteY(),
+        And(Less(Time, NoteData.time), GreaterOr(Time, noteVisibleTime), isNotHidden(), [
+            updateNoteY(),
 
-                noteSprite.draw(
-                    noteScale,
-                    noteBottom,
-                    noteTop,
-                    noteLayout,
-                    noteZ
-                ),
-            ]
-        )
+            noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
+        ])
     )
 
     const terminate = And(options.isAutoplay, playVisualEffects())
@@ -137,9 +118,7 @@ export function slideStart(isCritical: boolean): Script {
             disallowEmpties.add(TouchId),
             noteInputState.set(InputState.Terminated),
 
-            InputJudgment.set(
-                window.judge(Subtract(TouchST, InputOffset), NoteData.time)
-            ),
+            InputJudgment.set(window.judge(Subtract(TouchST, InputOffset), NoteData.time)),
             InputAccuracy.set(Subtract(TouchST, InputOffset, NoteData.time)),
             InputBucket.set(bucket),
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
@@ -156,9 +135,7 @@ export function slideStart(isCritical: boolean): Script {
                 isCritical
                     ? ParticleEffect.NoteCircularTapYellow
                     : ParticleEffect.NoteCircularTapGreen,
-                isCritical
-                    ? ParticleEffect.NoteLinearTapYellow
-                    : ParticleEffect.NoteLinearTapGreen,
+                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapGreen,
                 0,
                 'normal'
             ),

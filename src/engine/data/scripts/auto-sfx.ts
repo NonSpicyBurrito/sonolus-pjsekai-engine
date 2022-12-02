@@ -60,18 +60,9 @@ export function autoSFX(): Script {
                         [archetypes.slideTickIndex, getTickClip()],
                         [archetypes.slideEndFlickIndex, getFlickClip()],
                         [archetypes.criticalTapNoteIndex, getCriticalTapClip()],
-                        [
-                            archetypes.criticalFlickNoteIndex,
-                            getCriticalFlickClip(),
-                        ],
-                        [
-                            archetypes.criticalSlideTickIndex,
-                            getCriticalTickClip(),
-                        ],
-                        [
-                            archetypes.criticalSlideEndFlickIndex,
-                            getCriticalFlickClip(),
-                        ],
+                        [archetypes.criticalFlickNoteIndex, getCriticalFlickClip()],
+                        [archetypes.criticalSlideTickIndex, getCriticalTickClip()],
+                        [archetypes.criticalSlideEndFlickIndex, getCriticalFlickClip()],
                     ],
                     getTapClip()
                 ),

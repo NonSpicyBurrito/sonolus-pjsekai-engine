@@ -91,12 +91,7 @@ export function stage(): Script {
             HasSkinSprite(SekaiStageSprite),
             Draw(
                 SekaiStageSprite,
-                ...rectByEdge(
-                    sekaiStage.l,
-                    sekaiStage.r,
-                    sekaiStage.b,
-                    sekaiStage.t
-                ),
+                ...rectByEdge(sekaiStage.l, sekaiStage.r, sekaiStage.b, sekaiStage.t),
                 Layer.Stage,
                 1
             ),
@@ -119,37 +114,13 @@ export function stage(): Script {
                     .map(([l, r]) =>
                         Draw(
                             SkinSprite.Lane,
-                            Remap(
-                                origin,
-                                lane.b,
-                                0,
-                                Multiply(l, lane.w),
-                                screen.b
-                            ),
+                            Remap(origin, lane.b, 0, Multiply(l, lane.w), screen.b),
                             screen.b,
-                            Remap(
-                                origin,
-                                lane.b,
-                                0,
-                                Multiply(l, lane.w),
-                                stageC.t
-                            ),
+                            Remap(origin, lane.b, 0, Multiply(l, lane.w), stageC.t),
                             stageC.t,
-                            Remap(
-                                origin,
-                                lane.b,
-                                0,
-                                Multiply(r, lane.w),
-                                stageC.t
-                            ),
+                            Remap(origin, lane.b, 0, Multiply(r, lane.w), stageC.t),
                             stageC.t,
-                            Remap(
-                                origin,
-                                lane.b,
-                                0,
-                                Multiply(r, lane.w),
-                                screen.b
-                            ),
+                            Remap(origin, lane.b, 0, Multiply(r, lane.w), screen.b),
                             screen.b,
                             Layer.Stage,
                             1

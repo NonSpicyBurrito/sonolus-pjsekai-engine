@@ -1,16 +1,11 @@
 import { Add, Code, Multiply, Pointer, Subtract } from 'sonolus.js'
 
-export type Tuple<
-    T,
-    L extends number,
-    C extends readonly T[] = readonly []
-> = C['length'] extends L ? C : Tuple<T, L, readonly [...C, T]>
+export type Tuple<T, L extends number, C extends readonly T[] = readonly []> = C['length'] extends L
+    ? C
+    : Tuple<T, L, readonly [...C, T]>
 
 export function getLayout<L extends number>(pointer: Pointer, length: L) {
-    return [...Array(length).keys()].map((i) => pointer.to<number>(i)) as Tuple<
-        Pointer<number>,
-        L
-    >
+    return [...Array(length).keys()].map((i) => pointer.to<number>(i)) as Tuple<Pointer<number>, L>
 }
 
 export function getDistanceSquared(
@@ -62,11 +57,5 @@ export function rectBySize(
     h: Code<number>,
     direction: Direction = 'up'
 ): Rect {
-    return rectByEdge(
-        Subtract(x, w),
-        Add(x, w),
-        Subtract(y, h),
-        Add(y, h),
-        direction
-    )
+    return rectByEdge(Subtract(x, w), Add(x, w), Subtract(y, h), Add(y, h), direction)
 }

@@ -87,9 +87,7 @@ export class NoteSharedMemoryPointer extends Pointer {
     }
 }
 
-export const NoteSharedMemory = createEntitySharedMemory(
-    NoteSharedMemoryPointer
-)
+export const NoteSharedMemory = createEntitySharedMemory(NoteSharedMemoryPointer)
 
 // Memory
 
@@ -111,10 +109,7 @@ export function checkTouchXInNoteHitbox(x: Code<number> = TouchX) {
 }
 
 export function checkNoteTimeInEarlyWindow(earlyWindow: number) {
-    return LessOr(
-        Subtract(NoteData.time, Subtract(Time, InputOffset)),
-        earlyWindow
-    )
+    return LessOr(Subtract(NoteData.time, Subtract(Time, InputOffset)), earlyWindow)
 }
 
 // Note
@@ -122,13 +117,7 @@ export function checkNoteTimeInEarlyWindow(earlyWindow: number) {
 export function approach(time: Code<number>) {
     return Power(
         1.06,
-        Multiply(
-            Subtract(
-                Subtract(1, Divide(Subtract(time, Time), noteOnScreenDuration)),
-                1
-            ),
-            45
-        )
+        Multiply(Subtract(Subtract(1, Divide(Subtract(time, Time), noteOnScreenDuration)), 1), 45)
     )
 }
 
@@ -137,20 +126,13 @@ export function getZ(
     time: Code<number> = NoteData.time,
     index: Code<number> = EntityInfo.index
 ) {
-    return Subtract(
-        layer,
-        Divide(Mod(time, 10), 10),
-        Divide(Mod(index, 100), 100000)
-    )
+    return Subtract(layer, Divide(Mod(time, 10), 10), Divide(Mod(index, 100), 100000))
 }
 
 export function isNotHidden(time: Code<number> = NoteData.time) {
     return Or(
         LessOr(options.hidden, 0),
-        GreaterOr(
-            Divide(Subtract(time, Time), noteOnScreenDuration),
-            options.hidden
-        )
+        GreaterOr(Divide(Subtract(time, Time), noteOnScreenDuration), options.hidden)
     )
 }
 
@@ -166,9 +148,7 @@ export function applyMirrorCenters(...centers: Pointer<number>[]) {
 export function applyMirrorDirections(...directions: Pointer<number>[]) {
     return And(
         options.isMirrorEnabled,
-        directions.map((direction) =>
-            direction.set(SwitchInteger(direction, [1, 0], -1))
-        )
+        directions.map((direction) => direction.set(SwitchInteger(direction, [1, 0], -1)))
     )
 }
 
@@ -195,18 +175,10 @@ export function preprocessNote(
         applyLevelSpeed(NoteData.time),
         applyMirrorCenters(NoteData.center),
 
-        noteSpawnTime.set(
-            Subtract(NoteData.time, Max(noteOnScreenDuration, 0.5))
-        ),
+        noteSpawnTime.set(Subtract(NoteData.time, Max(noteOnScreenDuration, 0.5))),
         noteVisibleTime.set(Subtract(NoteData.time, noteOnScreenDuration)),
         noteZ.set(getZ(layer)),
-        calculateHitbox(
-            NoteData.center,
-            NoteData.width,
-            leniency,
-            noteHitboxL,
-            noteHitboxR
-        ),
+        calculateHitbox(NoteData.center, NoteData.width, leniency, noteHitboxL, noteHitboxR),
 
         If(
             options.isAutoplay,

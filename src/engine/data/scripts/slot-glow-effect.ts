@@ -53,19 +53,7 @@ export function slotGlowEffect(): Script {
         a.set(Unlerp(endTime, startTime, Time)),
         p.set(Subtract(1, Power(a, 3))),
         t.set(Add(lane.b, Multiply(lane.w, 4, options.slotEffectSize, p))),
-        Draw(
-            sprite,
-            bL,
-            lane.b,
-            Lerp(bL, tL, p),
-            t,
-            Lerp(bR, tR, p),
-            t,
-            bR,
-            lane.b,
-            z,
-            a
-        ),
+        Draw(sprite, bL, lane.b, Lerp(bL, tL, p), t, Lerp(bR, tR, p), t, bR, lane.b, z, a),
     ])
 
     return {

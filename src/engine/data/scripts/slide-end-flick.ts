@@ -29,17 +29,9 @@ import {
 } from 'sonolus.js'
 import { options } from '../../configuration/options'
 import { buckets } from '../buckets'
-import {
-    arrowRedSprite,
-    arrowYellowSprite,
-    getArrowLayout,
-} from './common/arrow-sprite'
+import { arrowRedSprite, arrowYellowSprite, getArrowLayout } from './common/arrow-sprite'
 import { Layer, minFlickVR, windows } from './common/constants'
-import {
-    playNoteEffect,
-    playNoteLaneEffect,
-    playSlotEffect,
-} from './common/effect'
+import { playNoteEffect, playNoteLaneEffect, playSlotEffect } from './common/effect'
 import {
     applyMirrorDirections,
     checkNoteTimeInEarlyWindow,
@@ -65,25 +57,14 @@ import {
     noteRedSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import {
-    playCriticalFlickJudgmentSFX,
-    playFlickJudgmentSFX,
-} from './common/sfx'
-import {
-    checkDirection,
-    checkTouchXInHitbox,
-    checkTouchYInHitbox,
-} from './common/touch'
+import { playCriticalFlickJudgmentSFX, playFlickJudgmentSFX } from './common/sfx'
+import { checkDirection, checkTouchXInHitbox, checkTouchYInHitbox } from './common/touch'
 
 const leniency = 1
 
 export function slideEndFlick(isCritical: boolean): Script {
-    const bucket = isCritical
-        ? buckets.criticalSlideEndFlickIndex
-        : buckets.slideEndFlickIndex
-    const window = isCritical
-        ? windows.slideEndFlick.critical
-        : windows.slideEndFlick.normal
+    const bucket = isCritical ? buckets.criticalSlideEndFlickIndex : buckets.slideEndFlickIndex
+    const window = isCritical ? windows.slideEndFlick.critical : windows.slideEndFlick.normal
     const noteSprite = isCritical ? noteYellowSprite : noteRedSprite
     const arrowSprite = isCritical ? arrowYellowSprite : arrowRedSprite
 
@@ -170,22 +151,17 @@ export function slideEndFlick(isCritical: boolean): Script {
         return [
             noteInputState.set(InputState.Terminated),
 
-            InputJudgment.set(
-                window.judge(Subtract(TouchT, InputOffset), NoteData.time)
-            ),
+            InputJudgment.set(window.judge(Subtract(TouchT, InputOffset), NoteData.time)),
             InputAccuracy.set(Subtract(TouchT, InputOffset, NoteData.time)),
-            Or(
-                NotEqual(InputJudgment, 1),
-                checkDirection(TouchDX, TouchDY, NoteData.direction),
-                [InputJudgment.set(2), InputAccuracy.set(window.perfect.late)]
-            ),
+            Or(NotEqual(InputJudgment, 1), checkDirection(TouchDX, TouchDY, NoteData.direction), [
+                InputJudgment.set(2),
+                InputAccuracy.set(window.perfect.late),
+            ]),
             InputBucket.set(bucket),
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
 
             playVisualEffects(),
-            isCritical
-                ? playCriticalFlickJudgmentSFX()
-                : playFlickJudgmentSFX(),
+            isCritical ? playCriticalFlickJudgmentSFX() : playFlickJudgmentSFX(),
         ]
     }
 
@@ -196,9 +172,7 @@ export function slideEndFlick(isCritical: boolean): Script {
                 isCritical
                     ? ParticleEffect.NoteCircularTapYellow
                     : ParticleEffect.NoteCircularTapRed,
-                isCritical
-                    ? ParticleEffect.NoteLinearTapYellow
-                    : ParticleEffect.NoteLinearTapRed,
+                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapRed,
                 isCritical
                     ? ParticleEffect.NoteLinearAlternativeYellow
                     : ParticleEffect.NoteLinearAlternativeRed,

@@ -35,7 +35,7 @@ export const ui: EngineConfigurationUI = {
             from: 1,
             to: 0,
             duration: 0.3,
-            ease: 'InQuint',
+            ease: 'None',
         },
     },
     comboAnimation: {

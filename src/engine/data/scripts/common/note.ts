@@ -130,10 +130,6 @@ export function approach(time: Code<number>) {
     )
 }
 
-export function getSpawnTime(time: Code<number>) {
-    return Subtract(time, noteOnScreenDuration)
-}
-
 export function getZ(
     layer: number,
     time: Code<number> = NoteData.time,
@@ -197,7 +193,7 @@ export function preprocessNote(
         applyLevelSpeed(NoteData.time),
         applyMirrorCenters(NoteData.center),
 
-        noteSpawnTime.set(getSpawnTime(NoteData.time)),
+        noteSpawnTime.set(Subtract(NoteData.time, noteOnScreenDuration)),
         noteZ.set(getZ(layer)),
         calculateHitbox(
             NoteData.center,

@@ -50,7 +50,6 @@ import {
     applyMirrorCenters,
     approach,
     calculateHitbox,
-    getSpawnTime,
     getZ,
     NoteSharedMemory,
 } from './common/note'
@@ -147,7 +146,7 @@ export function slideConnector(isCritical: boolean): Script {
         applyLevelSpeed(ConnectorData.headTime, ConnectorData.tailTime),
         applyMirrorCenters(ConnectorData.headCenter, ConnectorData.tailCenter),
 
-        spawnTime.set(getSpawnTime(ConnectorData.headTime)),
+        spawnTime.set(Subtract(ConnectorData.headTime, noteOnScreenDuration)),
 
         headL.set(
             Multiply(

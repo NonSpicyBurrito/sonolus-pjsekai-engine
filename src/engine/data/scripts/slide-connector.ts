@@ -48,7 +48,7 @@ import {
 import {
     applyLevelSpeed,
     applyMirrorCenters,
-    approachNote,
+    approach,
     calculateHitbox,
     getSpawnTime,
     getZ,
@@ -325,8 +325,8 @@ export function slideConnector(isCritical: boolean): Script {
                     )
                 )
             ),
-            shYScale.set(approachNote(shTime)),
-            stYScale.set(approachNote(stTime)),
+            shYScale.set(approach(shTime)),
+            stYScale.set(approach(stTime)),
 
             connectorBottom.set(Lerp(origin, lane.b, shYScale)),
             connectorTop.set(Lerp(origin, lane.b, stYScale)),

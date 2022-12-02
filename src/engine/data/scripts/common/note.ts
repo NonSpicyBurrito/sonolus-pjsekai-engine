@@ -117,12 +117,16 @@ export function checkNoteTimeInEarlyWindow(earlyWindow: number) {
 
 // Note
 
-export function approach(x: Code<number>) {
-    return Power(1.06, Multiply(Subtract(x, 1), 45))
-}
-export function approachNote(time: Code<number>) {
-    return approach(
-        Subtract(1, Divide(Subtract(time, Time), noteOnScreenDuration))
+export function approach(time: Code<number>) {
+    return Power(
+        1.06,
+        Multiply(
+            Subtract(
+                Subtract(1, Divide(Subtract(time, Time), noteOnScreenDuration)),
+                1
+            ),
+            45
+        )
     )
 }
 
@@ -239,7 +243,7 @@ export function initializeNoteSimLine() {
 
 export function updateNoteY() {
     return [
-        noteScale.set(approachNote(NoteData.time)),
+        noteScale.set(approach(NoteData.time)),
         noteBottom.set(Lerp(origin, baseNote.b, noteScale)),
         noteTop.set(Lerp(origin, baseNote.t, noteScale)),
     ]

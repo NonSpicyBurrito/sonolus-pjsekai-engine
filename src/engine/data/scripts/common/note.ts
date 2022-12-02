@@ -93,10 +93,11 @@ export const NoteSharedMemory = createEntitySharedMemory(
 // Memory
 
 export const noteSpawnTime = EntityMemory.to<number>(32)
-export const noteZ = EntityMemory.to<number>(33)
-export const noteHitboxL = EntityMemory.to<number>(34)
-export const noteHitboxR = EntityMemory.to<number>(35)
-export const noteInputState = EntityMemory.to<InputState>(36)
+export const noteVisibleTime = EntityMemory.to<number>(33)
+export const noteZ = EntityMemory.to<number>(34)
+export const noteHitboxL = EntityMemory.to<number>(35)
+export const noteHitboxR = EntityMemory.to<number>(36)
+export const noteInputState = EntityMemory.to<InputState>(37)
 
 export const noteScale = EntityMemory.to<number>(48)
 export const noteBottom = EntityMemory.to<number>(49)
@@ -194,6 +195,7 @@ export function preprocessNote(
         applyMirrorCenters(NoteData.center),
 
         noteSpawnTime.set(Subtract(NoteData.time, noteOnScreenDuration)),
+        noteVisibleTime.set(Subtract(NoteData.time, noteOnScreenDuration)),
         noteZ.set(getZ(layer)),
         calculateHitbox(
             NoteData.center,

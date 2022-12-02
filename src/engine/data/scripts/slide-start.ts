@@ -43,6 +43,7 @@ import {
     NoteSharedMemory,
     noteSpawnTime,
     noteTop,
+    noteVisibleTime,
     noteZ,
     preprocessNote,
     updateNoteY,
@@ -100,11 +101,22 @@ export function slideStart(isCritical: boolean): Script {
         And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
         Equal(noteInputState, InputState.Terminated),
         Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        And(Less(Time, NoteData.time), isNotHidden(), [
-            updateNoteY(),
+        And(
+            Less(Time, NoteData.time),
+            GreaterOr(Time, noteVisibleTime),
+            isNotHidden(),
+            [
+                updateNoteY(),
 
-            noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
-        ])
+                noteSprite.draw(
+                    noteScale,
+                    noteBottom,
+                    noteTop,
+                    noteLayout,
+                    noteZ
+                ),
+            ]
+        )
     )
 
     const terminate = And(options.isAutoplay, playVisualEffects())

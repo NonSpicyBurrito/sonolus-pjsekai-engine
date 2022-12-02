@@ -17,7 +17,13 @@ import {
 } from 'sonolus.js'
 import { options } from '../../configuration/options'
 import { archetypes } from '../archetypes'
-import { baseNote, lane, Layer, origin } from './common/constants'
+import {
+    baseNote,
+    lane,
+    Layer,
+    noteOnScreenDuration,
+    origin,
+} from './common/constants'
 import { approach, getZ, isNotHidden, NoteData } from './common/note'
 import { rectByEdge } from './common/utils'
 
@@ -26,19 +32,21 @@ export function simLine(): Script {
     const lIndex = Subtract(rIndex, 1)
 
     const time = EntityMemory.to<number>(1)
-    const isSlide = EntityMemory.to<boolean>(2)
+    const visibleTime = EntityMemory.to<number>(2)
+    const isSlide = EntityMemory.to<boolean>(3)
 
-    const lineL = EntityMemory.to<number>(3)
-    const lineR = EntityMemory.to<number>(4)
+    const lineL = EntityMemory.to<number>(4)
+    const lineR = EntityMemory.to<number>(5)
 
-    const lineScale = EntityMemory.to<number>(5)
-    const lineB = EntityMemory.to<number>(6)
-    const lineT = EntityMemory.to<number>(7)
+    const lineScale = EntityMemory.to<number>(6)
+    const lineB = EntityMemory.to<number>(7)
+    const lineT = EntityMemory.to<number>(8)
 
     const z = EntityInfo.to<number>(8)
 
     const initialize = [
         time.set(NoteData.of(rIndex).time),
+        visibleTime.set(Subtract(time, noteOnScreenDuration)),
         isSlide.set(
             Or(
                 ...[lIndex, rIndex].map((index) =>
@@ -65,7 +73,7 @@ export function simLine(): Script {
         And(isSlide, GreaterOr(Time, time)),
         Equal(EntityInfo.of(lIndex).state, State.Despawned),
         Equal(EntityInfo.of(rIndex).state, State.Despawned),
-        And(isNotHidden(time), [
+        And(GreaterOr(Time, visibleTime), isNotHidden(time), [
             lineScale.set(approach(time)),
             lineB.set(Lerp(origin, baseNote.b, lineScale)),
             lineT.set(Lerp(origin, baseNote.t, lineScale)),

@@ -42,6 +42,7 @@ import {
     noteScale,
     noteSpawnTime,
     noteTop,
+    noteVisibleTime,
     noteZ,
     preprocessNote,
     updateNoteY,
@@ -103,7 +104,7 @@ export function slideEnd(isCritical: boolean): Script {
         And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
         Equal(noteInputState, InputState.Terminated),
         Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        And(isNotHidden(), [
+        And(GreaterOr(Time, noteVisibleTime), isNotHidden(), [
             updateNoteY(),
 
             noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),

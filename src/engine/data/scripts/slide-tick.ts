@@ -24,6 +24,7 @@ import {
     noteScale,
     noteSpawnTime,
     noteTop,
+    noteVisibleTime,
     noteZ,
     preprocessNote,
     updateNoteY,
@@ -67,17 +68,22 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
         And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
         GreaterOr(Subtract(Time, NoteData.time, InputOffset), 0),
         isVisible &&
-            And(Less(Time, NoteData.time), isNotHidden(), [
-                updateNoteY(),
+            And(
+                Less(Time, NoteData.time),
+                GreaterOr(Time, noteVisibleTime),
+                isNotHidden(),
+                [
+                    updateNoteY(),
 
-                tickSprite.draw(
-                    noteScale,
-                    noteBottom,
-                    noteTop,
-                    tickLayout,
-                    noteZ
-                ),
-            ])
+                    tickSprite.draw(
+                        noteScale,
+                        noteBottom,
+                        noteTop,
+                        tickLayout,
+                        noteZ
+                    ),
+                ]
+            )
     )
 
     const terminate = And(options.isAutoplay, playVisualEffects())

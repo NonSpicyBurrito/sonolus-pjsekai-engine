@@ -16,6 +16,7 @@ import {
     InputOffset,
     Lerp,
     LessOr,
+    Max,
     Mod,
     Multiply,
     Or,
@@ -194,7 +195,9 @@ export function preprocessNote(
         applyLevelSpeed(NoteData.time),
         applyMirrorCenters(NoteData.center),
 
-        noteSpawnTime.set(Subtract(NoteData.time, noteOnScreenDuration)),
+        noteSpawnTime.set(
+            Subtract(NoteData.time, Max(noteOnScreenDuration, 0.5))
+        ),
         noteVisibleTime.set(Subtract(NoteData.time, noteOnScreenDuration)),
         noteZ.set(getZ(layer)),
         calculateHitbox(

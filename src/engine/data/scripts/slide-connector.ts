@@ -147,7 +147,9 @@ export function slideConnector(isCritical: boolean): Script {
         applyLevelSpeed(ConnectorData.headTime, ConnectorData.tailTime),
         applyMirrorCenters(ConnectorData.headCenter, ConnectorData.tailCenter),
 
-        spawnTime.set(Subtract(ConnectorData.headTime, noteOnScreenDuration)),
+        spawnTime.set(
+            Subtract(ConnectorData.headTime, Max(noteOnScreenDuration, 0.5))
+        ),
         visibleTime.set(Subtract(ConnectorData.headTime, noteOnScreenDuration)),
 
         headL.set(

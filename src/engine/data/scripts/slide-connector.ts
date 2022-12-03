@@ -2,6 +2,7 @@ import { ParticleEffect, SkinSprite } from 'sonolus-core'
 import {
     Add,
     And,
+    AudioOffset,
     bool,
     Code,
     createEntityData,
@@ -26,12 +27,14 @@ import {
     NotEqual,
     Or,
     PlayLooped,
+    PlayLoopedScheduled,
     Pointer,
     Power,
     Script,
     SpawnParticleEffect,
     State,
     StopLooped,
+    StopLoopedScheduled,
     Subtract,
     SwitchInteger,
     Time,
@@ -149,6 +152,9 @@ export function slideConnector(isCritical: boolean): Script {
     const linearId = EntityMemory.to<number>(29)
     const holdId = EntityMemory.to<number>(30)
 
+    const autoHoldSFXScheduleTime = EntityMemory.to<number>(31)
+    const needScheduleAutoHoldSFX = EntityMemory.to<boolean>(32)
+
     const preprocess = [
         applyLevelSpeed(ConnectorData.headTime, ConnectorData.tailTime),
         applyMirrorCenters(ConnectorData.headCenter, ConnectorData.tailCenter),
@@ -181,13 +187,18 @@ export function slideConnector(isCritical: boolean): Script {
 
         connectorZ.set(getZ(Layer.NoteConnector, ConnectorData.headTime, ConnectorData.headIndex)),
         slideZ.set(getZ(Layer.NoteSlide, ConnectorData.headTime, ConnectorData.headIndex)),
+
+        And(options.isSFXEnabled, Or(options.isAutoplay, options.isAutoSFX), [
+            autoHoldSFXScheduleTime.set(Subtract(ConnectorData.headTime, AudioOffset, 0.5)),
+            needScheduleAutoHoldSFX.set(true),
+        ]),
     ]
 
     const spawnOrder = spawnTime
 
     const shouldSpawn = GreaterOr(Time, spawnTime)
 
-    const noteScale = EntityMemory.to<number>(32)
+    const noteScale = EntityMemory.to<number>(33)
 
     const updateSequential = And(Not(options.isAutoplay), GreaterOr(Time, ConnectorData.headTime), [
         noteScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time))),
@@ -228,186 +239,219 @@ export function slideConnector(isCritical: boolean): Script {
 
     const hiddenTime = Add(Time, Multiply(options.hidden, noteOnScreenDuration))
 
-    const updateParallel = Or(
-        GreaterOr(Time, ConnectorData.tailTime),
-        And(GreaterOr(Time, visibleTime), [
-            vhTime.set(Max(ConnectorData.headTime, Time)),
-            vtTime.set(Min(ConnectorData.tailTime, Add(Time, noteOnScreenDuration))),
-
-            And(Greater(options.hidden, 0), [
-                vhTime.set(Max(vhTime, hiddenTime)),
-                vtTime.set(Max(vtTime, hiddenTime)),
-            ]),
-
-            alpha.set(
-                Multiply(
-                    options.connectorAlpha,
-                    If(
-                        Or(
-                            options.isAutoplay,
-                            NotEqual(ConnectorData.headInfo.state, State.Despawned),
-                            Less(Time, ConnectorData.headTime),
-                            Equal(ConnectorData.headSharedMemory.slideTime, Time)
-                        ),
-                        1,
-                        0.5
-                    )
-                )
-            ),
-
-            [...Array(10).keys()].map((i) => [
-                shTime.set(Lerp(vhTime, vtTime, i / 10)),
-                stTime.set(Lerp(vhTime, vtTime, (i + 1) / 10)),
-
-                shXScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, shTime))),
-                stXScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, stTime))),
-                shYScale.set(approach(shTime)),
-                stYScale.set(approach(stTime)),
-
-                connectorBottom.set(Lerp(origin, lane.b, shYScale)),
-                connectorTop.set(Lerp(origin, lane.b, stYScale)),
-
-                Draw(
-                    connectionSprite,
-                    Multiply(Lerp(headL, tailL, shXScale), shYScale),
-                    connectorBottom,
-                    Multiply(Lerp(headL, tailL, stXScale), stYScale),
-                    connectorTop,
-                    Multiply(Lerp(headR, tailR, stXScale), stYScale),
-                    connectorTop,
-                    Multiply(Lerp(headR, tailR, shXScale), shYScale),
-                    connectorBottom,
-                    connectorZ,
-                    alpha
+    const updateParallel = [
+        And(
+            options.isSFXEnabled,
+            Or(options.isAutoplay, options.isAutoSFX),
+            needScheduleAutoHoldSFX,
+            GreaterOr(Time, autoHoldSFXScheduleTime),
+            [
+                StopLoopedScheduled(
+                    PlayLoopedScheduled(getHoldClip(isCritical), ConnectorData.headTime),
+                    ConnectorData.tailTime
                 ),
-            ]),
+                needScheduleAutoHoldSFX.set(false),
+            ]
+        ),
 
-            And(
-                options.isSFXEnabled,
-                Not(options.isAutoplay),
-                Not(options.isAutoSFX),
-                HasEffectClip(holdClip),
-                If(
-                    Equal(ConnectorData.headSharedMemory.slideTime, Time),
-                    Or(bool(holdId), holdId.set(PlayLooped(holdClip))),
-                    And(bool(holdId), [StopLooped(holdId), holdId.set(0)])
-                )
-            ),
+        Or(
+            GreaterOr(Time, ConnectorData.tailTime),
+            And(GreaterOr(Time, visibleTime), [
+                vhTime.set(Max(ConnectorData.headTime, Time)),
+                vtTime.set(Min(ConnectorData.tailTime, Add(Time, noteOnScreenDuration))),
 
-            And(GreaterOr(Time, ConnectorData.headTime), [
-                noteScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time))),
+                And(Greater(options.hidden, 0), [
+                    vhTime.set(Max(vhTime, hiddenTime)),
+                    vtTime.set(Max(vtTime, hiddenTime)),
+                ]),
 
-                And(
-                    LessOr(options.hidden, 0),
-                    noteSprite.draw(
-                        1,
-                        baseNote.b,
-                        baseNote.t,
-                        [
-                            Lerp(headLayout[0], tailLayout[0], noteScale),
-                            Lerp(headLayout[1], tailLayout[1], noteScale),
-                            Lerp(headLayout[2], tailLayout[2], noteScale),
-                            Lerp(headLayout[3], tailLayout[3], noteScale),
-                            Lerp(headLayout[4], tailLayout[4], noteScale),
-                            Lerp(headLayout[5], tailLayout[5], noteScale),
-                            Lerp(headLayout[6], tailLayout[6], noteScale),
-                            Lerp(headLayout[7], tailLayout[7], noteScale),
-                        ],
-                        slideZ
-                    )
-                ),
-
-                And(
-                    options.isNoteEffectEnabled,
-                    Or(HasParticleEffect(circularEffect), HasParticleEffect(linearEffect)),
-                    center.set(Lerp(ConnectorData.headCenter, ConnectorData.tailCenter, noteScale))
-                ),
-
-                And(
-                    options.isNoteEffectEnabled,
-                    HasParticleEffect(circularEffect),
-                    If(
-                        Or(
-                            options.isAutoplay,
-                            Equal(ConnectorData.headSharedMemory.slideTime, Time)
-                        ),
-                        [
+                alpha.set(
+                    Multiply(
+                        options.connectorAlpha,
+                        If(
                             Or(
-                                bool(circularId),
-                                circularId.set(
-                                    SpawnParticleEffect(
-                                        circularEffect,
-                                        ...rectByEdge(0, 0, 0, 0),
-                                        1,
-                                        true
-                                    )
-                                )
+                                options.isAutoplay,
+                                NotEqual(ConnectorData.headInfo.state, State.Despawned),
+                                Less(Time, ConnectorData.headTime),
+                                Equal(ConnectorData.headSharedMemory.slideTime, Time)
                             ),
-
-                            MoveParticleEffect(
-                                circularId,
-                                Subtract(
-                                    Multiply(center, circularHoldEffect.bw),
-                                    circularHoldEffect.w
-                                ),
-                                circularHoldEffect.b,
-                                Subtract(
-                                    Multiply(center, circularHoldEffect.tw),
-                                    circularHoldEffect.w
-                                ),
-                                circularHoldEffect.t,
-                                Add(Multiply(center, circularHoldEffect.tw), circularHoldEffect.w),
-                                circularHoldEffect.t,
-                                Add(Multiply(center, circularHoldEffect.bw), circularHoldEffect.w),
-                                circularHoldEffect.b
-                            ),
-                        ],
-                        And(bool(circularId), [
-                            DestroyParticleEffect(circularId),
-                            circularId.set(0),
-                        ])
+                            1,
+                            0.5
+                        )
                     )
                 ),
+
+                [...Array(10).keys()].map((i) => [
+                    shTime.set(Lerp(vhTime, vtTime, i / 10)),
+                    stTime.set(Lerp(vhTime, vtTime, (i + 1) / 10)),
+
+                    shXScale.set(
+                        ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, shTime))
+                    ),
+                    stXScale.set(
+                        ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, stTime))
+                    ),
+                    shYScale.set(approach(shTime)),
+                    stYScale.set(approach(stTime)),
+
+                    connectorBottom.set(Lerp(origin, lane.b, shYScale)),
+                    connectorTop.set(Lerp(origin, lane.b, stYScale)),
+
+                    Draw(
+                        connectionSprite,
+                        Multiply(Lerp(headL, tailL, shXScale), shYScale),
+                        connectorBottom,
+                        Multiply(Lerp(headL, tailL, stXScale), stYScale),
+                        connectorTop,
+                        Multiply(Lerp(headR, tailR, stXScale), stYScale),
+                        connectorTop,
+                        Multiply(Lerp(headR, tailR, shXScale), shYScale),
+                        connectorBottom,
+                        connectorZ,
+                        alpha
+                    ),
+                ]),
 
                 And(
-                    options.isNoteEffectEnabled,
-                    HasParticleEffect(linearEffect),
+                    options.isSFXEnabled,
+                    Not(options.isAutoplay),
+                    Not(options.isAutoSFX),
+                    HasEffectClip(holdClip),
                     If(
-                        Or(
-                            options.isAutoplay,
-                            Equal(ConnectorData.headSharedMemory.slideTime, Time)
-                        ),
-                        [
-                            Or(
-                                bool(linearId),
-                                linearId.set(
-                                    SpawnParticleEffect(
-                                        linearEffect,
-                                        ...rectByEdge(0, 0, 0, 0),
-                                        1,
-                                        true
-                                    )
-                                )
-                            ),
-
-                            MoveParticleEffect(
-                                linearId,
-                                Subtract(Multiply(center, lane.w), linearHoldEffect.w),
-                                lane.b,
-                                Subtract(Multiply(center, linearHoldEffect.tw), linearHoldEffect.w),
-                                linearHoldEffect.t,
-                                Add(Multiply(center, linearHoldEffect.tw), linearHoldEffect.w),
-                                linearHoldEffect.t,
-                                Add(Multiply(center, lane.w), linearHoldEffect.w),
-                                lane.b
-                            ),
-                        ],
-                        And(bool(linearId), [DestroyParticleEffect(linearId), linearId.set(0)])
+                        Equal(ConnectorData.headSharedMemory.slideTime, Time),
+                        Or(bool(holdId), holdId.set(PlayLooped(holdClip))),
+                        And(bool(holdId), [StopLooped(holdId), holdId.set(0)])
                     )
                 ),
-            ]),
-        ])
-    )
+
+                And(GreaterOr(Time, ConnectorData.headTime), [
+                    noteScale.set(
+                        ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time))
+                    ),
+
+                    And(
+                        LessOr(options.hidden, 0),
+                        noteSprite.draw(
+                            1,
+                            baseNote.b,
+                            baseNote.t,
+                            [
+                                Lerp(headLayout[0], tailLayout[0], noteScale),
+                                Lerp(headLayout[1], tailLayout[1], noteScale),
+                                Lerp(headLayout[2], tailLayout[2], noteScale),
+                                Lerp(headLayout[3], tailLayout[3], noteScale),
+                                Lerp(headLayout[4], tailLayout[4], noteScale),
+                                Lerp(headLayout[5], tailLayout[5], noteScale),
+                                Lerp(headLayout[6], tailLayout[6], noteScale),
+                                Lerp(headLayout[7], tailLayout[7], noteScale),
+                            ],
+                            slideZ
+                        )
+                    ),
+
+                    And(
+                        options.isNoteEffectEnabled,
+                        Or(HasParticleEffect(circularEffect), HasParticleEffect(linearEffect)),
+                        center.set(
+                            Lerp(ConnectorData.headCenter, ConnectorData.tailCenter, noteScale)
+                        )
+                    ),
+
+                    And(
+                        options.isNoteEffectEnabled,
+                        HasParticleEffect(circularEffect),
+                        If(
+                            Or(
+                                options.isAutoplay,
+                                Equal(ConnectorData.headSharedMemory.slideTime, Time)
+                            ),
+                            [
+                                Or(
+                                    bool(circularId),
+                                    circularId.set(
+                                        SpawnParticleEffect(
+                                            circularEffect,
+                                            ...rectByEdge(0, 0, 0, 0),
+                                            1,
+                                            true
+                                        )
+                                    )
+                                ),
+
+                                MoveParticleEffect(
+                                    circularId,
+                                    Subtract(
+                                        Multiply(center, circularHoldEffect.bw),
+                                        circularHoldEffect.w
+                                    ),
+                                    circularHoldEffect.b,
+                                    Subtract(
+                                        Multiply(center, circularHoldEffect.tw),
+                                        circularHoldEffect.w
+                                    ),
+                                    circularHoldEffect.t,
+                                    Add(
+                                        Multiply(center, circularHoldEffect.tw),
+                                        circularHoldEffect.w
+                                    ),
+                                    circularHoldEffect.t,
+                                    Add(
+                                        Multiply(center, circularHoldEffect.bw),
+                                        circularHoldEffect.w
+                                    ),
+                                    circularHoldEffect.b
+                                ),
+                            ],
+                            And(bool(circularId), [
+                                DestroyParticleEffect(circularId),
+                                circularId.set(0),
+                            ])
+                        )
+                    ),
+
+                    And(
+                        options.isNoteEffectEnabled,
+                        HasParticleEffect(linearEffect),
+                        If(
+                            Or(
+                                options.isAutoplay,
+                                Equal(ConnectorData.headSharedMemory.slideTime, Time)
+                            ),
+                            [
+                                Or(
+                                    bool(linearId),
+                                    linearId.set(
+                                        SpawnParticleEffect(
+                                            linearEffect,
+                                            ...rectByEdge(0, 0, 0, 0),
+                                            1,
+                                            true
+                                        )
+                                    )
+                                ),
+
+                                MoveParticleEffect(
+                                    linearId,
+                                    Subtract(Multiply(center, lane.w), linearHoldEffect.w),
+                                    lane.b,
+                                    Subtract(
+                                        Multiply(center, linearHoldEffect.tw),
+                                        linearHoldEffect.w
+                                    ),
+                                    linearHoldEffect.t,
+                                    Add(Multiply(center, linearHoldEffect.tw), linearHoldEffect.w),
+                                    linearHoldEffect.t,
+                                    Add(Multiply(center, lane.w), linearHoldEffect.w),
+                                    lane.b
+                                ),
+                            ],
+                            And(bool(linearId), [DestroyParticleEffect(linearId), linearId.set(0)])
+                        )
+                    ),
+                ]),
+            ])
+        ),
+    ]
 
     const terminate = [
         And(bool(circularId), DestroyParticleEffect(circularId)),

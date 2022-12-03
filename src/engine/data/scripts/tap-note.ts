@@ -41,6 +41,7 @@ import {
     noteVisibleTime,
     noteZ,
     preprocessNote,
+    scheduleNoteAutoSFX,
     updateNoteY,
 } from './common/note'
 import {
@@ -49,7 +50,12 @@ import {
     noteCyanSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import { playCriticalTapJudgmentSFX, playTapJudgmentSFX } from './common/sfx'
+import {
+    getCriticalTapClip,
+    getTapClip,
+    playCriticalTapJudgmentSFX,
+    playTapJudgmentSFX,
+} from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
@@ -86,16 +92,20 @@ export function tapNote(isCritical: boolean): Script {
         )
     )
 
-    const updateParallel = Or(
-        And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
-        Equal(noteInputState, InputState.Terminated),
-        Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        And(isNotHidden(), GreaterOr(Time, noteVisibleTime), [
-            updateNoteY(),
+    const updateParallel = [
+        scheduleNoteAutoSFX(isCritical ? getCriticalTapClip() : getTapClip()),
 
-            noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
-        ])
-    )
+        Or(
+            And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
+            Equal(noteInputState, InputState.Terminated),
+            Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
+            And(isNotHidden(), GreaterOr(Time, noteVisibleTime), [
+                updateNoteY(),
+
+                noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
+            ])
+        ),
+    ]
 
     const terminate = And(options.isAutoplay, playVisualEffects())
 

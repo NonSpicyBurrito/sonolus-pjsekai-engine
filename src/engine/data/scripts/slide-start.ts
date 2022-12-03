@@ -42,6 +42,7 @@ import {
     noteVisibleTime,
     noteZ,
     preprocessNote,
+    scheduleNoteAutoSFX,
     updateNoteY,
 } from './common/note'
 import {
@@ -50,7 +51,7 @@ import {
     noteGreenSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import { playTapJudgmentSFX } from './common/sfx'
+import { getCriticalTapClip, getTapClip, playTapJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowStart } from './input'
 
@@ -89,16 +90,20 @@ export function slideStart(isCritical: boolean): Script {
         )
     )
 
-    const updateParallel = Or(
-        And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
-        Equal(noteInputState, InputState.Terminated),
-        Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        And(Less(Time, NoteData.time), GreaterOr(Time, noteVisibleTime), isNotHidden(), [
-            updateNoteY(),
+    const updateParallel = [
+        scheduleNoteAutoSFX(isCritical ? getCriticalTapClip() : getTapClip()),
 
-            noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
-        ])
-    )
+        Or(
+            And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
+            Equal(noteInputState, InputState.Terminated),
+            Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
+            And(Less(Time, NoteData.time), GreaterOr(Time, noteVisibleTime), isNotHidden(), [
+                updateNoteY(),
+
+                noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
+            ])
+        ),
+    ]
 
     const terminate = And(options.isAutoplay, playVisualEffects())
 

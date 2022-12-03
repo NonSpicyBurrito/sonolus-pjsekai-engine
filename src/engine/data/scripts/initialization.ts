@@ -1,16 +1,13 @@
 import {
     Add,
-    And,
     ArchetypeLife,
     ConsecutiveGreatScore,
     GoodMultiplier,
     GreatMultiplier,
     HorizontalAlign,
     Multiply,
-    Or,
     PerfectMultiplier,
     Script,
-    Spawn,
     Subtract,
     UIComboConfiguration,
     UIComboText,
@@ -26,8 +23,6 @@ import {
     UISecondaryMetricConfiguration,
     UISecondaryMetricValue,
 } from 'sonolus.js'
-import { scripts } from '.'
-import { options } from '../../configuration/options'
 import { archetypes } from '../archetypes'
 import { buckets } from '../buckets'
 import { screen, stage, windows } from './common/constants'
@@ -37,14 +32,7 @@ export function initialization(): Script {
 
     const spawnOrder = -1000
 
-    const updateSequential = [
-        And(
-            options.isSFXEnabled,
-            Or(options.isAutoplay, options.isAutoSFX),
-            Spawn(scripts.autoSFXIndex, [])
-        ),
-        true,
-    ]
+    const updateSequential = true
 
     return {
         preprocess,

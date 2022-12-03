@@ -49,6 +49,7 @@ import {
     noteVisibleTime,
     noteZ,
     preprocessNote,
+    scheduleNoteAutoSFX,
     updateNoteY,
 } from './common/note'
 import {
@@ -57,7 +58,12 @@ import {
     noteRedSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import { playCriticalFlickJudgmentSFX, playFlickJudgmentSFX } from './common/sfx'
+import {
+    getCriticalFlickClip,
+    getFlickClip,
+    playCriticalFlickJudgmentSFX,
+    playFlickJudgmentSFX,
+} from './common/sfx'
 import { checkDirection, checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
@@ -111,17 +117,21 @@ export function flickNote(isCritical: boolean): Script {
         ),
     ])
 
-    const updateParallel = Or(
-        And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
-        Equal(noteInputState, InputState.Terminated),
-        Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        And(GreaterOr(Time, noteVisibleTime), isNotHidden(), [
-            updateNoteY(),
+    const updateParallel = [
+        scheduleNoteAutoSFX(isCritical ? getCriticalFlickClip() : getFlickClip()),
 
-            noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
-            arrowSprite.draw(noteScale, arrowLayout, arrowZ),
-        ])
-    )
+        Or(
+            And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
+            Equal(noteInputState, InputState.Terminated),
+            Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
+            And(GreaterOr(Time, noteVisibleTime), isNotHidden(), [
+                updateNoteY(),
+
+                noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
+                arrowSprite.draw(noteScale, arrowLayout, arrowZ),
+            ])
+        ),
+    ]
 
     const terminate = And(options.isAutoplay, playVisualEffects())
 

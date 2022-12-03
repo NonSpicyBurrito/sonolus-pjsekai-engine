@@ -1,6 +1,7 @@
 import {
     Add,
     And,
+    AudioOffset,
     Code,
     createEntityData,
     createEntitySharedMemory,
@@ -20,6 +21,7 @@ import {
     Mod,
     Multiply,
     Or,
+    PlayScheduled,
     Pointer,
     Power,
     Spawn,
@@ -32,7 +34,7 @@ import {
 import { scripts } from '..'
 import { options } from '../../../configuration/options'
 import { archetypes } from '../../archetypes'
-import { baseNote, lane, noteOnScreenDuration, origin } from './constants'
+import { baseNote, lane, minSFXDistance, noteOnScreenDuration, origin } from './constants'
 import { checkTouchXInHitbox } from './touch'
 
 export enum InputState {
@@ -97,6 +99,9 @@ export const noteZ = EntityMemory.to<number>(34)
 export const noteHitboxL = EntityMemory.to<number>(35)
 export const noteHitboxR = EntityMemory.to<number>(36)
 export const noteInputState = EntityMemory.to<InputState>(37)
+
+export const noteAutoSFXScheduleTime = EntityMemory.to<number>(38)
+export const noteNeedScheduleAutoSFX = EntityMemory.to<boolean>(39)
 
 export const noteScale = EntityMemory.to<number>(48)
 export const noteBottom = EntityMemory.to<number>(49)
@@ -185,6 +190,11 @@ export function preprocessNote(
             [InputJudgment.set(1), InputBucket.set(bucket)],
             InputAccuracy.set(missAccuracy)
         ),
+
+        And(options.isSFXEnabled, Or(options.isAutoplay, options.isAutoSFX), [
+            noteAutoSFXScheduleTime.set(Subtract(NoteData.time, AudioOffset, 0.5)),
+            noteNeedScheduleAutoSFX.set(true),
+        ]),
     ]
 }
 
@@ -211,6 +221,16 @@ export function initializeNoteSimLine() {
             false
         ),
         Spawn(scripts.simLineIndex, [EntityInfo.index])
+    )
+}
+
+export function scheduleNoteAutoSFX(clip: Code<number>) {
+    return And(
+        options.isSFXEnabled,
+        Or(options.isAutoplay, options.isAutoSFX),
+        noteNeedScheduleAutoSFX,
+        GreaterOr(Time, noteAutoSFXScheduleTime),
+        [PlayScheduled(clip, NoteData.time, minSFXDistance), noteNeedScheduleAutoSFX.set(false)]
     )
 }
 

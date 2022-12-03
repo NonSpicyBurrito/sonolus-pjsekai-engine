@@ -1,5 +1,4 @@
 import { defineScripts } from 'sonolus.js'
-import { autoSFX } from './auto-sfx'
 import { flickNote } from './flick-note'
 import { initialization } from './initialization'
 import { input } from './input'
@@ -37,7 +36,6 @@ export const scripts = defineScripts({
 
     slideHiddenTick: () => slideTick(false, false),
 
-    autoSFX,
     simLine,
 
     slotEffect,

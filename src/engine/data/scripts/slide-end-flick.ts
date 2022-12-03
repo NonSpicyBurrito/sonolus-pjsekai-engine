@@ -49,6 +49,7 @@ import {
     noteVisibleTime,
     noteZ,
     preprocessNote,
+    scheduleNoteAutoSFX,
     updateNoteY,
 } from './common/note'
 import {
@@ -57,7 +58,12 @@ import {
     noteRedSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import { playCriticalFlickJudgmentSFX, playFlickJudgmentSFX } from './common/sfx'
+import {
+    getCriticalFlickClip,
+    getFlickClip,
+    playCriticalFlickJudgmentSFX,
+    playFlickJudgmentSFX,
+} from './common/sfx'
 import { checkDirection, checkTouchXInHitbox, checkTouchYInHitbox } from './common/touch'
 
 const leniency = 1
@@ -91,37 +97,41 @@ export function slideEndFlick(isCritical: boolean): Script {
 
     const initialize = initializeNoteSimLine()
 
-    const touch = Or(
-        options.isAutoplay,
-        And(
-            Not(bool(noteInputState)),
-            checkNoteTimeInEarlyWindow(window.good.early),
-            GreaterOr(TouchVR, minFlickVR),
-            checkTouchYInHitbox(Subtract(TouchY, TouchDY)),
-            If(
-                checkNoteTimeInEarlyWindow(0),
-                checkTouchXInNoteHitbox(Subtract(TouchX, TouchDX)),
-                And(
-                    checkTouchXInHitbox(
-                        NoteData.headSharedMemory.slideHitboxL,
-                        NoteData.headSharedMemory.slideHitboxR,
-                        Subtract(TouchX, TouchDX)
-                    ),
-                    Or(
-                        TouchEnded,
-                        Not(checkTouchYInHitbox()),
-                        Not(
-                            checkTouchXInHitbox(
-                                NoteData.headSharedMemory.slideHitboxL,
-                                NoteData.headSharedMemory.slideHitboxR
+    const touch = [
+        scheduleNoteAutoSFX(isCritical ? getCriticalFlickClip() : getFlickClip()),
+
+        Or(
+            options.isAutoplay,
+            And(
+                Not(bool(noteInputState)),
+                checkNoteTimeInEarlyWindow(window.good.early),
+                GreaterOr(TouchVR, minFlickVR),
+                checkTouchYInHitbox(Subtract(TouchY, TouchDY)),
+                If(
+                    checkNoteTimeInEarlyWindow(0),
+                    checkTouchXInNoteHitbox(Subtract(TouchX, TouchDX)),
+                    And(
+                        checkTouchXInHitbox(
+                            NoteData.headSharedMemory.slideHitboxL,
+                            NoteData.headSharedMemory.slideHitboxR,
+                            Subtract(TouchX, TouchDX)
+                        ),
+                        Or(
+                            TouchEnded,
+                            Not(checkTouchYInHitbox()),
+                            Not(
+                                checkTouchXInHitbox(
+                                    NoteData.headSharedMemory.slideHitboxL,
+                                    NoteData.headSharedMemory.slideHitboxR
+                                )
                             )
                         )
                     )
-                )
-            ),
-            onComplete()
-        )
-    )
+                ),
+                onComplete()
+            )
+        ),
+    ]
 
     const updateParallel = Or(
         And(options.isAutoplay, GreaterOr(Time, NoteData.time)),

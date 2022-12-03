@@ -102,53 +102,53 @@ export function slideEndFlick(isCritical: boolean): Script {
 
     const initialize = initializeNoteSimLine()
 
-    const touch = [
-        scheduleNoteAutoSFX(getFlickClip(isCritical)),
-
-        Or(
-            options.isAutoplay,
-            And(
-                Not(bool(noteInputState)),
-                checkNoteTimeInEarlyWindow(window.good.early),
-                GreaterOr(TouchVR, minFlickVR),
-                checkTouchYInHitbox(Subtract(TouchY, TouchDY)),
-                If(
-                    checkNoteTimeInEarlyWindow(0),
-                    checkTouchXInNoteHitbox(Subtract(TouchX, TouchDX)),
-                    And(
-                        checkTouchXInHitbox(
-                            NoteData.headSharedMemory.slideHitboxL,
-                            NoteData.headSharedMemory.slideHitboxR,
-                            Subtract(TouchX, TouchDX)
-                        ),
-                        Or(
-                            TouchEnded,
-                            Not(checkTouchYInHitbox()),
-                            Not(
-                                checkTouchXInHitbox(
-                                    NoteData.headSharedMemory.slideHitboxL,
-                                    NoteData.headSharedMemory.slideHitboxR
-                                )
+    const touch = Or(
+        options.isAutoplay,
+        And(
+            Not(bool(noteInputState)),
+            checkNoteTimeInEarlyWindow(window.good.early),
+            GreaterOr(TouchVR, minFlickVR),
+            checkTouchYInHitbox(Subtract(TouchY, TouchDY)),
+            If(
+                checkNoteTimeInEarlyWindow(0),
+                checkTouchXInNoteHitbox(Subtract(TouchX, TouchDX)),
+                And(
+                    checkTouchXInHitbox(
+                        NoteData.headSharedMemory.slideHitboxL,
+                        NoteData.headSharedMemory.slideHitboxR,
+                        Subtract(TouchX, TouchDX)
+                    ),
+                    Or(
+                        TouchEnded,
+                        Not(checkTouchYInHitbox()),
+                        Not(
+                            checkTouchXInHitbox(
+                                NoteData.headSharedMemory.slideHitboxL,
+                                NoteData.headSharedMemory.slideHitboxR
                             )
                         )
                     )
-                ),
-                onComplete()
-            )
+                )
+            ),
+            onComplete()
+        )
+    )
+
+    const updateParallel = [
+        scheduleNoteAutoSFX(getFlickClip(isCritical)),
+
+        Or(
+            And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
+            Equal(noteInputState, InputState.Terminated),
+            Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
+            And(GreaterOr(Time, noteVisibleTime), isNotHidden(), [
+                updateNoteY(),
+
+                noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
+                arrowSprite.draw(noteScale, arrowLayout, arrowZ),
+            ])
         ),
     ]
-
-    const updateParallel = Or(
-        And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
-        Equal(noteInputState, InputState.Terminated),
-        Greater(Subtract(Time, NoteData.time, InputOffset), window.good.late),
-        And(GreaterOr(Time, noteVisibleTime), isNotHidden(), [
-            updateNoteY(),
-
-            noteSprite.draw(noteScale, noteBottom, noteTop, noteLayout, noteZ),
-            arrowSprite.draw(noteScale, arrowLayout, arrowZ),
-        ])
-    )
 
     const terminate = And(options.isAutoplay, playVisualEffects())
 

@@ -114,10 +114,10 @@ export function slideConnector(isCritical: boolean): Script {
         ? SkinSprite.NoteConnectionYellowSeamless
         : SkinSprite.NoteConnectionGreenSeamless
     const noteSprite = isCritical ? noteYellowSprite : noteGreenSprite
-    const circularParticleEffect = isCritical
+    const circularEffect = isCritical
         ? ParticleEffect.NoteCircularHoldYellow
         : ParticleEffect.NoteCircularHoldGreen
-    const linearParticleEffect = isCritical
+    const linearEffect = isCritical
         ? ParticleEffect.NoteLinearHoldYellow
         : ParticleEffect.NoteLinearHoldGreen
 
@@ -301,16 +301,13 @@ export function slideConnector(isCritical: boolean): Script {
 
                 And(
                     options.isNoteEffectEnabled,
-                    Or(
-                        HasParticleEffect(circularParticleEffect),
-                        HasParticleEffect(linearParticleEffect)
-                    ),
+                    Or(HasParticleEffect(circularEffect), HasParticleEffect(linearEffect)),
                     center.set(Lerp(ConnectorData.headCenter, ConnectorData.tailCenter, noteScale))
                 ),
 
                 And(
                     options.isNoteEffectEnabled,
-                    HasParticleEffect(circularParticleEffect),
+                    HasParticleEffect(circularEffect),
                     If(
                         Or(
                             options.isAutoplay,
@@ -321,7 +318,7 @@ export function slideConnector(isCritical: boolean): Script {
                                 bool(circularId),
                                 circularId.set(
                                     SpawnParticleEffect(
-                                        circularParticleEffect,
+                                        circularEffect,
                                         ...rectByEdge(0, 0, 0, 0),
                                         1,
                                         true
@@ -356,7 +353,7 @@ export function slideConnector(isCritical: boolean): Script {
 
                 And(
                     options.isNoteEffectEnabled,
-                    HasParticleEffect(linearParticleEffect),
+                    HasParticleEffect(linearEffect),
                     If(
                         Or(
                             options.isAutoplay,
@@ -367,7 +364,7 @@ export function slideConnector(isCritical: boolean): Script {
                                 bool(linearId),
                                 linearId.set(
                                     SpawnParticleEffect(
-                                        linearParticleEffect,
+                                        linearEffect,
                                         ...rectByEdge(0, 0, 0, 0),
                                         1,
                                         true

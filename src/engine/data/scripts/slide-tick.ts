@@ -43,6 +43,12 @@ const leniency = 1
 
 export function slideTick(isCritical: boolean, isVisible = true): Script {
     const tickSprite = isCritical ? tickYellowSprite : tickGreenSprite
+    const circularEffect = isCritical
+        ? ParticleEffect.NoteCircularAlternativeYellow
+        : ParticleEffect.NoteCircularAlternativeGreen
+    const linearEffect = isCritical
+        ? ParticleEffect.NoteLinearTapYellow
+        : ParticleEffect.NoteLinearTapGreen
 
     const tickLayout = getTickLayout(EntityMemory.to(0))
 
@@ -102,16 +108,6 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
     }
 
     function playVisualEffects() {
-        return (
-            isVisible &&
-            playNoteEffect(
-                isCritical
-                    ? ParticleEffect.NoteCircularAlternativeYellow
-                    : ParticleEffect.NoteCircularAlternativeGreen,
-                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapGreen,
-                0,
-                'tick'
-            )
-        )
+        return isVisible && playNoteEffect(circularEffect, linearEffect, 0, 'tick')
     }
 }

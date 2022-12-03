@@ -61,6 +61,13 @@ export function slideStart(isCritical: boolean): Script {
     const bucket = isCritical ? buckets.criticalSlideStartIndex : buckets.slideStartIndex
     const window = isCritical ? windows.slideStart.critical : windows.slideStart.normal
     const noteSprite = isCritical ? noteYellowSprite : noteGreenSprite
+    const circularEffect = isCritical
+        ? ParticleEffect.NoteCircularTapYellow
+        : ParticleEffect.NoteCircularTapGreen
+    const linearEffect = isCritical
+        ? ParticleEffect.NoteLinearTapYellow
+        : ParticleEffect.NoteLinearTapGreen
+    const slotColor = isCritical ? 4 : 2
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
 
@@ -136,15 +143,8 @@ export function slideStart(isCritical: boolean): Script {
     function playVisualEffects() {
         return [
             playNoteLaneEffect(),
-            playNoteEffect(
-                isCritical
-                    ? ParticleEffect.NoteCircularTapYellow
-                    : ParticleEffect.NoteCircularTapGreen,
-                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapGreen,
-                0,
-                'normal'
-            ),
-            playSlotEffect(isCritical ? 4 : 2),
+            playNoteEffect(circularEffect, linearEffect, 0, 'normal'),
+            playSlotEffect(slotColor),
         ]
     }
 }

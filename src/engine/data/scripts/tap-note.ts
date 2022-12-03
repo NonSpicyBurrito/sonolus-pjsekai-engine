@@ -60,6 +60,13 @@ export function tapNote(isCritical: boolean): Script {
     const bucket = isCritical ? buckets.criticalTapNoteIndex : buckets.tapNoteIndex
     const window = isCritical ? windows.tapNote.critical : windows.tapNote.normal
     const noteSprite = isCritical ? noteYellowSprite : noteCyanSprite
+    const circularEffect = isCritical
+        ? ParticleEffect.NoteCircularTapYellow
+        : ParticleEffect.NoteCircularTapCyan
+    const linearEffect = isCritical
+        ? ParticleEffect.NoteLinearTapYellow
+        : ParticleEffect.NoteLinearTapCyan
+    const slotColor = isCritical ? 4 : 6
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
 
@@ -134,15 +141,8 @@ export function tapNote(isCritical: boolean): Script {
     function playVisualEffects() {
         return [
             playNoteLaneEffect(),
-            playNoteEffect(
-                isCritical
-                    ? ParticleEffect.NoteCircularTapYellow
-                    : ParticleEffect.NoteCircularTapCyan,
-                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapCyan,
-                0,
-                'normal'
-            ),
-            playSlotEffect(isCritical ? 4 : 6),
+            playNoteEffect(circularEffect, linearEffect, 0, 'normal'),
+            playSlotEffect(slotColor),
         ]
     }
 }

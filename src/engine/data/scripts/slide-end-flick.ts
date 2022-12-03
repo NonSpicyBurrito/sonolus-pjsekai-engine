@@ -68,6 +68,16 @@ export function slideEndFlick(isCritical: boolean): Script {
     const window = isCritical ? windows.slideEndFlick.critical : windows.slideEndFlick.normal
     const noteSprite = isCritical ? noteYellowSprite : noteRedSprite
     const arrowSprite = isCritical ? arrowYellowSprite : arrowRedSprite
+    const circularEffect = isCritical
+        ? ParticleEffect.NoteCircularTapYellow
+        : ParticleEffect.NoteCircularTapRed
+    const linearEffect = isCritical
+        ? ParticleEffect.NoteLinearTapYellow
+        : ParticleEffect.NoteLinearTapRed
+    const alternativeEffect = isCritical
+        ? ParticleEffect.NoteLinearAlternativeYellow
+        : ParticleEffect.NoteLinearAlternativeRed
+    const slotColor = isCritical ? 4 : 1
 
     const noteLayout = getNoteLayout(EntityMemory.to(0))
     const arrowLayout = getArrowLayout(EntityMemory.to(8))
@@ -173,17 +183,8 @@ export function slideEndFlick(isCritical: boolean): Script {
     function playVisualEffects() {
         return [
             playNoteLaneEffect(),
-            playNoteEffect(
-                isCritical
-                    ? ParticleEffect.NoteCircularTapYellow
-                    : ParticleEffect.NoteCircularTapRed,
-                isCritical ? ParticleEffect.NoteLinearTapYellow : ParticleEffect.NoteLinearTapRed,
-                isCritical
-                    ? ParticleEffect.NoteLinearAlternativeYellow
-                    : ParticleEffect.NoteLinearAlternativeRed,
-                'flick'
-            ),
-            playSlotEffect(isCritical ? 4 : 1),
+            playNoteEffect(circularEffect, linearEffect, alternativeEffect, 'flick'),
+            playSlotEffect(slotColor),
         ]
     }
 }

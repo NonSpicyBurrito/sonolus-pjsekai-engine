@@ -2,7 +2,6 @@ import { ParticleEffect, SkinSprite } from 'sonolus-core'
 import {
     Add,
     And,
-    AudioOffset,
     bool,
     Code,
     createEntityData,
@@ -56,6 +55,9 @@ import {
     applyMirrorCenters,
     approach,
     calculateHitbox,
+    getScheduleTime,
+    getSpawnTime,
+    getVisibleTime,
     getZ,
     NoteSharedMemory,
 } from './common/note'
@@ -159,8 +161,8 @@ export function slideConnector(isCritical: boolean): Script {
         applyLevelSpeed(ConnectorData.headTime, ConnectorData.tailTime),
         applyMirrorCenters(ConnectorData.headCenter, ConnectorData.tailCenter),
 
-        spawnTime.set(Subtract(ConnectorData.headTime, Max(noteOnScreenDuration, 0.5))),
-        visibleTime.set(Subtract(ConnectorData.headTime, noteOnScreenDuration)),
+        spawnTime.set(getSpawnTime(ConnectorData.headTime)),
+        visibleTime.set(getVisibleTime(ConnectorData.headTime)),
 
         headL.set(Multiply(Subtract(ConnectorData.headCenter, ConnectorData.headWidth), lane.w)),
         headR.set(Multiply(Add(ConnectorData.headCenter, ConnectorData.headWidth), lane.w)),
@@ -189,7 +191,7 @@ export function slideConnector(isCritical: boolean): Script {
         slideZ.set(getZ(Layer.NoteSlide, ConnectorData.headTime, ConnectorData.headIndex)),
 
         And(options.isSFXEnabled, Or(options.isAutoplay, options.isAutoSFX), [
-            autoHoldSFXScheduleTime.set(Subtract(ConnectorData.headTime, AudioOffset, 0.5)),
+            autoHoldSFXScheduleTime.set(getScheduleTime(ConnectorData.headTime)),
             needScheduleAutoHoldSFX.set(true),
         ]),
     ]

@@ -17,8 +17,8 @@ import {
 } from 'sonolus.js'
 import { options } from '../../configuration/options'
 import { archetypes } from '../archetypes'
-import { baseNote, lane, Layer, noteOnScreenDuration, origin } from './common/constants'
-import { approach, getZ, isNotHidden, NoteData } from './common/note'
+import { baseNote, lane, Layer, origin } from './common/constants'
+import { approach, getVisibleTime, getZ, isNotHidden, NoteData } from './common/note'
 import { rectByEdge } from './common/utils'
 
 export function simLine(): Script {
@@ -40,7 +40,7 @@ export function simLine(): Script {
 
     const initialize = [
         time.set(NoteData.of(rIndex).time),
-        visibleTime.set(Subtract(time, noteOnScreenDuration)),
+        visibleTime.set(getVisibleTime(time)),
         isSlide.set(
             Or(
                 ...[lIndex, rIndex].map((index) =>

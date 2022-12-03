@@ -17,7 +17,7 @@ import {
     InputOffset,
     Lerp,
     LessOr,
-    Max,
+    Min,
     Mod,
     Multiply,
     Or,
@@ -126,6 +126,16 @@ export function approach(time: Code<number>) {
     )
 }
 
+export function getVisibleTime(time: Code<number>) {
+    return Subtract(time, noteOnScreenDuration)
+}
+export function getScheduleTime(time: Code<number>) {
+    return Subtract(time, AudioOffset, 0.5)
+}
+export function getSpawnTime(time: Code<number>) {
+    return Min(getVisibleTime(time), getScheduleTime(time))
+}
+
 export function getZ(
     layer: number,
     time: Code<number> = NoteData.time,
@@ -180,8 +190,8 @@ export function preprocessNote(
         applyLevelSpeed(NoteData.time),
         applyMirrorCenters(NoteData.center),
 
-        noteSpawnTime.set(Subtract(NoteData.time, Max(noteOnScreenDuration, 0.5))),
-        noteVisibleTime.set(Subtract(NoteData.time, noteOnScreenDuration)),
+        noteSpawnTime.set(getSpawnTime(NoteData.time)),
+        noteVisibleTime.set(getVisibleTime(NoteData.time)),
         noteZ.set(getZ(layer)),
         calculateHitbox(NoteData.center, NoteData.width, leniency, noteHitboxL, noteHitboxR),
 
@@ -192,7 +202,7 @@ export function preprocessNote(
         ),
 
         And(options.isSFXEnabled, Or(options.isAutoplay, options.isAutoSFX), [
-            noteAutoSFXScheduleTime.set(Subtract(NoteData.time, AudioOffset, 0.5)),
+            noteAutoSFXScheduleTime.set(getScheduleTime(NoteData.time)),
             noteNeedScheduleAutoSFX.set(true),
         ]),
     ]

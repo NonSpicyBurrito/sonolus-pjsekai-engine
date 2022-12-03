@@ -59,6 +59,7 @@ export const criticalTapClip = customEffectClip(engineId, 1)
 export const criticalTickClip = customEffectClip(engineId, 2)
 export const criticalFlickClip = customEffectClip(engineId, 3)
 export const tickClip = customEffectClip(engineId, 4)
+export const criticalHoldClip = customEffectClip(engineId, 5)
 
 // Layers
 

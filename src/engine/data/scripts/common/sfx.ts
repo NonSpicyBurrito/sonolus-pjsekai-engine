@@ -3,6 +3,7 @@ import { Add, And, Code, HasEffectClip, If, InputJudgment, Not, Play } from 'son
 import { options } from '../../../configuration/options'
 import {
     criticalFlickClip,
+    criticalHoldClip,
     criticalTapClip,
     criticalTickClip,
     minSFXDistance,
@@ -21,6 +22,9 @@ export const getTickClip = (isCritical: boolean, judgment: Code<number> = 1) =>
 
 export const getFlickClip = (isCritical: boolean, judgment: Code<number> = 1) =>
     getClipIfCritical(isCritical, criticalFlickClip, Add(EffectClip.MissAlternative, judgment))
+
+export const getHoldClip = (isCritical: boolean) =>
+    getClipIfCritical(isCritical, criticalHoldClip, EffectClip.Hold)
 
 export const playJudgmentSFX = (
     isCritical: boolean,

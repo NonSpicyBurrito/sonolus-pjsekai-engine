@@ -12,6 +12,7 @@ import {
     Equal,
     Greater,
     GreaterOr,
+    HasEffectClip,
     HasParticleEffect,
     If,
     Lerp,
@@ -24,11 +25,13 @@ import {
     Not,
     NotEqual,
     Or,
+    PlayLooped,
     Pointer,
     Power,
     Script,
     SpawnParticleEffect,
     State,
+    StopLooped,
     Subtract,
     SwitchInteger,
     Time,
@@ -59,6 +62,7 @@ import {
     noteGreenSprite,
     noteYellowSprite,
 } from './common/note-sprite'
+import { getHoldClip } from './common/sfx'
 import { checkTouchXInHitbox, checkTouchYInHitbox } from './common/touch'
 import { rectByEdge } from './common/utils'
 import { disallowEmpties } from './input'
@@ -120,6 +124,7 @@ export function slideConnector(isCritical: boolean): Script {
     const linearEffect = isCritical
         ? ParticleEffect.NoteLinearHoldYellow
         : ParticleEffect.NoteLinearHoldGreen
+    const holdClip = getHoldClip(isCritical)
 
     const spawnTime = EntityMemory.to<number>(0)
     const visibleTime = EntityMemory.to<number>(1)
@@ -142,6 +147,7 @@ export function slideConnector(isCritical: boolean): Script {
 
     const circularId = EntityMemory.to<number>(28)
     const linearId = EntityMemory.to<number>(29)
+    const holdId = EntityMemory.to<number>(30)
 
     const preprocess = [
         applyLevelSpeed(ConnectorData.headTime, ConnectorData.tailTime),
@@ -276,6 +282,18 @@ export function slideConnector(isCritical: boolean): Script {
                 ),
             ]),
 
+            And(
+                options.isSFXEnabled,
+                Not(options.isAutoplay),
+                Not(options.isAutoSFX),
+                HasEffectClip(holdClip),
+                If(
+                    Equal(ConnectorData.headSharedMemory.slideTime, Time),
+                    Or(bool(holdId), holdId.set(PlayLooped(holdClip))),
+                    And(bool(holdId), [StopLooped(holdId), holdId.set(0)])
+                )
+            ),
+
             And(GreaterOr(Time, ConnectorData.headTime), [
                 noteScale.set(ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time))),
 
@@ -394,6 +412,7 @@ export function slideConnector(isCritical: boolean): Script {
     const terminate = [
         And(bool(circularId), DestroyParticleEffect(circularId)),
         And(bool(linearId), DestroyParticleEffect(linearId)),
+        And(bool(holdId), StopLooped(holdId)),
     ]
 
     return {

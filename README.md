@@ -38,6 +38,7 @@ Engine ID: `2`
 | 2   | Critical Tick  |
 | 3   | Critical Flick |
 | 4   | Tick           |
+| 5   | Critical Hold  |
 
 ## Documentation
 

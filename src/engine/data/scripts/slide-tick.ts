@@ -72,7 +72,7 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
     )
 
     const updateParallel = [
-        scheduleNoteAutoSFX(getTickClip(isCritical)),
+        isVisible && scheduleNoteAutoSFX(getTickClip(isCritical)),
 
         Or(
             And(options.isAutoplay, GreaterOr(Time, NoteData.time)),

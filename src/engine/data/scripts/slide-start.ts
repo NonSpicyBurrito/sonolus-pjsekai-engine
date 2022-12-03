@@ -51,7 +51,12 @@ import {
     noteGreenSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import { getCriticalTapClip, getTapClip, playTapJudgmentSFX } from './common/sfx'
+import {
+    getCriticalTapClip,
+    getTapClip,
+    playCriticalTapJudgmentSFX,
+    playTapJudgmentSFX,
+} from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowStart } from './input'
 
@@ -129,7 +134,7 @@ export function slideStart(isCritical: boolean): Script {
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
 
             playVisualEffects(),
-            playTapJudgmentSFX(),
+            isCritical ? playCriticalTapJudgmentSFX() : playTapJudgmentSFX(),
         ]
     }
 

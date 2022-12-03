@@ -50,12 +50,7 @@ import {
     noteGreenSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import {
-    getCriticalTapClip,
-    getTapClip,
-    playCriticalTapJudgmentSFX,
-    playTapJudgmentSFX,
-} from './common/sfx'
+import { getTapClip, playJudgmentSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { disallowEnds } from './input'
 
@@ -96,7 +91,7 @@ export function slideEnd(isCritical: boolean): Script {
     )
 
     const updateParallel = [
-        scheduleNoteAutoSFX(isCritical ? getCriticalTapClip() : getTapClip()),
+        scheduleNoteAutoSFX(getTapClip(isCritical)),
 
         Or(
             And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
@@ -132,7 +127,7 @@ export function slideEnd(isCritical: boolean): Script {
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
 
             playVisualEffects(),
-            isCritical ? playCriticalTapJudgmentSFX() : playTapJudgmentSFX(),
+            playJudgmentSFX(isCritical, getTapClip),
         ]
     }
 

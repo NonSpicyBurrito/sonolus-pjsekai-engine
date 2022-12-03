@@ -58,12 +58,7 @@ import {
     noteRedSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import {
-    getCriticalFlickClip,
-    getFlickClip,
-    playCriticalFlickJudgmentSFX,
-    playFlickJudgmentSFX,
-} from './common/sfx'
+import { getFlickClip, playJudgmentSFX } from './common/sfx'
 import { checkDirection, checkTouchXInHitbox, checkTouchYInHitbox } from './common/touch'
 
 const leniency = 1
@@ -98,7 +93,7 @@ export function slideEndFlick(isCritical: boolean): Script {
     const initialize = initializeNoteSimLine()
 
     const touch = [
-        scheduleNoteAutoSFX(isCritical ? getCriticalFlickClip() : getFlickClip()),
+        scheduleNoteAutoSFX(getFlickClip(isCritical)),
 
         Or(
             options.isAutoplay,
@@ -171,7 +166,7 @@ export function slideEndFlick(isCritical: boolean): Script {
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
 
             playVisualEffects(),
-            isCritical ? playCriticalFlickJudgmentSFX() : playFlickJudgmentSFX(),
+            playJudgmentSFX(isCritical, getFlickClip),
         ]
     }
 

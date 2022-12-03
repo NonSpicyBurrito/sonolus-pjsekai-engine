@@ -1,4 +1,4 @@
-import { SkinSprite } from 'sonolus-core'
+import { EffectClip, SkinSprite } from 'sonolus-core'
 import {
     And,
     bool,
@@ -18,6 +18,7 @@ import {
     Not,
     NotEqual,
     Or,
+    Play,
     Remap,
     Script,
     State,
@@ -32,6 +33,7 @@ import {
     baseNote,
     lane,
     Layer,
+    minSFXDistance,
     origin,
     screen,
     sekaiStage,
@@ -39,7 +41,6 @@ import {
     stage as stageC,
 } from './common/constants'
 import { playEmptyLaneEffect } from './common/effect'
-import { playStageSFX } from './common/sfx'
 import { checkTouchYInHitbox } from './common/touch'
 import { rectByEdge } from './common/utils'
 import { disallowEmpties } from './input'
@@ -179,5 +180,8 @@ function xToIndex(x: Code<number>) {
 }
 
 function playEmpty(index: Code<number>) {
-    return [playStageSFX(), playEmptyLaneEffect(index)]
+    return [
+        And(options.isSFXEnabled, Play(EffectClip.Stage, minSFXDistance)),
+        playEmptyLaneEffect(index),
+    ]
 }

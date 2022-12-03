@@ -9,38 +9,30 @@ import {
     tickClip,
 } from './constants'
 
-export const getTapClip = (judgment: Code<number> = 1) => Add(EffectClip.Miss, judgment)
+export const getTapClip = (isCritical: boolean, judgment: Code<number> = 1) =>
+    getClipIfCritical(isCritical, criticalTapClip, Add(EffectClip.Miss, judgment))
 
-export const getCriticalTapClip = (judgment: Code<number> = 1) =>
-    getClip(criticalTapClip, getTapClip(judgment))
+export const getTickClip = (isCritical: boolean, judgment: Code<number> = 1) =>
+    getClipIfCritical(
+        isCritical,
+        criticalTickClip,
+        getClip(tickClip, Add(EffectClip.Miss, judgment))
+    )
 
-export const getTickClip = (judgment: Code<number> = 1) =>
-    getClip(tickClip, Add(EffectClip.Miss, judgment))
+export const getFlickClip = (isCritical: boolean, judgment: Code<number> = 1) =>
+    getClipIfCritical(isCritical, criticalFlickClip, Add(EffectClip.MissAlternative, judgment))
 
-export const getCriticalTickClip = (judgment: Code<number> = 1) =>
-    getClip(criticalTickClip, getTickClip(judgment))
+export const playJudgmentSFX = (
+    isCritical: boolean,
+    getClip: (isCritical: boolean, judgment: Code<number>) => Code<number>
+) =>
+    And(
+        options.isSFXEnabled,
+        Not(options.isAutoSFX),
+        Play(getClip(isCritical, InputJudgment), minSFXDistance)
+    )
 
-export const getFlickClip = (judgment: Code<number> = 1) =>
-    Add(EffectClip.MissAlternative, judgment)
-
-export const getCriticalFlickClip = (judgment: Code<number> = 1) =>
-    getClip(criticalFlickClip, getFlickClip(judgment))
-
-export const playStageSFX = () => And(options.isSFXEnabled, Play(EffectClip.Stage, minSFXDistance))
-
-export const playTapJudgmentSFX = () => playJudgmentSFX(getTapClip)
-
-export const playCriticalTapJudgmentSFX = () => playJudgmentSFX(getCriticalTapClip)
-
-export const playTickJudgmentSFX = () => playJudgmentSFX(getTickClip)
-
-export const playCriticalTickJudgmentSFX = () => playJudgmentSFX(getCriticalTickClip)
-
-export const playFlickJudgmentSFX = () => playJudgmentSFX(getFlickClip)
-
-export const playCriticalFlickJudgmentSFX = () => playJudgmentSFX(getCriticalFlickClip)
+const getClipIfCritical = (isCritical: boolean, criticalId: Code<number>, id: Code<number>) =>
+    isCritical ? getClip(criticalId, id) : id
 
 const getClip = (id: Code<number>, fallback: Code<number>) => If(HasEffectClip(id), id, fallback)
-
-const playJudgmentSFX = (getClip: (judgment: Code<number>) => Code<number>) =>
-    And(options.isSFXEnabled, Not(options.isAutoSFX), Play(getClip(InputJudgment), minSFXDistance))

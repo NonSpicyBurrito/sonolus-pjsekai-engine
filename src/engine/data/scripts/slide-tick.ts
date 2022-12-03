@@ -30,12 +30,7 @@ import {
     scheduleNoteAutoSFX,
     updateNoteY,
 } from './common/note'
-import {
-    getCriticalTickClip,
-    getTickClip,
-    playCriticalTickJudgmentSFX,
-    playTickJudgmentSFX,
-} from './common/sfx'
+import { getTickClip, playJudgmentSFX } from './common/sfx'
 import {
     calculateTickLayout,
     getTickLayout,
@@ -71,7 +66,7 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
     )
 
     const updateParallel = [
-        scheduleNoteAutoSFX(isCritical ? getCriticalTickClip() : getTickClip()),
+        scheduleNoteAutoSFX(getTickClip(isCritical)),
 
         Or(
             And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
@@ -102,7 +97,7 @@ export function slideTick(isCritical: boolean, isVisible = true): Script {
             InputAccuracy.set(0),
 
             playVisualEffects(),
-            isVisible && (isCritical ? playCriticalTickJudgmentSFX() : playTickJudgmentSFX()),
+            isVisible && playJudgmentSFX(isCritical, getTickClip),
         ]
     }
 

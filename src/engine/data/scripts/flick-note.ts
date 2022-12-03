@@ -58,12 +58,7 @@ import {
     noteRedSprite,
     noteYellowSprite,
 } from './common/note-sprite'
-import {
-    getCriticalFlickClip,
-    getFlickClip,
-    playCriticalFlickJudgmentSFX,
-    playFlickJudgmentSFX,
-} from './common/sfx'
+import { getFlickClip, playJudgmentSFX } from './common/sfx'
 import { checkDirection, checkTouchYInHitbox } from './common/touch'
 import { disallowEmpties, disallowEnds, disallowStart } from './input'
 
@@ -118,7 +113,7 @@ export function flickNote(isCritical: boolean): Script {
     ])
 
     const updateParallel = [
-        scheduleNoteAutoSFX(isCritical ? getCriticalFlickClip() : getFlickClip()),
+        scheduleNoteAutoSFX(getFlickClip(isCritical)),
 
         Or(
             And(options.isAutoplay, GreaterOr(Time, NoteData.time)),
@@ -168,7 +163,7 @@ export function flickNote(isCritical: boolean): Script {
             InputBucketValue.set(Multiply(InputAccuracy, 1000)),
 
             playVisualEffects(),
-            isCritical ? playCriticalFlickJudgmentSFX() : playFlickJudgmentSFX(),
+            playJudgmentSFX(isCritical, getFlickClip),
         ]
     }
 

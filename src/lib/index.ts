@@ -1,4 +1,4 @@
-import { LevelData } from 'sonolus-core'
+import { EngineInfo, LevelData } from 'sonolus-core'
 import { Fannithm, fromFannithm as _fromFannithm } from './fannithm/convert'
 import { Resource } from './Resource'
 import { fromSus as _fromSus } from './sus/convert'
@@ -37,7 +37,7 @@ export const engineInfo = {
             'https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine',
         ].join('\n'),
     },
-} as const
+} as const satisfies Partial<EngineInfo>
 
 export const engineConfiguration = new Resource('EngineConfiguration')
 export const engineData = new Resource('EngineData')

@@ -314,19 +314,19 @@ export function slideConnector(isCritical: boolean): Script {
                     ),
                 ]),
 
-                And(
-                    options.isSFXEnabled,
-                    Not(options.isAutoplay),
-                    Not(options.isAutoSFX),
-                    HasEffectClip(holdClip),
-                    If(
-                        Equal(ConnectorData.headSharedMemory.slideTime, Time),
-                        Or(bool(holdId), holdId.set(PlayLooped(holdClip))),
-                        And(bool(holdId), [StopLooped(holdId), holdId.set(0)])
-                    )
-                ),
-
                 And(GreaterOr(Time, ConnectorData.headTime), [
+                    And(
+                        options.isSFXEnabled,
+                        Not(options.isAutoplay),
+                        Not(options.isAutoSFX),
+                        HasEffectClip(holdClip),
+                        If(
+                            Equal(ConnectorData.headSharedMemory.slideTime, Time),
+                            Or(bool(holdId), holdId.set(PlayLooped(holdClip))),
+                            And(bool(holdId), [StopLooped(holdId), holdId.set(0)])
+                        )
+                    ),
+
                     noteScale.set(
                         ease(Unlerp(ConnectorData.headTime, ConnectorData.tailTime, Time))
                     ),

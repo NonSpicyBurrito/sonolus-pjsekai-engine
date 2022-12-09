@@ -6,7 +6,7 @@ import { fromSus as _fromSus } from './sus/convert'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const archetypes = require('./archetypes')
 
-export const version = '0.2.0'
+export const version = '0.2.1'
 
 export const engineInfo = {
     name: 'pjsekai',

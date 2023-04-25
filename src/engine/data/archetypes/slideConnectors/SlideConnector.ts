@@ -89,10 +89,10 @@ export abstract class SlideConnector extends Archetype {
 
     hasSFXScheduled = this.entityMemory(Boolean)
 
-    sfxInstanceId = this.entityMemory(DataType<LoopedEffectClipInstanceId>)
+    sfxInstanceId = this.entityMemory(LoopedEffectClipInstanceId)
     effectInstanceIds = this.entityMemory({
-        circular: DataType<ParticleEffectInstanceId>,
-        linear: DataType<ParticleEffectInstanceId>,
+        circular: ParticleEffectInstanceId,
+        linear: ParticleEffectInstanceId,
     })
 
     connector = this.entityMemory({

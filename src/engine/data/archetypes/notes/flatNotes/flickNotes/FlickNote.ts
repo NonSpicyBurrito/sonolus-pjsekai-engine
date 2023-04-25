@@ -22,7 +22,7 @@ export abstract class FlickNote extends FlatNote {
     })
 
     arrow = this.entityMemory({
-        sprite: DataType<SkinSpriteId>,
+        sprite: SkinSpriteId,
         layout: Quad,
         animation: Vec,
         z: Number,

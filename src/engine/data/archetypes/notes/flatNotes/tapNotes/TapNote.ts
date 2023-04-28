@@ -25,7 +25,7 @@ export abstract class TapNote extends FlatNote {
         disallowStart(touch)
         disallowEnd(touch, this.inputTime.max)
 
-        this.result.judgment = input.judge(touch.startTime, this.targetTime, this.window)
+        this.result.judgment = input.judge(touch.startTime, this.targetTime, this.windows)
         this.result.accuracy = touch.startTime - this.targetTime
 
         this.result.bucket.index = this.bucket.index

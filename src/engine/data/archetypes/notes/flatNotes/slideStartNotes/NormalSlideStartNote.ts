@@ -25,7 +25,7 @@ export class NormalSlideStartNote extends SlideStartNote {
         linear: particle.effects.slideNoteLinear,
     }
 
-    window = windows.slideStartNote.normal
+    windows = windows.slideStartNote.normal
 
     bucket = buckets.normalSlideStartNote
 

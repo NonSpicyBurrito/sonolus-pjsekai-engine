@@ -350,7 +350,7 @@ export abstract class SlideConnector extends Archetype {
                 : VisualType.Waiting
             : this.startSharedMemory.lastActiveTime === time.now
             ? VisualType.Activated
-            : time.now >= this.start.time + this.slideStartNote.window.good.max + input.offset
+            : time.now >= this.start.time + this.slideStartNote.windows.good.max + input.offset
             ? VisualType.NotActivated
             : VisualType.Waiting
 

@@ -34,7 +34,7 @@ export abstract class SlideStartNote extends FlatNote {
         disallowEmpty(touch)
         disallowStart(touch)
 
-        this.result.judgment = input.judge(touch.startTime, this.targetTime, this.window)
+        this.result.judgment = input.judge(touch.startTime, this.targetTime, this.windows)
         this.result.accuracy = touch.startTime - this.targetTime
 
         this.result.bucket.index = this.bucket.index

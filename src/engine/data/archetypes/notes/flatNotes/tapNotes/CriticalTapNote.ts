@@ -21,7 +21,7 @@ export class CriticalTapNote extends TapNote {
         linear: particle.effects.criticalNoteLinear,
     }
 
-    window = windows.tapNote.critical
+    windows = windows.tapNote.critical
 
     bucket = buckets.criticalTapNote
 

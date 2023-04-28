@@ -21,7 +21,7 @@ export class CriticalSlideStartNote extends SlideStartNote {
         linear: particle.effects.criticalNoteLinear,
     }
 
-    window = windows.slideStartNote.critical
+    windows = windows.slideStartNote.critical
 
     bucket = buckets.criticalSlideStartNote
 

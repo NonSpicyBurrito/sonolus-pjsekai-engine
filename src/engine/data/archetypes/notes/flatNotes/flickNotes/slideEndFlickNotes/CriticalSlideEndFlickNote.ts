@@ -43,7 +43,7 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
 
     directionalEffect = particle.effects.criticalNoteDirectional
 
-    window = windows.slideEndFlickNote.critical
+    windows = windows.slideEndFlickNote.critical
 
     bucket = buckets.criticalSlideEndFlickNote
 

@@ -21,7 +21,7 @@ export class CriticalSlideEndNote extends SlideEndNote {
         linear: particle.effects.criticalNoteLinear,
     }
 
-    window = windows.slideEndNote.critical
+    windows = windows.slideEndNote.critical
 
     bucket = buckets.criticalSlideEndNote
 

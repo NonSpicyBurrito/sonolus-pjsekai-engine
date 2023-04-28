@@ -47,7 +47,7 @@ export class NormalFlickNote extends SingleFlickNote {
 
     directionalEffect = particle.effects.flickNoteDirectional
 
-    window = windows.flickNote.normal
+    windows = windows.flickNote.normal
 
     bucket = buckets.normalFlickNote
 

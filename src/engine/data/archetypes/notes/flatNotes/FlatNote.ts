@@ -38,7 +38,7 @@ export abstract class FlatNote extends Note {
     abstract slotEffect: SlotEffect
     abstract slotGlowEffect: SlotGlowEffect
 
-    abstract window: JudgmentWindows
+    abstract windows: JudgmentWindows
 
     abstract bucket: Bucket
 
@@ -73,9 +73,9 @@ export abstract class FlatNote extends Note {
         })
 
         this.bucket.set({
-            perfect: toMs(this.window.perfect),
-            great: toMs(this.window.great),
-            good: toMs(this.window.good),
+            perfect: toMs(this.windows.perfect),
+            great: toMs(this.windows.great),
+            good: toMs(this.windows.good),
         })
 
         this.life.miss = -80
@@ -99,8 +99,8 @@ export abstract class FlatNote extends Note {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - Note.duration * options.hidden
 
-        this.inputTime.min = this.targetTime + this.window.good.min + input.offset
-        this.inputTime.max = this.targetTime + this.window.good.max + input.offset
+        this.inputTime.min = this.targetTime + this.windows.good.min + input.offset
+        this.inputTime.max = this.targetTime + this.windows.good.max + input.offset
 
         const l = this.data.lane - this.data.size
         const r = this.data.lane + this.data.size
@@ -128,7 +128,7 @@ export abstract class FlatNote extends Note {
 
             this.result.bucket.index = this.bucket.index
         } else {
-            this.result.accuracy = this.window.good.max
+            this.result.accuracy = this.windows.good.max
         }
     }
 

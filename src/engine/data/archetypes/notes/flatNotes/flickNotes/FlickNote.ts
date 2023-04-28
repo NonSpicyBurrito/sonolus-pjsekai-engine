@@ -95,14 +95,14 @@ export abstract class FlickNote extends FlatNote {
     }
 
     complete(touch: Touch) {
-        this.result.judgment = input.judge(touch.time, this.targetTime, this.window)
+        this.result.judgment = input.judge(touch.time, this.targetTime, this.windows)
         this.result.accuracy = touch.time - this.targetTime
 
         if (!this.isCorrectDirection(touch)) {
             if (this.result.judgment === Judgment.Perfect) this.result.judgment = Judgment.Great
 
-            if (this.result.accuracy < this.window.perfect.max)
-                this.result.accuracy = this.window.perfect.max
+            if (this.result.accuracy < this.windows.perfect.max)
+                this.result.accuracy = this.windows.perfect.max
         }
 
         this.result.bucket.index = this.bucket.index

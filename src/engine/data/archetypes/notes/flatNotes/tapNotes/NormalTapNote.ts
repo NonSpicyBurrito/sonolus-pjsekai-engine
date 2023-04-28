@@ -25,7 +25,7 @@ export class NormalTapNote extends TapNote {
         linear: particle.effects.normalNoteLinear,
     }
 
-    window = windows.tapNote.normal
+    windows = windows.tapNote.normal
 
     bucket = buckets.normalTapNote
 

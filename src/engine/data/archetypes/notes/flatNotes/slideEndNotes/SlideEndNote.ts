@@ -21,7 +21,7 @@ export abstract class SlideEndNote extends FlatNote {
     }
 
     complete(touch: Touch) {
-        this.result.judgment = input.judge(touch.time, this.targetTime, this.window)
+        this.result.judgment = input.judge(touch.time, this.targetTime, this.windows)
         this.result.accuracy = touch.time - this.targetTime
 
         this.result.bucket.index = this.bucket.index

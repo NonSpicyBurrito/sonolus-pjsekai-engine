@@ -47,7 +47,7 @@ export class NormalSlideEndFlickNote extends SlideEndFlickNote {
 
     directionalEffect = particle.effects.flickNoteDirectional
 
-    window = windows.slideEndFlickNote.normal
+    windows = windows.slideEndFlickNote.normal
 
     bucket = buckets.normalSlideEndFlickNote
 

@@ -43,7 +43,7 @@ export class CriticalFlickNote extends SingleFlickNote {
 
     directionalEffect = particle.effects.criticalNoteDirectional
 
-    window = windows.flickNote.critical
+    windows = windows.flickNote.critical
 
     bucket = buckets.criticalFlickNote
 

@@ -8,14 +8,13 @@
   "keywords": [
     "Sonolus"
   ],
-  "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "sonolus-cli --dev",
-    "prebuild": "tsc -p . --noEmit && eslint --ext .ts src/",
+    "prebuild": "tsc -p . --noEmit && eslint --ext .mts ./src/",
     "build": "tsc -p ./lib/tsconfig.json && sonolus-cli --build && node ./lib/build.js"
   },
   "devDependencies": {

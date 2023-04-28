@@ -1,7 +1,8 @@
-import { copyFileSync } from 'node:fs'
+const { copyFileSync } = require('fs')
 
 /** @type import('sonolus.js').SonolusCLIConfig */
-export default {
+module.exports = {
+    entry: './src/index.mts',
     devServer(sonolus) {
         copyFileSync('./src/level/bgm.mp3', './.dev/bgm.mp3')
 

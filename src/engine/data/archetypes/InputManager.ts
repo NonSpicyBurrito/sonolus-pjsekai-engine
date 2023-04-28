@@ -1,23 +1,23 @@
 import { options } from '../../configuration/options.js'
 
 const disallowedEmpties = levelMemory({
-    old: Collection(16, Number),
-    now: Collection(16, Number),
+    old: Collection(16, TouchId),
+    now: Collection(16, TouchId),
 })
 
 export const canEmpty = (touch: Touch) => !disallowedEmpties.now.has(touch.id)
 
 export const disallowEmpty = (touch: Touch) => disallowedEmpties.now.add(touch.id)
 
-const disallowedStarts = levelMemory(Collection(16, Number))
+const disallowedStarts = levelMemory(Collection(16, TouchId))
 
 export const canStart = (touch: Touch) => !disallowedStarts.has(touch.id)
 
 export const disallowStart = (touch: Touch) => disallowedStarts.add(touch.id)
 
 const disallowedEnds = levelMemory({
-    old: Dictionary(16, Number, Number),
-    now: Dictionary(16, Number, Number),
+    old: Dictionary(16, TouchId, Number),
+    now: Dictionary(16, TouchId, Number),
 })
 
 export const canEnd = (touch: Touch, afterTime: number) => {

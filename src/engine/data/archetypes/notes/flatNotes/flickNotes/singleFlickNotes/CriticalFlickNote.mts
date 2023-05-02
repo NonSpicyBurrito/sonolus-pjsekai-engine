@@ -14,7 +14,9 @@ export class CriticalFlickNote extends SingleFlickNote {
         fallback: skin.sprites.criticalNoteFallback,
     }
 
-    clips = effect.clips.criticalFlick
+    clips = {
+        perfect: effect.clips.criticalFlick,
+    }
 
     effects = {
         circular: particle.effects.criticalNoteCircular,

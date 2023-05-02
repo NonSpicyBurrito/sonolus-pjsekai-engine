@@ -14,7 +14,9 @@ export class CriticalTapNote extends TapNote {
         fallback: skin.sprites.criticalNoteFallback,
     }
 
-    clips = effect.clips.criticalTap
+    clips = {
+        perfect: effect.clips.criticalTap,
+    }
 
     effects = {
         circular: particle.effects.criticalNoteCircular,

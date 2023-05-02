@@ -22,13 +22,11 @@ export abstract class FlatNote extends Note {
         fallback: SkinSprite
     }
 
-    abstract clips:
-        | EffectClip
-        | {
-              perfect: EffectClip
-              great: EffectClip
-              good: EffectClip
-          }
+    abstract clips: {
+        perfect: EffectClip
+        great?: EffectClip
+        good?: EffectClip
+    }
 
     abstract effects: {
         circular: ParticleEffect
@@ -168,11 +166,7 @@ export abstract class FlatNote extends Note {
     }
 
     scheduleSFX() {
-        if ('perfect' in this.clips) {
-            this.clips.perfect.schedule(this.targetTime, minSFXDistance)
-        } else {
-            this.clips.schedule(this.targetTime, minSFXDistance)
-        }
+        this.clips.perfect.schedule(this.targetTime, minSFXDistance)
 
         this.hasSFXScheduled = true
     }
@@ -197,7 +191,7 @@ export abstract class FlatNote extends Note {
     }
 
     playSFX() {
-        if ('perfect' in this.clips) {
+        if ('great' in this.clips && 'good' in this.clips) {
             if (this.result.judgment === Judgment.Perfect) {
                 this.clips.perfect.play(minSFXDistance)
             } else if (this.result.judgment === Judgment.Great) {
@@ -206,7 +200,7 @@ export abstract class FlatNote extends Note {
                 this.clips.good.play(minSFXDistance)
             }
         } else {
-            this.clips.play(minSFXDistance)
+            this.clips.perfect.play(minSFXDistance)
         }
     }
 

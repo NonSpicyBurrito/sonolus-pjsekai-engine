@@ -8,6 +8,7 @@
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
+        "exactOptionalPropertyTypes": true,
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "Node16"
     },

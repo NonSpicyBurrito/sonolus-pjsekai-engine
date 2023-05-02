@@ -22,6 +22,6 @@ export const effect = defineEffect({
 
         criticalHold: 'Sekai Critical Hold',
 
-        criticalTick: 'Sekai Tick',
+        criticalTick: 'Sekai Critical Tick',
     },
 })

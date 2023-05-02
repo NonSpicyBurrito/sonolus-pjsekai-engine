@@ -26,6 +26,7 @@ export abstract class FlatNote extends Note {
         perfect: EffectClip
         great?: EffectClip
         good?: EffectClip
+        fallback?: EffectClip
     }
 
     abstract effects: {
@@ -165,8 +166,20 @@ export abstract class FlatNote extends Note {
         )
     }
 
+    get useFallbackClip() {
+        return (
+            !this.clips.perfect.exists ||
+            ('great' in this.clips && !this.clips.great.exists) ||
+            ('good' in this.clips && !this.clips.good.exists)
+        )
+    }
+
     scheduleSFX() {
-        this.clips.perfect.schedule(this.targetTime, minSFXDistance)
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.schedule(this.targetTime, minSFXDistance)
+        } else {
+            this.clips.perfect.schedule(this.targetTime, minSFXDistance)
+        }
 
         this.hasSFXScheduled = true
     }
@@ -191,7 +204,9 @@ export abstract class FlatNote extends Note {
     }
 
     playSFX() {
-        if ('great' in this.clips && 'good' in this.clips) {
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.play(minSFXDistance)
+        } else if ('great' in this.clips && 'good' in this.clips) {
             if (this.result.judgment === Judgment.Perfect) {
                 this.clips.perfect.play(minSFXDistance)
             } else if (this.result.judgment === Judgment.Great) {

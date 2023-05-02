@@ -40,7 +40,10 @@ export abstract class SlideConnector extends Archetype {
         }
     }
 
-    abstract clip: EffectClip
+    abstract clips: {
+        hold: EffectClip
+        fallback: EffectClip
+    }
 
     abstract effects: {
         circular: ParticleEffect
@@ -245,11 +248,20 @@ export abstract class SlideConnector extends Archetype {
     }
 
     get shouldScheduleSFX() {
-        return options.sfxEnabled && this.clip.exists && (options.autoplay || options.autoSFX)
+        return (
+            options.sfxEnabled &&
+            (this.useFallbackClip ? this.clips.fallback.exists : this.clips.hold.exists) &&
+            (options.autoplay || options.autoSFX)
+        )
     }
 
     get shouldPlaySFX() {
-        return options.sfxEnabled && this.clip.exists && !options.autoplay && !options.autoSFX
+        return (
+            options.sfxEnabled &&
+            (this.useFallbackClip ? this.clips.fallback.exists : this.clips.hold.exists) &&
+            !options.autoplay &&
+            !options.autoSFX
+        )
     }
 
     get shouldScheduleCircularEffect() {
@@ -280,15 +292,23 @@ export abstract class SlideConnector extends Archetype {
         )
     }
 
+    get useFallbackClip() {
+        return !this.clips.hold.exists
+    }
+
     scheduleSFX() {
-        const id = this.clip.scheduleLoop(this.head.time)
+        const id = this.useFallbackClip
+            ? this.clips.fallback.scheduleLoop(this.head.time)
+            : this.clips.hold.scheduleLoop(this.head.time)
         effect.clips.scheduleStopLoop(id, this.tail.time)
 
         this.hasSFXScheduled = true
     }
 
     playSFX() {
-        this.sfxInstanceId = this.clip.loop()
+        this.sfxInstanceId = this.useFallbackClip
+            ? this.clips.fallback.loop()
+            : this.clips.hold.loop()
     }
 
     stopSFX() {

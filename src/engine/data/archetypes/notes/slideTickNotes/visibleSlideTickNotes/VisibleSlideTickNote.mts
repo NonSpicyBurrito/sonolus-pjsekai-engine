@@ -12,7 +12,10 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         fallback: SkinSprite
     }
 
-    abstract clip: EffectClip
+    abstract clips: {
+        tick: EffectClip
+        fallback: EffectClip
+    }
 
     abstract effect: ParticleEffect
 
@@ -109,8 +112,16 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         return !this.sprites.tick.exists
     }
 
+    get useFallbackClip() {
+        return !this.clips.tick.exists
+    }
+
     scheduleSFX() {
-        this.clip.schedule(this.targetTime, minSFXDistance)
+        if (this.useFallbackClip) {
+            this.clips.fallback.schedule(this.targetTime, minSFXDistance)
+        } else {
+            this.clips.tick.schedule(this.targetTime, minSFXDistance)
+        }
 
         this.hasSFXScheduled = true
     }
@@ -131,7 +142,11 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     playSFX() {
-        this.clip.play(minSFXDistance)
+        if (this.useFallbackClip) {
+            this.clips.fallback.play(minSFXDistance)
+        } else {
+            this.clips.tick.play(minSFXDistance)
+        }
     }
 
     playNoteEffect() {

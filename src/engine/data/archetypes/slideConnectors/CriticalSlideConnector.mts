@@ -20,7 +20,10 @@ export class CriticalSlideConnector extends SlideConnector {
         },
     }
 
-    clip = effect.clips.criticalHold
+    clips = {
+        hold: effect.clips.criticalHold,
+        fallback: effect.clips.normalHold,
+    }
 
     effects = {
         circular: particle.effects.criticalSlideConnectorCircular,

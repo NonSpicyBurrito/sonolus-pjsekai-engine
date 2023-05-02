@@ -9,7 +9,10 @@ export class NormalSlideTickNote extends VisibleSlideTickNote {
         fallback: skin.sprites.normalSlideTickNoteFallback,
     }
 
-    clip = effect.clips.normalTick
+    clips = {
+        tick: effect.clips.normalTick,
+        fallback: effect.clips.normalPerfect,
+    }
 
     effect = particle.effects.normalSlideTickNote
 }

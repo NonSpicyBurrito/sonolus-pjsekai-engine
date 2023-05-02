@@ -20,7 +20,10 @@ export class NormalSlideConnector extends SlideConnector {
         },
     }
 
-    clip = effect.clips.normalHold
+    clips = {
+        hold: effect.clips.normalHold,
+        fallback: effect.clips.normalHold,
+    }
 
     effects = {
         circular: particle.effects.normalSlideConnectorCircular,

@@ -16,6 +16,7 @@ export class CriticalTapNote extends TapNote {
 
     clips = {
         perfect: effect.clips.criticalTap,
+        fallback: effect.clips.normalPerfect,
     }
 
     effects = {

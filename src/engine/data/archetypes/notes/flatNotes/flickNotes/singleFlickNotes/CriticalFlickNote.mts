@@ -16,6 +16,7 @@ export class CriticalFlickNote extends SingleFlickNote {
 
     clips = {
         perfect: effect.clips.criticalFlick,
+        fallback: effect.clips.flickPerfect,
     }
 
     effects = {

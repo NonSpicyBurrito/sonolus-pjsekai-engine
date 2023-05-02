@@ -16,6 +16,7 @@ export class CriticalSlideEndNote extends SlideEndNote {
 
     clips = {
         perfect: effect.clips.criticalTap,
+        fallback: effect.clips.normalPerfect,
     }
 
     effects = {

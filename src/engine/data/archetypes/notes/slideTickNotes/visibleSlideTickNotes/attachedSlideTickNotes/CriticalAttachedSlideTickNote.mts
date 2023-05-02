@@ -9,7 +9,10 @@ export class CriticalAttachedSlideTickNote extends AttachedSlideTickNote {
         fallback: skin.sprites.criticalSlideTickNoteFallback,
     }
 
-    clip = effect.clips.criticalTick
+    clips = {
+        tick: effect.clips.criticalTick,
+        fallback: effect.clips.normalPerfect,
+    }
 
     effect = particle.effects.criticalSlideTickNote
 }

@@ -46,7 +46,7 @@ export abstract class SlideStartNote extends FlatNote {
     }
 
     render() {
-        if (time.now > this.targetTime) return
+        if (time.now >= this.targetTime) return
 
         super.render()
     }

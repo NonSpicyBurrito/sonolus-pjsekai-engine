@@ -34,8 +34,6 @@ export abstract class Note extends Archetype {
 
     touchOrder = 2
 
-    abstract complete(touch: Touch): void
-
     static approach(fromTime: number, toTime: number, now: number) {
         return 1.06 ** (45 * Math.remap(fromTime, toTime, -1, 0, now))
     }

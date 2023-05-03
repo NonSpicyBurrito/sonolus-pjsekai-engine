@@ -54,24 +54,6 @@ export const options = defineOptions({
         type: 'toggle',
         def: 0,
     },
-    markerAnimation: {
-        name: NameText.MarkerAnimation,
-        scope: 'Sekai',
-        type: 'toggle',
-        def: 1,
-    },
-    connectorAnimation: {
-        name: NameText.ConnectorAnimation,
-        scope: 'Sekai',
-        type: 'toggle',
-        def: 1,
-    },
-    simLineEnabled: {
-        name: NameText.SimultaneousLineVisibility,
-        scope: 'Sekai',
-        type: 'toggle',
-        def: 1,
-    },
     noteEffectEnabled: {
         name: NameText.NoteEffect,
         scope: 'Sekai',
@@ -87,6 +69,24 @@ export const options = defineOptions({
         max: 2,
         step: 0.05,
         unit: UnitText.Percentage,
+    },
+    markerAnimation: {
+        name: NameText.MarkerAnimation,
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
+    simLineEnabled: {
+        name: NameText.SimultaneousLineVisibility,
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
+    connectorAnimation: {
+        name: NameText.ConnectorAnimation,
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
     },
     laneEffectEnabled: {
         name: NameText.LaneEffect,

@@ -11,16 +11,16 @@ import { perspectiveLayout } from './utils.mjs'
 export class Stage extends Archetype {
     hitbox = this.entityMemory(Rect)
 
-    initialize() {
-        new Rect(lane.hitbox).transform(skin.transform).copyTo(this.hitbox)
-    }
-
     spawnOrder() {
         return 2
     }
 
     shouldSpawn() {
         return entityInfos.get(0).state === EntityState.Despawned
+    }
+
+    initialize() {
+        new Rect(lane.hitbox).transform(skin.transform).copyTo(this.hitbox)
     }
 
     touchOrder = 3
@@ -40,13 +40,17 @@ export class Stage extends Archetype {
     }
 
     updateParallel() {
-        if (skin.sprites.sekaiStage.exists) {
-            this.drawSekaiStage()
-        } else {
+        if (this.useFallbackStage) {
             this.drawFallbackStage()
+        } else {
+            this.drawSekaiStage()
         }
 
         this.drawStageCover()
+    }
+
+    get useFallbackStage() {
+        return !skin.sprites.sekaiStage.exists
     }
 
     onEmptyStart(touch: Touch) {

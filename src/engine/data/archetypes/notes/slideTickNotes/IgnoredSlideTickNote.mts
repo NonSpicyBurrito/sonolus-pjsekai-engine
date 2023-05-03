@@ -17,6 +17,4 @@ export class IgnoredSlideTickNote extends Note {
     shouldSpawn() {
         return false
     }
-
-    complete() {}
 }

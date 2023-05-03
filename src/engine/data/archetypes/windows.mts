@@ -1,4 +1,4 @@
-type Frames = number | [early: number, late: number]
+type Frames = number | [min: number, max: number]
 
 const fromFrames = (perfect: Frames, great: Frames, good: Frames) => {
     const toWindow = (frames: Frames) =>

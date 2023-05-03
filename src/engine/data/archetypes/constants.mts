@@ -3,16 +3,14 @@ export const minSFXDistance = 0.02
 export const minFlickVR = 0.5
 
 export const lane = {
-    l: -6,
-    r: 6,
-    b: 1176 / 850,
     t: 47 / 850,
+    b: 1176 / 850,
 
     hitbox: {
         l: -6,
         r: 6,
-        b: 1.5,
         t: (803 / 850) * 0.7,
+        b: 1.5,
     },
 }
 

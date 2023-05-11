@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "dev": "sonolus-cli --dev",
-    "prebuild": "tsc -p . --noEmit && eslint --ext .mts ./src/",
+    "prebuild": "tsc -p . --noEmit && eslint --ext .mts ./src && eslint --ext .cts ./lib",
     "build": "tsc -p ./lib/tsconfig.json && sonolus-cli --build && node ./lib/build.mjs"
   },
   "devDependencies": {

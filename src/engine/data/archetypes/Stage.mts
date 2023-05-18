@@ -15,10 +15,6 @@ export class Stage extends Archetype {
         return 2
     }
 
-    shouldSpawn() {
-        return entityInfos.get(0).state === EntityState.Despawned
-    }
-
     initialize() {
         new Rect(lane.hitbox).transform(skin.transform).copyTo(this.hitbox)
     }

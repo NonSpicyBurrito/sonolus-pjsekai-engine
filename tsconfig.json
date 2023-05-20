@@ -6,6 +6,7 @@
         "module": "Node16",
         "target": "ESNext",
         "strict": true,
+        "resolveJsonModule": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "exactOptionalPropertyTypes": true,

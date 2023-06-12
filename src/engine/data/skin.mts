@@ -28,6 +28,7 @@ export const skin = defineSkin({
         flickNoteMiddle: 'Sekai Note Red Middle',
         flickNoteRight: 'Sekai Note Red Right',
         flickNoteFallback: SkinSpriteName.NoteHeadRed,
+        flickNoteEndFallback: SkinSpriteName.NoteTailRed,
 
         criticalNoteLeft: 'Sekai Note Yellow Left',
         criticalNoteMiddle: 'Sekai Note Yellow Middle',

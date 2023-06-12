@@ -11,7 +11,7 @@ export class NormalSlideEndFlickNote extends SlideEndFlickNote {
         left: skin.sprites.flickNoteLeft,
         middle: skin.sprites.flickNoteMiddle,
         right: skin.sprites.flickNoteRight,
-        fallback: skin.sprites.flickNoteFallback,
+        fallback: skin.sprites.flickNoteEndFallback,
     }
 
     clips = {

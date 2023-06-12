@@ -78,7 +78,7 @@ export abstract class FlickNote extends FlatNote {
         } else {
             this.arrow.sprite = this.arrowSprites.fallback.id
 
-            const w = Math.clamp(this.data.size, 1, 3)
+            const w = Math.clamp(this.data.size / 2, 1, 2)
 
             new Rect({ l: -1, r: 1, b: 1, t: -1 })
                 .toQuad()

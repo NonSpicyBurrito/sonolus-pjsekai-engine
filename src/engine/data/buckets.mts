@@ -68,7 +68,7 @@ export const buckets = defineBuckets({
                 rotation: -90,
             },
             {
-                id: skin.sprites.slideNoteFallback.id,
+                id: skin.sprites.slideNoteEndFallback.id,
                 x: 2,
                 y: 0,
                 w: 2,
@@ -174,7 +174,7 @@ export const buckets = defineBuckets({
                 rotation: -90,
             },
             {
-                id: skin.sprites.criticalNoteFallback.id,
+                id: skin.sprites.criticalNoteEndFallback.id,
                 x: 2,
                 y: 0,
                 w: 2,
@@ -195,7 +195,7 @@ export const buckets = defineBuckets({
                 rotation: -90,
             },
             {
-                id: skin.sprites.criticalNoteFallback.id,
+                id: skin.sprites.criticalNoteEndFallback.id,
                 x: 2,
                 y: 0,
                 w: 2,

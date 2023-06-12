@@ -11,7 +11,7 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
         left: skin.sprites.criticalNoteLeft,
         middle: skin.sprites.criticalNoteMiddle,
         right: skin.sprites.criticalNoteRight,
-        fallback: skin.sprites.criticalNoteFallback,
+        fallback: skin.sprites.criticalNoteEndFallback,
     }
 
     clips = {

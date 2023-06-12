@@ -11,7 +11,7 @@ export class NormalSlideEndNote extends SlideEndNote {
         left: skin.sprites.slideNoteLeft,
         middle: skin.sprites.slideNoteMiddle,
         right: skin.sprites.slideNoteRight,
-        fallback: skin.sprites.slideNoteFallback,
+        fallback: skin.sprites.slideNoteEndFallback,
     }
 
     clips = {

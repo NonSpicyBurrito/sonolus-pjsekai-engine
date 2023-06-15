@@ -1,11 +1,11 @@
 import {
-    ConnectionAttach,
-    ConnectionEnd,
-    ConnectionStart,
-    ConnectionTick,
-    Slide,
     USC,
+    USCConnectionAttachNote,
+    USCConnectionEndNote,
+    USCConnectionStartNote,
+    USCConnectionTickNote,
     USCObject,
+    USCSlideNote,
 } from '../usc/index.cjs'
 import { NoteObject, analyze } from './analyze.cjs'
 
@@ -19,7 +19,7 @@ export const susToUSC = (sus: string): USC => {
 
     const preventSingles = new Set<string>()
     const dedupeSingles = new Set<string>()
-    const dedupeSlides = new Map<string, Slide>()
+    const dedupeSlides = new Map<string, USCSlideNote>()
 
     for (const slide of score.slides) {
         for (const note of slide) {
@@ -113,7 +113,7 @@ export const susToUSC = (sus: string): USC => {
         const startNote = slide.find(({ type }) => type === 1 || type === 2)
         if (!startNote) continue
 
-        const object: Slide = {
+        const object: USCSlideNote = {
             type: 'slide',
             critical: criticalMods.has(getKey(startNote)),
             connections: [] as never,
@@ -130,7 +130,7 @@ export const susToUSC = (sus: string): USC => {
 
             switch (note.type) {
                 case 1: {
-                    const connection: ConnectionStart = {
+                    const connection: USCConnectionStartNote = {
                         type: 'start',
                         beat,
                         lane,
@@ -143,7 +143,7 @@ export const susToUSC = (sus: string): USC => {
                     break
                 }
                 case 2: {
-                    const connection: ConnectionEnd = {
+                    const connection: USCConnectionEndNote = {
                         type: 'end',
                         beat,
                         lane,
@@ -159,7 +159,7 @@ export const susToUSC = (sus: string): USC => {
                 }
                 case 3: {
                     if (tickRemoveMods.has(key)) {
-                        const connection: ConnectionAttach = {
+                        const connection: USCConnectionAttachNote = {
                             type: 'attach',
                             beat,
                             critical,
@@ -167,7 +167,7 @@ export const susToUSC = (sus: string): USC => {
 
                         object.connections.push(connection)
                     } else {
-                        const connection: ConnectionTick = {
+                        const connection: USCConnectionTickNote = {
                             type: 'tick',
                             beat,
                             lane,
@@ -183,7 +183,7 @@ export const susToUSC = (sus: string): USC => {
                 case 5: {
                     if (tickRemoveMods.has(key)) break
 
-                    const connection: ConnectionTick = {
+                    const connection: USCConnectionTickNote = {
                         type: 'tick',
                         beat,
                         lane,

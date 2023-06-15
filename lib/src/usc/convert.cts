@@ -4,7 +4,14 @@ import {
     LevelData,
     LevelDataEntity,
 } from 'sonolus-core'
-import { BPMChange, Single, Slide, TimeScaleChange, USC, USCObject } from './index.cjs'
+import {
+    USC,
+    USCBPMChange,
+    USCObject,
+    USCSingleNote,
+    USCSlideNote,
+    USCTimeScaleChange,
+} from './index.cjs'
 
 type Intermediate = {
     archetype: string
@@ -128,7 +135,7 @@ const eases = {
     in: 1,
 } as const
 
-const bpm: Handler<BPMChange> = (object, append) =>
+const bpm: Handler<USCBPMChange> = (object, append) =>
     append({
         archetype: EngineArchetypeName.BpmChange,
         data: {
@@ -138,7 +145,7 @@ const bpm: Handler<BPMChange> = (object, append) =>
         sim: false,
     })
 
-const timeScale: Handler<TimeScaleChange> = (object, append) =>
+const timeScale: Handler<USCTimeScaleChange> = (object, append) =>
     append({
         archetype: EngineArchetypeName.TimeScaleChange,
         data: {
@@ -148,7 +155,7 @@ const timeScale: Handler<TimeScaleChange> = (object, append) =>
         sim: false,
     })
 
-const single: Handler<Single> = (object, append) => {
+const single: Handler<USCSingleNote> = (object, append) => {
     const intermediate: Intermediate = {
         archetype: object.critical ? 'CriticalTapNote' : 'NormalTapNote',
         data: {
@@ -167,7 +174,7 @@ const single: Handler<Single> = (object, append) => {
     append(intermediate)
 }
 
-const slide: Handler<Slide> = (object, append) => {
+const slide: Handler<USCSlideNote> = (object, append) => {
     type ConnectionIntermediate = Intermediate & {
         ease?: 'out' | 'linear' | 'in'
     }
@@ -322,7 +329,7 @@ const handlers: {
     slide,
 }
 
-const getConnections = (object: Slide) => {
+const getConnections = (object: USCSlideNote) => {
     const connections = [...object.connections]
 
     const beats = connections.map(({ beat }) => beat).sort((a, b) => a - b)

@@ -1,60 +1,64 @@
-type ObjectBase = {
+export type USC = {
+    offset: number
+    objects: USCObject[]
+}
+
+export type USCObject = USCBPMChange | USCTimeScaleChange | USCSingleNote | USCSlideNote
+
+type BaseUSCObject = {
     beat: number
 }
 
-export type BPMChange = ObjectBase & {
+export type USCBPMChange = BaseUSCObject & {
     type: 'bpm'
     bpm: number
 }
 
-export type TimeScaleChange = ObjectBase & {
+export type USCTimeScaleChange = BaseUSCObject & {
     type: 'timeScale'
     timeScale: number
 }
 
-type NoteBase = ObjectBase & {
+type BaseUSCNote = BaseUSCObject & {
     lane: number
     size: number
 }
 
-export type Single = NoteBase & {
+export type USCSingleNote = BaseUSCNote & {
     type: 'single'
     critical: boolean
     direction?: 'left' | 'up' | 'right'
 }
 
-export type ConnectionStart = NoteBase & {
+export type USCConnectionStartNote = BaseUSCNote & {
     type: 'start'
     critical: boolean
     ease: 'out' | 'linear' | 'in'
 }
 
-export type ConnectionTick = NoteBase & {
+export type USCConnectionTickNote = BaseUSCNote & {
     type: 'tick'
     critical?: boolean
     ease: 'out' | 'linear' | 'in'
 }
 
-export type ConnectionAttach = ObjectBase & {
+export type USCConnectionAttachNote = BaseUSCObject & {
     type: 'attach'
     critical?: boolean
 }
 
-export type ConnectionEnd = NoteBase & {
+export type USCConnectionEndNote = BaseUSCNote & {
     type: 'end'
     critical: boolean
     direction?: 'left' | 'up' | 'right'
 }
 
-export type Slide = {
+export type USCSlideNote = {
     type: 'slide'
     critical: boolean
-    connections: [ConnectionStart, ...(ConnectionTick | ConnectionAttach)[], ConnectionEnd]
-}
-
-export type USCObject = BPMChange | TimeScaleChange | Single | Slide
-
-export type USC = {
-    offset: number
-    objects: USCObject[]
+    connections: [
+        USCConnectionStartNote,
+        ...(USCConnectionTickNote | USCConnectionAttachNote)[],
+        USCConnectionEndNote,
+    ]
 }

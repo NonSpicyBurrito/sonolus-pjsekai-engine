@@ -6,7 +6,7 @@ import {
 } from 'sonolus-core'
 import {
     USC,
-    USCBPMChange,
+    USCBpmChange,
     USCObject,
     USCSingleNote,
     USCSlideNote,
@@ -135,7 +135,7 @@ const eases = {
     in: 1,
 } as const
 
-const bpm: Handler<USCBPMChange> = (object, append) =>
+const bpm: Handler<USCBpmChange> = (object, append) =>
     append({
         archetype: EngineArchetypeName.BpmChange,
         data: {

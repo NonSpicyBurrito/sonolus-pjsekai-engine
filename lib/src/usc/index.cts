@@ -3,13 +3,13 @@ export type USC = {
     objects: USCObject[]
 }
 
-export type USCObject = USCBPMChange | USCTimeScaleChange | USCSingleNote | USCSlideNote
+export type USCObject = USCBpmChange | USCTimeScaleChange | USCSingleNote | USCSlideNote
 
 type BaseUSCObject = {
     beat: number
 }
 
-export type USCBPMChange = BaseUSCObject & {
+export type USCBpmChange = BaseUSCObject & {
     type: 'bpm'
     bpm: number
 }

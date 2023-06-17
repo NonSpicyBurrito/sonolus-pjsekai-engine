@@ -19,7 +19,7 @@ export type TimeScaleChangeObject = {
     timeScale: number
 }
 
-export type BPMChangeObject = {
+export type BpmChangeObject = {
     tick: number
     bpm: number
 }
@@ -35,7 +35,7 @@ export type Score = {
     offset: number
     ticksPerBeat: number
     timeScaleChanges: TimeScaleChangeObject[]
-    bpmChanges: BPMChangeObject[]
+    bpmChanges: BpmChangeObject[]
     tapNotes: NoteObject[]
     directionalNotes: NoteObject[]
     slides: NoteObject[][]
@@ -57,7 +57,7 @@ export const analyze = (sus: string): Score => {
     const toTick = getToTick(barLengths, ticksPerBeat)
 
     const bpms = new Map<string, number>()
-    const bpmChanges: BPMChangeObject[] = []
+    const bpmChanges: BpmChangeObject[] = []
     const timeScaleChanges: TimeScaleChangeObject[] = []
     const tapNotes: NoteObject[] = []
     const directionalNotes: NoteObject[] = []
@@ -81,7 +81,7 @@ export const analyze = (sus: string): Score => {
 
         // BPM Changes
         if (header.length === 5 && header.endsWith('08')) {
-            bpmChanges.push(...toBPMChanges(line, measureOffset, bpms, toTick))
+            bpmChanges.push(...toBpmChanges(line, measureOffset, bpms, toTick))
             return
         }
 
@@ -218,7 +218,7 @@ const getToTick = (barLengths: BarLengthObject[], ticksPerBeat: number): ToTick 
     }
 }
 
-const toBPMChanges = (
+const toBpmChanges = (
     line: Line,
     measureOffset: number,
     bpms: Map<string, number>,

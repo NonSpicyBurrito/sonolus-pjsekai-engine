@@ -196,7 +196,7 @@ export abstract class SlideConnector extends Archetype {
 
         if (this.shouldScheduleSFX && !this.hasSFXScheduled) this.scheduleSFX()
 
-        if (time.now < this.visualTime.min) return
+        if (time.scaled < this.visualTime.min) return
 
         this.renderConnector()
 

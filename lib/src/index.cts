@@ -5,7 +5,7 @@ export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.0.4'
+export const version = '1.0.5'
 
 export const engineInfo = {
     name: 'pjsekai',

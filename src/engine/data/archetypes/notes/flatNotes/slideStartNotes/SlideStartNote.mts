@@ -15,14 +15,22 @@ export abstract class SlideStartNote extends FlatNote {
         this.sharedMemory.lastActiveTime = -1000
     }
 
+    updateSequential() {
+        this.handleTouches(this.hitbox)
+    }
+
     touch() {
+        this.handleTouches(this.fullHitbox)
+    }
+
+    handleTouches(hitbox: Rect) {
         if (options.autoplay) return
 
         if (time.now < this.inputTime.min) return
 
         for (const touch of touches) {
             if (!touch.started) continue
-            if (!this.fullHitbox.contains(touch.position)) continue
+            if (!hitbox.contains(touch.position)) continue
             if (!canStart(touch)) continue
 
             this.complete(touch)

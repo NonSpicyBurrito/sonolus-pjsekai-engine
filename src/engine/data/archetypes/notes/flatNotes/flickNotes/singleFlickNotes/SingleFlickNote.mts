@@ -14,7 +14,7 @@ export abstract class SingleFlickNote extends FlickNote {
         if (!this.activated) {
             for (const touch of touches) {
                 if (!touch.started) continue
-                if (!this.hitbox.contains(touch.position)) continue
+                if (!this.fullHitbox.contains(touch.position)) continue
                 if (!canStart(touch)) continue
 
                 disallowEmpty(touch)
@@ -29,7 +29,7 @@ export abstract class SingleFlickNote extends FlickNote {
         if (this.activated) {
             for (const touch of touches) {
                 if (touch.vr < minFlickVR) continue
-                if (!this.hitbox.contains(touch.lastPosition)) continue
+                if (!this.fullHitbox.contains(touch.lastPosition)) continue
 
                 this.complete(touch)
                 return

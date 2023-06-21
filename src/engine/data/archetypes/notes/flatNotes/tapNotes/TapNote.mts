@@ -12,7 +12,7 @@ export abstract class TapNote extends FlatNote {
 
         for (const touch of touches) {
             if (!touch.started) continue
-            if (!this.hitbox.contains(touch.position)) continue
+            if (!this.fullHitbox.contains(touch.position)) continue
             if (!canStart(touch)) continue
 
             this.complete(touch)

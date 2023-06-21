@@ -17,6 +17,7 @@ export abstract class Note extends Archetype {
     spawnTime = this.entityMemory(Number)
 
     hitbox = this.entityMemory(Rect)
+    fullHitbox = this.entityMemory(Rect)
 
     preprocess() {
         this.targetTime = bpmChanges.at(this.data.beat).time

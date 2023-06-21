@@ -102,7 +102,7 @@ export abstract class SlideEndFlickNote extends FlickNote {
     lateTouch() {
         for (const touch of touches) {
             if (touch.vr < minFlickVR) continue
-            if (!this.hitbox.contains(touch.lastPosition)) continue
+            if (!this.fullHitbox.contains(touch.lastPosition)) continue
 
             this.complete(touch)
             return

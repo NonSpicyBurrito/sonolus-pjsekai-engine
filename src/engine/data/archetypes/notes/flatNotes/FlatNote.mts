@@ -104,7 +104,8 @@ export abstract class FlatNote extends Note {
         const l = this.data.lane - this.data.size
         const r = this.data.lane + this.data.size
 
-        getHitbox({ l, r, leniency: this.leniency }).copyTo(this.hitbox)
+        getHitbox({ l, r, leniency: 0 }).copyTo(this.hitbox)
+        getHitbox({ l, r, leniency: this.leniency }).copyTo(this.fullHitbox)
 
         const b = 1 + note.h
         const t = 1 - note.h

@@ -9,11 +9,62 @@ export const canEmpty = (touch: Touch) => !disallowedEmpties.now.has(touch.id)
 
 export const disallowEmpty = (touch: Touch) => disallowedEmpties.now.add(touch.id)
 
-const disallowedStarts = levelMemory(Collection(16, TouchId))
+const claimedStarts = levelMemory(
+    Dictionary(16, Number, {
+        index: Number,
+        time: Number,
+        accurate: Boolean,
+    }),
+)
 
-export const canStart = (touch: Touch) => !disallowedStarts.has(touch.id)
+export const tryClaimStart = (index: number, time: number, hitbox: Rect, fullHitbox: Rect) => {
+    for (const touch of touches) {
+        if (!touch.started) continue
+        if (!fullHitbox.contains(touch.position)) continue
 
-export const disallowStart = (touch: Touch) => disallowedStarts.add(touch.id)
+        const claimedIndex = claimedStarts.indexOf(touch.index)
+        if (claimedIndex === -1) {
+            claimedStarts.set(touch.index, {
+                index,
+                time,
+                accurate: hitbox.contains(touch.position),
+            })
+
+            continue
+        }
+
+        const claimedStart = claimedStarts.getValue(claimedIndex)
+        if (time > claimedStart.time) continue
+
+        if (time < claimedStart.time) {
+            claimedStarts.set(touch.index, {
+                index,
+                time,
+                accurate: hitbox.contains(touch.position),
+            })
+
+            continue
+        }
+
+        if (claimedStart.accurate) continue
+
+        if (!hitbox.contains(touch.position)) continue
+
+        claimedStarts.set(touch.index, {
+            index,
+            time,
+            accurate: true,
+        })
+    }
+}
+
+export const getClaimedStartTouchIndex = (index: number) => {
+    for (const [touchIndex, claimedStart] of claimedStarts) {
+        if (claimedStart.index === index) return touchIndex
+    }
+
+    return -1
+}
 
 const disallowedEnds = levelMemory({
     old: Dictionary(16, TouchId, Number),
@@ -48,7 +99,7 @@ export class InputManager extends Archetype {
         disallowedEnds.now.copyTo(disallowedEnds.old)
         disallowedEnds.now.clear()
 
-        disallowedStarts.clear()
+        claimedStarts.clear()
 
         for (const touch of touches) {
             if (disallowedEmpties.old.has(touch.id)) disallowedEmpties.now.add(touch.id)

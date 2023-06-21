@@ -1,5 +1,10 @@
 import { options } from '../../../../../../configuration/options.mjs'
-import { canStart, disallowEmpty, disallowEnd, disallowStart } from '../../../../InputManager.mjs'
+import {
+    disallowEmpty,
+    disallowEnd,
+    getClaimedStartTouchIndex,
+    tryClaimStart,
+} from '../../../../InputManager.mjs'
 import { minFlickVR } from '../../../../constants.mjs'
 import { FlickNote } from '../FlickNote.mjs'
 
@@ -7,13 +12,31 @@ export abstract class SingleFlickNote extends FlickNote {
     activated = this.entityMemory(Boolean)
 
     updateSequential() {
-        this.handleTouches(this.hitbox)
+        if (options.autoplay) return
+
+        if (time.now < this.inputTime.min) return
+
+        if (this.activated) return
+
+        tryClaimStart(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
     }
 
     touch() {
-        this.handleTouches(this.fullHitbox)
+        if (options.autoplay) return
 
-        if (!this.activated) return
+        if (time.now < this.inputTime.min) return
+
+        if (!this.activated) {
+            const index = getClaimedStartTouchIndex(this.info.index)
+            if (index === -1) return
+
+            const touch = touches.get(index)
+
+            disallowEmpty(touch)
+            disallowEnd(touch, this.inputTime.max)
+
+            this.activated = true
+        }
 
         for (const touch of touches) {
             if (touch.vr < minFlickVR) continue
@@ -21,27 +44,6 @@ export abstract class SingleFlickNote extends FlickNote {
 
             this.complete(touch)
             return
-        }
-    }
-
-    handleTouches(hitbox: Rect) {
-        if (options.autoplay) return
-
-        if (time.now < this.inputTime.min) return
-
-        if (!this.activated) {
-            for (const touch of touches) {
-                if (!touch.started) continue
-                if (!hitbox.contains(touch.position)) continue
-                if (!canStart(touch)) continue
-
-                disallowEmpty(touch)
-                disallowStart(touch)
-                disallowEnd(touch, this.inputTime.max)
-
-                this.activated = true
-                break
-            }
         }
     }
 }

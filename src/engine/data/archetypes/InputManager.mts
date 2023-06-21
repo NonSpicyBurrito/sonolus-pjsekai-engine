@@ -47,10 +47,6 @@ export class InputManager extends Archetype {
 
         disallowedEnds.now.copyTo(disallowedEnds.old)
         disallowedEnds.now.clear()
-    }
-
-    touch() {
-        if (options.autoplay) return
 
         disallowedStarts.clear()
 

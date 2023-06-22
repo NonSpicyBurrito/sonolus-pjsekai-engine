@@ -13,7 +13,7 @@ export abstract class SlideEndNote extends FlatNote {
         for (const touch of touches) {
             if (!touch.ended) continue
             if (!this.fullHitbox.contains(touch.position)) continue
-            if (!canEnd(touch, this.inputTime.min)) continue
+            if (!canEnd(touch, this.targetTime)) continue
 
             this.complete(touch)
             return

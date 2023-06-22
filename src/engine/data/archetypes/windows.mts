@@ -34,4 +34,6 @@ export const windows = {
         normal: fromFrames([3.5, 4], [6.5, 8], [7.5, 8.5]),
         critical: fromFrames([3.5, 4], [6.5, 8], [7.5, 8.5]),
     },
+
+    slideEndLockoutDuration: 0.125,
 }

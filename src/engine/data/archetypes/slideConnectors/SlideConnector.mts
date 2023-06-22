@@ -163,7 +163,6 @@ export abstract class SlideConnector extends Archetype {
         })
 
         for (const touch of touches) {
-            if (touch.ended) continue
             if (!hitbox.contains(touch.position)) continue
 
             disallowEmpty(touch)

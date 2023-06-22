@@ -182,7 +182,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
     const cis: ConnectionIntermediate[] = []
     const joints: ConnectionIntermediate[] = []
     const attaches: ConnectionIntermediate[] = []
-    const ends: ConnectionIntermediate[] = []
+    const endFlicks: ConnectionIntermediate[] = []
 
     const connections = getConnections(object)
     for (const [i, connection] of connections.entries()) {
@@ -223,11 +223,12 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                     ? 'CriticalSlideEndFlickNote'
                     : 'NormalSlideEndFlickNote'
                 ci.data.direction = directions[connection.direction]
+
+                endFlicks.push(ci)
             }
 
             cis.push(ci)
             joints.push(ci)
-            ends.push(ci)
             continue
         }
 
@@ -306,8 +307,8 @@ const slide: Handler<USCSlideNote> = (object, append) => {
         attach.data.attach = connectors[tailIndex - 1]
     }
 
-    for (const end of ends) {
-        end.data.slide = connectors[connectors.length - 1]
+    for (const endFlick of endFlicks) {
+        endFlick.data.slide = connectors[connectors.length - 1]
     }
 
     for (const ci of cis) {

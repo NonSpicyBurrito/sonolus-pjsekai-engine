@@ -1,6 +1,7 @@
 import { options } from '../../../../../../configuration/options.mjs'
 import {
     disallowEmpty,
+    disallowEnd,
     getClaimedStartTouchIndex,
     tryClaimStart,
 } from '../../../../InputManager.mjs'
@@ -32,6 +33,7 @@ export abstract class SingleFlickNote extends FlickNote {
             const touch = touches.get(index)
 
             disallowEmpty(touch)
+            disallowEnd(touch, this.inputTime.max)
 
             this.activated = true
         }

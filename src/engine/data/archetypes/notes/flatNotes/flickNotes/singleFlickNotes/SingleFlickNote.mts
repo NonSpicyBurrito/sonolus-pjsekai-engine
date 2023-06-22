@@ -1,10 +1,5 @@
 import { options } from '../../../../../../configuration/options.mjs'
-import {
-    disallowEmpty,
-    disallowEnd,
-    getClaimedStartTouchIndex,
-    tryClaimStart,
-} from '../../../../InputManager.mjs'
+import { claimStartManager, disallowEmpty, disallowEnd } from '../../../../InputManager.mjs'
 import { minFlickVR } from '../../../../constants.mjs'
 import { windows } from '../../../../windows.mjs'
 import { FlickNote } from '../FlickNote.mjs'
@@ -19,7 +14,7 @@ export abstract class SingleFlickNote extends FlickNote {
 
         if (this.activated) return
 
-        tryClaimStart(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
+        claimStartManager.claim(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
     }
 
     touch() {
@@ -28,7 +23,7 @@ export abstract class SingleFlickNote extends FlickNote {
         if (time.now < this.inputTime.min) return
 
         if (!this.activated) {
-            const index = getClaimedStartTouchIndex(this.info.index)
+            const index = claimStartManager.getClaimedTouchIndex(this.info.index)
             if (index === -1) return
 
             const touch = touches.get(index)

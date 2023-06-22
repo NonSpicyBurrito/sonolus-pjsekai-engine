@@ -1,10 +1,5 @@
 import { options } from '../../../../../configuration/options.mjs'
-import {
-    disallowEmpty,
-    disallowEnd,
-    getClaimedStartTouchIndex,
-    tryClaimStart,
-} from '../../../InputManager.mjs'
+import { claimStartManager, disallowEmpty, disallowEnd } from '../../../InputManager.mjs'
 import { windows } from '../../../windows.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 
@@ -16,7 +11,7 @@ export abstract class TapNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        tryClaimStart(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
+        claimStartManager.claim(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
     }
 
     touch() {
@@ -24,7 +19,7 @@ export abstract class TapNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        const index = getClaimedStartTouchIndex(this.info.index)
+        const index = claimStartManager.getClaimedTouchIndex(this.info.index)
         if (index === -1) return
 
         this.complete(touches.get(index))

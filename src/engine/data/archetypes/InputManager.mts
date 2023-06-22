@@ -12,6 +12,8 @@ export const disallowEmpty = (touch: Touch) => disallowedEmpties.now.add(touch.i
 
 export const claimStartManager = new ClaimManager((touch) => touch.started)
 
+export const claimEndManager = new ClaimManager((touch) => touch.ended)
+
 const disallowedEnds = levelMemory({
     old: Dictionary(16, TouchId, Number),
     now: Dictionary(16, TouchId, Number),
@@ -43,6 +45,8 @@ export class InputManager extends Archetype {
         if (options.autoplay) return
 
         claimStartManager.clear()
+
+        claimEndManager.clear()
 
         disallowedEmpties.now.copyTo(disallowedEmpties.old)
         disallowedEmpties.now.clear()

@@ -1,7 +1,7 @@
 import { options } from '../../../configuration/options.mjs'
 import { effect } from '../../effect.mjs'
 import { particle } from '../../particle.mjs'
-import { disallowEmpty } from '../InputManager.mjs'
+import { disallowEmpty, disallowEnd } from '../InputManager.mjs'
 import { note } from '../constants.mjs'
 import { layer } from '../layer.mjs'
 import { Note } from '../notes/Note.mjs'
@@ -166,6 +166,7 @@ export abstract class SlideConnector extends Archetype {
             if (!hitbox.contains(touch.position)) continue
 
             disallowEmpty(touch)
+            if (touch.started) disallowEnd(touch, -1000)
 
             this.startSharedMemory.lastActiveTime = time.now
 
@@ -176,8 +177,9 @@ export abstract class SlideConnector extends Archetype {
 
             if (this.shouldPlayLinearEffect && !this.effectInstanceIds.linear)
                 this.spawnLinearEffect()
-            return
         }
+
+        if (this.startSharedMemory.lastActiveTime === time.now) return
 
         if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
 

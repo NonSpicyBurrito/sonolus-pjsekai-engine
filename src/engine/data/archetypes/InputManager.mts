@@ -111,8 +111,11 @@ export const canEnd = (touch: Touch, afterTime: number) => {
     return disallowedEnds.now.getValue(index) < afterTime
 }
 
-export const disallowEnd = (touch: Touch, untilTime: number) =>
+export const disallowEnd = (touch: Touch, untilTime: number) => {
+    if (disallowedEnds.now.has(touch.id)) return
+
     disallowedEnds.now.set(touch.id, untilTime)
+}
 
 export class InputManager extends Archetype {
     spawnOrder() {

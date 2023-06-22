@@ -12,25 +12,22 @@ export const disallowEmpty = (touch: Touch) => disallowedEmpties.now.add(touch.i
 
 export const claimStartManager = new ClaimManager((touch) => touch.started)
 
-export const claimEndManager = new ClaimManager((touch) => touch.ended)
+export const claimEndManager = new ClaimManager((touch) => touch.ended && canEnd(touch))
 
 const disallowedEnds = levelMemory({
     old: Dictionary(16, TouchId, Number),
     now: Dictionary(16, TouchId, Number),
 })
 
-export const canEnd = (touch: Touch, afterTime: number) => {
+export const canEnd = (touch: Touch) => {
     const index = disallowedEnds.now.indexOf(touch.id)
     if (index === -1) return true
 
-    return disallowedEnds.now.getValue(index) < afterTime
+    return disallowedEnds.now.getValue(index) < touch.time
 }
 
-export const disallowEnd = (touch: Touch, untilTime: number) => {
-    if (disallowedEnds.now.has(touch.id)) return
-
+export const disallowEnd = (touch: Touch, untilTime: number) =>
     disallowedEnds.now.set(touch.id, untilTime)
-}
 
 export class InputManager extends Archetype {
     spawnOrder() {

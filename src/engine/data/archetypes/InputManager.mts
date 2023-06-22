@@ -13,23 +13,61 @@ const claimedStarts = levelMemory(
     Dictionary(16, Number, {
         index: Number,
         time: Number,
-        accurate: Boolean,
+        hitbox: Rect,
+        fullHitbox: Rect,
     }),
 )
 
 export const tryClaimStart = (index: number, time: number, hitbox: Rect, fullHitbox: Rect) => {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+        const touchIndex = findBestTouchIndex(time, hitbox, fullHitbox)
+        if (touchIndex === -1) return
+
+        const claimedIndex = claimedStarts.indexOf(touchIndex)
+        if (claimedIndex === -1) {
+            claimedStarts.set(touchIndex, {
+                index,
+                time,
+                hitbox,
+                fullHitbox,
+            })
+            return
+        }
+
+        const replaced = claimedStarts.getValue(claimedIndex)
+
+        claimedStarts.set(touchIndex, {
+            index,
+            time,
+            hitbox,
+            fullHitbox,
+        })
+
+        index = replaced.index
+        time = replaced.time
+        hitbox.copyFrom(replaced.hitbox)
+        fullHitbox.copyFrom(replaced.fullHitbox)
+    }
+}
+
+const findBestTouchIndex = (time: number, hitbox: Rect, fullHitbox: Rect) => {
+    const x = (hitbox.l + hitbox.r) / 2
+
+    let i = -1
+    let minDist = 0
+
     for (const touch of touches) {
         if (!touch.started) continue
         if (!fullHitbox.contains(touch.position)) continue
 
+        const dist = Math.abs(touch.position.x - x)
+        if (i !== -1 && dist >= minDist) continue
+
         const claimedIndex = claimedStarts.indexOf(touch.index)
         if (claimedIndex === -1) {
-            claimedStarts.set(touch.index, {
-                index,
-                time,
-                accurate: hitbox.contains(touch.position),
-            })
-
+            i = touch.index
+            minDist = dist
             continue
         }
 
@@ -37,25 +75,20 @@ export const tryClaimStart = (index: number, time: number, hitbox: Rect, fullHit
         if (time > claimedStart.time) continue
 
         if (time < claimedStart.time) {
-            claimedStarts.set(touch.index, {
-                index,
-                time,
-                accurate: hitbox.contains(touch.position),
-            })
-
+            i = touch.index
+            minDist = dist
             continue
         }
 
-        if (claimedStart.accurate) continue
+        if (claimedStart.hitbox.contains(touch.position)) continue
 
         if (!hitbox.contains(touch.position)) continue
 
-        claimedStarts.set(touch.index, {
-            index,
-            time,
-            accurate: true,
-        })
+        i = touch.index
+        minDist = dist
     }
+
+    return i
 }
 
 export const getClaimedStartTouchIndex = (index: number) => {

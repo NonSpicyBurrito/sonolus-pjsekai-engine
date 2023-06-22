@@ -1,10 +1,5 @@
 import { options } from '../../../../../configuration/options.mjs'
-import {
-    disallowEmpty,
-    disallowEnd,
-    getClaimedStartTouchIndex,
-    tryClaimStart,
-} from '../../../InputManager.mjs'
+import { disallowEmpty, getClaimedStartTouchIndex, tryClaimStart } from '../../../InputManager.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 
 export abstract class TapNote extends FlatNote {
@@ -31,7 +26,6 @@ export abstract class TapNote extends FlatNote {
 
     complete(touch: Touch) {
         disallowEmpty(touch)
-        disallowEnd(touch, this.inputTime.max)
 
         this.result.judgment = input.judge(touch.startTime, this.targetTime, this.windows)
         this.result.accuracy = touch.startTime - this.targetTime

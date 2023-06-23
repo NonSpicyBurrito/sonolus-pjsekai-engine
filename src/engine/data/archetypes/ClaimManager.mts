@@ -8,12 +8,16 @@ export class ClaimManager {
         }),
     )
 
-    constructor(private checkTouch: (touch: Touch) => boolean) {}
-
-    claim(index: number, time: number, hitbox: Rect, fullHitbox: Rect) {
+    claim(
+        index: number,
+        time: number,
+        hitbox: Rect,
+        fullHitbox: Rect,
+        checkTouch: (touch: Touch) => boolean,
+    ) {
         // eslint-disable-next-line no-constant-condition
         while (true) {
-            const touchIndex = this.findBestTouchIndex(time, hitbox, fullHitbox)
+            const touchIndex = this.findBestTouchIndex(time, hitbox, fullHitbox, checkTouch)
             if (touchIndex === -1) return
 
             const claimedIndex = this.claimed.indexOf(touchIndex)
@@ -55,14 +59,19 @@ export class ClaimManager {
         this.claimed.clear()
     }
 
-    findBestTouchIndex(time: number, hitbox: Rect, fullHitbox: Rect) {
+    findBestTouchIndex(
+        time: number,
+        hitbox: Rect,
+        fullHitbox: Rect,
+        checkTouch: (touch: Touch) => boolean,
+    ) {
         const x = (hitbox.l + hitbox.r) / 2
 
         let i = -1
         let minDist = 0
 
         for (const touch of touches) {
-            if (!this.checkTouch(touch)) continue
+            if (!checkTouch(touch)) continue
             if (!fullHitbox.contains(touch.position)) continue
 
             const dist = Math.abs(touch.position.x - x)

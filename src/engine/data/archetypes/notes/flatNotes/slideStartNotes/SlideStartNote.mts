@@ -1,5 +1,5 @@
 import { options } from '../../../../../configuration/options.mjs'
-import { claimStartManager, disallowEmpty } from '../../../InputManager.mjs'
+import { claimStart, disallowEmpty, getClaimedStart } from '../../../InputManager.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 
 export abstract class SlideStartNote extends FlatNote {
@@ -20,7 +20,7 @@ export abstract class SlideStartNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        claimStartManager.claim(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
+        claimStart(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
     }
 
     touch() {
@@ -28,7 +28,7 @@ export abstract class SlideStartNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        const index = claimStartManager.getClaimedTouchIndex(this.info.index)
+        const index = getClaimedStart(this.info.index)
         if (index === -1) return
 
         this.complete(touches.get(index))

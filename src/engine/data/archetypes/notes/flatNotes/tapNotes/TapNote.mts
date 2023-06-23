@@ -1,6 +1,5 @@
 import { options } from '../../../../../configuration/options.mjs'
-import { claimStartManager, disallowEmpty, disallowEnd } from '../../../InputManager.mjs'
-import { windows } from '../../../windows.mjs'
+import { claimStart, disallowEmpty, disallowEnd, getClaimedStart } from '../../../InputManager.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 
 export abstract class TapNote extends FlatNote {
@@ -11,7 +10,7 @@ export abstract class TapNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        claimStartManager.claim(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
+        claimStart(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
     }
 
     touch() {
@@ -19,7 +18,7 @@ export abstract class TapNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        const index = claimStartManager.getClaimedTouchIndex(this.info.index)
+        const index = getClaimedStart(this.info.index)
         if (index === -1) return
 
         this.complete(touches.get(index))
@@ -27,7 +26,7 @@ export abstract class TapNote extends FlatNote {
 
     complete(touch: Touch) {
         disallowEmpty(touch)
-        disallowEnd(touch, this.targetTime + windows.slideEndLockoutDuration)
+        disallowEnd(touch, this.targetTime)
 
         this.result.judgment = input.judge(touch.startTime, this.targetTime, this.windows)
         this.result.accuracy = touch.startTime - this.targetTime

@@ -1,5 +1,6 @@
 import { options } from '../../configuration/options.mjs'
 import { ClaimManager } from './ClaimManager.mjs'
+import { windows } from './windows.mjs'
 
 const disallowedEmpties = levelMemory({
     old: Collection(16, TouchId),
@@ -10,24 +11,46 @@ export const canEmpty = (touch: Touch) => !disallowedEmpties.now.has(touch.id)
 
 export const disallowEmpty = (touch: Touch) => disallowedEmpties.now.add(touch.id)
 
-export const claimStartManager = new ClaimManager((touch) => touch.started)
+const claimStartManager = new ClaimManager()
 
-export const claimEndManager = new ClaimManager((touch) => touch.ended && canEnd(touch))
+export const claimStart = (index: number, time: number, hitbox: Rect, fullHitbox: Rect) =>
+    claimStartManager.claim(index, time, hitbox, fullHitbox, (touch) => touch.started)
+
+export const getClaimedStart = (index: number) => claimStartManager.getClaimedTouchIndex(index)
+
+export const claimEndManager = new ClaimManager()
+
+export const claimEnd = (
+    index: number,
+    time: number,
+    hitbox: Rect,
+    fullHitbox: Rect,
+    targetTime: number,
+) =>
+    claimEndManager.claim(
+        index,
+        time,
+        hitbox,
+        fullHitbox,
+        (touch) => touch.ended && canEnd(touch, targetTime),
+    )
+
+export const getClaimedEnd = (index: number) => claimEndManager.getClaimedTouchIndex(index)
 
 const disallowedEnds = levelMemory({
     old: Dictionary(16, TouchId, Number),
     now: Dictionary(16, TouchId, Number),
 })
 
-export const canEnd = (touch: Touch) => {
+const canEnd = (touch: Touch, targetTime: number) => {
     const index = disallowedEnds.now.indexOf(touch.id)
     if (index === -1) return true
 
-    return disallowedEnds.now.getValue(index) < touch.time
+    return disallowedEnds.now.getValue(index) < targetTime
 }
 
-export const disallowEnd = (touch: Touch, untilTime: number) =>
-    disallowedEnds.now.set(touch.id, untilTime)
+export const disallowEnd = (touch: Touch, targetTime: number) =>
+    disallowedEnds.now.set(touch.id, targetTime + windows.slideEndLockoutDuration)
 
 export class InputManager extends Archetype {
     spawnOrder() {

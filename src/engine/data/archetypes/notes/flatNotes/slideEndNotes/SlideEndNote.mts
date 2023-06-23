@@ -1,5 +1,5 @@
 import { options } from '../../../../../configuration/options.mjs'
-import { claimEndManager } from '../../../InputManager.mjs'
+import { claimEnd, getClaimedEnd } from '../../../InputManager.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 
 export abstract class SlideEndNote extends FlatNote {
@@ -10,7 +10,7 @@ export abstract class SlideEndNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        claimEndManager.claim(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
+        claimEnd(this.info.index, this.targetTime, this.hitbox, this.fullHitbox, this.targetTime)
     }
 
     touch() {
@@ -18,7 +18,7 @@ export abstract class SlideEndNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        const index = claimEndManager.getClaimedTouchIndex(this.info.index)
+        const index = getClaimedEnd(this.info.index)
         if (index === -1) return
 
         this.complete(touches.get(index))

@@ -1,6 +1,6 @@
 {
   "name": "sonolus-pjsekai-engine",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A recreation of Project Sekai: Colorful Stage! engine in Sonolus",
   "author": "NonSpicyBurrito",
   "repository": "github:NonSpicyBurrito/sonolus-pjsekai-engine",
@@ -18,16 +18,16 @@
     "build": "tsc -p ./lib/tsconfig.json && sonolus-cli --build && node ./lib/build.mjs"
   },
   "devDependencies": {
-    "@types/node": "^16.18.35",
-    "@typescript-eslint/eslint-plugin": "^5.59.9",
-    "@typescript-eslint/parser": "^5.59.9",
-    "eslint": "^8.42.0",
+    "@types/node": "^16.18.36",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.8",
     "prettier-plugin-organize-imports": "^3.2.2",
     "sonolus-core": "~7.0.0",
-    "sonolus.js": "~9.0.0",
+    "sonolus.js": "~9.0.2",
     "typescript": "~5.1.3"
   }
 }

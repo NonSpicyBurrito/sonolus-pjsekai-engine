@@ -1,3 +1,5 @@
+import { options } from '../../configuration/options.mjs'
+
 type Frames = number | [min: number, max: number]
 
 const fromFrames = (perfect: Frames, great: Frames, good: Frames) => {
@@ -33,5 +35,9 @@ export const windows = {
     slideEndFlickNote: {
         normal: fromFrames([3.5, 4], [6.5, 8], [7.5, 8.5]),
         critical: fromFrames([3.5, 4], [6.5, 8], [7.5, 8.5]),
+    },
+
+    get slideEndLockoutDuration() {
+        return 0.125 / Math.max(options.speed, 1)
     },
 }

@@ -21,7 +21,7 @@ export abstract class SlideTickNote extends Note {
             l: this.data.lane - this.data.size,
             r: this.data.lane + this.data.size,
             leniency: this.leniency,
-        }).copyTo(this.hitbox)
+        }).copyTo(this.fullHitbox)
 
         if (options.autoplay) {
             this.result.judgment = Judgment.Perfect
@@ -36,7 +36,7 @@ export abstract class SlideTickNote extends Note {
         if (time.now < this.inputTime) return
 
         for (const touch of touches) {
-            if (!this.hitbox.contains(touch.position)) continue
+            if (!this.fullHitbox.contains(touch.position)) continue
 
             this.complete(touch)
             return

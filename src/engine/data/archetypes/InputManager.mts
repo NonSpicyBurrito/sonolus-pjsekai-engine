@@ -1,4 +1,6 @@
 import { options } from '../../configuration/options.mjs'
+import { ClaimManager } from './ClaimManager.mjs'
+import { windows } from './windows.mjs'
 
 const disallowedEmpties = levelMemory({
     old: Collection(16, TouchId),
@@ -9,26 +11,46 @@ export const canEmpty = (touch: Touch) => !disallowedEmpties.now.has(touch.id)
 
 export const disallowEmpty = (touch: Touch) => disallowedEmpties.now.add(touch.id)
 
-const disallowedStarts = levelMemory(Collection(16, TouchId))
+const claimStartManager = new ClaimManager()
 
-export const canStart = (touch: Touch) => !disallowedStarts.has(touch.id)
+export const claimStart = (index: number, time: number, hitbox: Rect, fullHitbox: Rect) =>
+    claimStartManager.claim(index, time, hitbox, fullHitbox, (touch) => touch.started)
 
-export const disallowStart = (touch: Touch) => disallowedStarts.add(touch.id)
+export const getClaimedStart = (index: number) => claimStartManager.getClaimedTouchIndex(index)
+
+export const claimEndManager = new ClaimManager()
+
+export const claimEnd = (
+    index: number,
+    time: number,
+    hitbox: Rect,
+    fullHitbox: Rect,
+    targetTime: number,
+) =>
+    claimEndManager.claim(
+        index,
+        time,
+        hitbox,
+        fullHitbox,
+        (touch) => touch.ended && canEnd(touch, targetTime),
+    )
+
+export const getClaimedEnd = (index: number) => claimEndManager.getClaimedTouchIndex(index)
 
 const disallowedEnds = levelMemory({
     old: Dictionary(16, TouchId, Number),
     now: Dictionary(16, TouchId, Number),
 })
 
-export const canEnd = (touch: Touch, afterTime: number) => {
+const canEnd = (touch: Touch, targetTime: number) => {
     const index = disallowedEnds.now.indexOf(touch.id)
     if (index === -1) return true
 
-    return disallowedEnds.now.getValue(index) < afterTime
+    return disallowedEnds.now.getValue(index) < targetTime
 }
 
-export const disallowEnd = (touch: Touch, untilTime: number) =>
-    disallowedEnds.now.set(touch.id, untilTime)
+export const disallowEnd = (touch: Touch, targetTime: number) =>
+    disallowedEnds.now.set(touch.id, targetTime + windows.slideEndLockoutDuration)
 
 export class InputManager extends Archetype {
     spawnOrder() {
@@ -42,17 +64,15 @@ export class InputManager extends Archetype {
     updateSequential() {
         if (options.autoplay) return
 
+        claimStartManager.clear()
+
+        claimEndManager.clear()
+
         disallowedEmpties.now.copyTo(disallowedEmpties.old)
         disallowedEmpties.now.clear()
 
         disallowedEnds.now.copyTo(disallowedEnds.old)
         disallowedEnds.now.clear()
-    }
-
-    touch() {
-        if (options.autoplay) return
-
-        disallowedStarts.clear()
 
         for (const touch of touches) {
             if (disallowedEmpties.old.has(touch.id)) disallowedEmpties.now.add(touch.id)

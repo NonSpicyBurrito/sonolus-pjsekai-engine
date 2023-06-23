@@ -17,6 +17,7 @@ export abstract class Note extends Archetype {
     spawnTime = this.entityMemory(Number)
 
     hitbox = this.entityMemory(Rect)
+    fullHitbox = this.entityMemory(Rect)
 
     preprocess() {
         this.targetTime = bpmChanges.at(this.data.beat).time
@@ -32,7 +33,9 @@ export abstract class Note extends Archetype {
         return time.scaled >= this.spawnTime
     }
 
-    touchOrder = 2
+    updateSequentialOrder = 1
+
+    touchOrder = 1
 
     static approach(fromTime: number, toTime: number, now: number) {
         return 1.06 ** (45 * Math.remap(fromTime, toTime, -1, 0, now))

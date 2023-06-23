@@ -149,7 +149,6 @@ export abstract class SlideConnector extends Archetype {
         this.slide.z = getZ(layer.note.slide, this.head.time, this.headData.lane)
     }
 
-    touchOrder = 1
     touch() {
         if (options.autoplay) return
 
@@ -164,6 +163,7 @@ export abstract class SlideConnector extends Archetype {
         })
 
         for (const touch of touches) {
+            if (touch.ended) continue
             if (!hitbox.contains(touch.position)) continue
 
             disallowEmpty(touch)
@@ -177,8 +177,9 @@ export abstract class SlideConnector extends Archetype {
 
             if (this.shouldPlayLinearEffect && !this.effectInstanceIds.linear)
                 this.spawnLinearEffect()
-            return
         }
+
+        if (this.startSharedMemory.lastActiveTime === time.now) return
 
         if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
 

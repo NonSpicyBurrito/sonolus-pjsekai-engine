@@ -19,7 +19,7 @@ export class Stage extends Archetype {
         new Rect(lane.hitbox).transform(skin.transform).copyTo(this.hitbox)
     }
 
-    touchOrder = 3
+    touchOrder = 2
     touch() {
         if (options.autoplay) return
 

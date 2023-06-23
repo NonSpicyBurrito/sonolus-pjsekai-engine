@@ -1,10 +1,25 @@
 import { options } from '../../../../../../configuration/options.mjs'
-import { canStart, disallowEmpty, disallowEnd, disallowStart } from '../../../../InputManager.mjs'
+import {
+    claimStart,
+    disallowEmpty,
+    disallowEnd,
+    getClaimedStart,
+} from '../../../../InputManager.mjs'
 import { minFlickVR } from '../../../../constants.mjs'
 import { FlickNote } from '../FlickNote.mjs'
 
 export abstract class SingleFlickNote extends FlickNote {
     activated = this.entityMemory(Boolean)
+
+    updateSequential() {
+        if (options.autoplay) return
+
+        if (time.now < this.inputTime.min) return
+
+        if (this.activated) return
+
+        claimStart(this.info.index, this.targetTime, this.hitbox, this.fullHitbox)
+    }
 
     touch() {
         if (options.autoplay) return
@@ -12,28 +27,23 @@ export abstract class SingleFlickNote extends FlickNote {
         if (time.now < this.inputTime.min) return
 
         if (!this.activated) {
-            for (const touch of touches) {
-                if (!touch.started) continue
-                if (!this.hitbox.contains(touch.position)) continue
-                if (!canStart(touch)) continue
+            const index = getClaimedStart(this.info.index)
+            if (index === -1) return
 
-                disallowEmpty(touch)
-                disallowStart(touch)
-                disallowEnd(touch, this.inputTime.max)
+            const touch = touches.get(index)
 
-                this.activated = true
-                break
-            }
+            disallowEmpty(touch)
+            disallowEnd(touch, this.targetTime)
+
+            this.activated = true
         }
 
-        if (this.activated) {
-            for (const touch of touches) {
-                if (touch.vr < minFlickVR) continue
-                if (!this.hitbox.contains(touch.lastPosition)) continue
+        for (const touch of touches) {
+            if (touch.vr < minFlickVR) continue
+            if (!this.fullHitbox.contains(touch.lastPosition)) continue
 
-                this.complete(touch)
-                return
-            }
+            this.complete(touch)
+            return
         }
     }
 }

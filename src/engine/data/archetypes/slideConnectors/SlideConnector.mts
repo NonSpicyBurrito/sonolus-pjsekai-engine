@@ -149,7 +149,8 @@ export abstract class SlideConnector extends Archetype {
         this.slide.z = getZ(layer.note.slide, this.head.time, this.headData.lane)
     }
 
-    touch() {
+    updateSequentialOrder = 1
+    updateSequential() {
         if (options.autoplay) return
 
         if (time.now < this.head.time) return

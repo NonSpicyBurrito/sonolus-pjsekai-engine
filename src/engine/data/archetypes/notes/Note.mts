@@ -33,9 +33,7 @@ export abstract class Note extends Archetype {
         return time.scaled >= this.spawnTime
     }
 
-    updateSequentialOrder = 1
-
-    touchOrder = 1
+    updateSequentialOrder = 2
 
     static approach(fromTime: number, toTime: number, now: number) {
         return 1.06 ** (45 * Math.remap(fromTime, toTime, -1, 0, now))

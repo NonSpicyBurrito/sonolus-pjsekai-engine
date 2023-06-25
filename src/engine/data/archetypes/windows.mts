@@ -38,6 +38,6 @@ export const windows = {
     },
 
     slideEndLockoutDuration(isInside: boolean) {
-        return (isInside ? 0.125 : 0.16) / Math.max(options.speed, 1)
+        return (isInside ? 0.125 : 0.25) / Math.max(options.speed, 1)
     },
 }

@@ -2,6 +2,12 @@ import { options } from '../../configuration/options.mjs'
 import { ClaimManager } from './ClaimManager.mjs'
 import { windows } from './windows.mjs'
 
+const inSlides = levelMemory(Collection(16, TouchId))
+
+export const inSlide = (touch: Touch) => inSlides.has(touch.id)
+
+export const setInSlide = (touch: Touch) => inSlides.add(touch.id)
+
 const disallowedEmpties = levelMemory({
     old: Collection(16, TouchId),
     now: Collection(16, TouchId),
@@ -63,6 +69,8 @@ export class InputManager extends Archetype {
 
     updateSequential() {
         if (options.autoplay) return
+
+        inSlides.clear()
 
         claimStartManager.clear()
 

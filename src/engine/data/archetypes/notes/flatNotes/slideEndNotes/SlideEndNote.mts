@@ -15,7 +15,13 @@ export abstract class SlideEndNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        claimEnd(this.info.index, this.targetTime, this.hitbox, this.fullHitbox, this.targetTime)
+        claimEnd(
+            this.info.index,
+            this.targetTime,
+            this.hitbox,
+            this.fullHitbox,
+            this.startSharedMemory.lastActiveTime === time.now ? this.targetTime : 99999,
+        )
     }
 
     touch() {

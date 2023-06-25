@@ -4,8 +4,10 @@ import {
     disallowEmpty,
     disallowEnd,
     getClaimedStart,
+    inSlide,
 } from '../../../../InputManager.mjs'
 import { minFlickVR } from '../../../../constants.mjs'
+import { windows } from '../../../../windows.mjs'
 import { FlickNote } from '../FlickNote.mjs'
 
 export abstract class SingleFlickNote extends FlickNote {
@@ -33,7 +35,7 @@ export abstract class SingleFlickNote extends FlickNote {
             const touch = touches.get(index)
 
             disallowEmpty(touch)
-            disallowEnd(touch, this.targetTime)
+            disallowEnd(touch, this.targetTime + windows.slideEndLockoutDuration(inSlide(touch)))
 
             this.activated = true
         }

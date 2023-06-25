@@ -1,6 +1,5 @@
 import { options } from '../../configuration/options.mjs'
 import { ClaimManager } from './ClaimManager.mjs'
-import { windows } from './windows.mjs'
 
 const inSlides = levelMemory(Collection(16, TouchId))
 
@@ -55,8 +54,8 @@ const canEnd = (touch: Touch, targetTime: number) => {
     return disallowedEnds.now.getValue(index) < targetTime
 }
 
-export const disallowEnd = (touch: Touch, targetTime: number) =>
-    disallowedEnds.now.set(touch.id, targetTime + windows.slideEndLockoutDuration)
+export const disallowEnd = (touch: Touch, untilTime: number) =>
+    disallowedEnds.now.set(touch.id, untilTime)
 
 export class InputManager extends Archetype {
     spawnOrder() {

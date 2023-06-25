@@ -1,9 +1,14 @@
 import { options } from '../../../../../configuration/options.mjs'
 import { claimEnd, getClaimedEnd } from '../../../InputManager.mjs'
+import { archetypes } from '../../../index.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 
 export abstract class SlideEndNote extends FlatNote {
     leniency = 1
+
+    slideEndData = this.defineData({
+        slideRef: { name: 'slide', type: Number },
+    })
 
     updateSequential() {
         if (options.autoplay) return
@@ -22,6 +27,14 @@ export abstract class SlideEndNote extends FlatNote {
         if (index === -1) return
 
         this.complete(touches.get(index))
+    }
+
+    get slideData() {
+        return archetypes.NormalSlideConnector.data.get(this.slideEndData.slideRef)
+    }
+
+    get startSharedMemory() {
+        return archetypes.NormalSlideStartNote.sharedMemory.get(this.slideData.startRef)
     }
 
     complete(touch: Touch) {

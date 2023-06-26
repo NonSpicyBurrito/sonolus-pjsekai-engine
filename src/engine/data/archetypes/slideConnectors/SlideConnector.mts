@@ -1,7 +1,7 @@
 import { options } from '../../../configuration/options.mjs'
 import { effect } from '../../effect.mjs'
 import { particle } from '../../particle.mjs'
-import { disallowEmpty } from '../InputManager.mjs'
+import { disallowEmpty, setInSlide } from '../InputManager.mjs'
 import { note } from '../constants.mjs'
 import { layer } from '../layer.mjs'
 import { Note } from '../notes/Note.mjs'
@@ -149,7 +149,8 @@ export abstract class SlideConnector extends Archetype {
         this.slide.z = getZ(layer.note.slide, this.head.time, this.headData.lane)
     }
 
-    touch() {
+    updateSequentialOrder = 1
+    updateSequential() {
         if (options.autoplay) return
 
         if (time.now < this.head.time) return
@@ -166,6 +167,7 @@ export abstract class SlideConnector extends Archetype {
             if (touch.ended) continue
             if (!hitbox.contains(touch.position)) continue
 
+            setInSlide(touch)
             disallowEmpty(touch)
 
             this.startSharedMemory.lastActiveTime = time.now

@@ -48,6 +48,8 @@ export abstract class SlideEndFlickNote extends FlickNote {
 
         if (time.now < this.inputTime.min) return
 
+        if (this.startInfo.state !== EntityState.Despawned) return
+
         if (time.now < this.earlyInputTime) {
             this.earlyTouch()
         } else {
@@ -57,6 +59,10 @@ export abstract class SlideEndFlickNote extends FlickNote {
 
     get slideData() {
         return archetypes.NormalSlideConnector.data.get(this.slideEndFlickData.slideRef)
+    }
+
+    get startInfo() {
+        return entityInfos.get(this.slideData.startRef)
     }
 
     get startSharedMemory() {

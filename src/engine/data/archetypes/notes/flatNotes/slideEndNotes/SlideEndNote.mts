@@ -15,6 +15,8 @@ export abstract class SlideEndNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
+        if (this.startInfo.state !== EntityState.Despawned) return
+
         claimEnd(
             this.info.index,
             this.targetTime,
@@ -29,6 +31,8 @@ export abstract class SlideEndNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
+        if (this.startInfo.state !== EntityState.Despawned) return
+
         const index = getClaimedEnd(this.info.index)
         if (index === -1) return
 
@@ -37,6 +41,10 @@ export abstract class SlideEndNote extends FlatNote {
 
     get slideData() {
         return archetypes.NormalSlideConnector.data.get(this.slideEndData.slideRef)
+    }
+
+    get startInfo() {
+        return entityInfos.get(this.slideData.startRef)
     }
 
     get startSharedMemory() {

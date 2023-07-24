@@ -14,8 +14,9 @@
   ],
   "scripts": {
     "dev:play": "sonolus-cli --dev ./play/sonolus-cli.config.mjs",
-    "prebuild": "tsc -p ./shared --noEmit && tsc -p ./play --noEmit && eslint --ext .mts ./shared && eslint --ext .mts ./play && eslint --ext .cts ./lib",
-    "build": "tsc -p ./lib && sonolus-cli --build ./play/sonolus-cli.config.mjs && node ./lib/build.mjs"
+    "dev:tutorial": "sonolus-cli --dev ./tutorial/sonolus-cli.config.mjs",
+    "prebuild": "tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./tutorial --noEmit && eslint --ext .mts ./shared && eslint --ext .mts ./play && eslint --ext .mts ./tutorial && eslint --ext .cts ./lib",
+    "build": "tsc -p ./lib && sonolus-cli --build ./play/sonolus-cli.config.mjs && sonolus-cli --build ./tutorial/sonolus-cli.config.mjs && node ./lib/build.mjs"
   },
   "dependencies": {
     "sonolus-core": "~7.2.0-beta.0"

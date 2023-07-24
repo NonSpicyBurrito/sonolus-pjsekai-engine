@@ -13,8 +13,5 @@
         "outDir": "../dist",
         "rootDir": "./src",
         "declaration": true
-    },
-    "include": [
-        "./src"
-    ]
+    }
 }

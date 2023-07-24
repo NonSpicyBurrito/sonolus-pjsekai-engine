@@ -1,0 +1,6 @@
+{
+    "rules": {
+        "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/explicit-module-boundary-types": "error"
+    }
+}

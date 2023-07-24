@@ -99,13 +99,13 @@ Engine Configuration.
 -   `engineConfiguration.buffer`: buffer of file.
 -   `engineConfiguration.hash`: hash of file.
 
-### `engineData`
+### `enginePlayData`
 
-Engine Data.
+Engine Play Data.
 
--   `engineData.path`: path to file.
--   `engineData.buffer`: buffer of file.
--   `engineData.hash`: hash of file.
+-   `enginePlayData.path`: path to file.
+-   `enginePlayData.buffer`: buffer of file.
+-   `enginePlayData.hash`: hash of file.
 
 ### `engineThumbnail`
 

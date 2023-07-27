@@ -11,5 +11,5 @@ export const tutorialData = {
     instruction,
     tutorial,
 
-    globalResolver: (name: string) => eval(name),
+    globalResolver: (name: string) => eval(name) as unknown,
 }

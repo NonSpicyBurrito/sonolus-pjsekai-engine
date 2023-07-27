@@ -50,7 +50,7 @@ export const connector = {
             } else {
                 sprites.normal.draw(layout, layer.note.connector, 1)
             }
-        } else if (mode === 4 || mode === 6) {
+        } else {
             const t = approach(mode === 4 ? segment.time : 0)
             const b = approach(2)
 

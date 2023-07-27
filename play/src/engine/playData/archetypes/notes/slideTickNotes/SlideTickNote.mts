@@ -59,5 +59,6 @@ export abstract class SlideTickNote extends Note {
         this.despawn = true
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     playHitEffects() {}
 }

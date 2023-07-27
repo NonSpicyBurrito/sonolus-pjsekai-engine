@@ -11,5 +11,5 @@ export const playData = {
     buckets,
     archetypes,
 
-    globalResolver: (name: string) => eval(name),
+    globalResolver: (name: string) => eval(name) as unknown,
 }

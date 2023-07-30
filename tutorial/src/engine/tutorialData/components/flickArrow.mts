@@ -41,7 +41,7 @@ export const flickArrow = {
             }
         } else {
             const y = mode === 2 ? approach(segment.time) : 1
-            const s = mode === 2 ? Math.mod(time.now, 0.5) / 0.5 : 0
+            const s = mode === 2 ? Math.mod(segment.time, 0.5) / 0.5 : 0
 
             if (sprites.useFallback) {
                 const l = -0.5

@@ -15,7 +15,7 @@ export const perspectiveLayout = ({ l, r, b, t }: RectLike) =>
         y4: b,
     })
 
-export const circularEffectLayout = ({ w, h }: { w: number; h: number }) => {
+const circularEffectLayout = ({ w, h }: { w: number; h: number }) => {
     const l = -w
     const r = w
 
@@ -25,7 +25,7 @@ export const circularEffectLayout = ({ w, h }: { w: number; h: number }) => {
     return new Rect({ l, r, b, t })
 }
 
-export const linearEffectLayout = () => {
+const linearEffectLayout = () => {
     const l = -1
     const r = 1
 

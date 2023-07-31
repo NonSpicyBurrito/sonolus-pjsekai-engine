@@ -16,14 +16,6 @@ export const initialization = {
 
         const w = stage.w * ((1.15875 * (1420 / 1176)) / targetAspectRatio / 12)
 
-        scaledScreen.l = screen.l / w
-        scaledScreen.r = screen.r / w
-        scaledScreen.b = screen.b / (b - t)
-        scaledScreen.t = screen.t / (b - t)
-
-        scaledScreen.w = screen.w / w
-        scaledScreen.h = screen.h / (b - t)
-
         scaledScreen.wToH = w / (t - b)
 
         new Vec(0, -1)

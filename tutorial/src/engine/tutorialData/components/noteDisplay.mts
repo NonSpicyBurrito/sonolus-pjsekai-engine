@@ -1,9 +1,46 @@
 import { note } from '../constants.mjs'
 import { layer } from '../layer.mjs'
-import { noteSprites } from '../noteSprites.mjs'
 import { segment } from '../shared.mjs'
 import { skin } from '../skin.mjs'
 import { approach, perspectiveLayout } from '../utils.mjs'
+
+const noteSprites = {
+    normal: {
+        left: skin.sprites.normalNoteLeft,
+        middle: skin.sprites.normalNoteMiddle,
+        right: skin.sprites.normalNoteRight,
+
+        fallback: skin.sprites.normalNoteFallback,
+    },
+    slide: {
+        left: skin.sprites.slideNoteLeft,
+        middle: skin.sprites.slideNoteMiddle,
+        right: skin.sprites.slideNoteRight,
+
+        fallback: skin.sprites.slideNoteFallback,
+    },
+    slideEnd: {
+        left: skin.sprites.slideNoteLeft,
+        middle: skin.sprites.slideNoteMiddle,
+        right: skin.sprites.slideNoteRight,
+
+        fallback: skin.sprites.slideNoteEndFallback,
+    },
+    flick: {
+        left: skin.sprites.flickNoteLeft,
+        middle: skin.sprites.flickNoteMiddle,
+        right: skin.sprites.flickNoteRight,
+
+        fallback: skin.sprites.flickNoteFallback,
+    },
+    flickEnd: {
+        left: skin.sprites.flickNoteLeft,
+        middle: skin.sprites.flickNoteMiddle,
+        right: skin.sprites.flickNoteRight,
+
+        fallback: skin.sprites.flickNoteEndFallback,
+    },
+}
 
 let mode = tutorialMemory(DataType<0 | 1 | 2 | 3>)
 let useFallback = tutorialMemory(Boolean)

@@ -1,14 +1,14 @@
 import { note } from '../constants.mjs'
 import { layer } from '../layer.mjs'
-import { noteSprites } from '../noteSprites.mjs'
+import { skin } from '../skin.mjs'
 import { perspectiveLayout } from '../utils.mjs'
 
 const sprites = {
-    left: noteSprites.slide.left,
-    middle: noteSprites.slide.middle,
-    right: noteSprites.slide.right,
+    left: skin.sprites.slideNoteLeft,
+    middle: skin.sprites.slideNoteMiddle,
+    right: skin.sprites.slideNoteRight,
 
-    fallback: noteSprites.slide.fallback,
+    fallback: skin.sprites.slideNoteFallback,
 
     get useFallback() {
         return !this.left.exists || !this.middle.exists || !this.right.exists

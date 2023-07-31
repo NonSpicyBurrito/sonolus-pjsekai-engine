@@ -7,7 +7,7 @@ import { drawHand } from '../../utils.mjs'
 export const slideEndFlickNoteFrozen = {
     enter() {
         flickArrow.showFrozen()
-        noteDisplay.showFrozen('flick')
+        noteDisplay.showFrozen('flickEnd')
 
         instruction.texts.flick.show()
     },

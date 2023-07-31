@@ -3,7 +3,7 @@ import { noteDisplay } from '../../components/noteDisplay.mjs'
 
 export const slideEndNoteIntro = {
     enter() {
-        noteDisplay.showOverlay('slide')
+        noteDisplay.showOverlay('slideEnd')
         connector.showOverlayOut()
     },
 

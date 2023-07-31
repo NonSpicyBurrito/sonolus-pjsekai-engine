@@ -15,11 +15,25 @@ export const noteSprites = {
 
         fallback: skin.sprites.slideNoteFallback,
     },
+    slideEnd: {
+        left: skin.sprites.slideNoteLeft,
+        middle: skin.sprites.slideNoteMiddle,
+        right: skin.sprites.slideNoteRight,
+
+        fallback: skin.sprites.slideNoteEndFallback,
+    },
     flick: {
         left: skin.sprites.flickNoteLeft,
         middle: skin.sprites.flickNoteMiddle,
         right: skin.sprites.flickNoteRight,
 
         fallback: skin.sprites.flickNoteFallback,
+    },
+    flickEnd: {
+        left: skin.sprites.flickNoteLeft,
+        middle: skin.sprites.flickNoteMiddle,
+        right: skin.sprites.flickNoteRight,
+
+        fallback: skin.sprites.flickNoteEndFallback,
     },
 }

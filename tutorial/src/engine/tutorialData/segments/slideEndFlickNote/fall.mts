@@ -15,7 +15,7 @@ const effectInstanceIds = tutorialMemory({
 export const slideEndFlickNoteFall = {
     enter() {
         flickArrow.showFall()
-        noteDisplay.showFall('flick')
+        noteDisplay.showFall('flickEnd')
         slide.show()
         connector.showFallOut()
 

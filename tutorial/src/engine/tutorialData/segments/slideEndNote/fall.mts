@@ -13,7 +13,7 @@ const effectInstanceIds = tutorialMemory({
 
 export const slideEndNoteFall = {
     enter() {
-        noteDisplay.showFall('slide')
+        noteDisplay.showFall('slideEnd')
         slide.show()
         connector.showFallOut()
 

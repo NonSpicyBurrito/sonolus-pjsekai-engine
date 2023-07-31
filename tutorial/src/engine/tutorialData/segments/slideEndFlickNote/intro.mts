@@ -5,7 +5,7 @@ import { noteDisplay } from '../../components/noteDisplay.mjs'
 export const slideEndFlickNoteIntro = {
     enter() {
         flickArrow.showOverlay()
-        noteDisplay.showOverlay('flick')
+        noteDisplay.showOverlay('flickEnd')
         connector.showOverlayOut()
     },
 

@@ -129,4 +129,4 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
-} as const satisfies Record<string, EngineConfigurationOption>
+} satisfies Record<string, EngineConfigurationOption>

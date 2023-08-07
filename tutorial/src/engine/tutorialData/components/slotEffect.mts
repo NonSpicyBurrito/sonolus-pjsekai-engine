@@ -7,7 +7,7 @@ const sprites = {
     normal: skin.sprites.normalSlot,
     slide: skin.sprites.slideSlot,
     flick: skin.sprites.flickSlot,
-} as const
+}
 
 let mode = tutorialMemory(Boolean)
 

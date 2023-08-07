@@ -1,8 +1,7 @@
 import { flickArrow } from '../../components/flickArrow.mjs'
 import { noteDisplay } from '../../components/noteDisplay.mjs'
-import { instruction } from '../../instruction.mjs'
-import { segment } from '../../shared.mjs'
-import { drawHand } from '../../utils.mjs'
+import { drawHand, instruction } from '../../instruction.mjs'
+import { segment } from '../../segment.mjs'
 
 export const flickNoteFrozen = {
     enter() {

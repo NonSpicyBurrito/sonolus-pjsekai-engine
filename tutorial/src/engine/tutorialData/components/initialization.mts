@@ -1,5 +1,6 @@
+import { hand } from '../hand.mjs'
 import { particle } from '../particle.mjs'
-import { hand, scaledScreen } from '../shared.mjs'
+import { scaledScreen } from '../scaledScreen.mjs'
 import { skin } from '../skin.mjs'
 
 export const initialization = {

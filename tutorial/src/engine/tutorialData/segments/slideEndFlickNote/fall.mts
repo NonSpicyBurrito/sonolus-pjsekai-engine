@@ -3,8 +3,8 @@ import { flickArrow } from '../../components/flickArrow.mjs'
 import { noteDisplay } from '../../components/noteDisplay.mjs'
 import { slide } from '../../components/slide.mjs'
 import { effect } from '../../effect.mjs'
-import { particle } from '../../particle.mjs'
-import { drawHand, spawnCircularHoldEffect, spawnLinearHoldEffect } from '../../utils.mjs'
+import { drawHand } from '../../instruction.mjs'
+import { particle, spawnCircularHoldEffect, spawnLinearHoldEffect } from '../../particle.mjs'
 
 let sfxInstanceId = tutorialMemory(LoopedEffectClipInstanceId)
 const effectInstanceIds = tutorialMemory({

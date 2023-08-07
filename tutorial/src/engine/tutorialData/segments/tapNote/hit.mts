@@ -1,8 +1,12 @@
 import { slotEffect } from '../../components/slotEffect.mjs'
 import { slotGlowEffect } from '../../components/slotGlowEffect.mjs'
 import { effect } from '../../effect.mjs'
-import { particle } from '../../particle.mjs'
-import { playCircularNoteEffect, playLaneEffects, playLinearNoteEffect } from '../../utils.mjs'
+import {
+    particle,
+    playCircularNoteEffect,
+    playLaneEffects,
+    playLinearNoteEffect,
+} from '../../particle.mjs'
 
 export const tapNoteHit = {
     enter() {

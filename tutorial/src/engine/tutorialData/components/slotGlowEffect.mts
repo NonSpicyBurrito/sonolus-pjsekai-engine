@@ -1,6 +1,6 @@
-import { layer } from '../layer.mjs'
-import { scaledScreen, segment } from '../shared.mjs'
-import { skin } from '../skin.mjs'
+import { scaledScreen } from '../scaledScreen.mjs'
+import { segment } from '../segment.mjs'
+import { layer, skin } from '../skin.mjs'
 
 const sprites = {
     normal: skin.sprites.normalSlotGlow,

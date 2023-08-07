@@ -1,7 +1,7 @@
-import { lane, note } from '../constants.mjs'
-import { layer } from '../layer.mjs'
-import { skin } from '../skin.mjs'
-import { perspectiveLayout } from '../utils.mjs'
+import { lane } from '../../../../../shared/src/engine/data/lane.mjs'
+import { note } from '../../../../../shared/src/engine/data/note.mjs'
+import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.mjs'
+import { layer, skin } from '../skin.mjs'
 
 const sprites = {
     stage: skin.sprites.sekaiStage,

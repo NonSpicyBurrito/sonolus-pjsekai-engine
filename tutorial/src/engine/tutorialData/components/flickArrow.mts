@@ -1,7 +1,7 @@
-import { layer } from '../layer.mjs'
-import { scaledScreen, segment } from '../shared.mjs'
-import { skin } from '../skin.mjs'
-import { approach } from '../utils.mjs'
+import { approach } from '../../../../../shared/src/engine/data/note.mjs'
+import { scaledScreen } from '../scaledScreen.mjs'
+import { segment } from '../segment.mjs'
+import { layer, skin } from '../skin.mjs'
 
 const sprites = {
     arrow: skin.sprites.flickArrow,
@@ -40,7 +40,7 @@ export const flickArrow = {
                 sprites.arrow.draw(new Rect({ l, r, b, t }), layer.note.arrow, a)
             }
         } else {
-            const y = mode === 2 ? approach(segment.time) : 1
+            const y = mode === 2 ? approach(0, 2, segment.time) : 1
             const s = mode === 2 ? Math.mod(segment.time, 0.5) / 0.5 : 0
 
             if (sprites.useFallback) {

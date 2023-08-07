@@ -1,8 +1,7 @@
-import { note } from '../constants.mjs'
-import { layer } from '../layer.mjs'
-import { segment } from '../shared.mjs'
-import { skin } from '../skin.mjs'
-import { perspectiveLayout } from '../utils.mjs'
+import { note } from '../../../../../shared/src/engine/data/note.mjs'
+import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.mjs'
+import { segment } from '../segment.mjs'
+import { layer, skin } from '../skin.mjs'
 
 const sprites = {
     normal: skin.sprites.normalSlot,

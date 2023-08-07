@@ -1,13 +1,13 @@
 import { slotEffect } from '../../components/slotEffect.mjs'
 import { slotGlowEffect } from '../../components/slotGlowEffect.mjs'
 import { effect } from '../../effect.mjs'
-import { particle } from '../../particle.mjs'
 import {
+    particle,
     playCircularNoteEffect,
     playDirectionalNoteEffect,
     playLaneEffects,
     playLinearNoteEffect,
-} from '../../utils.mjs'
+} from '../../particle.mjs'
 
 export const flickNoteHit = {
     enter() {

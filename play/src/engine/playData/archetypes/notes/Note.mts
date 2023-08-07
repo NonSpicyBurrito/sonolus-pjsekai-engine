@@ -34,12 +34,4 @@ export abstract class Note extends Archetype {
     }
 
     updateSequentialOrder = 2
-
-    static approach(fromTime: number, toTime: number, now: number) {
-        return 1.06 ** (45 * Math.remap(fromTime, toTime, -1, 0, now))
-    }
-
-    static get duration() {
-        return Math.lerp(0.35, 4, Math.unlerpClamped(12, 1, options.noteSpeed) ** 1.31)
-    }
 }

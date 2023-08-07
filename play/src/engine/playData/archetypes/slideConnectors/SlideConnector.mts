@@ -1,12 +1,11 @@
 import { options } from '../../../configuration/options.mjs'
 import { effect, getScheduleSFXTime } from '../../effect.mjs'
 import { getHitbox } from '../../lane.mjs'
-import { note } from '../../note.mjs'
+import { approach, note } from '../../note.mjs'
 import { circularEffectLayout, linearEffectLayout, particle } from '../../particle.mjs'
 import { getZ, layer } from '../../skin.mjs'
 import { perspectiveLayout } from '../../utils.mjs'
 import { disallowEmpty } from '../InputManager.mjs'
-import { Note } from '../notes/Note.mjs'
 import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'
 import { EaseType, ease } from './EaseType.mjs'
 
@@ -106,7 +105,7 @@ export abstract class SlideConnector extends Archetype {
 
         this.scheduleSFXTime = getScheduleSFXTime(this.head.time)
 
-        this.visualTime.min = this.head.scaledTime - Note.duration
+        this.visualTime.min = this.head.scaledTime - note.duration
 
         this.spawnTime = Math.min(
             this.visualTime.min,
@@ -136,7 +135,7 @@ export abstract class SlideConnector extends Archetype {
         this.tail.r = this.tail.lane + this.tailData.size
 
         if (options.hidden > 0)
-            this.visualTime.hidden = this.tail.scaledTime - Note.duration * options.hidden
+            this.visualTime.hidden = this.tail.scaledTime - note.duration * options.hidden
 
         this.connector.z = getZ(layer.note.connector, this.head.time, this.headData.lane)
 
@@ -371,11 +370,11 @@ export abstract class SlideConnector extends Archetype {
             ? VisualType.NotActivated
             : VisualType.Waiting
 
-        const hiddenDuration = options.hidden > 0 ? Note.duration * options.hidden : 0
+        const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
 
         const visibleTime = {
             min: Math.max(this.head.scaledTime, time.scaled + hiddenDuration),
-            max: Math.min(this.tail.scaledTime, time.scaled + Note.duration),
+            max: Math.min(this.tail.scaledTime, time.scaled + note.duration),
         }
 
         for (let i = 0; i < 10; i++) {
@@ -390,8 +389,8 @@ export abstract class SlideConnector extends Archetype {
             }
 
             const y = {
-                min: Note.approach(scaledTime.min - Note.duration, scaledTime.min, time.scaled),
-                max: Note.approach(scaledTime.max - Note.duration, scaledTime.max, time.scaled),
+                min: approach(scaledTime.min - note.duration, scaledTime.min, time.scaled),
+                max: approach(scaledTime.max - note.duration, scaledTime.max, time.scaled),
             }
 
             const layout = {

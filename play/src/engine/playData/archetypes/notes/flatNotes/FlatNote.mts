@@ -1,7 +1,7 @@
 import { options } from '../../../../configuration/options.mjs'
 import { getScheduleSFXTime, sfxDistance } from '../../../effect.mjs'
 import { getHitbox, lane } from '../../../lane.mjs'
-import { note } from '../../../note.mjs'
+import { approach, note } from '../../../note.mjs'
 import { circularEffectLayout, linearEffectLayout, particle } from '../../../particle.mjs'
 import { getZ, layer } from '../../../skin.mjs'
 import { perspectiveLayout } from '../../../utils.mjs'
@@ -81,7 +81,7 @@ export abstract class FlatNote extends Note {
         this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
 
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
-        this.visualTime.min = this.visualTime.max - Note.duration
+        this.visualTime.min = this.visualTime.max - note.duration
 
         this.spawnTime = Math.min(
             this.visualTime.min,
@@ -91,7 +91,7 @@ export abstract class FlatNote extends Note {
 
     initialize() {
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - Note.duration * options.hidden
+            this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
         this.inputTime.min = this.targetTime + this.windows.good.min + input.offset
         this.inputTime.max = this.targetTime + this.windows.good.max + input.offset
@@ -182,7 +182,7 @@ export abstract class FlatNote extends Note {
     }
 
     render() {
-        this.y = Note.approach(this.visualTime.min, this.visualTime.max, time.scaled)
+        this.y = approach(this.visualTime.min, this.visualTime.max, time.scaled)
 
         if (this.useFallbackSprites) {
             this.sprites.fallback.draw(this.spriteLayouts.middle.mul(this.y), this.z, 1)
@@ -273,13 +273,5 @@ export abstract class FlatNote extends Note {
             0.3,
             false,
         )
-    }
-
-    static approach(fromTime: number, toTime: number, now: number) {
-        return 1.06 ** (45 * Math.remap(fromTime, toTime, -1, 0, now))
-    }
-
-    static get duration() {
-        return Math.lerp(0.35, 4, Math.unlerpClamped(12, 1, options.noteSpeed) ** 1.31)
     }
 }

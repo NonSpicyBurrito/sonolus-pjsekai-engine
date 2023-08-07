@@ -1,10 +1,9 @@
 import { options } from '../../../../../configuration/options.mjs'
 import { getScheduleSFXTime, sfxDistance } from '../../../../effect.mjs'
-import { note } from '../../../../note.mjs'
+import { approach, note } from '../../../../note.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer } from '../../../../skin.mjs'
 import { perspectiveLayout } from '../../../../utils.mjs'
-import { Note } from '../../Note.mjs'
 import { SlideTickNote } from '../SlideTickNote.mjs'
 
 export abstract class VisibleSlideTickNote extends SlideTickNote {
@@ -45,7 +44,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
 
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
-        this.visualTime.min = this.visualTime.max - Note.duration
+        this.visualTime.min = this.visualTime.max - note.duration
 
         this.spawnTime = Math.min(
             this.visualTime.min,
@@ -57,7 +56,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         super.initialize()
 
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - Note.duration * options.hidden
+            this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
         const b = 1 + note.h
         const t = 1 - note.h
@@ -129,7 +128,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     render() {
-        this.y = Note.approach(this.visualTime.min, this.visualTime.max, time.scaled)
+        this.y = approach(this.visualTime.min, this.visualTime.max, time.scaled)
 
         if (this.useFallbackSprite) {
             this.sprites.fallback.draw(this.spriteLayout.mul(this.y), this.z, 1)

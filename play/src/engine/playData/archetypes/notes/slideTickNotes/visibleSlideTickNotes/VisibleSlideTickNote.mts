@@ -1,9 +1,10 @@
+import { approach } from '../../../../../../../../shared/src/engine/data/note.mjs'
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../../configuration/options.mjs'
 import { getScheduleSFXTime, sfxDistance } from '../../../../effect.mjs'
-import { approach, note } from '../../../../note.mjs'
+import { note } from '../../../../note.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer } from '../../../../skin.mjs'
-import { perspectiveLayout } from '../../../../utils.mjs'
 import { SlideTickNote } from '../SlideTickNote.mjs'
 
 export abstract class VisibleSlideTickNote extends SlideTickNote {

@@ -1,6 +1,6 @@
+import { perspectiveLayout } from '../../../../../../shared/src/engine/data/utils.mjs'
 import { note } from '../../note.mjs'
 import { getZ, layer } from '../../skin.mjs'
-import { perspectiveLayout } from '../../utils.mjs'
 
 export abstract class SlotEffect extends SpawnableArchetype({
     startTime: Number,

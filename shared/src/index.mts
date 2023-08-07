@@ -1,0 +1,1 @@
+import 'sonolus.js/shared'

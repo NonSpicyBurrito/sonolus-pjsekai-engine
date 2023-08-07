@@ -1,7 +1,6 @@
 import { options } from '../../../configuration/options.mjs'
 import { scaledScreen } from '../../scaledScreen.mjs'
-import { layer } from '../../skin.mjs'
-import { getZ } from '../../utils.mjs'
+import { getZ, layer } from '../../skin.mjs'
 
 export abstract class SlotGlowEffect extends SpawnableArchetype({
     startTime: Number,

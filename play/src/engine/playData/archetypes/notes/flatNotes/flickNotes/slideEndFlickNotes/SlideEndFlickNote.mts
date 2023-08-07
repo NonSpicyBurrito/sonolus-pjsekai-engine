@@ -1,6 +1,6 @@
 import { options } from '../../../../../../configuration/options.mjs'
 import { minFlickVR } from '../../../../../flick.mjs'
-import { getHitbox } from '../../../../../utils.mjs'
+import { getHitbox } from '../../../../../lane.mjs'
 import { archetypes } from '../../../../index.mjs'
 import { ease } from '../../../../slideConnectors/EaseType.mjs'
 import { FlickNote } from '../FlickNote.mjs'

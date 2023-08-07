@@ -1,9 +1,9 @@
 import { options } from '../../../../../configuration/options.mjs'
-import { sfxDistance } from '../../../../effect.mjs'
+import { getScheduleSFXTime, sfxDistance } from '../../../../effect.mjs'
 import { note } from '../../../../note.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
-import { layer } from '../../../../skin.mjs'
-import { getScheduleSFXTime, getZ, perspectiveLayout } from '../../../../utils.mjs'
+import { getZ, layer } from '../../../../skin.mjs'
+import { perspectiveLayout } from '../../../../utils.mjs'
 import { Note } from '../../Note.mjs'
 import { SlideTickNote } from '../SlideTickNote.mjs'
 

@@ -1,16 +1,10 @@
 import { options } from '../../../configuration/options.mjs'
-import { effect } from '../../effect.mjs'
+import { effect, getScheduleSFXTime } from '../../effect.mjs'
+import { getHitbox } from '../../lane.mjs'
 import { note } from '../../note.mjs'
-import { particle } from '../../particle.mjs'
-import { layer } from '../../skin.mjs'
-import {
-    circularEffectLayout,
-    getHitbox,
-    getScheduleSFXTime,
-    getZ,
-    linearEffectLayout,
-    perspectiveLayout,
-} from '../../utils.mjs'
+import { circularEffectLayout, linearEffectLayout, particle } from '../../particle.mjs'
+import { getZ, layer } from '../../skin.mjs'
+import { perspectiveLayout } from '../../utils.mjs'
 import { disallowEmpty } from '../InputManager.mjs'
 import { Note } from '../notes/Note.mjs'
 import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'

@@ -1,5 +1,5 @@
 import { options } from '../../../../configuration/options.mjs'
-import { getHitbox } from '../../../utils.mjs'
+import { getHitbox } from '../../../lane.mjs'
 import { disallowEmpty } from '../../InputManager.mjs'
 import { Note } from '../Note.mjs'
 

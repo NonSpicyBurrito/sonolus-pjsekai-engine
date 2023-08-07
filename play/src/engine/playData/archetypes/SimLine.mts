@@ -1,7 +1,6 @@
 import { options } from '../../configuration/options.mjs'
-import { layer } from '../layer.mjs'
 import { note } from '../note.mjs'
-import { skin } from '../skin.mjs'
+import { layer, skin } from '../skin.mjs'
 import { getZ, perspectiveLayout } from '../utils.mjs'
 import { archetypes } from './index.mjs'
 import { Note } from './notes/Note.mjs'

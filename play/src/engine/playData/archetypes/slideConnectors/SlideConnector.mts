@@ -1,8 +1,8 @@
 import { options } from '../../../configuration/options.mjs'
 import { effect } from '../../effect.mjs'
-import { layer } from '../../layer.mjs'
 import { note } from '../../note.mjs'
 import { particle } from '../../particle.mjs'
+import { layer } from '../../skin.mjs'
 import {
     circularEffectLayout,
     getHitbox,

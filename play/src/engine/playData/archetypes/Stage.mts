@@ -1,11 +1,10 @@
 import { options } from '../../configuration/options.mjs'
 import { effect, sfxDistance } from '../effect.mjs'
 import { lane } from '../lane.mjs'
-import { layer } from '../layer.mjs'
 import { note } from '../note.mjs'
 import { particle } from '../particle.mjs'
 import { scaledScreen } from '../scaledScreen.mjs'
-import { skin } from '../skin.mjs'
+import { layer, skin } from '../skin.mjs'
 import { perspectiveLayout } from '../utils.mjs'
 import { canEmpty } from './InputManager.mjs'
 

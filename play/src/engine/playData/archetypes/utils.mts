@@ -1,7 +1,7 @@
 import { options } from '../../configuration/options.mjs'
 import { skin } from '../skin.mjs'
-import { lane } from './constants.mjs'
-import { scaledScreen } from './shared.mjs'
+import { lane } from './lane.mjs'
+import { scaledScreen } from './scaledScreen.mjs'
 
 export const perspectiveLayout = ({ l, r, b, t }: RectLike) =>
     new Quad({

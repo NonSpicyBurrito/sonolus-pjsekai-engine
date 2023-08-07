@@ -5,7 +5,7 @@ import {
     disallowEnd,
     getClaimedStart,
 } from '../../../../InputManager.mjs'
-import { minFlickVR } from '../../../../constants.mjs'
+import { minFlickVR } from '../../../../flick.mjs'
 import { windows } from '../../../../windows.mjs'
 import { FlickNote } from '../FlickNote.mjs'
 

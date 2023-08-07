@@ -25,3 +25,5 @@ export const effect = defineEffect({
         criticalTick: 'Sekai Critical Tick',
     },
 })
+
+export const sfxDistance = 0.02

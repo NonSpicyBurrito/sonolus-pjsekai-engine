@@ -1,5 +1,5 @@
-import { note } from '../constants.mjs'
 import { layer } from '../layer.mjs'
+import { note } from '../note.mjs'
 import { getZ, perspectiveLayout } from '../utils.mjs'
 
 export abstract class SlotEffect extends SpawnableArchetype({

@@ -2,7 +2,7 @@ import { options } from '../../configuration/options.mjs'
 import { particle } from '../particle.mjs'
 import { skin } from '../skin.mjs'
 import { archetypes } from './index.mjs'
-import { scaledScreen } from './shared.mjs'
+import { scaledScreen } from './scaledScreen.mjs'
 
 export class Initialization extends Archetype {
     preprocess() {
@@ -30,9 +30,6 @@ export class Initialization extends Archetype {
         scaledScreen.r = screen.r / w
         scaledScreen.b = screen.b / (b - t)
         scaledScreen.t = screen.t / (b - t)
-
-        scaledScreen.w = screen.w / w
-        scaledScreen.h = screen.h / (b - t)
 
         scaledScreen.wToH = w / (t - b)
 

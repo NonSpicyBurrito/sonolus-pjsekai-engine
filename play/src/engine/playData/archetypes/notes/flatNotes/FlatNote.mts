@@ -1,7 +1,9 @@
 import { options } from '../../../../configuration/options.mjs'
+import { sfxDistance } from '../../../effect.mjs'
 import { particle } from '../../../particle.mjs'
-import { lane, minSFXDistance, note } from '../../constants.mjs'
+import { lane } from '../../lane.mjs'
 import { layer } from '../../layer.mjs'
+import { note } from '../../note.mjs'
 import { SlotEffect } from '../../slotEffects/SlotEffect.mjs'
 import { SlotGlowEffect } from '../../slotGlowEffects/SlotGlowEffect.mjs'
 import {
@@ -178,9 +180,9 @@ export abstract class FlatNote extends Note {
 
     scheduleSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
-            this.clips.fallback.schedule(this.targetTime, minSFXDistance)
+            this.clips.fallback.schedule(this.targetTime, sfxDistance)
         } else {
-            this.clips.perfect.schedule(this.targetTime, minSFXDistance)
+            this.clips.perfect.schedule(this.targetTime, sfxDistance)
         }
 
         this.hasSFXScheduled = true
@@ -207,17 +209,17 @@ export abstract class FlatNote extends Note {
 
     playSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
-            this.clips.fallback.play(minSFXDistance)
+            this.clips.fallback.play(sfxDistance)
         } else if ('great' in this.clips && 'good' in this.clips) {
             if (this.result.judgment === Judgment.Perfect) {
-                this.clips.perfect.play(minSFXDistance)
+                this.clips.perfect.play(sfxDistance)
             } else if (this.result.judgment === Judgment.Great) {
-                this.clips.great.play(minSFXDistance)
+                this.clips.great.play(sfxDistance)
             } else if (this.result.judgment === Judgment.Good) {
-                this.clips.good.play(minSFXDistance)
+                this.clips.good.play(sfxDistance)
             }
         } else {
-            this.clips.perfect.play(minSFXDistance)
+            this.clips.perfect.play(sfxDistance)
         }
     }
 

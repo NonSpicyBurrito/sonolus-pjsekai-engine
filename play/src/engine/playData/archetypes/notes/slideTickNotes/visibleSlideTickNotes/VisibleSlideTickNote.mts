@@ -1,7 +1,8 @@
 import { options } from '../../../../../configuration/options.mjs'
-import { minSFXDistance, note } from '../../../constants.mjs'
+import { sfxDistance } from '../../../../effect.mjs'
 import { layer } from '../../../layer.mjs'
-import { scaledScreen } from '../../../shared.mjs'
+import { note } from '../../../note.mjs'
+import { scaledScreen } from '../../../scaledScreen.mjs'
 import { getScheduleSFXTime, getZ, perspectiveLayout } from '../../../utils.mjs'
 import { Note } from '../../Note.mjs'
 import { SlideTickNote } from '../SlideTickNote.mjs'
@@ -119,9 +120,9 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
 
     scheduleSFX() {
         if (this.useFallbackClip) {
-            this.clips.fallback.schedule(this.targetTime, minSFXDistance)
+            this.clips.fallback.schedule(this.targetTime, sfxDistance)
         } else {
-            this.clips.tick.schedule(this.targetTime, minSFXDistance)
+            this.clips.tick.schedule(this.targetTime, sfxDistance)
         }
 
         this.hasSFXScheduled = true
@@ -144,9 +145,9 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
 
     playSFX() {
         if (this.useFallbackClip) {
-            this.clips.fallback.play(minSFXDistance)
+            this.clips.fallback.play(sfxDistance)
         } else {
-            this.clips.tick.play(minSFXDistance)
+            this.clips.tick.play(sfxDistance)
         }
     }
 

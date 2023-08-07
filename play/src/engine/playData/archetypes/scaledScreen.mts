@@ -4,8 +4,5 @@ export const scaledScreen = levelData({
     b: Number,
     t: Number,
 
-    w: Number,
-    h: Number,
-
     wToH: Number,
 })

@@ -1,5 +1,5 @@
 import { options } from '../../../../../../configuration/options.mjs'
-import { minFlickVR } from '../../../../constants.mjs'
+import { minFlickVR } from '../../../../flick.mjs'
 import { archetypes } from '../../../../index.mjs'
 import { ease } from '../../../../slideConnectors/EaseType.mjs'
 import { getHitbox } from '../../../../utils.mjs'

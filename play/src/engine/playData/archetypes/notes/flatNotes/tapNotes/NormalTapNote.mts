@@ -2,8 +2,8 @@ import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
 import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
+import { windows } from '../../../../windows.mjs'
 import { archetypes } from '../../../index.mjs'
-import { windows } from '../../../windows.mjs'
 import { TapNote } from './TapNote.mjs'
 
 export class NormalTapNote extends TapNote {

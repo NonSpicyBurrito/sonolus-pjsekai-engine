@@ -1,11 +1,9 @@
 import { options } from '../../../../configuration/options.mjs'
 import { sfxDistance } from '../../../effect.mjs'
+import { lane } from '../../../lane.mjs'
+import { layer } from '../../../layer.mjs'
+import { note } from '../../../note.mjs'
 import { particle } from '../../../particle.mjs'
-import { lane } from '../../lane.mjs'
-import { layer } from '../../layer.mjs'
-import { note } from '../../note.mjs'
-import { SlotEffect } from '../../slotEffects/SlotEffect.mjs'
-import { SlotGlowEffect } from '../../slotGlowEffects/SlotGlowEffect.mjs'
 import {
     circularEffectLayout,
     getHitbox,
@@ -13,7 +11,9 @@ import {
     getZ,
     linearEffectLayout,
     perspectiveLayout,
-} from '../../utils.mjs'
+} from '../../../utils.mjs'
+import { SlotEffect } from '../../slotEffects/SlotEffect.mjs'
+import { SlotGlowEffect } from '../../slotGlowEffects/SlotGlowEffect.mjs'
 import { Note } from '../Note.mjs'
 
 export abstract class FlatNote extends Note {

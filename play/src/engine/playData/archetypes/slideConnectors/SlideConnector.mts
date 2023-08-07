@@ -1,11 +1,8 @@
 import { options } from '../../../configuration/options.mjs'
 import { effect } from '../../effect.mjs'
+import { layer } from '../../layer.mjs'
+import { note } from '../../note.mjs'
 import { particle } from '../../particle.mjs'
-import { disallowEmpty } from '../InputManager.mjs'
-import { layer } from '../layer.mjs'
-import { note } from '../note.mjs'
-import { Note } from '../notes/Note.mjs'
-import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'
 import {
     circularEffectLayout,
     getHitbox,
@@ -13,7 +10,10 @@ import {
     getZ,
     linearEffectLayout,
     perspectiveLayout,
-} from '../utils.mjs'
+} from '../../utils.mjs'
+import { disallowEmpty } from '../InputManager.mjs'
+import { Note } from '../notes/Note.mjs'
+import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'
 import { EaseType, ease } from './EaseType.mjs'
 
 const VisualType = {

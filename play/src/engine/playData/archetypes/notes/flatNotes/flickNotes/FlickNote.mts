@@ -1,8 +1,8 @@
 import { options } from '../../../../../configuration/options.mjs'
+import { layer } from '../../../../layer.mjs'
+import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { skin } from '../../../../skin.mjs'
-import { layer } from '../../../layer.mjs'
-import { scaledScreen } from '../../../scaledScreen.mjs'
-import { getZ, linearEffectLayout } from '../../../utils.mjs'
+import { getZ, linearEffectLayout } from '../../../../utils.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 import { FlickDirection } from './FlickDirection.mjs'
 

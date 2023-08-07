@@ -1,6 +1,6 @@
 import { options } from '../../../../configuration/options.mjs'
+import { getHitbox } from '../../../utils.mjs'
 import { disallowEmpty } from '../../InputManager.mjs'
-import { getHitbox } from '../../utils.mjs'
 import { Note } from '../Note.mjs'
 
 export abstract class SlideTickNote extends Note {

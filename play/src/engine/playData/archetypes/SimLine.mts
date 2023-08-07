@@ -1,10 +1,10 @@
 import { options } from '../../configuration/options.mjs'
+import { layer } from '../layer.mjs'
+import { note } from '../note.mjs'
 import { skin } from '../skin.mjs'
+import { getZ, perspectiveLayout } from '../utils.mjs'
 import { archetypes } from './index.mjs'
-import { layer } from './layer.mjs'
-import { note } from './note.mjs'
 import { Note } from './notes/Note.mjs'
-import { getZ, perspectiveLayout } from './utils.mjs'
 
 export class SimLine extends Archetype {
     data = this.defineData({

@@ -1,8 +1,8 @@
 import { options } from '../../../../../../configuration/options.mjs'
-import { minFlickVR } from '../../../../flick.mjs'
+import { minFlickVR } from '../../../../../flick.mjs'
+import { getHitbox } from '../../../../../utils.mjs'
 import { archetypes } from '../../../../index.mjs'
 import { ease } from '../../../../slideConnectors/EaseType.mjs'
-import { getHitbox } from '../../../../utils.mjs'
 import { FlickNote } from '../FlickNote.mjs'
 
 export abstract class SlideEndFlickNote extends FlickNote {

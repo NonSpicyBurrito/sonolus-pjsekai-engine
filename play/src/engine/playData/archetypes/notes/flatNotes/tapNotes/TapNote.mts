@@ -1,6 +1,6 @@
 import { options } from '../../../../../configuration/options.mjs'
+import { windows } from '../../../../windows.mjs'
 import { claimStart, disallowEmpty, disallowEnd, getClaimedStart } from '../../../InputManager.mjs'
-import { windows } from '../../../windows.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 
 export abstract class TapNote extends FlatNote {

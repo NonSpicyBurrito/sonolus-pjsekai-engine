@@ -30,12 +30,7 @@ export const initialization = {
         particle.transform.set(transform)
 
         const gap = 0.05
-        const uiRect = new Rect({
-            l: screen.l + gap,
-            r: screen.r - gap,
-            b: screen.b + gap,
-            t: screen.t - gap,
-        })
+        const uiRect = screen.rect.shrink(gap, gap)
 
         ui.menu.set({
             anchor: uiRect.rt,
@@ -47,7 +42,7 @@ export const initialization = {
         })
 
         ui.navigation.previous.set({
-            anchor: { x: uiRect.l, y: 0 },
+            anchor: uiRect.cl,
             pivot: { x: 0, y: 0.5 },
             size: new Vec(0.15, 0.15).mul(ui.configuration.navigation.scale),
             rotation: 0,
@@ -55,7 +50,7 @@ export const initialization = {
             background: true,
         })
         ui.navigation.next.set({
-            anchor: { x: uiRect.r, y: 0 },
+            anchor: uiRect.cr,
             pivot: { x: 1, y: 0.5 },
             size: new Vec(0.15, 0.15).mul(ui.configuration.navigation.scale),
             rotation: 0,

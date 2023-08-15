@@ -41,7 +41,14 @@ const noteSprites = {
     },
 }
 
-let mode = tutorialMemory(DataType<0 | 1 | 2 | 3>)
+enum Mode {
+    None,
+    Overlay,
+    Fall,
+    Frozen,
+}
+
+let mode = tutorialMemory(DataType<Mode>)
 let useFallback = tutorialMemory(Boolean)
 
 const ids = tutorialMemory({
@@ -55,7 +62,7 @@ export const noteDisplay = {
     update() {
         if (!mode) return
 
-        if (mode === 1) {
+        if (mode === Mode.Overlay) {
             const a = Math.unlerpClamped(1, 0.75, segment.time)
 
             const l = -3
@@ -75,7 +82,7 @@ export const noteDisplay = {
                 skin.sprites.draw(ids.right, new Rect({ l: mr, r, t, b }), layer.note.body, a)
             }
         } else {
-            const y = mode === 2 ? approach(0, 2, segment.time) : 1
+            const y = mode === Mode.Fall ? approach(0, 2, segment.time) : 1
 
             const l = -2
             const r = 2
@@ -117,22 +124,22 @@ export const noteDisplay = {
     },
 
     showOverlay(type: keyof typeof noteSprites) {
-        mode = 1
+        mode = Mode.Overlay
         this.setType(type)
     },
 
     showFall(type: keyof typeof noteSprites) {
-        mode = 2
+        mode = Mode.Fall
         this.setType(type)
     },
 
     showFrozen(type: keyof typeof noteSprites) {
-        mode = 3
+        mode = Mode.Frozen
         this.setType(type)
     },
 
     clear() {
-        mode = 0
+        mode = Mode.None
     },
 
     setType(type: keyof typeof noteSprites) {

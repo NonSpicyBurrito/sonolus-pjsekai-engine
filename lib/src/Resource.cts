@@ -5,8 +5,8 @@ import { resolve } from 'node:path'
 export class Resource {
     public readonly path: string
 
-    private _hash?: string
-    private _buffer?: Buffer
+    private _hash: string | undefined
+    private _buffer: Buffer | undefined
 
     public constructor(path: string) {
         this.path = resolve(__dirname, path)

@@ -1,6 +1,6 @@
 {
   "name": "sonolus-pjsekai-engine",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A recreation of Project Sekai: Colorful Stage! engine in Sonolus",
   "author": "NonSpicyBurrito",
   "repository": "github:NonSpicyBurrito/sonolus-pjsekai-engine",
@@ -13,23 +13,24 @@
     "dist"
   ],
   "scripts": {
-    "dev": "sonolus-cli --dev",
-    "prebuild": "tsc -p . --noEmit && eslint --ext .mts ./src && eslint --ext .cts ./lib",
-    "build": "tsc -p ./lib/tsconfig.json && sonolus-cli --build && node ./lib/build.mjs"
+    "dev:play": "sonolus-cli --dev ./play/sonolus-cli.config.mjs",
+    "dev:tutorial": "sonolus-cli --dev ./tutorial/sonolus-cli.config.mjs",
+    "prebuild": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./tutorial --noEmit && eslint --ext .cts ./lib && eslint --ext .mts ./shared && eslint --ext .mts ./play && eslint --ext .mts ./tutorial",
+    "build": "tsc -p ./lib && sonolus-cli --build ./play/sonolus-cli.config.mjs && sonolus-cli --build ./tutorial/sonolus-cli.config.mjs && node ./lib/build.mjs"
   },
   "dependencies": {
-    "sonolus-core": "~7.0.0"
+    "sonolus-core": "~7.2.0"
   },
   "devDependencies": {
-    "@types/node": "^16.18.36",
-    "@typescript-eslint/eslint-plugin": "^5.60.0",
-    "@typescript-eslint/parser": "^5.60.0",
-    "eslint": "^8.43.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.8",
-    "prettier-plugin-organize-imports": "^3.2.2",
-    "sonolus.js": "~9.0.2",
-    "typescript": "~5.1.3"
+    "@types/node": "^16.18.40",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.1",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "sonolus.js": "~9.1.0",
+    "typescript": "~5.1.6"
   }
 }

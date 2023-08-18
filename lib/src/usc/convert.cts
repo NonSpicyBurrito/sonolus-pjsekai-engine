@@ -53,7 +53,7 @@ export const uscToLevelData = (usc: USC, offset = 0): LevelData => {
 
         if (intermediate.sim) {
             const beat = intermediate.data[EngineArchetypeDataName.Beat]
-            if (typeof beat !== 'number') throw 'Unexpected beat'
+            if (typeof beat !== 'number') throw new Error('Unexpected beat')
 
             const intermediates = timeToIntermediates.get(beat)
             if (intermediates) {
@@ -135,7 +135,7 @@ const eases = {
     in: 1,
 } as const
 
-const bpm: Handler<USCBpmChange> = (object, append) =>
+const bpm: Handler<USCBpmChange> = (object, append) => {
     append({
         archetype: EngineArchetypeName.BpmChange,
         data: {
@@ -144,8 +144,9 @@ const bpm: Handler<USCBpmChange> = (object, append) =>
         },
         sim: false,
     })
+}
 
-const timeScale: Handler<USCTimeScaleChange> = (object, append) =>
+const timeScale: Handler<USCTimeScaleChange> = (object, append) => {
     append({
         archetype: EngineArchetypeName.TimeScaleChange,
         data: {
@@ -154,6 +155,7 @@ const timeScale: Handler<USCTimeScaleChange> = (object, append) =>
         },
         sim: false,
     })
+}
 
 const single: Handler<USCSingleNote> = (object, append) => {
     const intermediate: Intermediate = {
@@ -187,7 +189,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
     const connections = getConnections(object)
     for (const [i, connection] of connections.entries()) {
         if (i === 0) {
-            if (connection.type !== 'start') throw 'Unexpected slide start'
+            if (connection.type !== 'start') throw new Error('Unexpected slide start')
 
             const ci: ConnectionIntermediate = {
                 archetype: connection.critical ? 'CriticalSlideStartNote' : 'NormalSlideStartNote',
@@ -206,7 +208,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
         }
 
         if (i === connections.length - 1) {
-            if (connection.type !== 'end') throw 'Unexpected slide end'
+            if (connection.type !== 'end') throw new Error('Unexpected slide end')
 
             const ci: ConnectionIntermediate = {
                 archetype: connection.critical ? 'CriticalSlideEndNote' : 'NormalSlideEndNote',
@@ -273,7 +275,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
             }
             case 'start':
             case 'end':
-                throw 'Unexpected slide tick'
+                throw new Error('Unexpected slide tick')
         }
     }
 
@@ -285,7 +287,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
         if (i === 0) continue
 
         const head = joints[i - 1]
-        if (!head.ease) throw 'Unexpected missing ease'
+        if (!head.ease) throw new Error('Unexpected missing ease')
 
         connectors.push({
             archetype: object.critical ? 'CriticalSlideConnector' : 'NormalSlideConnector',

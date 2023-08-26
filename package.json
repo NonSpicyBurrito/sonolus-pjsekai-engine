@@ -14,9 +14,10 @@
   ],
   "scripts": {
     "dev:play": "sonolus-cli --dev ./play/sonolus-cli.config.mjs",
+    "dev:preview": "sonolus-cli --dev ./preview/sonolus-cli.config.mjs",
     "dev:tutorial": "sonolus-cli --dev ./tutorial/sonolus-cli.config.mjs",
-    "prebuild": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./tutorial --noEmit && eslint --ext .cts ./lib && eslint --ext .mts ./shared && eslint --ext .mts ./play && eslint --ext .mts ./tutorial",
-    "build": "tsc -p ./lib && sonolus-cli --build ./play/sonolus-cli.config.mjs && sonolus-cli --build ./tutorial/sonolus-cli.config.mjs && node ./lib/build.mjs"
+    "prebuild": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./preview --noEmit && tsc -p ./tutorial --noEmit && eslint --ext .cts ./lib && eslint --ext .mts ./shared && eslint --ext .mts ./play && eslint --ext .mts ./preview && eslint --ext .mts ./tutorial",
+    "build": "tsc -p ./lib && sonolus-cli --build ./play/sonolus-cli.config.mjs && sonolus-cli --build ./preview/sonolus-cli.config.mjs && sonolus-cli --build ./tutorial/sonolus-cli.config.mjs && node ./lib/build.mjs"
   },
   "dependencies": {
     "sonolus-core": "~7.3.0-beta.0"

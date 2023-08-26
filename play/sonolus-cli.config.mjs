@@ -9,7 +9,7 @@ export default {
 
     devServer(sonolus) {
         try {
-            copyFileSync('./play/src/level/bgm.mp3', './.dev/bgm.mp3')
+            copyFileSync('./shared/src/level/bgm.mp3', './.dev/bgm.mp3')
 
             const level = sonolus.db.levels[0]
             level.bgm = {

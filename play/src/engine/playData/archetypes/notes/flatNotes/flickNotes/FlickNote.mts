@@ -1,9 +1,9 @@
+import { FlickDirection } from '../../../../../../../../shared/src/engine/data/FlickDirection.mjs'
 import { options } from '../../../../../configuration/options.mjs'
 import { linearEffectLayout } from '../../../../particle.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer, skin } from '../../../../skin.mjs'
 import { FlatNote } from '../FlatNote.mjs'
-import { FlickDirection } from './FlickDirection.mjs'
 
 export abstract class FlickNote extends FlatNote {
     leniency = 1

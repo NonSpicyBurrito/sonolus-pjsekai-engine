@@ -13,18 +13,18 @@ export const getArrowSpriteId = (
     const getId = (index: number) =>
         direction ? arrowSprites.left[index].id : arrowSprites.up[index].id
 
-    size = Math.clamp(Math.round(size * 2), 1, 6)
-    if (size === 1) {
-        return getId(0)
-    } else if (size === 2) {
-        return getId(1)
-    } else if (size === 3) {
-        return getId(2)
-    } else if (size === 4) {
-        return getId(3)
-    } else if (size === 5) {
-        return getId(4)
-    } else {
-        return getId(5)
+    switch (Math.clamp(Math.round(size * 2), 1, 6)) {
+        case 1:
+            return getId(0)
+        case 2:
+            return getId(1)
+        case 3:
+            return getId(2)
+        case 4:
+            return getId(3)
+        case 5:
+            return getId(4)
+        default:
+            return getId(5)
     }
 }

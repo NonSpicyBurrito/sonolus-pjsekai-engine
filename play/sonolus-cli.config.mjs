@@ -5,7 +5,6 @@ import { hash } from 'sonolus-core'
 /** @type {import('sonolus.js').SonolusCLIConfig} */
 export default {
     type: 'play',
-    entry: './play/src/index.mts',
 
     devServer(sonolus) {
         try {

@@ -1,4 +1,5 @@
 import { FlickDirection } from '../../../../../../../../shared/src/engine/data/FlickDirection.mjs'
+import { getArrowSpriteId } from '../../../../../../../../shared/src/engine/data/arrowSprites.mjs'
 import { options } from '../../../../../configuration/options.mjs'
 import { panel } from '../../../../panel.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
@@ -30,7 +31,11 @@ export abstract class FlickNote extends FlatNote {
         const position = panel.positionFromTime(time)
         const z = getZ(layer.note.arrow, time, this.data.lane)
 
-        const arrowSpriteId = this.getArrowSpriteId()
+        const arrowSpriteId = getArrowSpriteId(
+            this.arrowSprites,
+            this.data.size,
+            this.flickData.direction,
+        )
 
         if (skin.sprites.exists(arrowSpriteId)) {
             const w = (Math.clamp(this.data.size, 0, 3) * (-this.flickData.direction || 1)) / 2
@@ -58,35 +63,6 @@ export abstract class FlickNote extends FlatNote {
                 z,
                 1,
             )
-        }
-    }
-
-    getArrowSpriteId() {
-        const size = Math.clamp(Math.round(this.data.size * 2), 1, 6)
-        if (size === 1) {
-            return this.flickData.direction
-                ? this.arrowSprites.left[0].id
-                : this.arrowSprites.up[0].id
-        } else if (size === 2) {
-            return this.flickData.direction
-                ? this.arrowSprites.left[1].id
-                : this.arrowSprites.up[1].id
-        } else if (size === 3) {
-            return this.flickData.direction
-                ? this.arrowSprites.left[2].id
-                : this.arrowSprites.up[2].id
-        } else if (size === 4) {
-            return this.flickData.direction
-                ? this.arrowSprites.left[3].id
-                : this.arrowSprites.up[3].id
-        } else if (size === 5) {
-            return this.flickData.direction
-                ? this.arrowSprites.left[4].id
-                : this.arrowSprites.up[4].id
-        } else {
-            return this.flickData.direction
-                ? this.arrowSprites.left[5].id
-                : this.arrowSprites.up[5].id
         }
     }
 }

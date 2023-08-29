@@ -12,7 +12,6 @@ export abstract class SlideConnector extends Archetype {
     abstract slideStartNote: SlideStartNote
 
     data = this.defineData({
-        startRef: { name: 'start', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },

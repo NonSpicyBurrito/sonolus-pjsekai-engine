@@ -1,3 +1,4 @@
+import { options } from '../../configuration/options.mjs'
 import { note } from '../note.mjs'
 import { panel } from '../panel.mjs'
 import { getZ, layer, skin } from '../skin.mjs'
@@ -10,6 +11,8 @@ export class SimLine extends Archetype {
     })
 
     render() {
+        if (!options.simLineEnabled) return
+
         let l = this.aData.lane
         let r = this.bData.lane
         if (l > r) [l, r] = [r, l]

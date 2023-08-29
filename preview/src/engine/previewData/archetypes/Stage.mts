@@ -1,7 +1,7 @@
 import { chart } from '../chart.mjs'
 import { panel } from '../panel.mjs'
 import { print } from '../print.mjs'
-import { line, skin } from '../skin.mjs'
+import { layer, line, skin } from '../skin.mjs'
 
 export class Stage extends Archetype {
     preprocessOrder = 2
@@ -27,7 +27,7 @@ export class Stage extends Archetype {
                     b: 0,
                     t: 1,
                 }),
-                0,
+                layer.stage,
                 1,
             )
             skin.sprites.stageRightBorder.draw(
@@ -37,7 +37,7 @@ export class Stage extends Archetype {
                     b: 0,
                     t: 1,
                 }),
-                0,
+                layer.stage,
                 1,
             )
 
@@ -49,7 +49,7 @@ export class Stage extends Archetype {
                         b: 0,
                         t: 1,
                     }),
-                    0,
+                    layer.stage,
                     1,
                 )
             }

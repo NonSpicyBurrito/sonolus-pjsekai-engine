@@ -1,7 +1,6 @@
 import { FlickDirection } from '../../../../../../../../shared/src/engine/data/FlickDirection.mjs'
 import { getArrowSpriteId } from '../../../../../../../../shared/src/engine/data/arrowSprites.mjs'
 import { options } from '../../../../../configuration/options.mjs'
-import { panel } from '../../../../panel.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer, skin } from '../../../../skin.mjs'
 import { FlatNote } from '../FlatNote.mjs'
@@ -24,10 +23,7 @@ export abstract class FlickNote extends FlatNote {
     }
 
     render() {
-        super.render()
-
-        const time = bpmChanges.at(this.data.beat).time
-        const pos = panel.getPos(time)
+        const { time, pos } = super.render()
 
         const z = getZ(layer.note.arrow, time, this.data.lane)
 
@@ -64,5 +60,7 @@ export abstract class FlickNote extends FlatNote {
                 1,
             )
         }
+
+        return { time, pos }
     }
 }

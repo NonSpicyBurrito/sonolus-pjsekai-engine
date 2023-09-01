@@ -32,6 +32,8 @@ export abstract class FlatNote extends Note {
             this.sprites.middle.draw(new Rect({ l: ml, r: mr, b, t }).add(pos), z, 1)
             this.sprites.right.draw(new Rect({ l: mr, r, b, t }).add(pos), z, 1)
         }
+
+        return { time, pos }
     }
 
     get useFallbackSprites() {

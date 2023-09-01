@@ -1,3 +1,7 @@
+import { panel } from './panel.mjs'
+
 export const scaledScreen = {
-    wToH: 1 / 40,
+    get wToH() {
+        return panel.h / 40
+    },
 }

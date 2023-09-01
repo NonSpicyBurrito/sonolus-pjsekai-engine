@@ -1,19 +1,22 @@
 import { chart } from './chart.mjs'
 
 export const panel = {
-    get duration() {
-        return 2
-    },
+    w: 20,
+    h: 2,
 
     get count() {
-        return Math.ceil(chart.duration / this.duration)
+        return Math.ceil(chart.duration / this.h)
     },
 
-    positionFromTime(time: number) {
-        return this.positionFromLocation(Math.floor(time / this.duration), time % this.duration)
+    getX(time: number) {
+        return Math.floor(time / this.h) * this.w
     },
 
-    positionFromLocation(index: number, extraTime: number) {
-        return new Vec(index * 20, extraTime / this.duration)
+    getY(time: number) {
+        return time % this.h
+    },
+
+    getPos(time: number) {
+        return new Vec(this.getX(time), this.getY(time))
     },
 }

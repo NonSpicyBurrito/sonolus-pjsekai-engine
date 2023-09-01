@@ -27,8 +27,8 @@ export abstract class FlickNote extends FlatNote {
         super.render()
 
         const time = bpmChanges.at(this.data.beat).time
+        const pos = panel.getPos(time)
 
-        const position = panel.positionFromTime(time)
         const z = getZ(layer.note.arrow, time, this.data.lane)
 
         const arrowSpriteId = getArrowSpriteId(
@@ -47,7 +47,7 @@ export abstract class FlickNote extends FlatNote {
                     r: this.data.lane + w,
                     t: 2 * Math.abs(w) * scaledScreen.wToH,
                     b: 0,
-                }).add(position),
+                }).add(pos),
                 z,
                 1,
             )
@@ -59,7 +59,7 @@ export abstract class FlickNote extends FlatNote {
                     .rotate((Math.PI / 6) * this.flickData.direction)
                     .scale(w, w * scaledScreen.wToH)
                     .translate(this.data.lane, w * scaledScreen.wToH)
-                    .add(position),
+                    .add(pos),
                 z,
                 1,
             )

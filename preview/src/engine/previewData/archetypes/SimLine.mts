@@ -18,14 +18,14 @@ export class SimLine extends Archetype {
         if (l > r) [l, r] = [r, l]
 
         const time = bpmChanges.at(this.aData.beat).time
+        const pos = panel.getPos(time)
 
-        const position = panel.positionFromTime(time)
         const z = getZ(layer.simLine, time, l)
 
         const b = -note.h
         const t = note.h
 
-        skin.sprites.simLine.draw(new Rect({ l, r, b, t }).add(position), z, 1)
+        skin.sprites.simLine.draw(new Rect({ l, r, b, t }).add(pos), z, 1)
     }
 
     get aData() {

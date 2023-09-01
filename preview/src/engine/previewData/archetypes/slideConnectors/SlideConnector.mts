@@ -24,8 +24,8 @@ export abstract class SlideConnector extends Archetype {
         }
 
         const index = {
-            min: Math.floor(t.min / panel.duration),
-            max: Math.floor(t.max / panel.duration),
+            min: Math.floor(t.min / panel.h),
+            max: Math.floor(t.max / panel.h),
         }
 
         const l = {
@@ -40,9 +40,11 @@ export abstract class SlideConnector extends Archetype {
         const z = getZ(layer.note.connector, t.min, this.headData.lane)
 
         for (let i = index.min; i <= index.max; i++) {
+            const x = i * panel.w
+
             const pt = {
-                min: Math.max(t.min, i * panel.duration),
-                max: Math.min(t.max, (i + 1) * panel.duration),
+                min: Math.max(t.min, i * panel.h),
+                max: Math.min(t.max, (i + 1) * panel.h),
             }
 
             for (let j = 0; j < 10; j++) {
@@ -56,16 +58,16 @@ export abstract class SlideConnector extends Archetype {
                     max: ease(this.data.ease, Math.unlerp(t.min, t.max, st.max)),
                 }
 
-                const y = {
-                    min: panel.positionFromLocation(i, st.min - i * panel.duration),
-                    max: panel.positionFromLocation(i, st.max - i * panel.duration),
+                const pos = {
+                    min: new Vec(x, st.min - i * panel.h),
+                    max: new Vec(x, st.max - i * panel.h),
                 }
 
                 const layout = new Quad({
-                    p1: y.min.translate(Math.lerp(l.min, l.max, s.min), 0),
-                    p2: y.max.translate(Math.lerp(l.min, l.max, s.max), 0),
-                    p3: y.max.translate(Math.lerp(r.min, r.max, s.max), 0),
-                    p4: y.min.translate(Math.lerp(r.min, r.max, s.min), 0),
+                    p1: pos.min.translate(Math.lerp(l.min, l.max, s.min), 0),
+                    p2: pos.max.translate(Math.lerp(l.min, l.max, s.max), 0),
+                    p3: pos.max.translate(Math.lerp(r.min, r.max, s.max), 0),
+                    p4: pos.min.translate(Math.lerp(r.min, r.max, s.min), 0),
                 })
 
                 if (this.useFallbackSprite) {

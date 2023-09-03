@@ -1,0 +1,12 @@
+**/*.*
+
+!lib/build.mjs
+!lib/src/**/*.*
+
+!play/src/**/*.*
+
+!preview/src/**/*.*
+
+!shared/src/**/*.*
+
+!tutorial/src/**/*.*

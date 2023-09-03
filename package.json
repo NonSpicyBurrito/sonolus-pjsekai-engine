@@ -20,18 +20,18 @@
     "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.mjs"
   },
   "dependencies": {
-    "sonolus-core": "~7.3.0-beta.0"
+    "sonolus-core": "~7.3.0"
   },
   "devDependencies": {
-    "@types/node": "^16.18.40",
-    "@typescript-eslint/eslint-plugin": "^6.3.0",
-    "@typescript-eslint/parser": "^6.3.0",
-    "eslint": "^8.47.0",
+    "@types/node": "^16.18.48",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "prettier": "^3.0.1",
+    "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
-    "sonolus.js": "~9.2.0-beta.0",
-    "typescript": "~5.1.6"
+    "sonolus.js": "~9.2.0",
+    "typescript": "~5.2.2"
   }
 }

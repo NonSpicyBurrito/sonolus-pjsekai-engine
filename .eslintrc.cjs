@@ -5,7 +5,7 @@ module.exports = {
         project: true,
         tsconfigRootDir: __dirname,
     },
-    plugins: ['@typescript-eslint', 'prettier'],
+    plugins: ['@typescript-eslint'],
     extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/strict-type-checked',
@@ -13,7 +13,6 @@ module.exports = {
         'prettier',
     ],
     rules: {
-        'prettier/prettier': 'error',
         '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
 }

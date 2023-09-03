@@ -16,7 +16,7 @@
     "dev:play": "sonolus-cli --dev ./play",
     "dev:preview": "sonolus-cli --dev ./preview",
     "dev:tutorial": "sonolus-cli --dev ./tutorial",
-    "prebuild": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./preview --noEmit && tsc -p ./tutorial --noEmit && eslint --ext .cts ./lib && eslint --ext .mts ./shared && eslint --ext .mts ./play && eslint --ext .mts ./preview && eslint --ext .mts ./tutorial",
+    "prebuild": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./preview --noEmit && tsc -p ./tutorial --noEmit && eslint --ext .cts ./lib && eslint --ext .mts ./shared && eslint --ext .mts ./play && eslint --ext .mts ./preview && eslint --ext .mts ./tutorial && prettier . --check",
     "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.mjs"
   },
   "dependencies": {
@@ -28,7 +28,6 @@
     "@typescript-eslint/parser": "^6.5.0",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
     "sonolus.js": "~9.2.0",

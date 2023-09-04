@@ -5,10 +5,13 @@
 !lib/build.mjs
 !lib/src/**/*.*
 
-!play/src/**/*.*
-
-!preview/src/**/*.*
-
 !shared/src/**/*.*
 
+!play/sonolus-cli.config.mjs
+!play/src/**/*.*
+
+!preview/sonolus-cli.config.mjs
+!preview/src/**/*.*
+
+!tutorial/sonolus-cli.config.mjs
 !tutorial/src/**/*.*

@@ -3,10 +3,10 @@
 !lib/build.mjs
 !lib/src/**/*.*
 
+!shared/src/**/*.*
+
 !play/src/**/*.*
 
 !preview/src/**/*.*
-
-!shared/src/**/*.*
 
 !tutorial/src/**/*.*

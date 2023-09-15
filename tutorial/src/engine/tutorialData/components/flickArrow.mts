@@ -13,13 +13,20 @@ const sprites = {
     },
 }
 
-let mode = tutorialMemory(DataType<0 | 1 | 2 | 3>)
+enum Mode {
+    None,
+    Overlay,
+    Fall,
+    Frozen,
+}
+
+let mode = tutorialMemory(DataType<Mode>)
 
 export const flickArrow = {
     update() {
         if (!mode) return
 
-        if (mode === 1) {
+        if (mode === Mode.Overlay) {
             const a = Math.unlerpClamped(1, 0.75, segment.time)
 
             if (sprites.useFallback) {
@@ -40,8 +47,8 @@ export const flickArrow = {
                 sprites.arrow.draw(new Rect({ l, r, b, t }), layer.note.arrow, a)
             }
         } else {
-            const y = mode === 2 ? approach(0, 2, segment.time) : 1
-            const s = mode === 2 ? Math.mod(segment.time, 0.5) / 0.5 : 0
+            const y = mode === Mode.Fall ? approach(0, 2, segment.time) : 1
+            const s = mode === Mode.Fall ? Math.mod(segment.time, 0.5) / 0.5 : 0
 
             if (sprites.useFallback) {
                 const l = -0.5
@@ -76,18 +83,18 @@ export const flickArrow = {
     },
 
     showOverlay() {
-        mode = 1
+        mode = Mode.Overlay
     },
 
     showFall() {
-        mode = 2
+        mode = Mode.Fall
     },
 
     showFrozen() {
-        mode = 3
+        mode = Mode.Frozen
     },
 
     clear() {
-        mode = 0
+        mode = Mode.None
     },
 }

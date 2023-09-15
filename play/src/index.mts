@@ -1,7 +1,7 @@
 import 'sonolus.js/play'
 
+import { level } from '../../shared/src/level/index.mjs'
 import { engine } from './engine/index.mjs'
-import { level } from './level/index.mjs'
 
 export default {
     engine,

@@ -5,11 +5,11 @@ export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.2.0'
+export const version = '1.3.1'
 
 export const engineInfo = {
     name: 'pjsekai',
-    version: 9,
+    version: 10,
     title: {
         en: 'Project Sekai',
         ja: 'プロセカ',
@@ -40,5 +40,6 @@ export const engineInfo = {
 
 export const engineConfiguration = new Resource('EngineConfiguration')
 export const enginePlayData = new Resource('EnginePlayData')
+export const enginePreviewData = new Resource('EnginePreviewData')
 export const engineTutorialData = new Resource('EngineTutorialData')
 export const engineThumbnail = new Resource('thumbnail.png')

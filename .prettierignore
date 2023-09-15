@@ -1,0 +1,17 @@
+**/*.*
+
+!.eslintrc.cjs
+
+!lib/build.mjs
+!lib/src/**/*.*
+
+!shared/src/**/*.*
+
+!play/sonolus-cli.config.mjs
+!play/src/**/*.*
+
+!preview/sonolus-cli.config.mjs
+!preview/src/**/*.*
+
+!tutorial/sonolus-cli.config.mjs
+!tutorial/src/**/*.*

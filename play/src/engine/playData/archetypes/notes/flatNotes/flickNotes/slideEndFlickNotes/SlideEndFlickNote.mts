@@ -1,8 +1,8 @@
+import { ease } from '../../../../../../../../../shared/src/engine/data/EaseType.mjs'
 import { options } from '../../../../../../configuration/options.mjs'
 import { minFlickVR } from '../../../../../flick.mjs'
 import { getHitbox } from '../../../../../lane.mjs'
 import { archetypes } from '../../../../index.mjs'
-import { ease } from '../../../../slideConnectors/EaseType.mjs'
 import { FlickNote } from '../FlickNote.mjs'
 
 export abstract class SlideEndFlickNote extends FlickNote {

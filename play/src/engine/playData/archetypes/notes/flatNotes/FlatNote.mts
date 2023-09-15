@@ -205,12 +205,16 @@ export abstract class FlatNote extends Note {
         if ('fallback' in this.clips && this.useFallbackClip) {
             this.clips.fallback.play(sfxDistance)
         } else if ('great' in this.clips && 'good' in this.clips) {
-            if (this.result.judgment === Judgment.Perfect) {
-                this.clips.perfect.play(sfxDistance)
-            } else if (this.result.judgment === Judgment.Great) {
-                this.clips.great.play(sfxDistance)
-            } else if (this.result.judgment === Judgment.Good) {
-                this.clips.good.play(sfxDistance)
+            switch (this.result.judgment) {
+                case Judgment.Perfect:
+                    this.clips.perfect.play(sfxDistance)
+                    break
+                case Judgment.Great:
+                    this.clips.great.play(sfxDistance)
+                    break
+                case Judgment.Good:
+                    this.clips.good.play(sfxDistance)
+                    break
             }
         } else {
             this.clips.perfect.play(sfxDistance)

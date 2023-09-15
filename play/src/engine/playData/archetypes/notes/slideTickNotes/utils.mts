@@ -1,5 +1,5 @@
+import { ease } from '../../../../../../../shared/src/engine/data/EaseType.mjs'
 import { archetypes } from '../../index.mjs'
-import { ease } from '../../slideConnectors/EaseType.mjs'
 
 export const getAttached = (ref: number, targetTime: number) => {
     const attachData = archetypes.NormalSlideConnector.data.get(ref)

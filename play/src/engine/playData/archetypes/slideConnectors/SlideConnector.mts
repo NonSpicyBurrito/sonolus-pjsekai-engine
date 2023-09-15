@@ -1,3 +1,4 @@
+import { EaseType, ease } from '../../../../../../shared/src/engine/data/EaseType.mjs'
 import { approach } from '../../../../../../shared/src/engine/data/note.mjs'
 import { perspectiveLayout } from '../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../configuration/options.mjs'
@@ -8,15 +9,12 @@ import { circularEffectLayout, linearEffectLayout, particle } from '../../partic
 import { getZ, layer } from '../../skin.mjs'
 import { disallowEmpty } from '../InputManager.mjs'
 import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'
-import { EaseType, ease } from './EaseType.mjs'
 
-const VisualType = {
-    Waiting: 0,
-    NotActivated: 1,
-    Activated: 2,
-} as const
-
-type VisualType = (typeof VisualType)[keyof typeof VisualType]
+enum VisualType {
+    Waiting = 0,
+    NotActivated = 1,
+    Activated = 2,
+}
 
 export abstract class SlideConnector extends Archetype {
     abstract sprites: {

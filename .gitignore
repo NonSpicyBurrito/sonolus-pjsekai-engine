@@ -1,7 +1,7 @@
 .vscode
 node_modules
 
-play/src/level/bgm.mp3
+shared/src/level/bgm.mp3
 
 .dev
 dist

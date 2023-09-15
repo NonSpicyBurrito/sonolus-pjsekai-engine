@@ -5,11 +5,10 @@ import { hash } from 'sonolus-core'
 /** @type {import('sonolus.js').SonolusCLIConfig} */
 export default {
     type: 'play',
-    entry: './play/src/index.mts',
 
     devServer(sonolus) {
         try {
-            copyFileSync('./play/src/level/bgm.mp3', './.dev/bgm.mp3')
+            copyFileSync('./shared/src/level/bgm.mp3', './.dev/bgm.mp3')
 
             const level = sonolus.db.levels[0]
             level.bgm = {

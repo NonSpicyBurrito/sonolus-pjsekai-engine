@@ -49,12 +49,7 @@ export class Initialization extends Archetype {
         })
 
         const gap = 0.05
-        const uiRect = new Rect({
-            l: screen.l + gap,
-            r: screen.r - gap,
-            b: screen.b + gap,
-            t: screen.t - gap,
-        })
+        const uiRect = screen.rect.shrink(gap, gap)
 
         ui.menu.set({
             anchor: uiRect.rt,

@@ -107,6 +107,14 @@ Engine Play Data.
 -   `enginePlayData.buffer`: buffer of file.
 -   `enginePlayData.hash`: hash of file.
 
+### `enginePreviewData`
+
+Engine Preview Data.
+
+-   `enginePreviewData.path`: path to file.
+-   `enginePreviewData.buffer`: buffer of file.
+-   `enginePreviewData.hash`: hash of file.
+
 ### `engineTutorialData`
 
 Engine Tutorial Data.

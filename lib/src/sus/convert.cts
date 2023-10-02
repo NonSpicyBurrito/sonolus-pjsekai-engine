@@ -2,6 +2,7 @@ import {
     USC,
     USCConnectionAttachNote,
     USCConnectionEndNote,
+    USCConnectionIgnoreNote,
     USCConnectionStartNote,
     USCConnectionTickNote,
     USCObject,
@@ -13,6 +14,7 @@ export const susToUSC = (sus: string): USC => {
     const score = analyze(sus)
 
     const flickMods = new Map<string, 'left' | 'up' | 'right'>()
+    const traceMods = new Set<string>()
     const criticalMods = new Set<string>()
     const tickRemoveMods = new Set<string>()
     const easeMods = new Map<string, 'in' | 'out'>()
@@ -61,6 +63,13 @@ export const susToUSC = (sus: string): USC => {
             case 2:
                 criticalMods.add(key)
                 break
+            case 5:
+                traceMods.add(key)
+                break
+            case 6:
+                traceMods.add(key)
+                criticalMods.add(key)
+                break
             case 3:
                 tickRemoveMods.add(key)
                 break
@@ -87,7 +96,7 @@ export const susToUSC = (sus: string): USC => {
 
     for (const note of score.tapNotes) {
         if (note.lane <= 1 || note.lane >= 14) continue
-        if (note.type !== 1 && note.type !== 2) continue
+        if (note.type !== 1 && note.type !== 2 && note.type !== 5 && note.type !== 6) continue
 
         const key = getKey(note)
         if (preventSingles.has(key)) continue
@@ -100,7 +109,8 @@ export const susToUSC = (sus: string): USC => {
             beat: note.tick / score.ticksPerBeat,
             lane: note.lane - 8 + note.width / 2,
             size: note.width / 2,
-            critical: note.type === 2,
+            trace: note.type === 5 || note.type === 6,
+            critical: note.type === 2 || note.type === 6,
         }
 
         const flickMod = flickMods.get(key)
@@ -125,6 +135,7 @@ export const susToUSC = (sus: string): USC => {
             const beat = note.tick / score.ticksPerBeat
             const lane = note.lane - 8 + note.width / 2
             const size = note.width / 2
+            const trace = traceMods.has(key)
             const critical = object.critical || criticalMods.has(key)
             const ease = easeMods.get(key) ?? 'linear'
 
@@ -135,6 +146,7 @@ export const susToUSC = (sus: string): USC => {
                         beat,
                         lane,
                         size,
+                        trace,
                         critical,
                         ease: easeMods.get(key) ?? 'linear',
                     }
@@ -148,6 +160,7 @@ export const susToUSC = (sus: string): USC => {
                         beat,
                         lane,
                         size,
+                        trace,
                         critical,
                     }
 
@@ -172,6 +185,7 @@ export const susToUSC = (sus: string): USC => {
                             beat,
                             lane,
                             size,
+                            trace,
                             critical,
                             ease,
                         }
@@ -183,8 +197,8 @@ export const susToUSC = (sus: string): USC => {
                 case 5: {
                     if (tickRemoveMods.has(key)) break
 
-                    const connection: USCConnectionTickNote = {
-                        type: 'tick',
+                    const connection: USCConnectionIgnoreNote = {
+                        type: 'ignore',
                         beat,
                         lane,
                         size,

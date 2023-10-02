@@ -34,6 +34,21 @@ npm install sonolus-pjsekai-engine
 | `Sekai Note Cyan Right`                       |
 | `Sekai Diamond Green`                         |
 | `Sekai Diamond Yellow`                        |
+| `Sekai Trace Note Red`                        |
+| `Sekai Trace Note Red Left`                   |
+| `Sekai Trace Note Red Middle`                 |
+| `Sekai Trace Note Red Right`                  |
+| `Sekai Trace Note Green`                      |
+| `Sekai Trace Note Green Left`                 |
+| `Sekai Trace Note Green Middle`               |
+| `Sekai Trace Note Green Right`                |
+| `Sekai Trace Note Yellow`                     |
+| `Sekai Trace Note Yellow Left`                |
+| `Sekai Trace Note Yellow Middle`              |
+| `Sekai Trace Note Yellow Right`               |
+| `Sekai Trace Diamond Red`                     |
+| `Sekai Trace Diamond Green`                   |
+| `Sekai Trace Diamond Yellow`                  |
 | `Sekai Active Slide Connection Green`         |
 | `Sekai Active Slide Connection Green Active`  |
 | `Sekai Active Slide Connection Yellow`        |
@@ -76,7 +91,9 @@ npm install sonolus-pjsekai-engine
 | Name                   |
 | ---------------------- |
 | `Sekai Tick`           |
+| `Sekai Trace`          |
 | `Sekai Critical Tap`   |
+| `Sekai Critical Trace` |
 | `Sekai Critical Flick` |
 | `Sekai Critical Hold`  |
 | `Sekai Critical Tick`  |

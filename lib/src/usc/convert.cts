@@ -159,7 +159,13 @@ const timeScale: Handler<USCTimeScaleChange> = (object, append) => {
 
 const single: Handler<USCSingleNote> = (object, append) => {
     const intermediate: Intermediate = {
-        archetype: object.critical ? 'CriticalTapNote' : 'NormalTapNote',
+        archetype: object.trace
+            ? object.critical
+                ? 'CriticalTraceNote'
+                : 'NormalTraceNote'
+            : object.critical
+            ? 'CriticalTapNote'
+            : 'NormalTapNote',
         data: {
             [EngineArchetypeDataName.Beat]: object.beat,
             lane: object.lane,
@@ -169,7 +175,13 @@ const single: Handler<USCSingleNote> = (object, append) => {
     }
 
     if (object.direction) {
-        intermediate.archetype = object.critical ? 'CriticalFlickNote' : 'NormalFlickNote'
+        intermediate.archetype = object.trace
+            ? object.critical
+                ? 'CriticalTraceFlickNote'
+                : 'NormalTraceFlickNote'
+            : object.critical
+            ? 'CriticalFlickNote'
+            : 'NormalFlickNote'
         intermediate.data.direction = directions[object.direction]
     }
 
@@ -192,7 +204,13 @@ const slide: Handler<USCSlideNote> = (object, append) => {
             if (connection.type !== 'start') throw new Error('Unexpected slide start')
 
             const ci: ConnectionIntermediate = {
-                archetype: connection.critical ? 'CriticalSlideStartNote' : 'NormalSlideStartNote',
+                archetype: connection.trace
+                    ? connection.critical
+                        ? 'CriticalSlideTraceNote'
+                        : 'NormalSlideTraceNote'
+                    : connection.critical
+                    ? 'CriticalSlideStartNote'
+                    : 'NormalSlideStartNote',
                 data: {
                     [EngineArchetypeDataName.Beat]: connection.beat,
                     lane: connection.lane,
@@ -211,7 +229,13 @@ const slide: Handler<USCSlideNote> = (object, append) => {
             if (connection.type !== 'end') throw new Error('Unexpected slide end')
 
             const ci: ConnectionIntermediate = {
-                archetype: connection.critical ? 'CriticalSlideEndNote' : 'NormalSlideEndNote',
+                archetype: connection.trace
+                    ? connection.critical
+                        ? 'CriticalSlideEndTraceNote'
+                        : 'NormalSlideEndTraceNote'
+                    : connection.critical
+                    ? 'CriticalSlideEndNote'
+                    : 'NormalSlideEndNote',
                 data: {
                     [EngineArchetypeDataName.Beat]: connection.beat,
                     lane: connection.lane,
@@ -221,7 +245,11 @@ const slide: Handler<USCSlideNote> = (object, append) => {
             }
 
             if ('direction' in connection) {
-                ci.archetype = connection.critical
+                ci.archetype = connection.trace
+                    ? connection.critical
+                        ? 'CriticalTraceFlickNote'
+                        : 'NormalTraceFlickNote'
+                    : connection.critical
                     ? 'CriticalSlideEndFlickNote'
                     : 'NormalSlideEndFlickNote'
                 ci.data.direction = directions[connection.direction]
@@ -234,7 +262,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
         }
 
         switch (connection.type) {
-            case 'tick': {
+            case 'ignore': {
                 const ci: ConnectionIntermediate = {
                     archetype: 'IgnoredSlideTickNote',
                     data: {
@@ -246,16 +274,33 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                     ease: connection.ease,
                 }
 
-                if ('critical' in connection)
-                    ci.archetype = connection.critical
+                cis.push(ci)
+                joints.push(ci)
+                break
+            }
+            case 'tick': {
+                const ci: ConnectionIntermediate = {
+                    archetype: connection.trace
+                        ? connection.critical
+                            ? 'CriticalSlideTraceNote'
+                            : 'NormalSlideTraceNote'
+                        : connection.critical
                         ? 'CriticalSlideTickNote'
-                        : 'NormalSlideTickNote'
+                        : 'NormalSlideTickNote',
+                    data: {
+                        [EngineArchetypeDataName.Beat]: connection.beat,
+                        lane: connection.lane,
+                        size: connection.size,
+                    },
+                    sim: false,
+                    ease: connection.ease,
+                }
 
                 cis.push(ci)
                 joints.push(ci)
                 break
             }
-            case 'attach': {
+            case 'hidden': {
                 const ci: ConnectionIntermediate = {
                     archetype: 'HiddenSlideTickNote',
                     data: {
@@ -264,10 +309,20 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                     sim: false,
                 }
 
-                if ('critical' in connection)
-                    ci.archetype = connection.critical
+                cis.push(ci)
+                attaches.push(ci)
+                break
+            }
+            case 'attach': {
+                const ci: ConnectionIntermediate = {
+                    archetype: connection.critical
                         ? 'CriticalAttachedSlideTickNote'
-                        : 'NormalAttachedSlideTickNote'
+                        : 'NormalAttachedSlideTickNote',
+                    data: {
+                        [EngineArchetypeDataName.Beat]: connection.beat,
+                    },
+                    sim: false,
+                }
 
                 cis.push(ci)
                 attaches.push(ci)
@@ -342,7 +397,7 @@ const getConnections = (object: USCSlideNote) => {
 
     for (let beat = start; beat < max; beat += 0.5) {
         connections.push({
-            type: 'attach',
+            type: 'hidden',
             beat,
         })
     }

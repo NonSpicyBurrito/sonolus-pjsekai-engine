@@ -16,6 +16,8 @@ export const effect = defineEffect({
 
         normalTick: 'Sekai Tick',
 
+        normalTrace: 'Sekai Trace',
+
         criticalTap: 'Sekai Critical Tap',
 
         criticalFlick: 'Sekai Critical Flick',
@@ -23,6 +25,8 @@ export const effect = defineEffect({
         criticalHold: 'Sekai Critical Hold',
 
         criticalTick: 'Sekai Critical Tick',
+
+        criticalTrace: 'Sekai Critical Trace',
     },
 })
 

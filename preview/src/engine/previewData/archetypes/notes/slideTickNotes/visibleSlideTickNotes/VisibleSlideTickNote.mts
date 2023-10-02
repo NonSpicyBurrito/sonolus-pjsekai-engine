@@ -14,7 +14,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         const time = bpmChanges.at(this.data.beat).time
         const pos = panel.getPos(time)
 
-        const z = getZ(layer.note.body, time, this.data.lane)
+        const z = getZ(layer.note.tick, time, this.data.lane)
 
         const b = -note.h
         const t = note.h

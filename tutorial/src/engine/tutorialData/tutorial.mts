@@ -6,6 +6,7 @@ import { slide } from './components/slide.mjs'
 import { slotEffect } from './components/slotEffect.mjs'
 import { slotGlowEffect } from './components/slotGlowEffect.mjs'
 import { stage } from './components/stage.mjs'
+import { traceDiamond } from './components/traceDiamond.mjs'
 import { segment } from './segment.mjs'
 import { flickNoteFall } from './segments/flickNote/fall.mjs'
 import { flickNoteFrozen } from './segments/flickNote/frozen.mjs'
@@ -27,11 +28,20 @@ import { tapNoteFall } from './segments/tapNote/fall.mjs'
 import { tapNoteFrozen } from './segments/tapNote/frozen.mjs'
 import { tapNoteHit } from './segments/tapNote/hit.mjs'
 import { tapNoteIntro } from './segments/tapNote/intro.mjs'
+import { traceFlickNoteFall } from './segments/traceFlickNote/fall.mjs'
+import { traceFlickNoteFrozen } from './segments/traceFlickNote/frozen.mjs'
+import { traceFlickNoteHit } from './segments/traceFlickNote/hit.mjs'
+import { traceFlickNoteIntro } from './segments/traceFlickNote/intro.mjs'
+import { traceNoteFall } from './segments/traceNote/fall.mjs'
+import { traceNoteFrozen } from './segments/traceNote/frozen.mjs'
+import { traceNoteHit } from './segments/traceNote/hit.mjs'
+import { traceNoteIntro } from './segments/traceNote/intro.mjs'
 
 const components = [
     initialization,
     stage,
     flickArrow,
+    traceDiamond,
     noteDisplay,
     slide,
     connector,
@@ -49,6 +59,16 @@ const segments = [
     flickNoteFall,
     flickNoteFrozen,
     flickNoteHit,
+
+    traceNoteIntro,
+    traceNoteFall,
+    traceNoteFrozen,
+    traceNoteHit,
+
+    traceFlickNoteIntro,
+    traceFlickNoteFall,
+    traceFlickNoteFrozen,
+    traceFlickNoteHit,
 
     slideStartNoteIntro,
     slideStartNoteFall,

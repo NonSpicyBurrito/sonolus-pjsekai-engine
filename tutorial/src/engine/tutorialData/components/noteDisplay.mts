@@ -11,6 +11,20 @@ const noteSprites = {
 
         fallback: skin.sprites.normalNoteFallback,
     },
+    trace: {
+        left: skin.sprites.normalTraceNoteLeft,
+        middle: skin.sprites.normalTraceNoteMiddle,
+        right: skin.sprites.normalTraceNoteRight,
+
+        fallback: skin.sprites.normalTraceNoteFallback,
+    },
+    traceFlick: {
+        left: skin.sprites.traceFlickNoteLeft,
+        middle: skin.sprites.traceFlickNoteMiddle,
+        right: skin.sprites.traceFlickNoteRight,
+
+        fallback: skin.sprites.traceFlickNoteFallback,
+    },
     slide: {
         left: skin.sprites.slideNoteLeft,
         middle: skin.sprites.slideNoteMiddle,

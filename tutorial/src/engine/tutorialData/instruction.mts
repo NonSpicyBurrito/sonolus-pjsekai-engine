@@ -6,6 +6,7 @@ export const instruction = defineInstruction({
         tap: InstructionText.Tap,
         tapAndFlick: InstructionText.TapAndFlick,
         tapAndHold: InstructionText.TapAndHold,
+        hold: InstructionText.Hold,
         release: InstructionText.Release,
         flick: InstructionText.Flick,
     },

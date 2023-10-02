@@ -1,12 +1,13 @@
 import { skin } from '../../../../../skin.mjs'
-import { SingleFlickNote } from './SingleFlickNote.mjs'
+import { TraceFlickNote } from './TraceFlickNote.mjs'
 
-export class CriticalFlickNote extends SingleFlickNote {
+export class CriticalTraceFlickNote extends TraceFlickNote {
     sprites = {
-        left: skin.sprites.criticalNoteLeft,
-        middle: skin.sprites.criticalNoteMiddle,
-        right: skin.sprites.criticalNoteRight,
-        fallback: skin.sprites.criticalNoteFallback,
+        left: skin.sprites.criticalTraceNoteLeft,
+        middle: skin.sprites.criticalTraceNoteMiddle,
+        right: skin.sprites.criticalTraceNoteRight,
+        diamond: skin.sprites.criticalTraceNoteDiamond,
+        fallback: skin.sprites.criticalTraceNoteFallback,
     }
 
     arrowSprites = {

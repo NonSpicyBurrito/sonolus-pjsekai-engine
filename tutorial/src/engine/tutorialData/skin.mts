@@ -26,6 +26,18 @@ export const skin = defineSkin({
         flickNoteFallback: SkinSpriteName.NoteHeadRed,
         flickNoteEndFallback: SkinSpriteName.NoteTailRed,
 
+        traceFlickNoteLeft: 'Sekai Trace Note Red Left',
+        traceFlickNoteMiddle: 'Sekai Trace Note Red Middle',
+        traceFlickNoteRight: 'Sekai Trace Note Red Right',
+        traceFlickNoteDiamond: 'Sekai Trace Diamond Red',
+        traceFlickNoteFallback: SkinSpriteName.NoteTickRed,
+
+        normalTraceNoteLeft: 'Sekai Trace Note Green Left',
+        normalTraceNoteMiddle: 'Sekai Trace Note Green Middle',
+        normalTraceNoteRight: 'Sekai Trace Note Green Right',
+        normalTraceNoteDiamond: 'Sekai Trace Diamond Green',
+        normalTraceNoteFallback: SkinSpriteName.NoteTickGreen,
+
         normalActiveSlideConnectorNormal: 'Sekai Active Slide Connection Green',
         normalActiveSlideConnectorActive: 'Sekai Active Slide Connection Green Active',
         normalActiveSlideConnectorFallback: SkinSpriteName.NoteConnectionGreenSeamless,
@@ -47,7 +59,8 @@ export const layer = {
     slotGlowEffect: 200,
 
     note: {
-        arrow: 101,
+        arrow: 102,
+        tick: 101,
         body: 100,
         slide: 99,
         connector: 98,

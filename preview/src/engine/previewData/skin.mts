@@ -32,6 +32,24 @@ export const skin = defineSkin({
         criticalNoteFallback: SkinSpriteName.NoteHeadYellow,
         criticalNoteEndFallback: SkinSpriteName.NoteTailYellow,
 
+        traceFlickNoteLeft: 'Sekai Trace Note Red Left',
+        traceFlickNoteMiddle: 'Sekai Trace Note Red Middle',
+        traceFlickNoteRight: 'Sekai Trace Note Red Right',
+        traceFlickNoteDiamond: 'Sekai Trace Diamond Red',
+        traceFlickNoteFallback: SkinSpriteName.NoteTickRed,
+
+        normalTraceNoteLeft: 'Sekai Trace Note Green Left',
+        normalTraceNoteMiddle: 'Sekai Trace Note Green Middle',
+        normalTraceNoteRight: 'Sekai Trace Note Green Right',
+        normalTraceNoteDiamond: 'Sekai Trace Diamond Green',
+        normalTraceNoteFallback: SkinSpriteName.NoteTickGreen,
+
+        criticalTraceNoteLeft: 'Sekai Trace Note Yellow Left',
+        criticalTraceNoteMiddle: 'Sekai Trace Note Yellow Middle',
+        criticalTraceNoteRight: 'Sekai Trace Note Yellow Right',
+        criticalTraceNoteDiamond: 'Sekai Trace Diamond Yellow',
+        criticalTraceNoteFallback: SkinSpriteName.NoteTickYellow,
+
         normalSlideTickNote: 'Sekai Diamond Green',
         normalSlideTickNoteFallback: SkinSpriteName.NoteTickGreen,
 
@@ -80,7 +98,8 @@ export const skin = defineSkin({
 
 export const layer = {
     note: {
-        arrow: 101,
+        arrow: 102,
+        tick: 101,
         body: 100,
         connector: 99,
     },

@@ -39,7 +39,7 @@ export const buckets = defineBuckets({
     normalSlideStartNote: {
         sprites: [
             {
-                id: skin.sprites.normalSlideConnectorFallback.id,
+                id: skin.sprites.normalActiveSlideConnectorFallback.id,
                 x: 0.5,
                 y: 0,
                 w: 2,
@@ -60,7 +60,7 @@ export const buckets = defineBuckets({
     normalSlideEndNote: {
         sprites: [
             {
-                id: skin.sprites.normalSlideConnectorFallback.id,
+                id: skin.sprites.normalActiveSlideConnectorFallback.id,
                 x: -0.5,
                 y: 0,
                 w: 2,
@@ -81,7 +81,7 @@ export const buckets = defineBuckets({
     normalSlideEndFlickNote: {
         sprites: [
             {
-                id: skin.sprites.normalSlideConnectorFallback.id,
+                id: skin.sprites.normalActiveSlideConnectorFallback.id,
                 x: -0.5,
                 y: 0,
                 w: 2,
@@ -145,7 +145,7 @@ export const buckets = defineBuckets({
     criticalSlideStartNote: {
         sprites: [
             {
-                id: skin.sprites.criticalSlideConnectorFallback.id,
+                id: skin.sprites.criticalActiveSlideConnectorFallback.id,
                 x: 0.5,
                 y: 0,
                 w: 2,
@@ -166,7 +166,7 @@ export const buckets = defineBuckets({
     criticalSlideEndNote: {
         sprites: [
             {
-                id: skin.sprites.criticalSlideConnectorFallback.id,
+                id: skin.sprites.criticalActiveSlideConnectorFallback.id,
                 x: -0.5,
                 y: 0,
                 w: 2,
@@ -187,7 +187,7 @@ export const buckets = defineBuckets({
     criticalSlideEndFlickNote: {
         sprites: [
             {
-                id: skin.sprites.criticalSlideConnectorFallback.id,
+                id: skin.sprites.criticalActiveSlideConnectorFallback.id,
                 x: -0.5,
                 y: 0,
                 w: 2,

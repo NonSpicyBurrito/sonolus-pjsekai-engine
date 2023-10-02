@@ -1,6 +1,7 @@
 **/*.*
 
 !.eslintrc.cjs
+!README.md
 
 !lib/build.mjs
 !lib/src/**/*.*

@@ -25,8 +25,8 @@ export abstract class FlatNote extends Note {
         if (this.useFallbackSprites) {
             this.sprites.fallback.draw(new Rect({ l, r, b, t }).add(pos), z, 1)
         } else {
-            const ml = l + 0.25
-            const mr = r - 0.25
+            const ml = l + 0.3
+            const mr = r - 0.3
 
             this.sprites.left.draw(new Rect({ l, r: ml, b, t }).add(pos), z, 1)
             this.sprites.middle.draw(new Rect({ l: ml, r: mr, b, t }).add(pos), z, 1)

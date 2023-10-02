@@ -26,9 +26,9 @@ export const skin = defineSkin({
         flickNoteFallback: SkinSpriteName.NoteHeadRed,
         flickNoteEndFallback: SkinSpriteName.NoteTailRed,
 
-        normalSlideConnectorNormal: 'Sekai Slide Connection',
-        normalSlideConnectorActive: 'Sekai Slide Connection Active',
-        normalSlideConnectorFallback: SkinSpriteName.NoteConnectionGreenSeamless,
+        normalActiveSlideConnectorNormal: 'Sekai Active Slide Connection Green',
+        normalActiveSlideConnectorActive: 'Sekai Active Slide Connection Green Active',
+        normalActiveSlideConnectorFallback: SkinSpriteName.NoteConnectionGreenSeamless,
 
         normalSlotGlow: 'Sekai Slot Glow Cyan',
         slideSlotGlow: 'Sekai Slot Glow Green',
@@ -38,7 +38,7 @@ export const skin = defineSkin({
         slideSlot: 'Sekai Slot Green',
         flickSlot: 'Sekai Slot Red',
 
-        flickArrow: 'Sekai Flick Arrow Up 4',
+        flickArrow: 'Sekai Flick Arrow Red Up 4',
         flickArrowFallback: SkinSpriteName.DirectionalMarkerRed,
     },
 })

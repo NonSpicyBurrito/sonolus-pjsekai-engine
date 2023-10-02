@@ -7,9 +7,9 @@ import { SlideConnector } from './SlideConnector.mjs'
 export class NormalSlideConnector extends SlideConnector {
     sprites = {
         connector: {
-            normal: skin.sprites.normalSlideConnectorNormal,
-            active: skin.sprites.normalSlideConnectorActive,
-            fallback: skin.sprites.normalSlideConnectorFallback,
+            normal: skin.sprites.normalActiveSlideConnectorNormal,
+            active: skin.sprites.normalActiveSlideConnectorActive,
+            fallback: skin.sprites.normalActiveSlideConnectorFallback,
         },
 
         slide: {

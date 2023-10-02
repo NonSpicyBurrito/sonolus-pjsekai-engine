@@ -68,8 +68,8 @@ export const noteDisplay = {
             const l = -3
             const r = 3
 
-            const ml = l + 0.5
-            const mr = r - 0.5
+            const ml = l + 0.6
+            const mr = r - 0.6
 
             const t = 0.5 - note.h * 3
             const b = 0.5 + note.h * 3
@@ -87,8 +87,8 @@ export const noteDisplay = {
             const l = -2
             const r = 2
 
-            const ml = l + 0.25
-            const mr = r - 0.25
+            const ml = l + 0.3
+            const mr = r - 0.3
 
             const t = 1 - note.h
             const b = 1 + note.h

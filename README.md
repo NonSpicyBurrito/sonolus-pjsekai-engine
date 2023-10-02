@@ -17,59 +17,59 @@ npm install sonolus-pjsekai-engine
 
 ### Skin Sprites
 
-| Name                                     |
-| ---------------------------------------- |
-| `Sekai Stage`                            |
-| `Sekai Note Cyan Left`                   |
-| `Sekai Note Cyan Middle`                 |
-| `Sekai Note Cyan Right`                  |
-| `Sekai Note Green Left`                  |
-| `Sekai Note Green Middle`                |
-| `Sekai Note Green Right`                 |
-| `Sekai Note Red Left`                    |
-| `Sekai Note Red Middle`                  |
-| `Sekai Note Red Right`                   |
-| `Sekai Note Yellow Left`                 |
-| `Sekai Note Yellow Middle`               |
-| `Sekai Note Yellow Right`                |
-| `Sekai Diamond Green`                    |
-| `Sekai Diamond Yellow`                   |
-| `Sekai Slide Connection`                 |
-| `Sekai Slide Connection Active`          |
-| `Sekai Critical Slide Connection`        |
-| `Sekai Critical Slide Connection Active` |
-| `Sekai Slot Glow Cyan`                   |
-| `Sekai Slot Glow Green`                  |
-| `Sekai Slot Glow Red`                    |
-| `Sekai Slot Glow Yellow`                 |
-| `Sekai Slot Cyan`                        |
-| `Sekai Slot Green`                       |
-| `Sekai Slot Red`                         |
-| `Sekai Slot Yellow`                      |
-| `Sekai Flick Arrow Up 1`                 |
-| `Sekai Flick Arrow Up 2`                 |
-| `Sekai Flick Arrow Up 3`                 |
-| `Sekai Flick Arrow Up 4`                 |
-| `Sekai Flick Arrow Up 5`                 |
-| `Sekai Flick Arrow Up 6`                 |
-| `Sekai Flick Arrow Left 1`               |
-| `Sekai Flick Arrow Left 2`               |
-| `Sekai Flick Arrow Left 3`               |
-| `Sekai Flick Arrow Left 4`               |
-| `Sekai Flick Arrow Left 5`               |
-| `Sekai Flick Arrow Left 6`               |
-| `Sekai Critical Flick Arrow Up 1`        |
-| `Sekai Critical Flick Arrow Up 2`        |
-| `Sekai Critical Flick Arrow Up 3`        |
-| `Sekai Critical Flick Arrow Up 4`        |
-| `Sekai Critical Flick Arrow Up 5`        |
-| `Sekai Critical Flick Arrow Up 6`        |
-| `Sekai Critical Flick Arrow Left 1`      |
-| `Sekai Critical Flick Arrow Left 2`      |
-| `Sekai Critical Flick Arrow Left 3`      |
-| `Sekai Critical Flick Arrow Left 4`      |
-| `Sekai Critical Flick Arrow Left 5`      |
-| `Sekai Critical Flick Arrow Left 6`      |
+| Name                                          |
+| --------------------------------------------- |
+| `Sekai Stage`                                 |
+| `Sekai Note Red Left`                         |
+| `Sekai Note Red Middle`                       |
+| `Sekai Note Red Right`                        |
+| `Sekai Note Green Left`                       |
+| `Sekai Note Green Middle`                     |
+| `Sekai Note Green Right`                      |
+| `Sekai Note Yellow Left`                      |
+| `Sekai Note Yellow Middle`                    |
+| `Sekai Note Yellow Right`                     |
+| `Sekai Note Cyan Left`                        |
+| `Sekai Note Cyan Middle`                      |
+| `Sekai Note Cyan Right`                       |
+| `Sekai Diamond Green`                         |
+| `Sekai Diamond Yellow`                        |
+| `Sekai Active Slide Connection Green`         |
+| `Sekai Active Slide Connection Green Active`  |
+| `Sekai Active Slide Connection Yellow`        |
+| `Sekai Active Slide Connection Yellow Active` |
+| `Sekai Slot Glow Red`                         |
+| `Sekai Slot Glow Green`                       |
+| `Sekai Slot Glow Yellow`                      |
+| `Sekai Slot Glow Cyan`                        |
+| `Sekai Slot Red`                              |
+| `Sekai Slot Green`                            |
+| `Sekai Slot Yellow`                           |
+| `Sekai Slot Cyan`                             |
+| `Sekai Flick Arrow Red Up 1`                  |
+| `Sekai Flick Arrow Red Up 2`                  |
+| `Sekai Flick Arrow Red Up 3`                  |
+| `Sekai Flick Arrow Red Up 4`                  |
+| `Sekai Flick Arrow Red Up 5`                  |
+| `Sekai Flick Arrow Red Up 6`                  |
+| `Sekai Flick Arrow Red Left 1`                |
+| `Sekai Flick Arrow Red Left 2`                |
+| `Sekai Flick Arrow Red Left 3`                |
+| `Sekai Flick Arrow Red Left 4`                |
+| `Sekai Flick Arrow Red Left 5`                |
+| `Sekai Flick Arrow Red Left 6`                |
+| `Sekai Flick Arrow Yellow Up 1`               |
+| `Sekai Flick Arrow Yellow Up 2`               |
+| `Sekai Flick Arrow Yellow Up 3`               |
+| `Sekai Flick Arrow Yellow Up 4`               |
+| `Sekai Flick Arrow Yellow Up 5`               |
+| `Sekai Flick Arrow Yellow Up 6`               |
+| `Sekai Flick Arrow Yellow Left 1`             |
+| `Sekai Flick Arrow Yellow Left 2`             |
+| `Sekai Flick Arrow Yellow Left 3`             |
+| `Sekai Flick Arrow Yellow Left 4`             |
+| `Sekai Flick Arrow Yellow Left 5`             |
+| `Sekai Flick Arrow Yellow Left 6`             |
 
 ### Effect Clips
 

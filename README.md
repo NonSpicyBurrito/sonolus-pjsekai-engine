@@ -49,6 +49,10 @@ npm install sonolus-pjsekai-engine
 | `Sekai Trace Diamond Red`                     |
 | `Sekai Trace Diamond Green`                   |
 | `Sekai Trace Diamond Yellow`                  |
+| `Sekai Slide Connection Green`                |
+| `Sekai Slide Connection Green Active`         |
+| `Sekai Slide Connection Yellow`               |
+| `Sekai Slide Connection Yellow Active`        |
 | `Sekai Active Slide Connection Green`         |
 | `Sekai Active Slide Connection Green Active`  |
 | `Sekai Active Slide Connection Yellow`        |

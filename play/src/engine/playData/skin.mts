@@ -63,6 +63,14 @@ export const skin = defineSkin({
         criticalTraceNoteDiamond: 'Sekai Trace Diamond Yellow',
         criticalTraceNoteFallback: SkinSpriteName.NoteTickYellow,
 
+        normalSlideConnectorNormal: 'Sekai Slide Connection Green',
+        normalSlideConnectorActive: 'Sekai Slide Connection Green Active',
+        normalSlideConnectorFallback: SkinSpriteName.NoteConnectionGreenSeamless,
+
+        criticalSlideConnectorNormal: 'Sekai Slide Connection Yellow',
+        criticalSlideConnectorActive: 'Sekai Slide Connection Yellow Active',
+        criticalSlideConnectorFallback: SkinSpriteName.NoteConnectionYellowSeamless,
+
         normalActiveSlideConnectorNormal: 'Sekai Active Slide Connection Green',
         normalActiveSlideConnectorActive: 'Sekai Active Slide Connection Green Active',
         normalActiveSlideConnectorFallback: SkinSpriteName.NoteConnectionGreenSeamless,

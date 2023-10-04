@@ -56,6 +56,12 @@ export const skin = defineSkin({
         criticalSlideTickNote: 'Sekai Diamond Yellow',
         criticalSlideTickNoteFallback: SkinSpriteName.NoteTickYellow,
 
+        normalSlideConnectorNormal: 'Sekai Slide Connection Green',
+        normalSlideConnectorFallback: SkinSpriteName.NoteConnectionGreenSeamless,
+
+        criticalSlideConnectorNormal: 'Sekai Slide Connection Yellow',
+        criticalSlideConnectorFallback: SkinSpriteName.NoteConnectionYellowSeamless,
+
         normalActiveSlideConnectorNormal: 'Sekai Active Slide Connection Green',
         normalActiveSlideConnectorFallback: SkinSpriteName.NoteConnectionGreenSeamless,
 

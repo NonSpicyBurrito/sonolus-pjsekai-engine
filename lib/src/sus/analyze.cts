@@ -31,6 +31,11 @@ export type NoteObject = {
     type: number
 }
 
+export type SlideObject = {
+    type: number
+    notes: NoteObject[]
+}
+
 export type Score = {
     offset: number
     ticksPerBeat: number
@@ -38,7 +43,7 @@ export type Score = {
     bpmChanges: BpmChangeObject[]
     tapNotes: NoteObject[]
     directionalNotes: NoteObject[]
-    slides: NoteObject[][]
+    slides: SlideObject[]
 }
 
 type ToTick = (measure: number, p: number, q: number) => number
@@ -62,7 +67,7 @@ export const analyze = (sus: string): Score => {
     const timeScaleChanges: TimeScaleChangeObject[] = []
     const tapNotes: NoteObject[] = []
     const directionalNotes: NoteObject[] = []
-    const streams = new Map<string, NoteObject[]>()
+    const streams = new Map<string, SlideObject>()
 
     lines.forEach((line, index) => {
         const [header, data] = line
@@ -93,14 +98,17 @@ export const analyze = (sus: string): Score => {
         }
 
         // Streams
-        if (header.length === 6 && header[3] === '3') {
-            const channel = header[5]
-            const stream = streams.get(channel)
+        if (header.length === 6 && (header[3] === '3' || header[3] === '9')) {
+            const key = `${header[5]}-${header[3]}`
+            const stream = streams.get(key)
 
             if (stream) {
-                stream.push(...toNotes(line, measureOffset, toTick))
+                stream.notes.push(...toNotes(line, measureOffset, toTick))
             } else {
-                streams.set(channel, toNotes(line, measureOffset, toTick))
+                streams.set(key, {
+                    type: +header[3],
+                    notes: toNotes(line, measureOffset, toTick),
+                })
             }
             return
         }
@@ -112,7 +120,7 @@ export const analyze = (sus: string): Score => {
         }
     })
 
-    const slides = [...streams.values()].map(toSlides).flat()
+    const slides = [...streams.values()].flatMap(toSlides)
 
     return {
         offset,
@@ -274,22 +282,25 @@ const toNotes = (line: Line, measureOffset: number, toTick: ToTick) => {
     })
 }
 
-const toSlides = (stream: NoteObject[]) => {
-    const slides: NoteObject[][] = []
+const toSlides = (stream: SlideObject) => {
+    const slides: SlideObject[] = []
 
-    let current: NoteObject[] | undefined
-    stream
+    let notes: NoteObject[] | undefined
+    stream.notes
         .sort((a, b) => a.tick - b.tick)
         .forEach((note) => {
-            if (!current) {
-                current = []
-                slides.push(current)
+            if (!notes) {
+                notes = []
+                slides.push({
+                    type: stream.type,
+                    notes,
+                })
             }
 
-            current.push(note)
+            notes.push(note)
 
             if (note.type === 2) {
-                current = undefined
+                notes = undefined
             }
         })
 

@@ -382,7 +382,13 @@ const slide: Handler<USCSlideNote> = (object, append) => {
         if (!head.ease) throw new Error('Unexpected missing ease')
 
         connectors.push({
-            archetype: object.critical ? 'CriticalSlideConnector' : 'NormalSlideConnector',
+            archetype: object.active
+                ? object.critical
+                    ? 'CriticalActiveSlideConnector'
+                    : 'NormalActiveSlideConnector'
+                : object.critical
+                ? 'CriticalSlideConnector'
+                : 'NormalSlideConnector',
             data: {
                 start,
                 head,
@@ -423,6 +429,8 @@ const handlers: {
 }
 
 const getConnections = (object: USCSlideNote) => {
+    if (!object.active) return object.connections
+
     const connections = [...object.connections]
 
     const beats = connections.map(({ beat }) => beat).sort((a, b) => a - b)

@@ -68,6 +68,7 @@ export type USCConnectionEndNote = BaseUSCNote & {
 
 export type USCSlideNote = {
     type: 'slide'
+    active: boolean
     critical: boolean
     connections: [
         USCConnectionStartNote | USCConnectionIgnoreNote,

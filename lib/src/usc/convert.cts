@@ -15,7 +15,7 @@ import {
 
 type Intermediate = {
     archetype: string
-    data: Record<string, number | Intermediate>
+    data: Record<string, number | Intermediate | undefined>
     sim: boolean
 }
 
@@ -70,6 +70,8 @@ export const uscToLevelData = (usc: USC, offset = 0): LevelData => {
         entities.push(entity)
 
         for (const [name, value] of Object.entries(intermediate.data)) {
+            if (value === undefined) continue
+
             if (typeof value === 'number') {
                 entity.data.push({
                     name,
@@ -159,7 +161,15 @@ const timeScale: Handler<USCTimeScaleChange> = (object, append) => {
 
 const single: Handler<USCSingleNote> = (object, append) => {
     const intermediate: Intermediate = {
-        archetype: object.trace
+        archetype: object.direction
+            ? object.trace
+                ? object.critical
+                    ? 'CriticalTraceFlickNote'
+                    : 'NormalTraceFlickNote'
+                : object.critical
+                ? 'CriticalFlickNote'
+                : 'NormalFlickNote'
+            : object.trace
             ? object.critical
                 ? 'CriticalTraceNote'
                 : 'NormalTraceNote'
@@ -170,19 +180,9 @@ const single: Handler<USCSingleNote> = (object, append) => {
             [EngineArchetypeDataName.Beat]: object.beat,
             lane: object.lane,
             size: object.size,
+            direction: object.direction && directions[object.direction],
         },
         sim: true,
-    }
-
-    if (object.direction) {
-        intermediate.archetype = object.trace
-            ? object.critical
-                ? 'CriticalTraceFlickNote'
-                : 'NormalTraceFlickNote'
-            : object.critical
-            ? 'CriticalFlickNote'
-            : 'NormalFlickNote'
-        intermediate.data.direction = directions[object.direction]
     }
 
     append(intermediate)
@@ -229,7 +229,15 @@ const slide: Handler<USCSlideNote> = (object, append) => {
             if (connection.type !== 'end') throw new Error('Unexpected slide end')
 
             const ci: ConnectionIntermediate = {
-                archetype: connection.trace
+                archetype: connection.direction
+                    ? connection.trace
+                        ? connection.critical
+                            ? 'CriticalTraceFlickNote'
+                            : 'NormalTraceFlickNote'
+                        : connection.critical
+                        ? 'CriticalSlideEndFlickNote'
+                        : 'NormalSlideEndFlickNote'
+                    : connection.trace
                     ? connection.critical
                         ? 'CriticalSlideEndTraceNote'
                         : 'NormalSlideEndTraceNote'
@@ -240,19 +248,9 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                     [EngineArchetypeDataName.Beat]: connection.beat,
                     lane: connection.lane,
                     size: connection.size,
+                    direction: connection.direction && directions[connection.direction],
                 },
                 sim: true,
-            }
-
-            if ('direction' in connection) {
-                ci.archetype = connection.trace
-                    ? connection.critical
-                        ? 'CriticalTraceFlickNote'
-                        : 'NormalTraceFlickNote'
-                    : connection.critical
-                    ? 'CriticalSlideEndFlickNote'
-                    : 'NormalSlideEndFlickNote'
-                ci.data.direction = directions[connection.direction]
             }
 
             cis.push(ci)

@@ -17,6 +17,7 @@ export const susToUSC = (sus: string): USC => {
     const traceMods = new Set<string>()
     const criticalMods = new Set<string>()
     const tickRemoveMods = new Set<string>()
+    const slideStartEndRemoveMods = new Set<string>()
     const easeMods = new Map<string, 'in' | 'out'>()
 
     const preventSingles = new Set<string>()
@@ -72,6 +73,13 @@ export const susToUSC = (sus: string): USC => {
                 break
             case 3:
                 tickRemoveMods.add(key)
+                break
+            case 7:
+                slideStartEndRemoveMods.add(key)
+                break
+            case 8:
+                criticalMods.add(key)
+                slideStartEndRemoveMods.add(key)
                 break
         }
     }
@@ -141,33 +149,57 @@ export const susToUSC = (sus: string): USC => {
 
             switch (note.type) {
                 case 1: {
-                    const connection: USCConnectionStartNote = {
-                        type: 'start',
-                        beat,
-                        lane,
-                        size,
-                        trace,
-                        critical,
-                        ease: easeMods.get(key) ?? 'linear',
-                    }
+                    if (slideStartEndRemoveMods.has(key)) {
+                        const connection: USCConnectionIgnoreNote = {
+                            type: 'ignore',
+                            beat,
+                            lane,
+                            size,
+                            ease,
+                        }
 
-                    object.connections.push(connection)
+                        object.connections.push(connection)
+                    } else {
+                        const connection: USCConnectionStartNote = {
+                            type: 'start',
+                            beat,
+                            lane,
+                            size,
+                            trace,
+                            critical,
+                            ease: easeMods.get(key) ?? 'linear',
+                        }
+
+                        object.connections.push(connection)
+                    }
                     break
                 }
                 case 2: {
-                    const connection: USCConnectionEndNote = {
-                        type: 'end',
-                        beat,
-                        lane,
-                        size,
-                        trace,
-                        critical,
+                    if (slideStartEndRemoveMods.has(key)) {
+                        const connection: USCConnectionIgnoreNote = {
+                            type: 'ignore',
+                            beat,
+                            lane,
+                            size,
+                            ease,
+                        }
+
+                        object.connections.push(connection)
+                    } else {
+                        const connection: USCConnectionEndNote = {
+                            type: 'end',
+                            beat,
+                            lane,
+                            size,
+                            trace,
+                            critical,
+                        }
+
+                        const flickMod = flickMods.get(key)
+                        if (flickMod) connection.direction = flickMod
+
+                        object.connections.push(connection)
                     }
-
-                    const flickMod = flickMods.get(key)
-                    if (flickMod) connection.direction = flickMod
-
-                    object.connections.push(connection)
                     break
                 }
                 case 3: {

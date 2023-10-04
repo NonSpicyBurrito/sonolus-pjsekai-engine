@@ -5,16 +5,6 @@ import { FlatNote } from '../FlatNote.mjs'
 export abstract class SlideStartNote extends FlatNote {
     leniency = 1
 
-    sharedMemory = this.defineSharedMemory({
-        lastActiveTime: Number,
-    })
-
-    preprocess() {
-        super.preprocess()
-
-        this.sharedMemory.lastActiveTime = -1000
-    }
-
     updateSequential() {
         if (options.autoplay) return
 

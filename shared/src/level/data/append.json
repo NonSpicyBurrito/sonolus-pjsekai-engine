@@ -17115,7 +17115,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideEndNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -17128,10 +17128,6 @@
                 {
                     "name": "size",
                     "value": 1.5
-                },
-                {
-                    "name": "slide",
-                    "ref": "ab"
                 }
             ],
             "ref": "ad"
@@ -18025,7 +18021,7 @@
             "ref": "b5"
         },
         {
-            "archetype": "NormalSlideStartNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -18074,7 +18070,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideEndNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -18087,16 +18083,12 @@
                 {
                     "name": "size",
                     "value": 1
-                },
-                {
-                    "name": "slide",
-                    "ref": "b8"
                 }
             ],
             "ref": "bb"
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -18117,7 +18109,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -18139,7 +18131,7 @@
             "ref": "b8"
         },
         {
-            "archetype": "NormalSlideStartNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -18188,7 +18180,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideEndNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -18201,16 +18193,12 @@
                 {
                     "name": "size",
                     "value": 2
-                },
-                {
-                    "name": "slide",
-                    "ref": "bc"
                 }
             ],
             "ref": "bf"
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -18231,7 +18219,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -18611,7 +18599,7 @@
             ]
         },
         {
-            "archetype": "CriticalSlideEndNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -18624,10 +18612,6 @@
                 {
                     "name": "size",
                     "value": 1.5
-                },
-                {
-                    "name": "slide",
-                    "ref": "bk"
                 }
             ],
             "ref": "bn"
@@ -29223,7 +29207,7 @@
             "ref": "k0"
         },
         {
-            "archetype": "NormalSlideStartNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -29396,7 +29380,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideEndNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -29409,16 +29393,12 @@
                 {
                     "name": "size",
                     "value": 2
-                },
-                {
-                    "name": "slide",
-                    "ref": "k5"
                 }
             ],
             "ref": "kc"
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -29439,7 +29419,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -29461,7 +29441,7 @@
             "ref": "k3"
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -29482,7 +29462,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -29504,7 +29484,7 @@
             "ref": "k4"
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -29525,7 +29505,7 @@
             ]
         },
         {
-            "archetype": "NormalSlideConnector",
+            "archetype": "CriticalSlideConnector",
             "data": [
                 {
                     "name": "start",
@@ -37316,7 +37296,7 @@
             ]
         },
         {
-            "archetype": "CriticalSlideEndNote",
+            "archetype": "IgnoredSlideTickNote",
             "data": [
                 {
                     "name": "#BEAT",
@@ -37329,10 +37309,6 @@
                 {
                     "name": "size",
                     "value": 1.5
-                },
-                {
-                    "name": "slide",
-                    "ref": "qg"
                 }
             ],
             "ref": "qj"

@@ -70,13 +70,13 @@ export type USCSlideNote = {
     type: 'slide'
     critical: boolean
     connections: [
-        USCConnectionStartNote,
+        USCConnectionStartNote | USCConnectionIgnoreNote,
         ...(
             | USCConnectionIgnoreNote
             | USCConnectionTickNote
             | USCConnectionHiddenNote
             | USCConnectionAttachNote
         )[],
-        USCConnectionEndNote,
+        USCConnectionEndNote | USCConnectionIgnoreNote,
     ]
 }

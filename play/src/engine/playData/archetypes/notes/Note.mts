@@ -12,6 +12,10 @@ export abstract class Note extends Archetype {
         size: { name: 'size', type: Number },
     })
 
+    sharedMemory = this.defineSharedMemory({
+        lastActiveTime: Number,
+    })
+
     targetTime = this.entityMemory(Number)
 
     spawnTime = this.entityMemory(Number)
@@ -20,6 +24,8 @@ export abstract class Note extends Archetype {
     fullHitbox = this.entityMemory(Rect)
 
     preprocess() {
+        this.sharedMemory.lastActiveTime = -1000
+
         this.targetTime = bpmChanges.at(this.data.beat).time
 
         if (options.mirror) this.data.lane *= -1

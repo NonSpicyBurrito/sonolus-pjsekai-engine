@@ -201,62 +201,102 @@ const slide: Handler<USCSlideNote> = (object, append) => {
     const connections = getConnections(object)
     for (const [i, connection] of connections.entries()) {
         if (i === 0) {
-            if (connection.type !== 'start') throw new Error('Unexpected slide start')
+            switch (connection.type) {
+                case 'start': {
+                    const ci: ConnectionIntermediate = {
+                        archetype: connection.trace
+                            ? connection.critical
+                                ? 'CriticalSlideTraceNote'
+                                : 'NormalSlideTraceNote'
+                            : connection.critical
+                            ? 'CriticalSlideStartNote'
+                            : 'NormalSlideStartNote',
+                        data: {
+                            [EngineArchetypeDataName.Beat]: connection.beat,
+                            lane: connection.lane,
+                            size: connection.size,
+                        },
+                        sim: true,
+                        ease: connection.ease,
+                    }
 
-            const ci: ConnectionIntermediate = {
-                archetype: connection.trace
-                    ? connection.critical
-                        ? 'CriticalSlideTraceNote'
-                        : 'NormalSlideTraceNote'
-                    : connection.critical
-                    ? 'CriticalSlideStartNote'
-                    : 'NormalSlideStartNote',
-                data: {
-                    [EngineArchetypeDataName.Beat]: connection.beat,
-                    lane: connection.lane,
-                    size: connection.size,
-                },
-                sim: true,
-                ease: connection.ease,
+                    cis.push(ci)
+                    joints.push(ci)
+                    continue
+                }
+                case 'ignore': {
+                    const ci: ConnectionIntermediate = {
+                        archetype: 'IgnoredSlideTickNote',
+                        data: {
+                            [EngineArchetypeDataName.Beat]: connection.beat,
+                            lane: connection.lane,
+                            size: connection.size,
+                        },
+                        sim: false,
+                        ease: connection.ease,
+                    }
+
+                    cis.push(ci)
+                    joints.push(ci)
+                    continue
+                }
+                default:
+                    throw new Error('Unexpected slide start')
             }
-
-            cis.push(ci)
-            joints.push(ci)
-            continue
         }
 
         if (i === connections.length - 1) {
-            if (connection.type !== 'end') throw new Error('Unexpected slide end')
+            switch (connection.type) {
+                case 'end': {
+                    const ci: ConnectionIntermediate = {
+                        archetype: connection.direction
+                            ? connection.trace
+                                ? connection.critical
+                                    ? 'CriticalTraceFlickNote'
+                                    : 'NormalTraceFlickNote'
+                                : connection.critical
+                                ? 'CriticalSlideEndFlickNote'
+                                : 'NormalSlideEndFlickNote'
+                            : connection.trace
+                            ? connection.critical
+                                ? 'CriticalSlideEndTraceNote'
+                                : 'NormalSlideEndTraceNote'
+                            : connection.critical
+                            ? 'CriticalSlideEndNote'
+                            : 'NormalSlideEndNote',
+                        data: {
+                            [EngineArchetypeDataName.Beat]: connection.beat,
+                            lane: connection.lane,
+                            size: connection.size,
+                            direction: connection.direction && directions[connection.direction],
+                        },
+                        sim: true,
+                    }
 
-            const ci: ConnectionIntermediate = {
-                archetype: connection.direction
-                    ? connection.trace
-                        ? connection.critical
-                            ? 'CriticalTraceFlickNote'
-                            : 'NormalTraceFlickNote'
-                        : connection.critical
-                        ? 'CriticalSlideEndFlickNote'
-                        : 'NormalSlideEndFlickNote'
-                    : connection.trace
-                    ? connection.critical
-                        ? 'CriticalSlideEndTraceNote'
-                        : 'NormalSlideEndTraceNote'
-                    : connection.critical
-                    ? 'CriticalSlideEndNote'
-                    : 'NormalSlideEndNote',
-                data: {
-                    [EngineArchetypeDataName.Beat]: connection.beat,
-                    lane: connection.lane,
-                    size: connection.size,
-                    direction: connection.direction && directions[connection.direction],
-                },
-                sim: true,
+                    cis.push(ci)
+                    joints.push(ci)
+                    ends.push(ci)
+                    continue
+                }
+                case 'ignore': {
+                    const ci: ConnectionIntermediate = {
+                        archetype: 'IgnoredSlideTickNote',
+                        data: {
+                            [EngineArchetypeDataName.Beat]: connection.beat,
+                            lane: connection.lane,
+                            size: connection.size,
+                        },
+                        sim: false,
+                        ease: connection.ease,
+                    }
+
+                    cis.push(ci)
+                    joints.push(ci)
+                    continue
+                }
+                default:
+                    throw new Error('Unexpected slide end')
             }
-
-            cis.push(ci)
-            joints.push(ci)
-            ends.push(ci)
-            continue
         }
 
         switch (connection.type) {
@@ -326,8 +366,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                 attaches.push(ci)
                 break
             }
-            case 'start':
-            case 'end':
+            default:
                 throw new Error('Unexpected slide tick')
         }
     }

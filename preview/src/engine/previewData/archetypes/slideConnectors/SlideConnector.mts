@@ -10,6 +10,7 @@ export abstract class SlideConnector extends Archetype {
     }
 
     data = this.defineData({
+        startRef: { name: 'start', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },
@@ -35,7 +36,11 @@ export abstract class SlideConnector extends Archetype {
             max: this.tailData.lane + this.tailData.size,
         }
 
-        const z = getZ(layer.note.connector, t.min, this.headData.lane)
+        const z = getZ(
+            layer.note.connector,
+            bpmChanges.at(this.startData.beat).time,
+            this.startData.lane,
+        )
 
         for (let i = index.min; i <= index.max; i++) {
             const x = i * panel.w
@@ -81,6 +86,10 @@ export abstract class SlideConnector extends Archetype {
 
     getAlpha(a: number, b: number, x: number) {
         return Math.remapClamped(a, b, 0.575, 0.075, x)
+    }
+
+    get startData() {
+        return archetypes.NormalTapNote.data.get(this.data.startRef)
     }
 
     get headData() {

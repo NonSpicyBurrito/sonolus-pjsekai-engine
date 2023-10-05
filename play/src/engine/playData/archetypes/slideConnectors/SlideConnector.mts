@@ -218,10 +218,10 @@ export abstract class SlideConnector extends Archetype {
                     a * (visual === VisualType.NotActivated ? 0.5 : 1),
                 )
             } else if (options.connectorAnimation && visual === VisualType.Activated) {
-                const activeA = (Math.sin(time.now * 2 * Math.PI) + 1) / 2
+                const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2
 
-                this.sprites.active.draw(layout, this.z, a * activeA)
-                this.sprites.normal.draw(layout, this.z, a * (1 - activeA))
+                this.sprites.normal.draw(layout, this.z, a * normalA)
+                this.sprites.active.draw(layout, this.z, a * (1 - normalA))
             } else {
                 this.sprites.normal.draw(
                     layout,

@@ -7,5 +7,7 @@ export const effect = defineEffect({
         flickPerfect: EffectClipName.PerfectAlternative,
 
         normalHold: EffectClipName.Hold,
+
+        normalTrace: 'Sekai Trace',
     },
 })

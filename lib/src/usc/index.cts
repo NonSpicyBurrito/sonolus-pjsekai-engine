@@ -26,39 +26,58 @@ type BaseUSCNote = BaseUSCObject & {
 
 export type USCSingleNote = BaseUSCNote & {
     type: 'single'
+    trace: boolean
     critical: boolean
     direction?: 'left' | 'up' | 'right'
 }
 
 export type USCConnectionStartNote = BaseUSCNote & {
     type: 'start'
+    trace: boolean
     critical: boolean
+    ease: 'out' | 'linear' | 'in'
+}
+
+export type USCConnectionIgnoreNote = BaseUSCNote & {
+    type: 'ignore'
     ease: 'out' | 'linear' | 'in'
 }
 
 export type USCConnectionTickNote = BaseUSCNote & {
     type: 'tick'
-    critical?: boolean
+    trace: boolean
+    critical: boolean
     ease: 'out' | 'linear' | 'in'
+}
+
+export type USCConnectionHiddenNote = BaseUSCObject & {
+    type: 'hidden'
 }
 
 export type USCConnectionAttachNote = BaseUSCObject & {
     type: 'attach'
-    critical?: boolean
+    critical: boolean
 }
 
 export type USCConnectionEndNote = BaseUSCNote & {
     type: 'end'
+    trace: boolean
     critical: boolean
     direction?: 'left' | 'up' | 'right'
 }
 
 export type USCSlideNote = {
     type: 'slide'
+    active: boolean
     critical: boolean
     connections: [
-        USCConnectionStartNote,
-        ...(USCConnectionTickNote | USCConnectionAttachNote)[],
-        USCConnectionEndNote,
+        USCConnectionStartNote | USCConnectionIgnoreNote,
+        ...(
+            | USCConnectionIgnoreNote
+            | USCConnectionTickNote
+            | USCConnectionHiddenNote
+            | USCConnectionAttachNote
+        )[],
+        USCConnectionEndNote | USCConnectionIgnoreNote,
     ]
 }

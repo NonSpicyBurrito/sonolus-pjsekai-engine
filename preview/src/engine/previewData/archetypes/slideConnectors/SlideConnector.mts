@@ -1,7 +1,7 @@
 import { EaseType, ease } from '../../../../../../shared/src/engine/data/EaseType.mjs'
 import { panel } from '../../panel.mjs'
 import { getZ, layer } from '../../skin.mjs'
-import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'
+import { archetypes } from '../index.mjs'
 
 export abstract class SlideConnector extends Archetype {
     abstract sprites: {
@@ -9,9 +9,8 @@ export abstract class SlideConnector extends Archetype {
         fallback: SkinSprite
     }
 
-    abstract slideStartNote: SlideStartNote
-
     data = this.defineData({
+        startRef: { name: 'start', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },
@@ -37,7 +36,11 @@ export abstract class SlideConnector extends Archetype {
             max: this.tailData.lane + this.tailData.size,
         }
 
-        const z = getZ(layer.note.connector, t.min, this.headData.lane)
+        const z = getZ(
+            layer.note.connector,
+            bpmChanges.at(this.startData.beat).time,
+            this.startData.lane,
+        )
 
         for (let i = index.min; i <= index.max; i++) {
             const x = i * panel.w
@@ -70,21 +73,31 @@ export abstract class SlideConnector extends Archetype {
                     p4: pos.min.translate(Math.lerp(r.min, r.max, s.min), 0),
                 })
 
+                const a = this.getAlpha(t.min, t.max, st.min)
+
                 if (this.useFallbackSprite) {
-                    this.sprites.fallback.draw(layout, z, 1)
+                    this.sprites.fallback.draw(layout, z, a)
                 } else {
-                    this.sprites.normal.draw(layout, z, 1)
+                    this.sprites.normal.draw(layout, z, a)
                 }
             }
         }
     }
 
+    getAlpha(a: number, b: number, x: number) {
+        return Math.remapClamped(a, b, 0.575, 0.075, x)
+    }
+
+    get startData() {
+        return archetypes.NormalTapNote.data.get(this.data.startRef)
+    }
+
     get headData() {
-        return this.slideStartNote.data.get(this.data.headRef)
+        return archetypes.NormalTapNote.data.get(this.data.headRef)
     }
 
     get tailData() {
-        return this.slideStartNote.data.get(this.data.tailRef)
+        return archetypes.NormalTapNote.data.get(this.data.tailRef)
     }
 
     get useFallbackSprite() {

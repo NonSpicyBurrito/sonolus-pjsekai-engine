@@ -4,10 +4,10 @@ import { segment } from '../segment.mjs'
 import { layer, skin } from '../skin.mjs'
 
 const sprites = {
-    normal: skin.sprites.normalSlideConnectorNormal,
-    active: skin.sprites.normalSlideConnectorActive,
+    normal: skin.sprites.normalActiveSlideConnectorNormal,
+    active: skin.sprites.normalActiveSlideConnectorActive,
 
-    fallback: skin.sprites.normalSlideConnectorFallback,
+    fallback: skin.sprites.normalActiveSlideConnectorFallback,
 
     get useFallback() {
         return !this.normal.exists || !this.active.exists

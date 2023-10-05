@@ -8,6 +8,7 @@ export class CriticalFlickNote extends SingleFlickNote {
         right: skin.sprites.criticalNoteRight,
         fallback: skin.sprites.criticalNoteFallback,
     }
+
     arrowSprites = {
         up: [
             skin.sprites.criticalArrowUp1,

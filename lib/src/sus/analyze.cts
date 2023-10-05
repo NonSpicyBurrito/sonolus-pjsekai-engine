@@ -31,6 +31,11 @@ export type NoteObject = {
     type: number
 }
 
+export type SlideObject = {
+    type: number
+    notes: NoteObject[]
+}
+
 export type Score = {
     offset: number
     ticksPerBeat: number
@@ -38,7 +43,7 @@ export type Score = {
     bpmChanges: BpmChangeObject[]
     tapNotes: NoteObject[]
     directionalNotes: NoteObject[]
-    slides: NoteObject[][]
+    slides: SlideObject[]
 }
 
 type ToTick = (measure: number, p: number, q: number) => number
@@ -62,57 +67,60 @@ export const analyze = (sus: string): Score => {
     const timeScaleChanges: TimeScaleChangeObject[] = []
     const tapNotes: NoteObject[] = []
     const directionalNotes: NoteObject[] = []
-    const streams = new Map<string, NoteObject[]>()
+    const streams = new Map<string, SlideObject>()
 
-    lines.forEach((line, index) => {
+    for (const [index, line] of lines.entries()) {
         const [header, data] = line
         const measureOffset = measureChanges.find(([changeIndex]) => changeIndex <= index)?.[1] ?? 0
 
         // Time Scale Changes
         if (header.length === 5 && header.startsWith('TIL')) {
             timeScaleChanges.push(...toTimeScaleChanges(line, toTick))
-            return
+            continue
         }
 
         // BPM
         if (header.length === 5 && header.startsWith('BPM')) {
             bpms.set(header.substring(3), +data)
-            return
+            continue
         }
 
         // BPM Changes
         if (header.length === 5 && header.endsWith('08')) {
             bpmChanges.push(...toBpmChanges(line, measureOffset, bpms, toTick))
-            return
+            continue
         }
 
         // Tap Notes
         if (header.length === 5 && header[3] === '1') {
             tapNotes.push(...toNotes(line, measureOffset, toTick))
-            return
+            continue
         }
 
         // Streams
-        if (header.length === 6 && header[3] === '3') {
-            const channel = header[5]
-            const stream = streams.get(channel)
+        if (header.length === 6 && (header[3] === '3' || header[3] === '9')) {
+            const key = `${header[5]}-${header[3]}`
+            const stream = streams.get(key)
 
             if (stream) {
-                stream.push(...toNotes(line, measureOffset, toTick))
+                stream.notes.push(...toNotes(line, measureOffset, toTick))
             } else {
-                streams.set(channel, toNotes(line, measureOffset, toTick))
+                streams.set(key, {
+                    type: +header[3],
+                    notes: toNotes(line, measureOffset, toTick),
+                })
             }
-            return
+            continue
         }
 
         // Directional Notes
         if (header.length === 5 && header[3] === '5') {
             directionalNotes.push(...toNotes(line, measureOffset, toTick))
-            return
+            continue
         }
-    })
+    }
 
-    const slides = [...streams.values()].map(toSlides).flat()
+    const slides = [...streams.values()].flatMap(toSlides)
 
     return {
         offset,
@@ -136,26 +144,26 @@ const parse = (
     const measureChanges: MeasureChange[] = []
     const meta: Meta = new Map()
 
-    sus.split('\n')
+    for (const line of sus
+        .split('\n')
         .map((line) => line.trim())
-        .filter((line) => line.startsWith('#'))
-        .forEach((line) => {
-            const isLine = line.includes(':')
+        .filter((line) => line.startsWith('#'))) {
+        const isLine = line.includes(':')
 
-            const index = line.indexOf(isLine ? ':' : ' ')
-            if (index === -1) return
+        const index = line.indexOf(isLine ? ':' : ' ')
+        if (index === -1) continue
 
-            const left = line.substring(1, index).trim()
-            const right = line.substring(index + 1).trim()
+        const left = line.substring(1, index).trim()
+        const right = line.substring(index + 1).trim()
 
-            if (isLine) {
-                lines.push([left, right])
-            } else if (left === 'MEASUREBS') {
-                measureChanges.unshift([lines.length, +right])
-            } else {
-                meta.set(left, right)
-            }
-        })
+        if (isLine) {
+            lines.push([left, right])
+        } else if (left === 'MEASUREBS') {
+            measureChanges.unshift([lines.length, +right])
+        } else {
+            meta.set(left, right)
+        }
+    }
 
     return {
         lines,
@@ -176,19 +184,19 @@ const getTicksPerBeat = (meta: Map<string, string>) => {
 const getBarLengths = (lines: Line[], measureChanges: MeasureChange[]) => {
     const barLengths: BarLengthObject[] = []
 
-    lines.forEach((line, index) => {
+    for (const [index, line] of lines.entries()) {
         const [header, data] = line
 
-        if (header.length !== 5) return
-        if (!header.endsWith('02')) return
+        if (header.length !== 5) continue
+        if (!header.endsWith('02')) continue
 
         const measure =
             +header.substring(0, 3) +
             (measureChanges.find(([changeIndex]) => changeIndex <= index)?.[1] ?? 0)
-        if (Number.isNaN(measure)) return
+        if (Number.isNaN(measure)) continue
 
         barLengths.push({ measure, length: +data })
-    })
+    }
 
     return barLengths
 }
@@ -274,24 +282,25 @@ const toNotes = (line: Line, measureOffset: number, toTick: ToTick) => {
     })
 }
 
-const toSlides = (stream: NoteObject[]) => {
-    const slides: NoteObject[][] = []
+const toSlides = (stream: SlideObject) => {
+    const slides: SlideObject[] = []
 
-    let current: NoteObject[] | undefined
-    stream
-        .sort((a, b) => a.tick - b.tick)
-        .forEach((note) => {
-            if (!current) {
-                current = []
-                slides.push(current)
-            }
+    let notes: NoteObject[] | undefined
+    for (const note of stream.notes.sort((a, b) => a.tick - b.tick)) {
+        if (!notes) {
+            notes = []
+            slides.push({
+                type: stream.type,
+                notes,
+            })
+        }
 
-            current.push(note)
+        notes.push(note)
 
-            if (note.type === 2) {
-                current = undefined
-            }
-        })
+        if (note.type === 2) {
+            notes = undefined
+        }
+    }
 
     return slides
 }

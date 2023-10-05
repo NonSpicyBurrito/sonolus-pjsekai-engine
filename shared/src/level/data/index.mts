@@ -1,4 +1,4 @@
 import { LevelData } from 'sonolus-core'
-import chart from './expert.json'
+import chart from './append.json'
 
 export const data: LevelData = chart

@@ -17,6 +17,7 @@ export abstract class TraceFlickNote extends FlickNote {
 
     earlyInputTime = this.entityMemory(Number)
     earlyHitTime = this.entityMemory(Number)
+    earlyHitIsCorrectDirection = this.entityMemory(Boolean)
 
     diamondLayout = this.entityMemory(Rect)
 
@@ -67,6 +68,7 @@ export abstract class TraceFlickNote extends FlickNote {
 
             disallowEmpty(touch)
             this.earlyHitTime = touch.time
+            this.earlyHitIsCorrectDirection = this.isCorrectDirection(touch)
             return
         }
     }
@@ -77,7 +79,10 @@ export abstract class TraceFlickNote extends FlickNote {
             if (!this.fullHitbox.contains(touch.lastPosition)) continue
 
             disallowEmpty(touch)
-            this.completeTraceFlick(Math.max(touch.time, this.targetTime))
+            this.completeTraceFlick(
+                Math.max(touch.time, this.targetTime),
+                this.isCorrectDirection(touch),
+            )
             return
         }
     }
@@ -88,7 +93,7 @@ export abstract class TraceFlickNote extends FlickNote {
         if (time.now < this.earlyInputTime) return
         if (this.earlyHitTime === -9999) return
 
-        this.completeTraceFlick(this.earlyHitTime)
+        this.completeTraceFlick(this.earlyHitTime, this.earlyHitIsCorrectDirection)
         this.despawn = true
     }
 
@@ -100,9 +105,16 @@ export abstract class TraceFlickNote extends FlickNote {
         }
     }
 
-    completeTraceFlick(hitTime: number) {
+    completeTraceFlick(hitTime: number, isCorrectDirection: boolean) {
         this.result.judgment = input.judge(hitTime, this.targetTime, this.windows)
         this.result.accuracy = hitTime - this.targetTime
+
+        if (!isCorrectDirection) {
+            if (this.result.judgment === Judgment.Perfect) this.result.judgment = Judgment.Great
+
+            if (this.result.accuracy < this.windows.perfect.max)
+                this.result.accuracy = this.windows.perfect.max
+        }
 
         this.result.bucket.index = this.bucket.index
         this.result.bucket.value = this.result.accuracy * 1000

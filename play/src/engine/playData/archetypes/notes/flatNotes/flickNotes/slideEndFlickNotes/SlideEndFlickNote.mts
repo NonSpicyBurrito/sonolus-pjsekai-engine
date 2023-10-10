@@ -48,7 +48,7 @@ export abstract class SlideEndFlickNote extends FlickNote {
 
         if (time.now < this.inputTime.min) return
 
-        if (this.startInfo.state !== EntityState.Despawned) return
+        if (this.startInfo.state === EntityState.Active) return
 
         if (time.now < this.earlyInputTime) {
             this.earlyTouch()

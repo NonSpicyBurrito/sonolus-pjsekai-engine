@@ -15,12 +15,18 @@ export abstract class TraceFlickNote extends FlickNote {
         fallback: SkinSprite
     }
 
+    earlyInputTime = this.entityMemory(Number)
+    earlyHitTime = this.entityMemory(Number)
+
     diamondLayout = this.entityMemory(Rect)
 
     diamondZ = this.entityMemory(Number)
 
     initialize() {
         super.initialize()
+
+        this.earlyInputTime = this.targetTime + input.offset
+        this.earlyHitTime = -9999
 
         if (!this.useFallbackSprites) {
             const w = note.h / scaledScreen.wToH
@@ -41,13 +47,49 @@ export abstract class TraceFlickNote extends FlickNote {
 
         if (time.now < this.inputTime.min) return
 
+        if (time.now < this.earlyInputTime) {
+            this.earlyTouch()
+        } else {
+            this.lateTouch()
+        }
+    }
+
+    updateParallel() {
+        this.triggerEarlyTouch()
+
+        super.updateParallel()
+    }
+
+    earlyTouch() {
+        for (const touch of touches) {
+            if (touch.vr < minFlickVR) continue
+            if (!this.fullHitbox.contains(touch.position)) continue
+
+            disallowEmpty(touch)
+            this.earlyHitTime = touch.time
+            return
+        }
+    }
+
+    lateTouch() {
         for (const touch of touches) {
             if (touch.vr < minFlickVR) continue
             if (!this.fullHitbox.contains(touch.lastPosition)) continue
 
-            this.complete(touch)
+            disallowEmpty(touch)
+            this.completeTraceFlick(Math.max(touch.time, this.targetTime))
             return
         }
+    }
+
+    triggerEarlyTouch() {
+        if (options.autoplay) return
+        if (this.despawn) return
+        if (time.now < this.earlyInputTime) return
+        if (this.earlyHitTime === -9999) return
+
+        this.completeTraceFlick(this.earlyHitTime)
+        this.despawn = true
     }
 
     render() {
@@ -58,11 +100,7 @@ export abstract class TraceFlickNote extends FlickNote {
         }
     }
 
-    complete(touch: Touch) {
-        disallowEmpty(touch)
-
-        const hitTime = Math.max(touch.time, this.targetTime)
-
+    completeTraceFlick(hitTime: number) {
         this.result.judgment = input.judge(hitTime, this.targetTime, this.windows)
         this.result.accuracy = hitTime - this.targetTime
 

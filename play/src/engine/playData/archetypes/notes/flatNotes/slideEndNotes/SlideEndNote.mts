@@ -15,7 +15,7 @@ export abstract class SlideEndNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        if (this.startInfo.state !== EntityState.Despawned) return
+        if (this.startInfo.state === EntityState.Active) return
 
         claimEnd(
             this.info.index,
@@ -31,7 +31,7 @@ export abstract class SlideEndNote extends FlatNote {
 
         if (time.now < this.inputTime.min) return
 
-        if (this.startInfo.state !== EntityState.Despawned) return
+        if (this.startInfo.state === EntityState.Active) return
 
         const index = getClaimedEnd(this.info.index)
         if (index === -1) return

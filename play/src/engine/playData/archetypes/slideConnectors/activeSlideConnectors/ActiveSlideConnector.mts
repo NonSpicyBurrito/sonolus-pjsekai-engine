@@ -4,7 +4,7 @@ import { effect, getScheduleSFXTime } from '../../../effect.mjs'
 import { note } from '../../../note.mjs'
 import { circularEffectLayout, linearEffectLayout, particle } from '../../../particle.mjs'
 import { getZ, layer } from '../../../skin.mjs'
-import { SlideConnector } from '../SlideConnector.mjs'
+import { SlideConnector, VisualType } from '../SlideConnector.mjs'
 
 export abstract class ActiveSlideConnector extends SlideConnector {
     abstract slideSprites: {
@@ -229,8 +229,8 @@ export abstract class ActiveSlideConnector extends SlideConnector {
         this.effectInstanceIds.linear = 0
     }
 
-    getAlpha() {
-        return 1
+    getAlpha(visual: VisualType) {
+        return visual === VisualType.NotActivated ? 0.5 : 1
     }
 
     renderSlide() {

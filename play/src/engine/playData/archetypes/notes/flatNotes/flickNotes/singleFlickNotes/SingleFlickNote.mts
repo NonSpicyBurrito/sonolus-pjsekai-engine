@@ -41,6 +41,7 @@ export abstract class SingleFlickNote extends FlickNote {
 
         for (const touch of touches) {
             if (touch.vr < minFlickVR) continue
+            if (touch.startTime < this.inputTime.min) continue
             if (!this.fullHitbox.contains(touch.lastPosition)) continue
 
             this.complete(touch)

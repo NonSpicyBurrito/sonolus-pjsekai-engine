@@ -7,7 +7,7 @@ import { getZ, layer } from '../../skin.mjs'
 import { disallowEmpty } from '../InputManager.mjs'
 import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'
 
-enum VisualType {
+export enum VisualType {
     Waiting = 0,
     NotActivated = 1,
     Activated = 2,
@@ -209,30 +209,27 @@ export abstract class SlideConnector extends Archetype {
                 y4: y.min,
             }
 
-            const a = this.getAlpha(this.head.scaledTime, this.tail.scaledTime, scaledTime.min)
+            const a = this.getAlpha(
+                visual,
+                this.head.scaledTime,
+                this.tail.scaledTime,
+                scaledTime.min,
+            )
 
             if (this.useFallbackSprite) {
-                this.sprites.fallback.draw(
-                    layout,
-                    this.z,
-                    a * (visual === VisualType.NotActivated ? 0.5 : 1),
-                )
+                this.sprites.fallback.draw(layout, this.z, a)
             } else if (options.connectorAnimation && visual === VisualType.Activated) {
                 const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2
 
                 this.sprites.normal.draw(layout, this.z, a * normalA)
                 this.sprites.active.draw(layout, this.z, a * (1 - normalA))
             } else {
-                this.sprites.normal.draw(
-                    layout,
-                    this.z,
-                    a * (visual === VisualType.NotActivated ? 0.5 : 1),
-                )
+                this.sprites.normal.draw(layout, this.z, a)
             }
         }
     }
 
-    getAlpha(a: number, b: number, x: number) {
+    getAlpha(visual: VisualType, a: number, b: number, x: number) {
         return Math.remap(a, b, 0.575, 0.075, x)
     }
 

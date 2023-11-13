@@ -209,12 +209,9 @@ export abstract class SlideConnector extends Archetype {
                 y4: y.min,
             }
 
-            const a = this.getAlpha(
-                visual,
-                this.head.scaledTime,
-                this.tail.scaledTime,
-                scaledTime.min,
-            )
+            const a =
+                this.getAlpha(visual, this.head.scaledTime, this.tail.scaledTime, scaledTime.min) *
+                options.connectorAlpha
 
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a)

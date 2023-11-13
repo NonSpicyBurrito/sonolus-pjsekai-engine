@@ -84,6 +84,16 @@ export const optionsDefinition = {
         type: 'toggle',
         def: 1,
     },
+    connectorAlpha: {
+        name: NameText.ConnectorTransparency,
+        scope: 'Sekai',
+        type: 'slider',
+        def: 1,
+        min: 0.1,
+        max: 1,
+        step: 0.05,
+        unit: UnitText.Percentage,
+    },
     connectorAnimation: {
         name: NameText.ConnectorAnimation,
         scope: 'Sekai',

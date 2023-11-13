@@ -1,4 +1,5 @@
 import { EaseType, ease } from '../../../../../../shared/src/engine/data/EaseType.mjs'
+import { options } from '../../../configuration/options.mjs'
 import { panel } from '../../panel.mjs'
 import { getZ, layer } from '../../skin.mjs'
 import { archetypes } from '../index.mjs'
@@ -73,7 +74,7 @@ export abstract class SlideConnector extends Archetype {
                     p4: pos.min.translate(Math.lerp(r.min, r.max, s.min), 0),
                 })
 
-                const a = this.getAlpha(t.min, t.max, st.min)
+                const a = this.getAlpha(t.min, t.max, st.min) * options.connectorAlpha
 
                 if (this.useFallbackSprite) {
                     this.sprites.fallback.draw(layout, z, a)

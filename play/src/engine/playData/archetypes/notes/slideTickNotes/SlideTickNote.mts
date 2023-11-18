@@ -1,4 +1,3 @@
-import { options } from '../../../../configuration/options.mjs'
 import { getHitbox } from '../../../lane.mjs'
 import { disallowEmpty } from '../../InputManager.mjs'
 import { Note } from '../Note.mjs'
@@ -27,16 +26,10 @@ export abstract class SlideTickNote extends Note {
             leniency: this.leniency,
         }).copyTo(this.fullHitbox)
 
-        if (options.autoplay) {
-            this.result.judgment = Judgment.Perfect
-        } else {
-            this.result.accuracy = 0.125
-        }
+        this.result.accuracy = 0.125
     }
 
     touch() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime) return
 
         for (const touch of touches) {
@@ -48,7 +41,6 @@ export abstract class SlideTickNote extends Note {
     }
 
     updateParallel() {
-        if (options.autoplay && time.now >= this.targetTime) this.despawn = true
         if (time.now > this.inputTime) this.despawn = true
     }
 

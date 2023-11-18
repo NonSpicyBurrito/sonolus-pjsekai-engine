@@ -1,4 +1,3 @@
-import { options } from '../../../../../../configuration/options.mjs'
 import { minFlickVR } from '../../../../../flick.mjs'
 import { windows } from '../../../../../windows.mjs'
 import {
@@ -13,8 +12,6 @@ export abstract class SingleFlickNote extends FlickNote {
     activated = this.entityMemory(Boolean)
 
     updateSequential() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         if (this.activated) return
@@ -23,8 +20,6 @@ export abstract class SingleFlickNote extends FlickNote {
     }
 
     touch() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         if (!this.activated) {

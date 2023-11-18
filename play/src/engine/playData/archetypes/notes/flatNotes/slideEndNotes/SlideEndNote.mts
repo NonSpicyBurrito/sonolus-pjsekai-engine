@@ -1,4 +1,3 @@
-import { options } from '../../../../../configuration/options.mjs'
 import { claimEnd, getClaimedEnd } from '../../../InputManager.mjs'
 import { archetypes } from '../../../index.mjs'
 import { FlatNote } from '../FlatNote.mjs'
@@ -11,8 +10,6 @@ export abstract class SlideEndNote extends FlatNote {
     })
 
     updateSequential() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         if (this.startInfo.state === EntityState.Active) return
@@ -27,8 +24,6 @@ export abstract class SlideEndNote extends FlatNote {
     }
 
     touch() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         if (this.startInfo.state === EntityState.Active) return

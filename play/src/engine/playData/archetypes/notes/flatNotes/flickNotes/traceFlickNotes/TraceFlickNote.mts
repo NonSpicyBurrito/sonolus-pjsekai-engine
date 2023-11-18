@@ -1,4 +1,3 @@
-import { options } from '../../../../../../configuration/options.mjs'
 import { minFlickVR } from '../../../../../flick.mjs'
 import { note } from '../../../../../note.mjs'
 import { scaledScreen } from '../../../../../scaledScreen.mjs'
@@ -44,8 +43,6 @@ export abstract class TraceFlickNote extends FlickNote {
     }
 
     touch() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         if (time.now < this.earlyInputTime) {
@@ -88,7 +85,6 @@ export abstract class TraceFlickNote extends FlickNote {
     }
 
     triggerEarlyTouch() {
-        if (options.autoplay) return
         if (this.despawn) return
         if (time.now < this.earlyInputTime) return
         if (this.earlyHitTime === -9999) return

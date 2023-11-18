@@ -21,8 +21,6 @@ export class Stage extends Archetype {
 
     touchOrder = 2
     touch() {
-        if (options.autoplay) return
-
         for (const touch of touches) {
             if (!this.hitbox.contains(touch.position)) continue
             if (!canEmpty(touch)) continue

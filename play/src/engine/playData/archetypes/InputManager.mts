@@ -1,4 +1,3 @@
-import { options } from '../../configuration/options.mjs'
 import { ClaimManager } from './ClaimManager.mjs'
 
 const disallowedEmpties = levelMemory({
@@ -61,8 +60,6 @@ export class InputManager extends Archetype {
     }
 
     updateSequential() {
-        if (options.autoplay) return
-
         claimStartManager.clear()
 
         claimEndManager.clear()

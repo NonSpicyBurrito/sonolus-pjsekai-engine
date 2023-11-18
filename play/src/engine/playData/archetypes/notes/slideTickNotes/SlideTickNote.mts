@@ -8,6 +8,10 @@ export abstract class SlideTickNote extends Note {
 
     inputTime = this.entityMemory(Number)
 
+    globalPreprocess() {
+        if (this.hasInput) this.life.miss = -40
+    }
+
     preprocess() {
         super.preprocess()
 

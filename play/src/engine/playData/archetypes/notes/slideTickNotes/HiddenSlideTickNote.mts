@@ -6,10 +6,6 @@ export class HiddenSlideTickNote extends SlideTickNote {
         attachRef: { name: 'attach', type: Number },
     })
 
-    globalPreprocess() {
-        this.life.miss = -40
-    }
-
     preprocessOrder = 1
     preprocess() {
         super.preprocess()

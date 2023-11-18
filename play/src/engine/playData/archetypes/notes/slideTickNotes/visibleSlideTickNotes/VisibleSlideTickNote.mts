@@ -35,10 +35,6 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
 
     y = this.entityMemory(Number)
 
-    globalPreprocess() {
-        this.life.miss = -40
-    }
-
     preprocess() {
         super.preprocess()
 

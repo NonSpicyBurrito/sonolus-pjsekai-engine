@@ -145,7 +145,7 @@ export abstract class FlatNote extends Note {
     }
 
     despawnTerminate() {
-        this.playNoteEffects()
+        if (options.noteEffectEnabled) this.playNoteEffects()
         this.playLaneEffects()
     }
 

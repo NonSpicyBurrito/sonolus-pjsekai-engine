@@ -120,7 +120,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     despawnTerminate() {
-        this.playNoteEffect()
+        if (options.noteEffectEnabled) this.playNoteEffect()
     }
 
     playNoteEffect() {

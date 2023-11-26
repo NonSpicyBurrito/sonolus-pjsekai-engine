@@ -128,6 +128,14 @@ Engine Play Data.
 -   `enginePlayData.buffer`: buffer of file.
 -   `enginePlayData.hash`: hash of file.
 
+### `engineWatchData`
+
+Engine Watch Data.
+
+-   `engineWatchData.path`: path to file.
+-   `engineWatchData.buffer`: buffer of file.
+-   `engineWatchData.hash`: hash of file.
+
 ### `enginePreviewData`
 
 Engine Preview Data.

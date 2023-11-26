@@ -40,6 +40,7 @@ export const engineInfo = {
 
 export const engineConfiguration = new Resource('EngineConfiguration')
 export const enginePlayData = new Resource('EnginePlayData')
+export const engineWatchData = new Resource('EngineWatchData')
 export const enginePreviewData = new Resource('EnginePreviewData')
 export const engineTutorialData = new Resource('EngineTutorialData')
 export const engineThumbnail = new Resource('thumbnail.png')

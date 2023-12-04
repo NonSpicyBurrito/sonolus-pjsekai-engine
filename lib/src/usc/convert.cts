@@ -167,15 +167,15 @@ const single: Handler<USCSingleNote> = (object, append) => {
                     ? 'CriticalTraceFlickNote'
                     : 'NormalTraceFlickNote'
                 : object.critical
-                ? 'CriticalFlickNote'
-                : 'NormalFlickNote'
+                  ? 'CriticalFlickNote'
+                  : 'NormalFlickNote'
             : object.trace
-            ? object.critical
-                ? 'CriticalTraceNote'
-                : 'NormalTraceNote'
-            : object.critical
-            ? 'CriticalTapNote'
-            : 'NormalTapNote',
+              ? object.critical
+                  ? 'CriticalTraceNote'
+                  : 'NormalTraceNote'
+              : object.critical
+                ? 'CriticalTapNote'
+                : 'NormalTapNote',
         data: {
             [EngineArchetypeDataName.Beat]: object.beat,
             lane: object.lane,
@@ -209,8 +209,8 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                                 ? 'CriticalSlideTraceNote'
                                 : 'NormalSlideTraceNote'
                             : connection.critical
-                            ? 'CriticalSlideStartNote'
-                            : 'NormalSlideStartNote',
+                              ? 'CriticalSlideStartNote'
+                              : 'NormalSlideStartNote',
                         data: {
                             [EngineArchetypeDataName.Beat]: connection.beat,
                             lane: connection.lane,
@@ -255,15 +255,15 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                                     ? 'CriticalTraceFlickNote'
                                     : 'NormalTraceFlickNote'
                                 : connection.critical
-                                ? 'CriticalSlideEndFlickNote'
-                                : 'NormalSlideEndFlickNote'
+                                  ? 'CriticalSlideEndFlickNote'
+                                  : 'NormalSlideEndFlickNote'
                             : connection.trace
-                            ? connection.critical
-                                ? 'CriticalSlideEndTraceNote'
-                                : 'NormalSlideEndTraceNote'
-                            : connection.critical
-                            ? 'CriticalSlideEndNote'
-                            : 'NormalSlideEndNote',
+                              ? connection.critical
+                                  ? 'CriticalSlideEndTraceNote'
+                                  : 'NormalSlideEndTraceNote'
+                              : connection.critical
+                                ? 'CriticalSlideEndNote'
+                                : 'NormalSlideEndNote',
                         data: {
                             [EngineArchetypeDataName.Beat]: connection.beat,
                             lane: connection.lane,
@@ -323,8 +323,8 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                             ? 'CriticalSlideTraceNote'
                             : 'NormalSlideTraceNote'
                         : connection.critical
-                        ? 'CriticalSlideTickNote'
-                        : 'NormalSlideTickNote',
+                          ? 'CriticalSlideTickNote'
+                          : 'NormalSlideTickNote',
                     data: {
                         [EngineArchetypeDataName.Beat]: connection.beat,
                         lane: connection.lane,
@@ -387,8 +387,8 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                     ? 'CriticalActiveSlideConnector'
                     : 'NormalActiveSlideConnector'
                 : object.critical
-                ? 'CriticalSlideConnector'
-                : 'NormalSlideConnector',
+                  ? 'CriticalSlideConnector'
+                  : 'NormalSlideConnector',
             data: {
                 start,
                 head,

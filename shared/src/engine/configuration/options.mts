@@ -1,13 +1,6 @@
 import { EngineConfigurationOption, NameText, UnitText } from 'sonolus-core'
 
 export const optionsDefinition = {
-    autoplay: {
-        name: NameText.AutoPlay,
-        scope: 'Sekai',
-        standard: true,
-        type: 'toggle',
-        def: 0,
-    },
     speed: {
         name: NameText.LevelSpeed,
         standard: true,

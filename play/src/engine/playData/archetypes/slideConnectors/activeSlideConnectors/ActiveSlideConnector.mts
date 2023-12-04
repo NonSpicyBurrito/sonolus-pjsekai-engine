@@ -68,12 +68,6 @@ export abstract class ActiveSlideConnector extends SlideConnector {
 
         if (time.now < this.head.time) return
 
-        if (this.shouldScheduleCircularEffect && !this.effectInstanceIds.circular)
-            this.spawnCircularEffect()
-
-        if (this.shouldScheduleLinearEffect && !this.effectInstanceIds.linear)
-            this.spawnLinearEffect()
-
         if (this.effectInstanceIds.circular) this.updateCircularEffect()
 
         if (this.effectInstanceIds.linear) this.updateLinearEffect()
@@ -84,17 +78,10 @@ export abstract class ActiveSlideConnector extends SlideConnector {
     terminate() {
         if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
 
-        if (
-            (this.shouldScheduleCircularEffect || this.shouldPlayCircularEffect) &&
-            this.effectInstanceIds.circular
-        )
+        if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)
             this.destroyCircularEffect()
 
-        if (
-            (this.shouldScheduleLinearEffect || this.shouldPlayLinearEffect) &&
-            this.effectInstanceIds.linear
-        )
-            this.destroyLinearEffect()
+        if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear) this.destroyLinearEffect()
     }
 
     onActivate() {
@@ -123,7 +110,7 @@ export abstract class ActiveSlideConnector extends SlideConnector {
         return (
             options.sfxEnabled &&
             (this.useFallbackClip ? this.clips.fallback.exists : this.clips.hold.exists) &&
-            (options.autoplay || options.autoSFX)
+            options.autoSFX
         )
     }
 
@@ -131,25 +118,16 @@ export abstract class ActiveSlideConnector extends SlideConnector {
         return (
             options.sfxEnabled &&
             (this.useFallbackClip ? this.clips.fallback.exists : this.clips.hold.exists) &&
-            !options.autoplay &&
             !options.autoSFX
         )
     }
 
-    get shouldScheduleCircularEffect() {
-        return options.noteEffectEnabled && this.effects.circular.exists && options.autoplay
-    }
-
     get shouldPlayCircularEffect() {
-        return options.noteEffectEnabled && this.effects.circular.exists && !options.autoplay
-    }
-
-    get shouldScheduleLinearEffect() {
-        return options.noteEffectEnabled && this.effects.linear.exists && options.autoplay
+        return options.noteEffectEnabled && this.effects.circular.exists
     }
 
     get shouldPlayLinearEffect() {
-        return options.noteEffectEnabled && this.effects.linear.exists && !options.autoplay
+        return options.noteEffectEnabled && this.effects.linear.exists
     }
 
     get useFallbackSlideSprite() {

@@ -11,6 +11,9 @@
 !play/sonolus-cli.config.mjs
 !play/src/**/*.*
 
+!watch/sonolus-cli.config.mjs
+!watch/src/**/*.*
+
 !preview/sonolus-cli.config.mjs
 !preview/src/**/*.*
 

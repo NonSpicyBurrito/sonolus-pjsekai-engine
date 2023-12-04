@@ -1,5 +1,4 @@
 import { ease } from '../../../../../../../../../shared/src/engine/data/EaseType.mjs'
-import { options } from '../../../../../../configuration/options.mjs'
 import { minFlickVR } from '../../../../../flick.mjs'
 import { getHitbox } from '../../../../../lane.mjs'
 import { archetypes } from '../../../../index.mjs'
@@ -44,8 +43,6 @@ export abstract class SlideEndFlickNote extends FlickNote {
     }
 
     touch() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         if (this.startInfo.state === EntityState.Active) return

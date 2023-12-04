@@ -1,4 +1,3 @@
-import { options } from '../../../../../configuration/options.mjs'
 import { note } from '../../../../note.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer } from '../../../../skin.mjs'
@@ -44,8 +43,6 @@ export abstract class TraceNote extends FlatNote {
     }
 
     touch() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         if (time.now < this.earlyInputTime) {
@@ -82,7 +79,6 @@ export abstract class TraceNote extends FlatNote {
     }
 
     triggerEarlyTouch() {
-        if (options.autoplay) return
         if (this.despawn) return
         if (time.now < this.earlyInputTime) return
         if (this.earlyHitTime === -9999) return

@@ -98,8 +98,6 @@ export abstract class SlideConnector extends Archetype {
 
     updateSequentialOrder = 1
     updateSequential() {
-        if (options.autoplay) return
-
         if (time.now < this.head.time) return
 
         const s = this.getScale(timeScaleChanges.at(time.now - input.offset).scaledTime)
@@ -165,15 +163,12 @@ export abstract class SlideConnector extends Archetype {
     renderConnector() {
         if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
 
-        const visual = options.autoplay
-            ? time.now >= this.start.time
+        const visual =
+            this.startSharedMemory.lastActiveTime === time.now
                 ? VisualType.Activated
-                : VisualType.Waiting
-            : this.startSharedMemory.lastActiveTime === time.now
-            ? VisualType.Activated
-            : time.now >= this.start.time + this.slideStartNote.windows.good.max + input.offset
-            ? VisualType.NotActivated
-            : VisualType.Waiting
+                : time.now >= this.start.time + this.slideStartNote.windows.good.max + input.offset
+                  ? VisualType.NotActivated
+                  : VisualType.Waiting
 
         const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
 

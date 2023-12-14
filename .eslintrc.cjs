@@ -14,5 +14,12 @@ module.exports = {
     ],
     rules: {
         '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+        'no-restricted-properties': [
+            'error',
+            {
+                object: 'debug',
+                message: 'Debug calls should be removed from production.',
+            },
+        ],
     },
 }

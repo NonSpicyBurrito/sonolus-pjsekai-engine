@@ -1,5 +1,5 @@
+import { resolve } from 'node:path'
 import { EngineInfo } from 'sonolus-core'
-import { Resource } from './Resource.cjs'
 
 export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
@@ -38,9 +38,9 @@ export const engineInfo = {
     },
 } as const satisfies Partial<EngineInfo>
 
-export const engineConfiguration = new Resource('EngineConfiguration')
-export const enginePlayData = new Resource('EnginePlayData')
-export const engineWatchData = new Resource('EngineWatchData')
-export const enginePreviewData = new Resource('EnginePreviewData')
-export const engineTutorialData = new Resource('EngineTutorialData')
-export const engineThumbnail = new Resource('thumbnail.png')
+export const engineConfigurationPath = resolve(__dirname, 'EngineConfiguration')
+export const enginePlayDataPath = resolve(__dirname, 'EnginePlayData')
+export const engineWatchDataPath = resolve(__dirname, 'EngineWatchData')
+export const enginePreviewDataPath = resolve(__dirname, 'EnginePreviewData')
+export const engineTutorialDataPath = resolve(__dirname, 'EngineTutorialData')
+export const engineThumbnailPath = resolve(__dirname, 'thumbnail.png')

@@ -14,7 +14,7 @@ export abstract class SlideConnector extends Archetype {
 
     abstract slideStartNote: FlatNote
 
-    data = this.defineData({
+    import = this.defineImport({
         startRef: { name: 'start', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
@@ -51,10 +51,10 @@ export abstract class SlideConnector extends Archetype {
     z = this.entityMemory(Number)
 
     preprocess() {
-        this.head.time = bpmChanges.at(this.headData.beat).time
+        this.head.time = bpmChanges.at(this.headImport.beat).time
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime
 
-        this.tail.time = bpmChanges.at(this.tailData.beat).time
+        this.tail.time = bpmChanges.at(this.tailImport.beat).time
         this.tail.scaledTime = timeScaleChanges.at(this.tail.time).scaledTime
 
         this.visualTime.min = this.head.scaledTime - note.duration
@@ -79,16 +79,16 @@ export abstract class SlideConnector extends Archetype {
         this.renderConnector()
     }
 
-    get startData() {
-        return this.slideStartNote.data.get(this.data.startRef)
+    get startImport() {
+        return this.slideStartNote.import.get(this.import.startRef)
     }
 
-    get headData() {
-        return this.slideStartNote.data.get(this.data.headRef)
+    get headImport() {
+        return this.slideStartNote.import.get(this.import.headRef)
     }
 
-    get tailData() {
-        return this.slideStartNote.data.get(this.data.tailRef)
+    get tailImport() {
+        return this.slideStartNote.import.get(this.import.tailRef)
     }
 
     get useFallbackSprite() {
@@ -96,20 +96,20 @@ export abstract class SlideConnector extends Archetype {
     }
 
     globalInitialize() {
-        this.start.time = bpmChanges.at(this.startData.beat).time
+        this.start.time = bpmChanges.at(this.startImport.beat).time
 
-        this.head.lane = this.headData.lane
-        this.head.l = this.head.lane - this.headData.size
-        this.head.r = this.head.lane + this.headData.size
+        this.head.lane = this.headImport.lane
+        this.head.l = this.head.lane - this.headImport.size
+        this.head.r = this.head.lane + this.headImport.size
 
-        this.tail.lane = this.tailData.lane
-        this.tail.l = this.tail.lane - this.tailData.size
-        this.tail.r = this.tail.lane + this.tailData.size
+        this.tail.lane = this.tailImport.lane
+        this.tail.l = this.tail.lane - this.tailImport.size
+        this.tail.r = this.tail.lane + this.tailImport.size
 
         if (options.hidden > 0)
             this.visualTime.hidden = this.tail.scaledTime - note.duration * options.hidden
 
-        this.z = getZ(layer.note.connector, this.start.time, this.startData.lane)
+        this.z = getZ(layer.note.connector, this.start.time, this.startImport.lane)
     }
 
     renderConnector() {
@@ -177,7 +177,7 @@ export abstract class SlideConnector extends Archetype {
     }
 
     ease(s: number) {
-        return ease(this.data.ease, s)
+        return ease(this.import.ease, s)
     }
 
     getLane(scale: number) {

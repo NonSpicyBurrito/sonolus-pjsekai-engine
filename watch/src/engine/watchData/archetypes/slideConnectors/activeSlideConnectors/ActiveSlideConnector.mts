@@ -98,7 +98,7 @@ export abstract class ActiveSlideConnector extends SlideConnector {
     globalInitialize() {
         super.globalInitialize()
 
-        this.slideZ = getZ(layer.note.slide, this.head.time, this.headData.lane)
+        this.slideZ = getZ(layer.note.slide, this.head.time, this.headImport.lane)
     }
 
     getAlpha() {

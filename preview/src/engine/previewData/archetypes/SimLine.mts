@@ -5,7 +5,7 @@ import { getZ, layer, skin } from '../skin.mjs'
 import { archetypes } from './index.mjs'
 
 export class SimLine extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         aRef: { name: 'a', type: Number },
         bRef: { name: 'b', type: Number },
     })
@@ -13,11 +13,11 @@ export class SimLine extends Archetype {
     render() {
         if (!options.simLineEnabled) return
 
-        let l = this.aData.lane
-        let r = this.bData.lane
+        let l = this.aImport.lane
+        let r = this.bImport.lane
         if (l > r) [l, r] = [r, l]
 
-        const time = bpmChanges.at(this.aData.beat).time
+        const time = bpmChanges.at(this.aImport.beat).time
         const pos = panel.getPos(time)
 
         const z = getZ(layer.simLine, time, l)
@@ -28,11 +28,11 @@ export class SimLine extends Archetype {
         skin.sprites.simLine.draw(new Rect({ l, r, b, t }).add(pos), z, 1)
     }
 
-    get aData() {
-        return archetypes.NormalTapNote.data.get(this.data.aRef)
+    get aImport() {
+        return archetypes.NormalTapNote.import.get(this.import.aRef)
     }
 
-    get bData() {
-        return archetypes.NormalTapNote.data.get(this.data.bRef)
+    get bImport() {
+        return archetypes.NormalTapNote.import.get(this.import.bRef)
     }
 }

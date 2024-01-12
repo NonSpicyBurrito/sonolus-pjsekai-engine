@@ -5,7 +5,7 @@ import { FlatNote } from '../FlatNote.mjs'
 export abstract class SlideEndNote extends FlatNote {
     leniency = 1
 
-    slideEndData = this.defineData({
+    slideEndImport = this.defineImport({
         slideRef: { name: 'slide', type: Number },
     })
 
@@ -34,16 +34,16 @@ export abstract class SlideEndNote extends FlatNote {
         this.complete(touches.get(index))
     }
 
-    get slideData() {
-        return archetypes.NormalSlideConnector.data.get(this.slideEndData.slideRef)
+    get slideImport() {
+        return archetypes.NormalSlideConnector.import.get(this.slideEndImport.slideRef)
     }
 
     get startInfo() {
-        return entityInfos.get(this.slideData.startRef)
+        return entityInfos.get(this.slideImport.startRef)
     }
 
     get startSharedMemory() {
-        return archetypes.NormalSlideStartNote.sharedMemory.get(this.slideData.startRef)
+        return archetypes.NormalSlideStartNote.sharedMemory.get(this.slideImport.startRef)
     }
 
     complete(touch: Touch) {

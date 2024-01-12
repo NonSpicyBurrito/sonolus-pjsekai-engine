@@ -15,7 +15,7 @@ export abstract class FlickNote extends FlatNote {
 
     abstract directionalEffect: ParticleEffect
 
-    flickData = this.defineData({
+    flickImport = this.defineImport({
         direction: { name: 'direction', type: DataType<FlickDirection> },
     })
 
@@ -29,7 +29,7 @@ export abstract class FlickNote extends FlatNote {
     preprocess() {
         super.preprocess()
 
-        if (options.mirror) this.flickData.direction *= -1
+        if (options.mirror) this.flickImport.direction *= -1
     }
 
     globalInitialize() {
@@ -37,16 +37,16 @@ export abstract class FlickNote extends FlatNote {
 
         this.arrow.sprite = getArrowSpriteId(
             this.arrowSprites,
-            this.data.size,
-            this.flickData.direction,
+            this.import.size,
+            this.flickImport.direction,
         )
 
         if (skin.sprites.exists(this.arrow.sprite)) {
-            const w = (Math.clamp(this.data.size, 0, 3) * (-this.flickData.direction || 1)) / 2
+            const w = (Math.clamp(this.import.size, 0, 3) * (-this.flickImport.direction || 1)) / 2
 
             new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
+                l: this.import.lane - w,
+                r: this.import.lane + w,
                 b: 1,
                 t: 1 - 2 * Math.abs(w) * scaledScreen.wToH,
             })
@@ -55,20 +55,20 @@ export abstract class FlickNote extends FlatNote {
         } else {
             this.arrow.sprite = this.arrowSprites.fallback.id
 
-            const w = Math.clamp(this.data.size / 2, 1, 2)
+            const w = Math.clamp(this.import.size / 2, 1, 2)
 
             new Rect({ l: -1, r: 1, b: 1, t: -1 })
                 .toQuad()
-                .rotate((Math.PI / 6) * this.flickData.direction)
+                .rotate((Math.PI / 6) * this.flickImport.direction)
                 .scale(w, w * scaledScreen.wToH)
-                .translate(this.data.lane, 1 - w * scaledScreen.wToH)
+                .translate(this.import.lane, 1 - w * scaledScreen.wToH)
                 .copyTo(this.arrow.layout)
         }
 
         if (options.markerAnimation)
-            new Vec(this.flickData.direction, -2 * scaledScreen.wToH).copyTo(this.arrow.animation)
+            new Vec(this.flickImport.direction, -2 * scaledScreen.wToH).copyTo(this.arrow.animation)
 
-        this.arrow.z = getZ(layer.note.arrow, this.targetTime, this.data.lane)
+        this.arrow.z = getZ(layer.note.arrow, this.targetTime, this.import.lane)
     }
 
     render() {
@@ -97,8 +97,8 @@ export abstract class FlickNote extends FlatNote {
     playDirectionalNoteEffect() {
         this.directionalEffect.spawn(
             linearEffectLayout({
-                lane: this.data.lane,
-                shear: this.flickData.direction,
+                lane: this.import.lane,
+                shear: this.flickImport.direction,
             }),
             0.32,
             false,

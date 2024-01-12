@@ -59,16 +59,16 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         const t = 1 - note.h
 
         if (this.useFallbackSprite) {
-            const l = this.data.lane - this.data.size
-            const r = this.data.lane + this.data.size
+            const l = this.import.lane - this.import.size
+            const r = this.import.lane + this.import.size
 
             perspectiveLayout({ l, r, b, t }).copyTo(this.spriteLayout)
         } else {
             const w = note.h / scaledScreen.wToH
 
             new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
+                l: this.import.lane - w,
+                r: this.import.lane + w,
                 b,
                 t,
             })
@@ -76,7 +76,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
                 .copyTo(this.spriteLayout)
         }
 
-        this.z = getZ(layer.note.tick, this.targetTime, this.data.lane)
+        this.z = getZ(layer.note.tick, this.targetTime, this.import.lane)
     }
 
     updateParallel() {
@@ -147,8 +147,8 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
 
         this.effect.spawn(
             new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
+                l: this.import.lane - w,
+                r: this.import.lane + w,
                 b: 1 + h,
                 t: 1 - h,
             }),

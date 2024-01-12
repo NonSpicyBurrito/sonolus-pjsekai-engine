@@ -112,8 +112,8 @@ export abstract class FlatNote extends Note {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
-        const l = this.data.lane - this.data.size
-        const r = this.data.lane + this.data.size
+        const l = this.import.lane - this.import.size
+        const r = this.import.lane + this.import.size
 
         const b = 1 + note.h
         const t = 1 - note.h
@@ -129,7 +129,7 @@ export abstract class FlatNote extends Note {
             perspectiveLayout({ l: mr, r, b, t }).copyTo(this.spriteLayouts.right)
         }
 
-        this.z = getZ(layer.note.body, this.targetTime, this.data.lane)
+        this.z = getZ(layer.note.body, this.targetTime, this.import.lane)
     }
 
     render() {
@@ -157,7 +157,7 @@ export abstract class FlatNote extends Note {
     playLinearNoteEffect() {
         this.effects.linear.spawn(
             linearEffectLayout({
-                lane: this.data.lane,
+                lane: this.import.lane,
                 shear: 0,
             }),
             0.5,
@@ -168,7 +168,7 @@ export abstract class FlatNote extends Note {
     playCircularNoteEffect() {
         this.effects.circular.spawn(
             circularEffectLayout({
-                lane: this.data.lane,
+                lane: this.import.lane,
                 w: 1.75,
                 h: 1.05,
             }),
@@ -180,8 +180,8 @@ export abstract class FlatNote extends Note {
     playLaneEffects() {
         particle.effects.lane.spawn(
             perspectiveLayout({
-                l: this.data.lane - this.data.size,
-                r: this.data.lane + this.data.size,
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
                 b: lane.b,
                 t: lane.t,
             }),
@@ -191,8 +191,8 @@ export abstract class FlatNote extends Note {
     }
 
     spawnSlotEffects() {
-        const start = Math.floor(this.data.lane - this.data.size)
-        const end = Math.ceil(this.data.lane + this.data.size)
+        const start = Math.floor(this.import.lane - this.import.size)
+        const end = Math.ceil(this.import.lane + this.import.size)
 
         for (let i = start; i < end; i++) {
             this.slotEffect.spawn({
@@ -203,8 +203,8 @@ export abstract class FlatNote extends Note {
 
         this.slotGlowEffect.spawn({
             startTime: this.targetTime,
-            lane: this.data.lane,
-            size: this.data.size,
+            lane: this.import.lane,
+            size: this.import.size,
         })
     }
 }

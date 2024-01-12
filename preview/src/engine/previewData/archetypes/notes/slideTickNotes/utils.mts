@@ -2,22 +2,22 @@ import { ease } from '../../../../../../../shared/src/engine/data/EaseType.mjs'
 import { archetypes } from '../../index.mjs'
 
 export const getAttached = (ref: number, targetTime: number) => {
-    const attachData = archetypes.NormalSlideConnector.data.get(ref)
+    const attachImport = archetypes.NormalSlideConnector.import.get(ref)
 
-    const data = {
-        head: archetypes.NormalSlideStartNote.data.get(attachData.headRef),
-        tail: archetypes.NormalSlideStartNote.data.get(attachData.tailRef),
+    const imports = {
+        head: archetypes.NormalSlideStartNote.import.get(attachImport.headRef),
+        tail: archetypes.NormalSlideStartNote.import.get(attachImport.tailRef),
     }
 
     const t = {
-        min: bpmChanges.at(data.head.beat).time,
-        max: bpmChanges.at(data.tail.beat).time,
+        min: bpmChanges.at(imports.head.beat).time,
+        max: bpmChanges.at(imports.tail.beat).time,
     }
 
-    const s = ease(attachData.ease, Math.unlerpClamped(t.min, t.max, targetTime))
+    const s = ease(attachImport.ease, Math.unlerpClamped(t.min, t.max, targetTime))
 
     return {
-        lane: Math.lerp(data.head.lane, data.tail.lane, s),
-        size: Math.lerp(data.head.size, data.tail.size, s),
+        lane: Math.lerp(imports.head.lane, imports.tail.lane, s),
+        size: Math.lerp(imports.head.size, imports.tail.size, s),
     }
 }

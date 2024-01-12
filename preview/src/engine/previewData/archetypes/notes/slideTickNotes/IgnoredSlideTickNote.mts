@@ -3,6 +3,6 @@ import { Note } from '../Note.mjs'
 
 export class IgnoredSlideTickNote extends Note {
     preprocess() {
-        if (options.mirror) this.data.lane *= -1
+        if (options.mirror) this.import.lane *= -1
     }
 }

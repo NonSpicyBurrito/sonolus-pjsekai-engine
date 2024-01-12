@@ -12,35 +12,35 @@ export abstract class FlickNote extends FlatNote {
         fallback: SkinSprite
     }
 
-    flickData = this.defineData({
+    flickImport = this.defineImport({
         direction: { name: 'direction', type: DataType<FlickDirection> },
     })
 
     preprocess() {
         super.preprocess()
 
-        if (options.mirror) this.flickData.direction *= -1
+        if (options.mirror) this.flickImport.direction *= -1
     }
 
     render() {
         const { time, pos } = super.render()
 
-        const z = getZ(layer.note.arrow, time, this.data.lane)
+        const z = getZ(layer.note.arrow, time, this.import.lane)
 
         const arrowSpriteId = getArrowSpriteId(
             this.arrowSprites,
-            this.data.size,
-            this.flickData.direction,
+            this.import.size,
+            this.flickImport.direction,
         )
 
         if (skin.sprites.exists(arrowSpriteId)) {
-            const w = (Math.clamp(this.data.size, 0, 3) * (-this.flickData.direction || 1)) / 2
+            const w = (Math.clamp(this.import.size, 0, 3) * (-this.flickImport.direction || 1)) / 2
 
             skin.sprites.draw(
                 arrowSpriteId,
                 new Rect({
-                    l: this.data.lane - w,
-                    r: this.data.lane + w,
+                    l: this.import.lane - w,
+                    r: this.import.lane + w,
                     t: 2 * Math.abs(w) * scaledScreen.wToH,
                     b: 0,
                 }).add(pos),
@@ -48,13 +48,13 @@ export abstract class FlickNote extends FlatNote {
                 1,
             )
         } else {
-            const w = Math.clamp(this.data.size / 2, 1, 2)
+            const w = Math.clamp(this.import.size / 2, 1, 2)
 
             this.arrowSprites.fallback.draw(
                 Quad.one
-                    .rotate((Math.PI / 6) * this.flickData.direction)
+                    .rotate((Math.PI / 6) * this.flickImport.direction)
                     .scale(w, w * scaledScreen.wToH)
-                    .translate(this.data.lane, w * scaledScreen.wToH)
+                    .translate(this.import.lane, w * scaledScreen.wToH)
                     .add(pos),
                 z,
                 1,

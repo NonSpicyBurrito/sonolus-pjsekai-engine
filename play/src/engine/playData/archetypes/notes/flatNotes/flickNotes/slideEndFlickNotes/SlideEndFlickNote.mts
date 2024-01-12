@@ -5,7 +5,7 @@ import { archetypes } from '../../../../index.mjs'
 import { FlickNote } from '../FlickNote.mjs'
 
 export abstract class SlideEndFlickNote extends FlickNote {
-    slideEndFlickData = this.defineData({
+    slideEndFlickImport = this.defineImport({
         slideRef: { name: 'slide', type: Number },
     })
 
@@ -31,15 +31,15 @@ export abstract class SlideEndFlickNote extends FlickNote {
 
         this.earlyInputTime = this.targetTime + input.offset
 
-        this.head.time = bpmChanges.at(this.headData.beat).time
+        this.head.time = bpmChanges.at(this.headImport.beat).time
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime
-        this.head.l = this.headData.lane - this.headData.size
-        this.head.r = this.headData.lane + this.headData.size
+        this.head.l = this.headImport.lane - this.headImport.size
+        this.head.r = this.headImport.lane + this.headImport.size
 
-        this.tail.time = bpmChanges.at(this.tailData.beat).time
+        this.tail.time = bpmChanges.at(this.tailImport.beat).time
         this.tail.scaledTime = timeScaleChanges.at(this.tail.time).scaledTime
-        this.tail.l = this.tailData.lane - this.tailData.size
-        this.tail.r = this.tailData.lane + this.tailData.size
+        this.tail.l = this.tailImport.lane - this.tailImport.size
+        this.tail.r = this.tailImport.lane + this.tailImport.size
     }
 
     touch() {
@@ -54,31 +54,31 @@ export abstract class SlideEndFlickNote extends FlickNote {
         }
     }
 
-    get slideData() {
-        return archetypes.NormalSlideConnector.data.get(this.slideEndFlickData.slideRef)
+    get slideImport() {
+        return archetypes.NormalSlideConnector.import.get(this.slideEndFlickImport.slideRef)
     }
 
     get startInfo() {
-        return entityInfos.get(this.slideData.startRef)
+        return entityInfos.get(this.slideImport.startRef)
     }
 
     get startSharedMemory() {
-        return archetypes.NormalSlideStartNote.sharedMemory.get(this.slideData.startRef)
+        return archetypes.NormalSlideStartNote.sharedMemory.get(this.slideImport.startRef)
     }
 
-    get headData() {
-        return archetypes.NormalSlideStartNote.data.get(this.slideData.headRef)
+    get headImport() {
+        return archetypes.NormalSlideStartNote.import.get(this.slideImport.headRef)
     }
 
-    get tailData() {
-        return archetypes.NormalSlideStartNote.data.get(this.slideData.tailRef)
+    get tailImport() {
+        return archetypes.NormalSlideStartNote.import.get(this.slideImport.tailRef)
     }
 
     earlyTouch() {
         if (this.startSharedMemory.lastActiveTime === time.now) return
 
         const s = ease(
-            this.slideData.ease,
+            this.slideImport.ease,
             Math.unlerpClamped(
                 this.head.scaledTime,
                 this.tail.scaledTime,

@@ -6,7 +6,7 @@ export abstract class Note extends Archetype {
 
     abstract leniency: number
 
-    data = this.defineData({
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
@@ -26,9 +26,9 @@ export abstract class Note extends Archetype {
     preprocess() {
         this.sharedMemory.lastActiveTime = -1000
 
-        this.targetTime = bpmChanges.at(this.data.beat).time
+        this.targetTime = bpmChanges.at(this.import.beat).time
 
-        if (options.mirror) this.data.lane *= -1
+        if (options.mirror) this.import.lane *= -1
     }
 
     spawnOrder() {

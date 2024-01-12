@@ -10,7 +10,7 @@ export abstract class SlideConnector extends Archetype {
         fallback: SkinSprite
     }
 
-    data = this.defineData({
+    import = this.defineImport({
         startRef: { name: 'start', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
@@ -19,8 +19,8 @@ export abstract class SlideConnector extends Archetype {
 
     render() {
         const t = {
-            min: bpmChanges.at(this.headData.beat).time,
-            max: bpmChanges.at(this.tailData.beat).time,
+            min: bpmChanges.at(this.headImport.beat).time,
+            max: bpmChanges.at(this.tailImport.beat).time,
         }
 
         const index = {
@@ -29,18 +29,18 @@ export abstract class SlideConnector extends Archetype {
         }
 
         const l = {
-            min: this.headData.lane - this.headData.size,
-            max: this.tailData.lane - this.tailData.size,
+            min: this.headImport.lane - this.headImport.size,
+            max: this.tailImport.lane - this.tailImport.size,
         }
         const r = {
-            min: this.headData.lane + this.headData.size,
-            max: this.tailData.lane + this.tailData.size,
+            min: this.headImport.lane + this.headImport.size,
+            max: this.tailImport.lane + this.tailImport.size,
         }
 
         const z = getZ(
             layer.note.connector,
-            bpmChanges.at(this.startData.beat).time,
-            this.startData.lane,
+            bpmChanges.at(this.startImport.beat).time,
+            this.startImport.lane,
         )
 
         for (let i = index.min; i <= index.max; i++) {
@@ -58,8 +58,8 @@ export abstract class SlideConnector extends Archetype {
                 }
 
                 const s = {
-                    min: ease(this.data.ease, Math.unlerp(t.min, t.max, st.min)),
-                    max: ease(this.data.ease, Math.unlerp(t.min, t.max, st.max)),
+                    min: ease(this.import.ease, Math.unlerp(t.min, t.max, st.min)),
+                    max: ease(this.import.ease, Math.unlerp(t.min, t.max, st.max)),
                 }
 
                 const pos = {
@@ -89,16 +89,16 @@ export abstract class SlideConnector extends Archetype {
         return Math.remapClamped(a, b, 0.575, 0.075, x)
     }
 
-    get startData() {
-        return archetypes.NormalTapNote.data.get(this.data.startRef)
+    get startImport() {
+        return archetypes.NormalTapNote.import.get(this.import.startRef)
     }
 
-    get headData() {
-        return archetypes.NormalTapNote.data.get(this.data.headRef)
+    get headImport() {
+        return archetypes.NormalTapNote.import.get(this.import.headRef)
     }
 
-    get tailData() {
-        return archetypes.NormalTapNote.data.get(this.data.tailRef)
+    get tailImport() {
+        return archetypes.NormalTapNote.import.get(this.import.tailRef)
     }
 
     get useFallbackSprite() {

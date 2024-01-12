@@ -15,7 +15,7 @@ export abstract class TraceNote extends FlatNote {
     render() {
         const { time, pos } = super.render()
 
-        const z = getZ(layer.note.tick, time, this.data.lane)
+        const z = getZ(layer.note.tick, time, this.import.lane)
 
         const b = -note.h
         const t = note.h
@@ -23,8 +23,8 @@ export abstract class TraceNote extends FlatNote {
         if (!this.useFallbackSprites) {
             const w = note.h / scaledScreen.wToH
 
-            const l = this.data.lane - w
-            const r = this.data.lane + w
+            const l = this.import.lane - w
+            const r = this.import.lane + w
 
             this.sprites.diamond.draw(new Rect({ l, r, b, t }).add(pos), z, 1)
         }

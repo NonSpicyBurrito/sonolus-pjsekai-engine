@@ -17,6 +17,7 @@ export abstract class FlickNote extends FlatNote {
 
     flickImport = this.defineImport({
         direction: { name: 'direction', type: DataType<FlickDirection> },
+        accuracyDiff: { name: 'accuracyDiff', type: Number },
     })
 
     arrow = this.entityMemory({
@@ -69,6 +70,10 @@ export abstract class FlickNote extends FlatNote {
             new Vec(this.flickImport.direction, -2 * scaledScreen.wToH).copyTo(this.arrow.animation)
 
         this.arrow.z = getZ(layer.note.arrow, this.targetTime, this.import.lane)
+    }
+
+    get hitTime() {
+        return this.targetTime + this.import.accuracy + this.flickImport.accuracyDiff
     }
 
     render() {

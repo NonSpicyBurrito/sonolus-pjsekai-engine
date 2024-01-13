@@ -14,6 +14,8 @@ export class NormalFlickNote extends FlickNote {
 
     clips = {
         perfect: effect.clips.flickPerfect,
+        great: effect.clips.flickGreat,
+        good: effect.clips.flickGood,
     }
 
     effects = {

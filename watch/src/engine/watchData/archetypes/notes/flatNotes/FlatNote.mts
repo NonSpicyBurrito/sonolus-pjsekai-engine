@@ -20,6 +20,8 @@ export abstract class FlatNote extends Note {
 
     abstract clips: {
         perfect: EffectClip
+        great?: EffectClip
+        good?: EffectClip
         fallback?: EffectClip
     }
 
@@ -59,15 +61,15 @@ export abstract class FlatNote extends Note {
         this.visualTime.min = this.visualTime.max - note.duration
 
         if (options.sfxEnabled) {
-            if ('fallback' in this.clips && this.useFallbackClip) {
-                this.clips.fallback.schedule(this.targetTime, sfxDistance)
+            if (replay.isReplay) {
+                this.scheduleReplaySFX()
             } else {
-                this.clips.perfect.schedule(this.targetTime, sfxDistance)
+                this.scheduleSFX()
             }
         }
 
-        if (options.slotEffectEnabled) {
-            this.spawnSlotEffects()
+        if (options.slotEffectEnabled && (!replay.isReplay || this.import.judgment)) {
+            this.spawnSlotEffects(replay.isReplay ? this.hitTime : this.targetTime)
         }
     }
 
@@ -76,7 +78,7 @@ export abstract class FlatNote extends Note {
     }
 
     despawnTime() {
-        return this.visualTime.max
+        return replay.isReplay ? timeScaleChanges.at(this.hitTime).scaledTime : this.visualTime.max
     }
 
     initialize() {
@@ -105,7 +107,15 @@ export abstract class FlatNote extends Note {
     }
 
     get useFallbackClip() {
-        return !this.clips.perfect.exists
+        return (
+            !this.clips.perfect.exists ||
+            ('great' in this.clips && !this.clips.great.exists) ||
+            ('good' in this.clips && !this.clips.good.exists)
+        )
+    }
+
+    get hitTime() {
+        return this.targetTime + this.import.accuracy
     }
 
     globalInitialize() {
@@ -132,6 +142,36 @@ export abstract class FlatNote extends Note {
         this.z = getZ(layer.note.body, this.targetTime, this.import.lane)
     }
 
+    scheduleSFX() {
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.schedule(this.targetTime, sfxDistance)
+        } else {
+            this.clips.perfect.schedule(this.targetTime, sfxDistance)
+        }
+    }
+
+    scheduleReplaySFX() {
+        if (!this.import.judgment) return
+
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.schedule(this.hitTime, sfxDistance)
+        } else if ('great' in this.clips && 'good' in this.clips) {
+            switch (this.import.judgment) {
+                case Judgment.Perfect:
+                    this.clips.perfect.schedule(this.hitTime, sfxDistance)
+                    break
+                case Judgment.Great:
+                    this.clips.great.schedule(this.hitTime, sfxDistance)
+                    break
+                case Judgment.Good:
+                    this.clips.good.schedule(this.hitTime, sfxDistance)
+                    break
+            }
+        } else {
+            this.clips.perfect.schedule(this.hitTime, sfxDistance)
+        }
+    }
+
     render() {
         this.y = approach(this.visualTime.min, this.visualTime.max, time.scaled)
 
@@ -145,6 +185,8 @@ export abstract class FlatNote extends Note {
     }
 
     despawnTerminate() {
+        if (replay.isReplay && !this.import.judgment) return
+
         if (options.noteEffectEnabled) this.playNoteEffects()
         if (options.laneEffectEnabled) this.playLaneEffects()
     }
@@ -190,19 +232,19 @@ export abstract class FlatNote extends Note {
         )
     }
 
-    spawnSlotEffects() {
+    spawnSlotEffects(startTime: number) {
         const start = Math.floor(this.import.lane - this.import.size)
         const end = Math.ceil(this.import.lane + this.import.size)
 
         for (let i = start; i < end; i++) {
             this.slotEffect.spawn({
-                startTime: this.targetTime,
+                startTime,
                 lane: i + 0.5,
             })
         }
 
         this.slotGlowEffect.spawn({
-            startTime: this.targetTime,
+            startTime,
             lane: this.import.lane,
             size: this.import.size,
         })

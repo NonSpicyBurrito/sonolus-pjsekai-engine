@@ -38,7 +38,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         this.visualTime.min = this.visualTime.max - note.duration
 
         if (options.sfxEnabled) {
-            if ('fallback' in this.clips && this.useFallbackClip) {
+            if (this.useFallbackClip) {
                 this.clips.fallback.schedule(this.targetTime, sfxDistance)
             } else {
                 this.clips.tick.schedule(this.targetTime, sfxDistance)
@@ -120,6 +120,8 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     despawnTerminate() {
+        if (replay.isReplay && !this.import.judgment) return
+
         if (options.noteEffectEnabled) this.playNoteEffect()
     }
 

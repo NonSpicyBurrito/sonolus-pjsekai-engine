@@ -8,6 +8,8 @@ export abstract class Note extends Archetype {
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
+        judgment: { name: EngineArchetypeDataName.Judgment, type: DataType<Judgment> },
+        accuracy: { name: EngineArchetypeDataName.Accuracy, type: Number },
     })
 
     targetTime = this.entityMemory(Number)

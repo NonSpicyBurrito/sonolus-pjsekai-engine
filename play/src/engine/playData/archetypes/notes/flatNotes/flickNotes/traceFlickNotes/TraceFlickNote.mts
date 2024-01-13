@@ -108,8 +108,10 @@ export abstract class TraceFlickNote extends FlickNote {
         if (!isCorrectDirection) {
             if (this.result.judgment === Judgment.Perfect) this.result.judgment = Judgment.Great
 
-            if (this.result.accuracy < this.windows.perfect.max)
+            if (this.result.accuracy < this.windows.perfect.max) {
+                this.flickExport('accuracyDiff', this.result.accuracy - this.windows.perfect.max)
                 this.result.accuracy = this.windows.perfect.max
+            }
         }
 
         this.result.bucket.index = this.bucket.index

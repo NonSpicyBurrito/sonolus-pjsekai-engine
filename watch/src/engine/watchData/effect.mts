@@ -3,8 +3,12 @@ import { EffectClipName } from 'sonolus-core'
 export const effect = defineEffect({
     clips: {
         normalPerfect: EffectClipName.Perfect,
+        normalGreat: EffectClipName.Great,
+        normalGood: EffectClipName.Good,
 
         flickPerfect: EffectClipName.PerfectAlternative,
+        flickGreat: EffectClipName.GreatAlternative,
+        flickGood: EffectClipName.GoodAlternative,
 
         normalHold: EffectClipName.Hold,
 

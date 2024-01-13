@@ -1,10 +1,10 @@
-import { effect } from '../../../effect.mjs'
-import { particle } from '../../../particle.mjs'
-import { skin } from '../../../skin.mjs'
-import { archetypes } from '../../index.mjs'
-import { FlatNote } from './FlatNote.mjs'
+import { effect } from '../../../../effect.mjs'
+import { particle } from '../../../../particle.mjs'
+import { skin } from '../../../../skin.mjs'
+import { archetypes } from '../../../index.mjs'
+import { SlideStartNote } from './SlideStartNote.mjs'
 
-export class NormalSlideStartNote extends FlatNote {
+export class NormalSlideStartNote extends SlideStartNote {
     sprites = {
         left: skin.sprites.slideNoteLeft,
         middle: skin.sprites.slideNoteMiddle,
@@ -14,6 +14,8 @@ export class NormalSlideStartNote extends FlatNote {
 
     clips = {
         perfect: effect.clips.normalPerfect,
+        great: effect.clips.normalGreat,
+        good: effect.clips.normalGood,
     }
 
     effects = {

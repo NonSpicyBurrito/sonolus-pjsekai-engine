@@ -21,6 +21,10 @@ export abstract class FlickNote extends FlatNote {
         direction: { name: 'direction', type: DataType<FlickDirection> },
     })
 
+    flickExport = this.defineExport({
+        accuracyDiff: { name: 'accuracyDiff', type: Number },
+    })
+
     arrow = this.entityMemory({
         sprite: SkinSpriteId,
         layout: Quad,
@@ -80,8 +84,10 @@ export abstract class FlickNote extends FlatNote {
         if (!this.isCorrectDirection(touch)) {
             if (this.result.judgment === Judgment.Perfect) this.result.judgment = Judgment.Great
 
-            if (this.result.accuracy < this.windows.perfect.max)
+            if (this.result.accuracy < this.windows.perfect.max) {
+                this.flickExport('accuracyDiff', this.result.accuracy - this.windows.perfect.max)
                 this.result.accuracy = this.windows.perfect.max
+            }
         }
 
         this.result.bucket.index = this.bucket.index

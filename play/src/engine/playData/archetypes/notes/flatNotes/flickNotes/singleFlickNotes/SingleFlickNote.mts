@@ -1,5 +1,5 @@
+import { windows } from '../../../../../../../../../shared/src/engine/data/windows.mjs'
 import { minFlickVR } from '../../../../../flick.mjs'
-import { windows } from '../../../../../windows.mjs'
 import {
     claimStart,
     disallowEmpty,

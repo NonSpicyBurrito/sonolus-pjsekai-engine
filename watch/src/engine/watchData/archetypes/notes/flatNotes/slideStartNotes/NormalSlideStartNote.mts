@@ -1,3 +1,4 @@
+import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
 import { effect } from '../../../../effect.mjs'
 import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
@@ -22,6 +23,8 @@ export class NormalSlideStartNote extends SlideStartNote {
         circular: particle.effects.slideNoteCircular,
         linear: particle.effects.slideNoteLinear,
     }
+
+    windows = windows.slideStartNote.normal
 
     get slotEffect() {
         return archetypes.SlideSlotEffect

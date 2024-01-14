@@ -1,10 +1,11 @@
+import { slideConnectorReplayKeys } from '../../../../../../../shared/src/engine/data/slideConnector.mjs'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../configuration/options.mjs'
 import { effect } from '../../../effect.mjs'
 import { note } from '../../../note.mjs'
 import { circularEffectLayout, linearEffectLayout, particle } from '../../../particle.mjs'
 import { getZ, layer } from '../../../skin.mjs'
-import { SlideConnector } from '../SlideConnector.mjs'
+import { SlideConnector, VisualType } from '../SlideConnector.mjs'
 
 export abstract class ActiveSlideConnector extends SlideConnector {
     abstract slideSprites: {
@@ -35,11 +36,17 @@ export abstract class ActiveSlideConnector extends SlideConnector {
         super.preprocess()
 
         if (options.sfxEnabled) {
-            const id =
-                'fallback' in this.clips && this.useFallbackClip
-                    ? this.clips.fallback.scheduleLoop(this.head.time)
-                    : this.clips.hold.scheduleLoop(this.head.time)
-            effect.clips.scheduleStopLoop(id, this.tail.time)
+            if (replay.isReplay) {
+                for (const [, start, end] of slideConnectorReplayKeys) {
+                    const startTime = this.import[start]
+                    const endTime = this.import[end]
+                    if (startTime >= endTime) continue
+
+                    this.scheduleSFX(startTime, endTime)
+                }
+            } else {
+                this.scheduleSFX(this.head.time, this.tail.time)
+            }
         }
     }
 
@@ -54,15 +61,17 @@ export abstract class ActiveSlideConnector extends SlideConnector {
 
         if (time.now < this.head.time) return
 
-        if (this.shouldScheduleCircularEffect && !this.effectInstanceIds.circular)
-            this.spawnCircularEffect()
+        if (this.visual === VisualType.Activated) {
+            if (this.shouldScheduleCircularEffect && !this.effectInstanceIds.circular)
+                this.spawnCircularEffect()
 
-        if (this.shouldScheduleLinearEffect && !this.effectInstanceIds.linear)
-            this.spawnLinearEffect()
+            if (this.shouldScheduleLinearEffect && !this.effectInstanceIds.linear)
+                this.spawnLinearEffect()
 
-        if (this.effectInstanceIds.circular) this.updateCircularEffect()
+            if (this.effectInstanceIds.circular) this.updateCircularEffect()
 
-        if (this.effectInstanceIds.linear) this.updateLinearEffect()
+            if (this.effectInstanceIds.linear) this.updateLinearEffect()
+        }
 
         this.renderSlide()
     }
@@ -102,7 +111,7 @@ export abstract class ActiveSlideConnector extends SlideConnector {
     }
 
     getAlpha() {
-        return 1
+        return this.visual === VisualType.NotActivated ? 0.5 : 1
     }
 
     renderSlide() {
@@ -124,6 +133,15 @@ export abstract class ActiveSlideConnector extends SlideConnector {
             this.slideSprites.middle.draw(perspectiveLayout({ l: ml, r: mr, b, t }), this.slideZ, 1)
             this.slideSprites.right.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1)
         }
+    }
+
+    scheduleSFX(startTime: number, endTime: number) {
+        const id =
+            'fallback' in this.clips && this.useFallbackClip
+                ? this.clips.fallback.scheduleLoop(startTime)
+                : this.clips.hold.scheduleLoop(startTime)
+
+        effect.clips.scheduleStopLoop(id, endTime)
     }
 
     spawnCircularEffect() {

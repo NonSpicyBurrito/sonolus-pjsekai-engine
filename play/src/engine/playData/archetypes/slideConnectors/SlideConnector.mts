@@ -1,5 +1,9 @@
 import { EaseType, ease } from '../../../../../../shared/src/engine/data/EaseType.mjs'
 import { approach } from '../../../../../../shared/src/engine/data/note.mjs'
+import {
+    slideConnectorReplayImport,
+    slideConnectorReplayKeys,
+} from '../../../../../../shared/src/engine/data/slideConnector.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { getHitbox } from '../../lane.mjs'
 import { note } from '../../note.mjs'
@@ -31,6 +35,8 @@ export abstract class SlideConnector extends Archetype {
         ease: { name: 'ease', type: DataType<EaseType> },
     })
 
+    export = this.defineExport(slideConnectorReplayImport)
+
     start = this.entityMemory({
         time: Number,
     })
@@ -59,6 +65,9 @@ export abstract class SlideConnector extends Archetype {
     spawnTime = this.entityMemory(Number)
 
     z = this.entityMemory(Number)
+
+    exportIndex = this.entityMemory(Number)
+    exportStartTime = this.entityMemory(Number)
 
     preprocess() {
         this.head.time = bpmChanges.at(this.headImport.beat).time
@@ -94,6 +103,8 @@ export abstract class SlideConnector extends Archetype {
             this.visualTime.hidden = this.tail.scaledTime - note.duration * options.hidden
 
         this.z = getZ(layer.note.connector, this.start.time, this.startImport.lane)
+
+        this.exportStartTime = -1000
     }
 
     updateSequentialOrder = 1
@@ -123,6 +134,8 @@ export abstract class SlideConnector extends Archetype {
     }
 
     updateParallel() {
+        this.updateExport()
+
         if (time.now >= this.tail.time) {
             this.despawn = true
             return
@@ -159,6 +172,27 @@ export abstract class SlideConnector extends Archetype {
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onDeactivate() {}
+
+    updateExport() {
+        if (this.exportStartTime === -1000) {
+            if (this.startSharedMemory.lastActiveTime !== time.now) return
+
+            this.exportStartTime = time.now
+        } else {
+            if (this.startSharedMemory.lastActiveTime === time.now && time.now < this.tail.time)
+                return
+
+            for (const [i, start, end] of slideConnectorReplayKeys) {
+                if (i !== this.exportIndex) continue
+
+                this.export(start, this.exportStartTime)
+                this.export(end, time.now)
+            }
+
+            this.exportIndex++
+            this.exportStartTime = -1000
+        }
+    }
 
     renderConnector() {
         if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return

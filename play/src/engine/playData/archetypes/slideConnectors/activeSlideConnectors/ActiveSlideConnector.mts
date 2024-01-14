@@ -54,6 +54,8 @@ export abstract class ActiveSlideConnector extends SlideConnector {
     }
 
     updateParallel() {
+        this.updateExport()
+
         if (time.now >= this.tail.time) {
             this.despawn = true
             return

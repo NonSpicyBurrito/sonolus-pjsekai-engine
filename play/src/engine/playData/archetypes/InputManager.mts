@@ -50,15 +50,7 @@ const canEnd = (touch: Touch, targetTime: number) => {
 export const disallowEnd = (touch: Touch, untilTime: number) =>
     disallowedEnds.now.set(touch.id, untilTime)
 
-export class InputManager extends Archetype {
-    spawnOrder() {
-        return 1
-    }
-
-    shouldSpawn() {
-        return entityInfos.get(0).state === EntityState.Despawned
-    }
-
+export class InputManager extends SpawnableArchetype({}) {
     updateSequential() {
         claimStartManager.clear()
 

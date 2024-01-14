@@ -12,7 +12,11 @@ export class Stage extends Archetype {
     hitbox = this.entityMemory(Rect)
 
     spawnOrder() {
-        return 2
+        return 1
+    }
+
+    shouldSpawn() {
+        return entityInfos.get(0).state === EntityState.Despawned
     }
 
     initialize() {

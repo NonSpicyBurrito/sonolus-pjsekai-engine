@@ -92,11 +92,6 @@ export const uscToLevelData = (usc: USC, offset = 0): LevelData => {
         sim: false,
     })
     append({
-        archetype: 'InputManager',
-        data: {},
-        sim: false,
-    })
-    append({
         archetype: 'Stage',
         data: {},
         sim: false,

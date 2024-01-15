@@ -1,3 +1,5 @@
+import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
+import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
 import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
@@ -22,6 +24,10 @@ export class NormalTraceNote extends TraceNote {
         circular: particle.effects.slideNoteCircular,
         linear: particle.effects.slideNoteLinear,
     }
+
+    windows = windows.traceNote.normal
+
+    bucket = buckets.normalTraceNote
 
     get slotEffect() {
         return archetypes.SlideSlotEffect

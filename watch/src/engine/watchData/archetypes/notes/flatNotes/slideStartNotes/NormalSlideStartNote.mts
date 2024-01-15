@@ -1,4 +1,5 @@
 import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
+import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
 import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
@@ -25,6 +26,8 @@ export class NormalSlideStartNote extends SlideStartNote {
     }
 
     windows = windows.slideStartNote.normal
+
+    bucket = buckets.normalSlideStartNote
 
     get slotEffect() {
         return archetypes.SlideSlotEffect

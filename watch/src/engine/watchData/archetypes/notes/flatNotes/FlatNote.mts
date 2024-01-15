@@ -33,6 +33,10 @@ export abstract class FlatNote extends Note {
     abstract slotEffect: SlotEffect
     abstract slotGlowEffect: SlotGlowEffect
 
+    abstract windows: JudgmentWindows
+
+    abstract bucket: Bucket
+
     sharedMemory = this.defineSharedMemory({
         despawnTime: Number,
     })
@@ -55,6 +59,17 @@ export abstract class FlatNote extends Note {
     y = this.entityMemory(Number)
 
     globalPreprocess() {
+        const toMs = ({ min, max }: JudgmentWindow) => ({
+            min: Math.round(min * 1000),
+            max: Math.round(max * 1000),
+        })
+
+        this.bucket.set({
+            perfect: toMs(this.windows.perfect),
+            great: toMs(this.windows.great),
+            good: toMs(this.windows.good),
+        })
+
         this.life.miss = -80
     }
 
@@ -78,6 +93,13 @@ export abstract class FlatNote extends Note {
 
         if (options.slotEffectEnabled && (!replay.isReplay || this.import.judgment)) {
             this.spawnSlotEffects(replay.isReplay ? this.hitTime : this.targetTime)
+        }
+
+        if (!replay.isReplay) {
+            this.result.bucket.index = this.bucket.index
+        } else if (this.import.judgment) {
+            this.result.bucket.index = this.bucket.index
+            this.result.bucket.value = this.import.accuracy * 1000
         }
     }
 

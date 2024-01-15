@@ -1,3 +1,5 @@
+import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
+import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
 import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
@@ -22,6 +24,10 @@ export class CriticalSlideTraceNote extends TraceNote {
         circular: particle.effects.criticalNoteCircular,
         linear: particle.effects.criticalNoteLinear,
     }
+
+    windows = windows.slideTraceNote.critical
+
+    bucket = buckets.criticalSlideTraceNote
 
     get slotEffect() {
         return archetypes.CriticalSlotEffect

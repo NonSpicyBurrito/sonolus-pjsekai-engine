@@ -1,3 +1,5 @@
+import { windows } from '../../../../../../../shared/src/engine/data/windows.mjs'
+import { buckets } from '../../../buckets.mjs'
 import { effect } from '../../../effect.mjs'
 import { particle } from '../../../particle.mjs'
 import { skin } from '../../../skin.mjs'
@@ -21,6 +23,10 @@ export class CriticalTapNote extends FlatNote {
         circular: particle.effects.criticalNoteCircular,
         linear: particle.effects.criticalNoteLinear,
     }
+
+    windows = windows.tapNote.critical
+
+    bucket = buckets.criticalTapNote
 
     get slotEffect() {
         return archetypes.CriticalSlotEffect

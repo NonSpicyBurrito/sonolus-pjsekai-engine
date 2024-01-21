@@ -33,6 +33,10 @@ export abstract class FlatNote extends Note {
     abstract slotEffect: SlotEffect
     abstract slotGlowEffect: SlotGlowEffect
 
+    sharedMemory = this.defineSharedMemory({
+        despawnTime: Number,
+    })
+
     visualTime = this.entityMemory({
         min: Number,
         max: Number,
@@ -60,6 +64,10 @@ export abstract class FlatNote extends Note {
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
         this.visualTime.min = this.visualTime.max - note.duration
 
+        this.sharedMemory.despawnTime = replay.isReplay
+            ? timeScaleChanges.at(this.hitTime).scaledTime
+            : this.visualTime.max
+
         if (options.sfxEnabled) {
             if (replay.isReplay) {
                 this.scheduleReplaySFX()
@@ -78,7 +86,7 @@ export abstract class FlatNote extends Note {
     }
 
     despawnTime() {
-        return replay.isReplay ? timeScaleChanges.at(this.hitTime).scaledTime : this.visualTime.max
+        return this.sharedMemory.despawnTime
     }
 
     initialize() {

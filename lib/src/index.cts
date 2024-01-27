@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { EngineInfo } from 'sonolus-core'
+import { DatabaseEngineItem } from 'sonolus-core'
 
 export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
@@ -7,7 +7,7 @@ export * from './usc/index.cjs'
 
 export const version = '1.5.0'
 
-export const engineInfo = {
+export const databaseEngineItem = {
     name: 'pjsekai',
     version: 12,
     title: {
@@ -36,7 +36,7 @@ export const engineInfo = {
             'https://github.com/NonSpicyBurrito/sonolus-pjsekai-engine',
         ].join('\n'),
     },
-} as const satisfies Partial<EngineInfo>
+} as const satisfies Partial<DatabaseEngineItem>
 
 export const engineConfigurationPath = resolve(__dirname, 'EngineConfiguration')
 export const enginePlayDataPath = resolve(__dirname, 'EnginePlayData')

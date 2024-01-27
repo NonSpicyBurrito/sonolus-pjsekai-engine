@@ -1,4 +1,4 @@
-import { EngineDataBucket, UnitText } from 'sonolus-core'
+import { EngineDataBucket, Text } from 'sonolus-core'
 
 export const createBucketDefinition = (
     sprites: Record<
@@ -36,7 +36,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalTapNote: {
             sprites: [
@@ -49,7 +49,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalFlickNote: {
@@ -71,7 +71,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalFlickNote: {
             sprites: [
@@ -92,7 +92,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalTraceNote: {
@@ -115,7 +115,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalTraceNote: {
             sprites: [
@@ -137,7 +137,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalTraceFlickNote: {
@@ -168,7 +168,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalTraceFlickNote: {
             sprites: [
@@ -198,7 +198,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalSlideTraceNote: {
@@ -229,7 +229,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalSlideTraceNote: {
             sprites: [
@@ -259,7 +259,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalSlideStartNote: {
@@ -281,7 +281,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalSlideStartNote: {
             sprites: [
@@ -302,7 +302,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalSlideEndNote: {
@@ -324,7 +324,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalSlideEndNote: {
             sprites: [
@@ -345,7 +345,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalSlideEndTraceNote: {
@@ -376,7 +376,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalSlideEndTraceNote: {
             sprites: [
@@ -406,7 +406,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
 
         normalSlideEndFlickNote: {
@@ -436,7 +436,7 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
         criticalSlideEndFlickNote: {
             sprites: [
@@ -465,6 +465,6 @@ export const createBucketDefinition = (
                     rotation: -90,
                 },
             ],
-            unit: UnitText.Millisecond,
+            unit: Text.MillisecondUnit,
         },
     }) as const satisfies Record<string, EngineDataBucket>

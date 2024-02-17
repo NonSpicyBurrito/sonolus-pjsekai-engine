@@ -12,7 +12,6 @@ export default {
 
             const level = sonolus.db.levels[0]
             level.bgm = {
-                type: 'LevelBgm',
                 hash: hash(readFileSync('./.dev/bgm.mp3')),
                 url: '/bgm.mp3',
             }

@@ -66,6 +66,8 @@ export abstract class SlideConnector extends Archetype {
 
     z = this.entityMemory(Number)
 
+    visual = this.entityMemory(DataType<VisualType>)
+
     exportIndex = this.entityMemory(Number)
     exportStartTime = this.entityMemory(Number)
 
@@ -143,6 +145,8 @@ export abstract class SlideConnector extends Archetype {
 
         if (time.scaled < this.visualTime.min) return
 
+        this.updateVisualType()
+
         this.renderConnector()
     }
 
@@ -194,15 +198,17 @@ export abstract class SlideConnector extends Archetype {
         }
     }
 
-    renderConnector() {
-        if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
-
-        const visual =
+    updateVisualType() {
+        this.visual =
             this.startSharedMemory.lastActiveTime === time.now
                 ? VisualType.Activated
                 : time.now >= this.start.time + this.slideStartNote.windows.good.max + input.offset
                   ? VisualType.NotActivated
                   : VisualType.Waiting
+    }
+
+    renderConnector() {
+        if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
 
         const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
 
@@ -239,12 +245,12 @@ export abstract class SlideConnector extends Archetype {
             }
 
             const a =
-                this.getAlpha(visual, this.head.scaledTime, this.tail.scaledTime, scaledTime.min) *
+                this.getAlpha(this.head.scaledTime, this.tail.scaledTime, scaledTime.min) *
                 options.connectorAlpha
 
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a)
-            } else if (options.connectorAnimation && visual === VisualType.Activated) {
+            } else if (options.connectorAnimation && this.visual === VisualType.Activated) {
                 const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2
 
                 this.sprites.normal.draw(layout, this.z, a * normalA)
@@ -255,7 +261,7 @@ export abstract class SlideConnector extends Archetype {
         }
     }
 
-    getAlpha(visual: VisualType, a: number, b: number, x: number) {
+    getAlpha(a: number, b: number, x: number) {
         return Math.remap(a, b, 0.575, 0.075, x)
     }
 

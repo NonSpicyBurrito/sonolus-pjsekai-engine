@@ -57,6 +57,7 @@ export const skin = defineSkin({
 
 export const layer = {
     slotGlowEffect: 200,
+    connectorSlotGlowEffect: 190,
 
     note: {
         arrow: 102,

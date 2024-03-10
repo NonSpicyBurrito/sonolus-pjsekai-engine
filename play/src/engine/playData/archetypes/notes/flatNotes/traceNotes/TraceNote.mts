@@ -117,6 +117,14 @@ export abstract class TraceNote extends FlatNote {
         )
     }
 
+    playSlotEffects() {
+        // removed
+    }
+
+    playLaneEffects() {
+        // removed
+    }
+
     get useFallbackSprites() {
         return (
             !this.sprites.left.exists ||

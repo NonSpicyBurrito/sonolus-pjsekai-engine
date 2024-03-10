@@ -59,4 +59,12 @@ export abstract class TraceNote extends FlatNote {
             false,
         )
     }
+
+    playLaneEffects() {
+        // removed
+    }
+
+    spawnSlotEffects() {
+        // removed
+    }
 }

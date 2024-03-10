@@ -105,6 +105,14 @@ export abstract class TraceFlickNote extends FlickNote {
         this.playDirectionalNoteEffect()
     }
 
+    playSlotEffects() {
+        // removed
+    }
+
+    playLaneEffects() {
+        // removed
+    }
+
     completeTraceFlick(hitTime: number, isCorrectDirection: boolean) {
         this.result.judgment = input.judge(hitTime, this.targetTime, this.windows)
         this.result.accuracy = hitTime - this.targetTime

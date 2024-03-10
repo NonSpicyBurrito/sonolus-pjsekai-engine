@@ -49,4 +49,8 @@ export abstract class TraceFlickNote extends FlickNote {
             this.sprites.diamond.draw(this.diamondLayout.mul(this.y), this.diamondZ, 1)
         }
     }
+
+    playNoteEffects() {
+        this.playDirectionalNoteEffect()
+    }
 }

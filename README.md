@@ -102,6 +102,15 @@ npm install sonolus-pjsekai-engine
 | `Sekai Critical Hold`  |
 | `Sekai Critical Tick`  |
 
+### Particle Effects
+
+| Name                               |
+| ---------------------------------- |
+| `Sekai Trace Note Circular Green`  |
+| `Sekai Trace Note Linear Green`    |
+| `Sekai Trace Note Circular Yellow` |
+| `Sekai Trace Note Linear Yellow`   |
+
 ## Documentation
 
 ### `version`

@@ -21,8 +21,10 @@ export class CriticalTraceNote extends TraceNote {
     }
 
     effects = {
-        circular: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalNoteLinear,
+        circular: particle.effects.criticalTraceNoteCircular,
+        circularFallback: particle.effects.criticalSlideTickNote,
+        linear: particle.effects.criticalTraceNoteLinear,
+        linearFallback: particle.effects.criticalNoteLinear,
     }
 
     windows = windows.traceNote.critical

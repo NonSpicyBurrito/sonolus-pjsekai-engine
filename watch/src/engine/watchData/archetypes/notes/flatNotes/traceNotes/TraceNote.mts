@@ -1,4 +1,5 @@
 import { note } from '../../../../note.mjs'
+import { flatEffectLayout, particle } from '../../../../particle.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer } from '../../../../skin.mjs'
 import { FlatNote } from '../FlatNote.mjs'
@@ -48,5 +49,14 @@ export abstract class TraceNote extends FlatNote {
         if (!this.useFallbackSprites) {
             this.sprites.diamond.draw(this.diamondLayout.mul(this.y), this.diamondZ, 1)
         }
+    }
+
+    playCircularNoteEffect() {
+        particle.effects.spawn(
+            this.circularEffectId,
+            flatEffectLayout({ lane: this.import.lane }),
+            0.6,
+            false,
+        )
     }
 }

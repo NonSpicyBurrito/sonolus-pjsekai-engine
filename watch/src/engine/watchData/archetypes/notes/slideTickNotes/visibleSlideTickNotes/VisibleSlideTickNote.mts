@@ -3,6 +3,7 @@ import { perspectiveLayout } from '../../../../../../../../shared/src/engine/dat
 import { options } from '../../../../../configuration/options.mjs'
 import { sfxDistance } from '../../../../effect.mjs'
 import { note } from '../../../../note.mjs'
+import { flatEffectLayout } from '../../../../particle.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer } from '../../../../skin.mjs'
 import { SlideTickNote } from '../SlideTickNote.mjs'
@@ -126,18 +127,6 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     playNoteEffect() {
-        const w = 4
-        const h = w * scaledScreen.wToH
-
-        this.effect.spawn(
-            new Rect({
-                l: this.import.lane - w,
-                r: this.import.lane + w,
-                b: 1 + h,
-                t: 1 - h,
-            }),
-            0.6,
-            false,
-        )
+        this.effect.spawn(flatEffectLayout({ lane: this.import.lane }), 0.6, false)
     }
 }

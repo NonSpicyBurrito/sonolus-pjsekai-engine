@@ -27,7 +27,9 @@ export abstract class FlatNote extends Note {
 
     abstract effects: {
         circular: ParticleEffect
+        circularFallback?: ParticleEffect
         linear: ParticleEffect
+        linearFallback?: ParticleEffect
     }
 
     abstract slotEffect: SlotEffect
@@ -157,6 +159,18 @@ export abstract class FlatNote extends Note {
         )
     }
 
+    get circularEffectId() {
+        return 'circularFallback' in this.effects && !this.effects.circular.exists
+            ? this.effects.circularFallback.id
+            : this.effects.circular.id
+    }
+
+    get linearEffectId() {
+        return 'linearFallback' in this.effects && !this.effects.linear.exists
+            ? this.effects.linearFallback.id
+            : this.effects.linear.id
+    }
+
     scheduleSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
             this.clips.fallback.schedule(this.targetTime, sfxDistance)
@@ -212,7 +226,8 @@ export abstract class FlatNote extends Note {
     }
 
     playLinearNoteEffect() {
-        this.effects.linear.spawn(
+        particle.effects.spawn(
+            this.linearEffectId,
             linearEffectLayout({
                 lane: this.import.lane,
                 shear: 0,
@@ -223,7 +238,8 @@ export abstract class FlatNote extends Note {
     }
 
     playCircularNoteEffect() {
-        this.effects.circular.spawn(
+        particle.effects.spawn(
+            this.circularEffectId,
             circularEffectLayout({
                 lane: this.import.lane,
                 w: 1.75,

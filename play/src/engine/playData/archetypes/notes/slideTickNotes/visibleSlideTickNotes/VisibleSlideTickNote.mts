@@ -120,6 +120,8 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     render() {
+        if (time.now >= this.targetTime) return
+
         this.y = approach(this.visualTime.min, this.visualTime.max, time.scaled)
 
         if (this.useFallbackSprite) {

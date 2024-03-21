@@ -39,7 +39,11 @@ export class SimLine extends Archetype {
 
     despawnTime(): number {
         return replay.isReplay
-            ? Math.min(this.aSharedMemory.despawnTime, this.bSharedMemory.despawnTime)
+            ? Math.min(
+                  this.visualTime.max,
+                  this.aSharedMemory.despawnTime,
+                  this.bSharedMemory.despawnTime,
+              )
             : this.visualTime.max
     }
 

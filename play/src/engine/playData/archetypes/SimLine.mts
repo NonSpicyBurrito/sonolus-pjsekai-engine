@@ -67,6 +67,7 @@ export class SimLine extends Archetype {
 
     updateParallel() {
         if (
+            time.scaled > this.visualTime.max ||
             this.aInfo.state === EntityState.Despawned ||
             this.bInfo.state === EntityState.Despawned
         )

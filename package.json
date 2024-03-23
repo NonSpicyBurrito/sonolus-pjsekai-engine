@@ -31,7 +31,7 @@
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.1",
     "prettier-plugin-organize-imports": "^3.2.4",
-    "sonolus.js": "9.4.0-alpha.3",
+    "sonolus.js": "9.4.0-alpha.4",
     "typescript": "~5.3.3"
   }
 }

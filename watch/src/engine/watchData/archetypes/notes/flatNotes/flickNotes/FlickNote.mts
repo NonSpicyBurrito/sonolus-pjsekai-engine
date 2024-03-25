@@ -73,7 +73,10 @@ export abstract class FlickNote extends FlatNote {
     }
 
     get hitTime() {
-        return this.targetTime + this.import.accuracy + this.flickImport.accuracyDiff
+        return (
+            this.targetTime +
+            (replay.isReplay ? this.import.accuracy + this.flickImport.accuracyDiff : 0)
+        )
     }
 
     render() {

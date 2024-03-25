@@ -81,9 +81,7 @@ export abstract class FlatNote extends Note {
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
         this.visualTime.min = this.visualTime.max - note.duration
 
-        this.sharedMemory.despawnTime = replay.isReplay
-            ? timeScaleChanges.at(this.hitTime).scaledTime
-            : this.visualTime.max
+        this.sharedMemory.despawnTime = timeScaleChanges.at(this.hitTime).scaledTime
 
         if (options.sfxEnabled) {
             if (replay.isReplay) {
@@ -94,7 +92,7 @@ export abstract class FlatNote extends Note {
         }
 
         if (options.slotEffectEnabled && (!replay.isReplay || this.import.judgment)) {
-            this.spawnSlotEffects(replay.isReplay ? this.hitTime : this.targetTime)
+            this.spawnSlotEffects(this.hitTime)
         }
 
         if (!replay.isReplay) {
@@ -159,7 +157,7 @@ export abstract class FlatNote extends Note {
     }
 
     get hitTime() {
-        return this.targetTime + this.import.accuracy
+        return this.targetTime + (replay.isReplay ? this.import.accuracy : 0)
     }
 
     globalInitialize() {
@@ -188,9 +186,9 @@ export abstract class FlatNote extends Note {
 
     scheduleSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
-            this.clips.fallback.schedule(this.targetTime, sfxDistance)
+            this.clips.fallback.schedule(this.hitTime, sfxDistance)
         } else {
-            this.clips.perfect.schedule(this.targetTime, sfxDistance)
+            this.clips.perfect.schedule(this.hitTime, sfxDistance)
         }
     }
 

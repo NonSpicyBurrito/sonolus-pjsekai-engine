@@ -39,10 +39,10 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         this.visualTime.min = this.visualTime.max - note.duration
 
         if (options.sfxEnabled) {
-            if (this.useFallbackClip) {
-                this.clips.fallback.schedule(this.targetTime, sfxDistance)
+            if (replay.isReplay) {
+                this.scheduleReplaySFX()
             } else {
-                this.clips.tick.schedule(this.targetTime, sfxDistance)
+                this.scheduleSFX()
             }
         }
     }
@@ -108,6 +108,20 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         }
 
         this.z = getZ(layer.note.tick, this.targetTime, this.import.lane)
+    }
+
+    scheduleSFX() {
+        if (this.useFallbackClip) {
+            this.clips.fallback.schedule(this.targetTime, sfxDistance)
+        } else {
+            this.clips.tick.schedule(this.targetTime, sfxDistance)
+        }
+    }
+
+    scheduleReplaySFX() {
+        if (!this.import.judgment) return
+
+        this.scheduleSFX()
     }
 
     render() {

@@ -1,4 +1,4 @@
-import { EngineArchetypeDataName } from 'sonolus-core'
+import { EngineArchetypeDataName } from '@sonolus/core'
 import { print } from '../print.mjs'
 import { line, skin } from '../skin.mjs'
 

@@ -1,4 +1,4 @@
-import { EffectClipName } from 'sonolus-core'
+import { EffectClipName } from '@sonolus/core'
 
 export const effect = defineEffect({
     clips: {

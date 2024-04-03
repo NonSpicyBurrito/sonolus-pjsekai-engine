@@ -1,4 +1,4 @@
-import { EngineDataBucket, Text } from 'sonolus-core'
+import { EngineDataBucket, Text } from '@sonolus/core'
 
 export const createBucketDefinition = (
     sprites: Record<

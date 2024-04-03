@@ -1,4 +1,4 @@
-import { EngineConfigurationOption, Text } from 'sonolus-core'
+import { EngineConfigurationOption, Text } from '@sonolus/core'
 
 export const optionsDefinition = {
     speed: {

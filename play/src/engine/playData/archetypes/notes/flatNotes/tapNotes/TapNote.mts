@@ -1,4 +1,4 @@
-import { windows } from '../../../../windows.mjs'
+import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
 import { claimStart, disallowEmpty, disallowEnd, getClaimedStart } from '../../../InputManager.mjs'
 import { FlatNote } from '../FlatNote.mjs'
 

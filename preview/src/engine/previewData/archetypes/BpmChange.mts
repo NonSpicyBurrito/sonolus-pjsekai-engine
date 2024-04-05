@@ -1,19 +1,19 @@
-import { EngineArchetypeDataName } from 'sonolus-core'
+import { EngineArchetypeDataName } from '@sonolus/core'
 import { print } from '../print.mjs'
 import { line, skin } from '../skin.mjs'
 
 export class BpmChange extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         bpm: { name: EngineArchetypeDataName.Bpm, type: Number },
     })
 
     render() {
-        line(skin.sprites.bpmChangeLine, this.data.beat, 0.5)
+        line(skin.sprites.bpmChangeLine, this.import.beat, 0.5)
 
         print(
-            this.data.bpm,
-            bpmChanges.at(this.data.beat).time,
+            this.import.bpm,
+            bpmChanges.at(this.import.beat).time,
             PrintFormat.BPM,
             'auto',
             PrintColor.Purple,

@@ -32,13 +32,13 @@ export abstract class TraceFlickNote extends FlickNote {
             const w = note.h / scaledScreen.wToH
 
             new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
+                l: this.import.lane - w,
+                r: this.import.lane + w,
                 b: 1 + note.h,
                 t: 1 - note.h,
             }).copyTo(this.diamondLayout)
 
-            this.diamondZ = getZ(layer.note.tick, this.targetTime, this.data.lane)
+            this.diamondZ = getZ(layer.note.tick, this.targetTime, this.import.lane)
         }
     }
 
@@ -48,5 +48,17 @@ export abstract class TraceFlickNote extends FlickNote {
         if (!this.useFallbackSprites) {
             this.sprites.diamond.draw(this.diamondLayout.mul(this.y), this.diamondZ, 1)
         }
+    }
+
+    playNoteEffects() {
+        this.playDirectionalNoteEffect()
+    }
+
+    playLaneEffects() {
+        // removed
+    }
+
+    spawnSlotEffects() {
+        // removed
     }
 }

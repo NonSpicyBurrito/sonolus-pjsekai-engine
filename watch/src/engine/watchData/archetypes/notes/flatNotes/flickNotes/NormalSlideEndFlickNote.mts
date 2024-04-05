@@ -1,3 +1,5 @@
+import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
+import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
 import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
@@ -14,6 +16,8 @@ export class NormalSlideEndFlickNote extends FlickNote {
 
     clips = {
         perfect: effect.clips.flickPerfect,
+        great: effect.clips.flickGreat,
+        good: effect.clips.flickGood,
     }
 
     effects = {
@@ -42,6 +46,10 @@ export class NormalSlideEndFlickNote extends FlickNote {
     }
 
     directionalEffect = particle.effects.flickNoteDirectional
+
+    windows = windows.slideEndFlickNote.normal
+
+    bucket = buckets.normalSlideEndFlickNote
 
     get slotEffect() {
         return archetypes.FlickSlotEffect

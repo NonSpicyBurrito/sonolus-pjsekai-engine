@@ -3,7 +3,7 @@ import {
     EngineArchetypeName,
     LevelData,
     LevelDataEntity,
-} from 'sonolus-core'
+} from '@sonolus/core'
 import {
     USC,
     USCBpmChange,
@@ -40,7 +40,7 @@ export const uscToLevelData = (usc: USC, offset = 0): LevelData => {
         intermediateToRef.set(intermediate, ref)
 
         const entity = intermediateToEntity.get(intermediate)
-        if (entity) entity.ref = ref
+        if (entity) entity.name = ref
 
         return ref
     }
@@ -64,7 +64,7 @@ export const uscToLevelData = (usc: USC, offset = 0): LevelData => {
         }
 
         const ref = intermediateToRef.get(intermediate)
-        if (ref) entity.ref = ref
+        if (ref) entity.name = ref
 
         intermediateToEntity.set(intermediate, entity)
         entities.push(entity)
@@ -88,11 +88,6 @@ export const uscToLevelData = (usc: USC, offset = 0): LevelData => {
 
     append({
         archetype: 'Initialization',
-        data: {},
-        sim: false,
-    })
-    append({
-        archetype: 'InputManager',
         data: {},
         sim: false,
     })

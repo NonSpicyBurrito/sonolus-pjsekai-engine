@@ -20,16 +20,28 @@ export abstract class FlatNote extends Note {
 
     abstract clips: {
         perfect: EffectClip
+        great?: EffectClip
+        good?: EffectClip
         fallback?: EffectClip
     }
 
     abstract effects: {
         circular: ParticleEffect
+        circularFallback?: ParticleEffect
         linear: ParticleEffect
+        linearFallback?: ParticleEffect
     }
 
     abstract slotEffect: SlotEffect
     abstract slotGlowEffect: SlotGlowEffect
+
+    abstract windows: JudgmentWindows
+
+    abstract bucket: Bucket
+
+    sharedMemory = this.defineSharedMemory({
+        despawnTime: Number,
+    })
 
     visualTime = this.entityMemory({
         min: Number,
@@ -49,6 +61,17 @@ export abstract class FlatNote extends Note {
     y = this.entityMemory(Number)
 
     globalPreprocess() {
+        const toMs = ({ min, max }: JudgmentWindow) => ({
+            min: Math.round(min * 1000),
+            max: Math.round(max * 1000),
+        })
+
+        this.bucket.set({
+            perfect: toMs(this.windows.perfect),
+            great: toMs(this.windows.great),
+            good: toMs(this.windows.good),
+        })
+
         this.life.miss = -80
     }
 
@@ -58,16 +81,25 @@ export abstract class FlatNote extends Note {
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
         this.visualTime.min = this.visualTime.max - note.duration
 
+        this.sharedMemory.despawnTime = timeScaleChanges.at(this.hitTime).scaledTime
+
         if (options.sfxEnabled) {
-            if ('fallback' in this.clips && this.useFallbackClip) {
-                this.clips.fallback.schedule(this.targetTime, sfxDistance)
+            if (replay.isReplay) {
+                this.scheduleReplaySFX()
             } else {
-                this.clips.perfect.schedule(this.targetTime, sfxDistance)
+                this.scheduleSFX()
             }
         }
 
-        if (options.slotEffectEnabled) {
-            this.spawnSlotEffects()
+        if (options.slotEffectEnabled && (!replay.isReplay || this.import.judgment)) {
+            this.spawnSlotEffects(this.hitTime)
+        }
+
+        if (!replay.isReplay) {
+            this.result.bucket.index = this.bucket.index
+        } else if (this.import.judgment) {
+            this.result.bucket.index = this.bucket.index
+            this.result.bucket.value = this.import.accuracy * 1000
         }
     }
 
@@ -76,7 +108,7 @@ export abstract class FlatNote extends Note {
     }
 
     despawnTime() {
-        return this.visualTime.max
+        return this.sharedMemory.despawnTime
     }
 
     initialize() {
@@ -105,15 +137,35 @@ export abstract class FlatNote extends Note {
     }
 
     get useFallbackClip() {
-        return !this.clips.perfect.exists
+        return (
+            !this.clips.perfect.exists ||
+            ('great' in this.clips && !this.clips.great.exists) ||
+            ('good' in this.clips && !this.clips.good.exists)
+        )
+    }
+
+    get circularEffectId() {
+        return 'circularFallback' in this.effects && !this.effects.circular.exists
+            ? this.effects.circularFallback.id
+            : this.effects.circular.id
+    }
+
+    get linearEffectId() {
+        return 'linearFallback' in this.effects && !this.effects.linear.exists
+            ? this.effects.linearFallback.id
+            : this.effects.linear.id
+    }
+
+    get hitTime() {
+        return this.targetTime + (replay.isReplay ? this.import.accuracy : 0)
     }
 
     globalInitialize() {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
-        const l = this.data.lane - this.data.size
-        const r = this.data.lane + this.data.size
+        const l = this.import.lane - this.import.size
+        const r = this.import.lane + this.import.size
 
         const b = 1 + note.h
         const t = 1 - note.h
@@ -129,7 +181,37 @@ export abstract class FlatNote extends Note {
             perspectiveLayout({ l: mr, r, b, t }).copyTo(this.spriteLayouts.right)
         }
 
-        this.z = getZ(layer.note.body, this.targetTime, this.data.lane)
+        this.z = getZ(layer.note.body, this.targetTime, this.import.lane)
+    }
+
+    scheduleSFX() {
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.schedule(this.hitTime, sfxDistance)
+        } else {
+            this.clips.perfect.schedule(this.hitTime, sfxDistance)
+        }
+    }
+
+    scheduleReplaySFX() {
+        if (!this.import.judgment) return
+
+        if ('fallback' in this.clips && this.useFallbackClip) {
+            this.clips.fallback.schedule(this.hitTime, sfxDistance)
+        } else if ('great' in this.clips && 'good' in this.clips) {
+            switch (this.import.judgment) {
+                case Judgment.Perfect:
+                    this.clips.perfect.schedule(this.hitTime, sfxDistance)
+                    break
+                case Judgment.Great:
+                    this.clips.great.schedule(this.hitTime, sfxDistance)
+                    break
+                case Judgment.Good:
+                    this.clips.good.schedule(this.hitTime, sfxDistance)
+                    break
+            }
+        } else {
+            this.clips.perfect.schedule(this.hitTime, sfxDistance)
+        }
     }
 
     render() {
@@ -145,6 +227,8 @@ export abstract class FlatNote extends Note {
     }
 
     despawnTerminate() {
+        if (replay.isReplay && !this.import.judgment) return
+
         if (options.noteEffectEnabled) this.playNoteEffects()
         if (options.laneEffectEnabled) this.playLaneEffects()
     }
@@ -155,9 +239,10 @@ export abstract class FlatNote extends Note {
     }
 
     playLinearNoteEffect() {
-        this.effects.linear.spawn(
+        particle.effects.spawn(
+            this.linearEffectId,
             linearEffectLayout({
-                lane: this.data.lane,
+                lane: this.import.lane,
                 shear: 0,
             }),
             0.5,
@@ -166,9 +251,10 @@ export abstract class FlatNote extends Note {
     }
 
     playCircularNoteEffect() {
-        this.effects.circular.spawn(
+        particle.effects.spawn(
+            this.circularEffectId,
             circularEffectLayout({
-                lane: this.data.lane,
+                lane: this.import.lane,
                 w: 1.75,
                 h: 1.05,
             }),
@@ -180,8 +266,8 @@ export abstract class FlatNote extends Note {
     playLaneEffects() {
         particle.effects.lane.spawn(
             perspectiveLayout({
-                l: this.data.lane - this.data.size,
-                r: this.data.lane + this.data.size,
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
                 b: lane.b,
                 t: lane.t,
             }),
@@ -190,21 +276,21 @@ export abstract class FlatNote extends Note {
         )
     }
 
-    spawnSlotEffects() {
-        const start = Math.floor(this.data.lane - this.data.size)
-        const end = Math.ceil(this.data.lane + this.data.size)
+    spawnSlotEffects(startTime: number) {
+        const start = Math.floor(this.import.lane - this.import.size)
+        const end = Math.ceil(this.import.lane + this.import.size)
 
         for (let i = start; i < end; i++) {
             this.slotEffect.spawn({
-                startTime: this.targetTime,
+                startTime,
                 lane: i + 0.5,
             })
         }
 
         this.slotGlowEffect.spawn({
-            startTime: this.targetTime,
-            lane: this.data.lane,
-            size: this.data.size,
+            startTime,
+            lane: this.import.lane,
+            size: this.import.size,
         })
     }
 }

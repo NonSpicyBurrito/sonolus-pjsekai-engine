@@ -1,4 +1,5 @@
 import { note } from '../../../../note.mjs'
+import { flatEffectLayout, particle } from '../../../../particle.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer } from '../../../../skin.mjs'
 import { disallowEmpty } from '../../../InputManager.mjs'
@@ -32,13 +33,13 @@ export abstract class TraceNote extends FlatNote {
             const w = note.h / scaledScreen.wToH
 
             new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
+                l: this.import.lane - w,
+                r: this.import.lane + w,
                 b: 1 + note.h,
                 t: 1 - note.h,
             }).copyTo(this.diamondLayout)
 
-            this.diamondZ = getZ(layer.note.tick, this.targetTime, this.data.lane)
+            this.diamondZ = getZ(layer.note.tick, this.targetTime, this.import.lane)
         }
     }
 
@@ -105,6 +106,23 @@ export abstract class TraceNote extends FlatNote {
         this.playHitEffects(time.now)
 
         this.despawn = true
+    }
+
+    playCircularNoteEffect() {
+        particle.effects.spawn(
+            this.circularEffectId,
+            flatEffectLayout({ lane: this.import.lane }),
+            0.6,
+            false,
+        )
+    }
+
+    playSlotEffects() {
+        // removed
+    }
+
+    playLaneEffects() {
+        // removed
     }
 
     get useFallbackSprites() {

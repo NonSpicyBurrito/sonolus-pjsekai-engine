@@ -1,4 +1,4 @@
-import { SkinSpriteName } from 'sonolus-core'
+import { SkinSpriteName } from '@sonolus/core'
 
 export const skin = defineSkin({
     sprites: {
@@ -57,6 +57,7 @@ export const skin = defineSkin({
 
 export const layer = {
     slotGlowEffect: 200,
+    connectorSlotGlowEffect: 190,
 
     note: {
         arrow: 102,

@@ -1,12 +1,7 @@
 import { slotEffect } from '../../components/slotEffect.mjs'
 import { slotGlowEffect } from '../../components/slotGlowEffect.mjs'
 import { effect } from '../../effect.mjs'
-import {
-    particle,
-    playCircularNoteEffect,
-    playLaneEffects,
-    playLinearNoteEffect,
-} from '../../particle.mjs'
+import { particle, playFlatNoteEffect, playLinearNoteEffect } from '../../particle.mjs'
 
 export const traceNoteHit = {
     enter() {
@@ -16,12 +11,16 @@ export const traceNoteHit = {
             effect.clips.normalPerfect.play(0)
         }
 
-        playLinearNoteEffect(particle.effects.slideNoteLinear)
-        playCircularNoteEffect(particle.effects.slideNoteCircular)
-        playLaneEffects()
-
-        slotGlowEffect.show('slide')
-        slotEffect.show('slide')
+        if (particle.effects.normalTraceNoteLinear.exists) {
+            playLinearNoteEffect(particle.effects.normalTraceNoteLinear)
+        } else {
+            playLinearNoteEffect(particle.effects.slideNoteLinear)
+        }
+        if (particle.effects.normalTraceNoteCircular.exists) {
+            playFlatNoteEffect(particle.effects.normalTraceNoteCircular)
+        } else {
+            playFlatNoteEffect(particle.effects.normalSlideTickNote)
+        }
     },
 
     exit() {

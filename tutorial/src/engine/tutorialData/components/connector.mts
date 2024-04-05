@@ -1,11 +1,13 @@
 import { approach, note } from '../../../../../shared/src/engine/data/note.mjs'
 import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.mjs'
+import { scaledScreen } from '../scaledScreen.mjs'
 import { segment } from '../segment.mjs'
 import { layer, skin } from '../skin.mjs'
 
 const sprites = {
     normal: skin.sprites.normalActiveSlideConnectorNormal,
     active: skin.sprites.normalActiveSlideConnectorActive,
+    glow: skin.sprites.slideSlotGlow,
 
     fallback: skin.sprites.normalActiveSlideConnectorFallback,
 
@@ -73,6 +75,25 @@ export const connector = {
                 sprites.active.draw(layout, layer.note.connector, a)
                 sprites.normal.draw(layout, layer.note.connector, 1 - a)
             }
+        }
+
+        if (mode === Mode.FallOut || mode === Mode.Active) {
+            const h = 4 * scaledScreen.wToH
+
+            sprites.glow.draw(
+                {
+                    x1: -2,
+                    x2: -2.5,
+                    x3: 2.5,
+                    x4: 2,
+                    y1: 1,
+                    y2: 1 - h,
+                    y3: 1 - h,
+                    y4: 1,
+                },
+                layer.connectorSlotGlowEffect,
+                (Math.sin(segment.time * 8 * Math.PI) + 1) / 20 + 0.1,
+            )
         }
     },
 

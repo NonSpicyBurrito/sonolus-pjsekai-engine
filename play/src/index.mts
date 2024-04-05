@@ -1,4 +1,4 @@
-import 'sonolus.js/play'
+import '@sonolus/sonolus.js/play'
 
 import { level } from '../../shared/src/level/index.mjs'
 import { engine } from './engine/index.mjs'

@@ -1,9 +1,19 @@
 import { EaseType, ease } from '../../../../../../shared/src/engine/data/EaseType.mjs'
 import { approach } from '../../../../../../shared/src/engine/data/note.mjs'
+import {
+    slideConnectorReplayImport,
+    slideConnectorReplayKeys,
+} from '../../../../../../shared/src/engine/data/slideConnector.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { note } from '../../note.mjs'
 import { getZ, layer } from '../../skin.mjs'
-import { FlatNote } from '../notes/flatNotes/FlatNote.mjs'
+import { SlideStartNote } from '../notes/flatNotes/slideStartNotes/SlideStartNote.mjs'
+
+export enum VisualType {
+    Waiting = 0,
+    NotActivated = 1,
+    Activated = 2,
+}
 
 export abstract class SlideConnector extends Archetype {
     abstract sprites: {
@@ -12,13 +22,14 @@ export abstract class SlideConnector extends Archetype {
         fallback: SkinSprite
     }
 
-    abstract slideStartNote: FlatNote
+    abstract slideStartNote: SlideStartNote
 
-    data = this.defineData({
+    import = this.defineImport({
         startRef: { name: 'start', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },
+        ...slideConnectorReplayImport,
     })
 
     initialized = this.entityMemory(Boolean)
@@ -50,11 +61,13 @@ export abstract class SlideConnector extends Archetype {
 
     z = this.entityMemory(Number)
 
+    visual = this.entityMemory(DataType<VisualType>)
+
     preprocess() {
-        this.head.time = bpmChanges.at(this.headData.beat).time
+        this.head.time = bpmChanges.at(this.headImport.beat).time
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime
 
-        this.tail.time = bpmChanges.at(this.tailData.beat).time
+        this.tail.time = bpmChanges.at(this.tailImport.beat).time
         this.tail.scaledTime = timeScaleChanges.at(this.tail.time).scaledTime
 
         this.visualTime.min = this.head.scaledTime - note.duration
@@ -76,19 +89,21 @@ export abstract class SlideConnector extends Archetype {
     }
 
     updateParallel() {
+        this.updateVisualType()
+
         this.renderConnector()
     }
 
-    get startData() {
-        return this.slideStartNote.data.get(this.data.startRef)
+    get startImport() {
+        return this.slideStartNote.import.get(this.import.startRef)
     }
 
-    get headData() {
-        return this.slideStartNote.data.get(this.data.headRef)
+    get headImport() {
+        return this.slideStartNote.import.get(this.import.headRef)
     }
 
-    get tailData() {
-        return this.slideStartNote.data.get(this.data.tailRef)
+    get tailImport() {
+        return this.slideStartNote.import.get(this.import.tailRef)
     }
 
     get useFallbackSprite() {
@@ -96,26 +111,45 @@ export abstract class SlideConnector extends Archetype {
     }
 
     globalInitialize() {
-        this.start.time = bpmChanges.at(this.startData.beat).time
+        this.start.time = bpmChanges.at(this.startImport.beat).time
 
-        this.head.lane = this.headData.lane
-        this.head.l = this.head.lane - this.headData.size
-        this.head.r = this.head.lane + this.headData.size
+        this.head.lane = this.headImport.lane
+        this.head.l = this.head.lane - this.headImport.size
+        this.head.r = this.head.lane + this.headImport.size
 
-        this.tail.lane = this.tailData.lane
-        this.tail.l = this.tail.lane - this.tailData.size
-        this.tail.r = this.tail.lane + this.tailData.size
+        this.tail.lane = this.tailImport.lane
+        this.tail.l = this.tail.lane - this.tailImport.size
+        this.tail.r = this.tail.lane + this.tailImport.size
 
         if (options.hidden > 0)
             this.visualTime.hidden = this.tail.scaledTime - note.duration * options.hidden
 
-        this.z = getZ(layer.note.connector, this.start.time, this.startData.lane)
+        this.z = getZ(layer.note.connector, this.start.time, this.startImport.lane)
+    }
+
+    updateVisualType() {
+        if (!replay.isReplay) {
+            this.visual = time.now >= this.start.time ? VisualType.Activated : VisualType.Waiting
+            return
+        }
+
+        for (const [, start, end] of slideConnectorReplayKeys) {
+            const startTime = this.import[start]
+            const endTime = this.import[end]
+            if (time.now < startTime || time.now >= endTime) continue
+
+            this.visual = VisualType.Activated
+            return
+        }
+
+        this.visual =
+            time.now >= this.start.time + this.slideStartNote.windows.good.max + input.offset
+                ? VisualType.NotActivated
+                : VisualType.Waiting
     }
 
     renderConnector() {
         if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
-
-        const isActivated = time.now >= this.start.time
 
         const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
 
@@ -157,7 +191,7 @@ export abstract class SlideConnector extends Archetype {
 
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a)
-            } else if (options.connectorAnimation && isActivated) {
+            } else if (options.connectorAnimation && this.visual === VisualType.Activated) {
                 const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2
 
                 this.sprites.normal.draw(layout, this.z, a * normalA)
@@ -177,7 +211,7 @@ export abstract class SlideConnector extends Archetype {
     }
 
     ease(s: number) {
-        return ease(this.data.ease, s)
+        return ease(this.import.ease, s)
     }
 
     getLane(scale: number) {

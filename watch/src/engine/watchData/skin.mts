@@ -1,4 +1,4 @@
-import { SkinSpriteName } from 'sonolus-core'
+import { SkinSpriteName } from '@sonolus/core'
 
 export const skin = defineSkin({
     sprites: {
@@ -42,18 +42,21 @@ export const skin = defineSkin({
         criticalSlideTickNote: 'Sekai Diamond Yellow',
         criticalSlideTickNoteFallback: SkinSpriteName.NoteTickYellow,
 
+        traceFlickNote: 'Sekai Trace Note Red',
         traceFlickNoteLeft: 'Sekai Trace Note Red Left',
         traceFlickNoteMiddle: 'Sekai Trace Note Red Middle',
         traceFlickNoteRight: 'Sekai Trace Note Red Right',
         traceFlickNoteDiamond: 'Sekai Trace Diamond Red',
         traceFlickNoteFallback: SkinSpriteName.NoteTickRed,
 
+        normalTraceNote: 'Sekai Trace Note Green',
         normalTraceNoteLeft: 'Sekai Trace Note Green Left',
         normalTraceNoteMiddle: 'Sekai Trace Note Green Middle',
         normalTraceNoteRight: 'Sekai Trace Note Green Right',
         normalTraceNoteDiamond: 'Sekai Trace Diamond Green',
         normalTraceNoteFallback: SkinSpriteName.NoteTickGreen,
 
+        criticalTraceNote: 'Sekai Trace Note Yellow',
         criticalTraceNoteLeft: 'Sekai Trace Note Yellow Left',
         criticalTraceNoteMiddle: 'Sekai Trace Note Yellow Middle',
         criticalTraceNoteRight: 'Sekai Trace Note Yellow Right',
@@ -120,6 +123,7 @@ export const layer = {
     cover: 1000,
 
     slotGlowEffect: 200,
+    connectorSlotGlowEffect: 190,
 
     note: {
         arrow: 102,

@@ -1,4 +1,4 @@
-import { ParticleEffectName } from 'sonolus-core'
+import { ParticleEffectName } from '@sonolus/core'
 import { options } from '../configuration/options.mjs'
 import { scaledScreen } from './scaledScreen.mjs'
 
@@ -19,6 +19,12 @@ export const particle = defineParticle({
         criticalNoteCircular: ParticleEffectName.NoteCircularTapYellow,
         criticalNoteLinear: ParticleEffectName.NoteLinearTapYellow,
         criticalNoteDirectional: ParticleEffectName.NoteLinearAlternativeYellow,
+
+        normalTraceNoteCircular: 'Sekai Trace Note Circular Green',
+        normalTraceNoteLinear: 'Sekai Trace Note Linear Green',
+
+        criticalTraceNoteCircular: 'Sekai Trace Note Circular Yellow',
+        criticalTraceNoteLinear: 'Sekai Trace Note Linear Yellow',
 
         normalSlideTickNote: ParticleEffectName.NoteCircularAlternativeGreen,
 
@@ -71,4 +77,16 @@ export const linearEffectLayout = ({ lane, shear }: { lane: number; shear: numbe
         y3: t,
         y4: b,
     }
+}
+
+export const flatEffectLayout = ({ lane }: { lane: number }) => {
+    const w = 4 * options.noteEffectSize
+    const h = w * scaledScreen.wToH
+
+    return new Rect({
+        l: lane - w,
+        r: lane + w,
+        b: 1 + h,
+        t: 1 - h,
+    })
 }

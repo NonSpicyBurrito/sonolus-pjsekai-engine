@@ -1,8 +1,8 @@
+import { hash } from '@sonolus/core'
 import { error, log } from 'node:console'
 import { copyFileSync, readFileSync } from 'node:fs'
-import { hash } from 'sonolus-core'
 
-/** @type {import('sonolus.js').SonolusCLIConfig} */
+/** @type {import('@sonolus/sonolus.js').SonolusCLIConfig} */
 export default {
     type: 'play',
 
@@ -12,7 +12,6 @@ export default {
 
             const level = sonolus.db.levels[0]
             level.bgm = {
-                type: 'LevelBgm',
                 hash: hash(readFileSync('./.dev/bgm.mp3')),
                 url: '/bgm.mp3',
             }

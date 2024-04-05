@@ -3,6 +3,7 @@ import { perspectiveLayout } from '../../../../../../../../shared/src/engine/dat
 import { options } from '../../../../../configuration/options.mjs'
 import { getScheduleSFXTime, sfxDistance } from '../../../../effect.mjs'
 import { note } from '../../../../note.mjs'
+import { flatEffectLayout } from '../../../../particle.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
 import { getZ, layer } from '../../../../skin.mjs'
 import { SlideTickNote } from '../SlideTickNote.mjs'
@@ -59,16 +60,16 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         const t = 1 - note.h
 
         if (this.useFallbackSprite) {
-            const l = this.data.lane - this.data.size
-            const r = this.data.lane + this.data.size
+            const l = this.import.lane - this.import.size
+            const r = this.import.lane + this.import.size
 
             perspectiveLayout({ l, r, b, t }).copyTo(this.spriteLayout)
         } else {
             const w = note.h / scaledScreen.wToH
 
             new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
+                l: this.import.lane - w,
+                r: this.import.lane + w,
                 b,
                 t,
             })
@@ -76,7 +77,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
                 .copyTo(this.spriteLayout)
         }
 
-        this.z = getZ(layer.note.tick, this.targetTime, this.data.lane)
+        this.z = getZ(layer.note.tick, this.targetTime, this.import.lane)
     }
 
     updateParallel() {
@@ -119,6 +120,8 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     render() {
+        if (time.now >= this.targetTime) return
+
         this.y = approach(this.visualTime.min, this.visualTime.max, time.scaled)
 
         if (this.useFallbackSprite) {
@@ -142,18 +145,6 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     playNoteEffect() {
-        const w = 4
-        const h = w * scaledScreen.wToH
-
-        this.effect.spawn(
-            new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
-                b: 1 + h,
-                t: 1 - h,
-            }),
-            0.6,
-            false,
-        )
+        this.effect.spawn(flatEffectLayout({ lane: this.import.lane }), 0.6, false)
     }
 }

@@ -11,6 +11,8 @@ export class CriticalActiveSlideConnector extends ActiveSlideConnector {
         fallback: skin.sprites.criticalActiveSlideConnectorFallback,
     }
 
+    glowSprite = skin.sprites.criticalSlotGlow
+
     slideSprites = {
         left: skin.sprites.criticalNoteLeft,
         middle: skin.sprites.criticalNoteMiddle,

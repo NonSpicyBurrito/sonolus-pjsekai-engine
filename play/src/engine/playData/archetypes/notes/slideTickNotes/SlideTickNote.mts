@@ -21,8 +21,8 @@ export abstract class SlideTickNote extends Note {
 
     initialize() {
         getHitbox({
-            l: this.data.lane - this.data.size,
-            r: this.data.lane + this.data.size,
+            l: this.import.lane - this.import.size,
+            r: this.import.lane + this.import.size,
             leniency: this.leniency,
         }).copyTo(this.fullHitbox)
 

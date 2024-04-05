@@ -1,3 +1,5 @@
+import { windows } from '../../../../../../../shared/src/engine/data/windows.mjs'
+import { buckets } from '../../../buckets.mjs'
 import { effect } from '../../../effect.mjs'
 import { particle } from '../../../particle.mjs'
 import { skin } from '../../../skin.mjs'
@@ -14,12 +16,18 @@ export class NormalTapNote extends FlatNote {
 
     clips = {
         perfect: effect.clips.normalPerfect,
+        great: effect.clips.normalGreat,
+        good: effect.clips.normalGood,
     }
 
     effects = {
         circular: particle.effects.normalNoteCircular,
         linear: particle.effects.normalNoteLinear,
     }
+
+    windows = windows.tapNote.normal
+
+    bucket = buckets.normalTapNote
 
     get slotEffect() {
         return archetypes.NormalSlotEffect

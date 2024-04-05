@@ -32,13 +32,13 @@ export abstract class TraceFlickNote extends FlickNote {
             const w = note.h / scaledScreen.wToH
 
             new Rect({
-                l: this.data.lane - w,
-                r: this.data.lane + w,
+                l: this.import.lane - w,
+                r: this.import.lane + w,
                 b: 1 + note.h,
                 t: 1 - note.h,
             }).copyTo(this.diamondLayout)
 
-            this.diamondZ = getZ(layer.note.tick, this.targetTime, this.data.lane)
+            this.diamondZ = getZ(layer.note.tick, this.targetTime, this.import.lane)
         }
     }
 
@@ -101,6 +101,18 @@ export abstract class TraceFlickNote extends FlickNote {
         }
     }
 
+    playNoteEffects() {
+        this.playDirectionalNoteEffect()
+    }
+
+    playSlotEffects() {
+        // removed
+    }
+
+    playLaneEffects() {
+        // removed
+    }
+
     completeTraceFlick(hitTime: number, isCorrectDirection: boolean) {
         this.result.judgment = input.judge(hitTime, this.targetTime, this.windows)
         this.result.accuracy = hitTime - this.targetTime
@@ -108,8 +120,10 @@ export abstract class TraceFlickNote extends FlickNote {
         if (!isCorrectDirection) {
             if (this.result.judgment === Judgment.Perfect) this.result.judgment = Judgment.Great
 
-            if (this.result.accuracy < this.windows.perfect.max)
+            if (this.result.accuracy < this.windows.perfect.max) {
+                this.flickExport('accuracyDiff', this.result.accuracy - this.windows.perfect.max)
                 this.result.accuracy = this.windows.perfect.max
+            }
         }
 
         this.result.bucket.index = this.bucket.index

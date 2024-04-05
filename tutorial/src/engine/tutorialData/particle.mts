@@ -1,4 +1,4 @@
-import { ParticleEffectName } from 'sonolus-core'
+import { ParticleEffectName } from '@sonolus/core'
 import { lane } from '../../../../shared/src/engine/data/lane.mjs'
 import { perspectiveLayout } from '../../../../shared/src/engine/data/utils.mjs'
 import { scaledScreen } from './scaledScreen.mjs'
@@ -16,6 +16,11 @@ export const particle = defineParticle({
         flickNoteCircular: ParticleEffectName.NoteCircularTapRed,
         flickNoteLinear: ParticleEffectName.NoteLinearTapRed,
         flickNoteDirectional: ParticleEffectName.NoteLinearAlternativeRed,
+
+        normalTraceNoteCircular: 'Sekai Trace Note Circular Green',
+        normalTraceNoteLinear: 'Sekai Trace Note Linear Green',
+
+        normalSlideTickNote: ParticleEffectName.NoteCircularAlternativeGreen,
 
         normalSlideConnectorCircular: ParticleEffectName.NoteCircularHoldGreen,
         normalSlideConnectorLinear: ParticleEffectName.NoteLinearHoldGreen,
@@ -42,6 +47,18 @@ const linearEffectLayout = () => {
     return new Rect({ l, r, b, t })
 }
 
+const flatEffectLayout = () => {
+    const w = 4
+    const h = w * scaledScreen.wToH
+
+    return new Rect({
+        l: -w,
+        r: w,
+        b: 1 + h,
+        t: 1 - h,
+    })
+}
+
 export const playLinearNoteEffect = (effect: ParticleEffect) =>
     effect.spawn(linearEffectLayout(), 0.5, false)
 
@@ -50,6 +67,9 @@ export const playCircularNoteEffect = (effect: ParticleEffect) =>
 
 export const playDirectionalNoteEffect = (effect: ParticleEffect) =>
     effect.spawn(linearEffectLayout(), 0.32, false)
+
+export const playFlatNoteEffect = (effect: ParticleEffect) =>
+    effect.spawn(flatEffectLayout(), 0.6, false)
 
 export const playLaneEffects = () =>
     particle.effects.lane.spawn(

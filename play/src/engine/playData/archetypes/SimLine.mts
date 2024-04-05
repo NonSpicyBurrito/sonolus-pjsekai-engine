@@ -6,7 +6,7 @@ import { getZ, layer, skin } from '../skin.mjs'
 import { archetypes } from './index.mjs'
 
 export class SimLine extends Archetype {
-    data = this.defineData({
+    import = this.defineImport({
         aRef: { name: 'a', type: Number },
         bRef: { name: 'b', type: Number },
     })
@@ -29,7 +29,7 @@ export class SimLine extends Archetype {
     preprocess() {
         if (!options.simLineEnabled) return
 
-        this.targetTime = bpmChanges.at(this.aData.beat).time
+        this.targetTime = bpmChanges.at(this.aImport.beat).time
 
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
         this.visualTime.min = this.visualTime.max - note.duration
@@ -53,8 +53,8 @@ export class SimLine extends Archetype {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
-        let l = this.aData.lane
-        let r = this.bData.lane
+        let l = this.aImport.lane
+        let r = this.bImport.lane
         if (l > r) [l, r] = [r, l]
 
         const b = 1 + note.h
@@ -67,6 +67,7 @@ export class SimLine extends Archetype {
 
     updateParallel() {
         if (
+            time.scaled > this.visualTime.max ||
             this.aInfo.state === EntityState.Despawned ||
             this.bInfo.state === EntityState.Despawned
         )
@@ -78,20 +79,20 @@ export class SimLine extends Archetype {
         this.render()
     }
 
-    get aData() {
-        return archetypes.NormalTapNote.data.get(this.data.aRef)
+    get aImport() {
+        return archetypes.NormalTapNote.import.get(this.import.aRef)
     }
 
     get aInfo() {
-        return entityInfos.get(this.data.aRef)
+        return entityInfos.get(this.import.aRef)
     }
 
-    get bData() {
-        return archetypes.NormalTapNote.data.get(this.data.bRef)
+    get bImport() {
+        return archetypes.NormalTapNote.import.get(this.import.bRef)
     }
 
     get bInfo() {
-        return entityInfos.get(this.data.bRef)
+        return entityInfos.get(this.import.bRef)
     }
 
     render() {

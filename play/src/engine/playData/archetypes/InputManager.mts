@@ -7,12 +7,15 @@ const disallowedEmpties = levelMemory({
 
 export const canEmpty = (touch: Touch) => !disallowedEmpties.now.has(touch.id)
 
-export const disallowEmpty = (touch: Touch) => disallowedEmpties.now.add(touch.id)
+export const disallowEmpty = (touch: Touch) => {
+    disallowedEmpties.now.add(touch.id)
+}
 
 const claimStartManager = new ClaimManager()
 
-export const claimStart = (index: number, time: number, hitbox: Rect, fullHitbox: Rect) =>
+export const claimStart = (index: number, time: number, hitbox: Rect, fullHitbox: Rect) => {
     claimStartManager.claim(index, time, hitbox, fullHitbox, (touch) => touch.started)
+}
 
 export const getClaimedStart = (index: number) => claimStartManager.getClaimedTouchIndex(index)
 
@@ -24,7 +27,7 @@ export const claimEnd = (
     hitbox: Rect,
     fullHitbox: Rect,
     targetTime: number,
-) =>
+) => {
     claimEndManager.claim(
         index,
         time,
@@ -32,6 +35,7 @@ export const claimEnd = (
         fullHitbox,
         (touch) => touch.ended && canEnd(touch, targetTime),
     )
+}
 
 export const getClaimedEnd = (index: number) => claimEndManager.getClaimedTouchIndex(index)
 
@@ -47,8 +51,9 @@ const canEnd = (touch: Touch, targetTime: number) => {
     return disallowedEnds.now.getValue(index) < targetTime
 }
 
-export const disallowEnd = (touch: Touch, untilTime: number) =>
+export const disallowEnd = (touch: Touch, untilTime: number) => {
     disallowedEnds.now.set(touch.id, untilTime)
+}
 
 export class InputManager extends SpawnableArchetype({}) {
     updateSequential() {

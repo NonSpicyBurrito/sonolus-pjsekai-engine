@@ -8,7 +8,7 @@ export const print = (
     decimalPlaces: number | 'auto',
     color: PrintColor,
     side: 'left' | 'right',
-) =>
+) => {
     canvas.print({
         value,
         format,
@@ -22,6 +22,7 @@ export const print = (
         horizontalAlign: side === 'left' ? HorizontalAlign.Right : HorizontalAlign.Left,
         background: false,
     })
+}
 
 const getAnchor = (pos: Vec) => {
     const anchor = pos.transform(skin.transform)

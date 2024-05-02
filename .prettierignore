@@ -1,6 +1,6 @@
 **/*.*
 
-!.eslintrc.cjs
+!eslint.config.mjs
 !README.md
 
 !lib/build.mjs

@@ -30,7 +30,7 @@ export const optionsDefinition = {
         def: 6,
         min: 1,
         max: 12,
-        step: 0.1,
+        step: 0.01,
     },
     mirror: {
         name: Text.Mirror,

@@ -22,7 +22,7 @@ export class CriticalSlideStartNote extends SlideStartNote {
     effects = {
         circular: particle.effects.criticalHoldNoteCircular,
         circularFallback: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalHoldNoteEndLinear,
+        linear: particle.effects.criticalHoldNoteStartLinear,
         linearFallback: particle.effects.criticalNoteLinear,
     }
 

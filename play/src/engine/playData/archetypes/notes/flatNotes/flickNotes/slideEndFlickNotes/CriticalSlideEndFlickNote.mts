@@ -20,7 +20,7 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
     }
 
     effects = {
-        circular: particle.effects.criticalFLickNoteCircular
+        circular: particle.effects.criticalFlickNoteCircular,
         circularFallback: particle.effects.criticalNoteCircular,
         linear: particle.effects.criticalFlickNoteLinear,
         linearFallback: particle.effects.criticalNoteLinear,

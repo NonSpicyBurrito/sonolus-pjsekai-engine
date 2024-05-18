@@ -22,8 +22,7 @@ export const particle = defineParticle({
         criticalFlickNoteCircular: 'Sekai Critical Flick Circular',
         criticalFlickNoteLinear: 'Sekai Critical Flick Linear',
         criticalHoldNoteCircular: 'Sekai Critical Hold Circular',
-        criticalHoldNoteStartLinear: 'Sekai Critical Hold Start Linear',
-        criticalHoldNoteEndLinear: 'Sekai Critical Hold End Linear',
+        criticalHoldNoteLinear: 'Sekai Critical Hold Start Linear',
         
         normalTraceNoteCircular: 'Sekai Trace Note Circular Green',
         normalTraceNoteLinear: 'Sekai Trace Note Linear Green',

@@ -40,10 +40,12 @@ export class CriticalSlideStartNote extends SlideStartNote {
         return archetypes.CriticalSlotGlowEffect
     }
 
+    get laneEffect() {
+        return particle.effects.criticalTapLane.exists ? particle.effects.criticalTapLane : particle.effects.lane;
+    }
+
     playLaneEffects() {
-        const laneEffect = particle.effects.criticalTapLane.exists 
-            ? particle.effects.criticalTapLane 
-            : particle.effects.lane;
+        const laneEffect = this.laneEffect;
 
         laneEffect.spawn(
             perspectiveLayout({

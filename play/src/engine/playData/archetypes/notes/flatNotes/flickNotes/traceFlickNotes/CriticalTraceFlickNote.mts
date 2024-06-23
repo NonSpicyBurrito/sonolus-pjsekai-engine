@@ -61,10 +61,12 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
         return archetypes.CriticalSlotGlowEffect
     }
 
+    get laneEffect() {
+        return particle.effects.criticalFlickLane.exists ? particle.effects.criticalFlickLane : particle.effects.lane;
+    }
+
     playLaneEffects() {
-        const laneEffect = particle.effects.criticalFlickLane.exists 
-            ? particle.effects.criticalFlickLane 
-            : particle.effects.lane;
+        const laneEffect = this.laneEffect;
 
         laneEffect.spawn(
             perspectiveLayout({

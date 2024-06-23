@@ -262,8 +262,6 @@ export abstract class FlatNote extends Note {
         )
     }
 
-    abstract playLaneEffects(): void
-
     spawnSlotEffects(startTime: number) {
         const start = Math.floor(this.import.lane - this.import.size)
         const end = Math.ceil(this.import.lane + this.import.size)
@@ -281,4 +279,6 @@ export abstract class FlatNote extends Note {
             size: this.import.size,
         })
     }
+
+    abstract playLaneEffects(): void
 }

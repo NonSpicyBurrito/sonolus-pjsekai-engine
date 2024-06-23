@@ -5,6 +5,7 @@ import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { TapNote } from './TapNote.mjs'
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class NormalTapNote extends TapNote {
     sprites = {
@@ -35,5 +36,17 @@ export class NormalTapNote extends TapNote {
 
     get slotGlowEffect() {
         return archetypes.NormalSlotGlowEffect
+
+    playLaneEffects() {
+        particle.effects.lane.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            0.3,
+            false,
+        )
     }
 }

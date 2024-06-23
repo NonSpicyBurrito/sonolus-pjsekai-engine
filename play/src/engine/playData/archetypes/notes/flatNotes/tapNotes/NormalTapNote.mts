@@ -37,6 +37,8 @@ export class NormalTapNote extends TapNote {
     get slotGlowEffect() {
         return archetypes.NormalSlotGlowEffect
 
+    }
+
     playLaneEffects() {
         particle.effects.lane.spawn(
             perspectiveLayout({

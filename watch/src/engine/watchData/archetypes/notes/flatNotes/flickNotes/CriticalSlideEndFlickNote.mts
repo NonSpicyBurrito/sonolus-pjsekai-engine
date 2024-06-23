@@ -63,7 +63,7 @@ export class CriticalSlideEndFlickNote extends FlickNote {
     }
 
     get laneEffect() {
-        return particle.effects.criticalFlickLane.exists ? particle.effects.criticalFlickLane : particle.effects.lane;
+        return particle.effects.criticalFlickLane ?? particle.effects.lane
     }
 
     playLaneEffects() {

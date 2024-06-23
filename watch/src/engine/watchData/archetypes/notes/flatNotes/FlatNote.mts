@@ -1,4 +1,3 @@
-import { lane } from '../../../../../../../shared/src/engine/data/lane.mjs'
 import { approach } from '../../../../../../../shared/src/engine/data/note.mjs'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../configuration/options.mjs'
@@ -245,7 +244,7 @@ export abstract class FlatNote extends Note {
                 lane: this.import.lane,
                 shear: 0,
             }),
-            0.5,
+            1,
             false,
         )
     }
@@ -258,23 +257,12 @@ export abstract class FlatNote extends Note {
                 w: 1.75,
                 h: 1.05,
             }),
-            0.6,
+            1,
             false,
         )
     }
 
-    playLaneEffects() {
-        particle.effects.lane.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            0.3,
-            false,
-        )
-    }
+    abstract playLaneEffects(): void
 
     spawnSlotEffects(startTime: number) {
         const start = Math.floor(this.import.lane - this.import.size)

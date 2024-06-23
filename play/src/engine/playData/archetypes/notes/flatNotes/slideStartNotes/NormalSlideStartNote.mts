@@ -5,6 +5,7 @@ import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { SlideStartNote } from './SlideStartNote.mjs'
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class NormalSlideStartNote extends SlideStartNote {
     sprites = {
@@ -35,5 +36,18 @@ export class NormalSlideStartNote extends SlideStartNote {
 
     get slotGlowEffect() {
         return archetypes.SlideSlotGlowEffect
+    }
+
+    playLaneEffects() {
+        particle.effects.lane.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        )
     }
 }

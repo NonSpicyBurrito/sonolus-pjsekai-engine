@@ -231,7 +231,7 @@ export abstract class FlatNote extends Note {
                 lane: this.import.lane,
                 shear: 0,
             }),
-            0.5,
+            1,
             false,
         )
     }
@@ -244,7 +244,7 @@ export abstract class FlatNote extends Note {
                 w: 1.75,
                 h: 1.05,
             }),
-            0.6,
+            1,
             false,
         )
     }

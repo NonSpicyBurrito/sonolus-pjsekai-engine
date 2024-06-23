@@ -25,6 +25,11 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
         linear: particle.effects.criticalNoteLinear,
     }
 
+    laneEffects = {
+        lane: particle.effects.criticalFlickLane,
+        laneFallback: particle.effects.lane,
+    }
+
     arrowSprites = {
         up: [
             skin.sprites.criticalArrowUp1,

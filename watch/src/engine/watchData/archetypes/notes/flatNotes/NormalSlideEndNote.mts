@@ -16,13 +16,17 @@ export class NormalSlideEndNote extends FlatNote {
 
     clips = {
         perfect: effect.clips.normalPerfect,
-        great: effect.clips.normalGreat,
-        good: effect.clips.normalGood,
+        great: effect.clips.normalPerfect,
+        good: effect.clips.normalPerfect,
     }
 
     effects = {
         circular: particle.effects.slideNoteCircular,
         linear: particle.effects.slideNoteLinear,
+    }
+
+    laneEffects = {
+        lane: particle.effects.lane,
     }
 
     windows = windows.slideEndNote.normal

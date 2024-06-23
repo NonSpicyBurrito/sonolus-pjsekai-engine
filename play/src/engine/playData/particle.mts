@@ -5,6 +5,8 @@ import { scaledScreen } from './scaledScreen.mjs'
 export const particle = defineParticle({
     effects: {
         lane: ParticleEffectName.LaneLinear,
+        criticalTapLane: 'Sekai Tap Lane Linear Yellow',
+        criticalFlickLane: 'Sekai Flick Lane Linear Yellow',
 
         normalNoteCircular: ParticleEffectName.NoteCircularTapCyan,
         normalNoteLinear: ParticleEffectName.NoteLinearTapCyan,
@@ -12,14 +14,20 @@ export const particle = defineParticle({
         slideNoteCircular: ParticleEffectName.NoteCircularTapGreen,
         slideNoteLinear: ParticleEffectName.NoteLinearTapGreen,
 
+        criticalSlideNoteCircular: 'Sekai Slide Tap Note Circular Yellow',
+        criticalSlideNoteLinear: 'Sekai Slide Tap Note Linear Yellow',
+
         flickNoteCircular: ParticleEffectName.NoteCircularTapRed,
         flickNoteLinear: ParticleEffectName.NoteLinearTapRed,
         flickNoteDirectional: ParticleEffectName.NoteLinearAlternativeRed,
 
+        criticalFlickNoteCircular: 'Sekai Flick Note Circular Yellow',
+        criticalFlickNoteLinear: 'Sekai Flick Note Linear Yellow',
+
         criticalNoteCircular: ParticleEffectName.NoteCircularTapYellow,
         criticalNoteLinear: ParticleEffectName.NoteLinearTapYellow,
         criticalNoteDirectional: ParticleEffectName.NoteLinearAlternativeYellow,
-
+        
         normalTraceNoteCircular: 'Sekai Trace Note Circular Green',
         normalTraceNoteLinear: 'Sekai Trace Note Linear Green',
 

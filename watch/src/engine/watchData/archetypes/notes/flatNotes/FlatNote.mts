@@ -1,4 +1,3 @@
-import { lane } from '../../../../../../../shared/src/engine/data/lane.mjs'
 import { approach } from '../../../../../../../shared/src/engine/data/note.mjs'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../configuration/options.mjs'
@@ -9,6 +8,8 @@ import { getZ, layer } from '../../../skin.mjs'
 import { SlotEffect } from '../../slotEffects/SlotEffect.mjs'
 import { SlotGlowEffect } from '../../slotGlowEffects/SlotGlowEffect.mjs'
 import { Note } from '../Note.mjs'
+import { lane } from '../../../../../../../shared/src/engine/data/lane.mjs'
+import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 
 export abstract class FlatNote extends Note {
     abstract sprites: {
@@ -30,6 +31,11 @@ export abstract class FlatNote extends Note {
         circularFallback?: ParticleEffect
         linear: ParticleEffect
         linearFallback?: ParticleEffect
+    }
+
+    abstract laneEffects: {
+        lane: ParticleEffect
+        laneFallback?: ParticleEffect
     }
 
     abstract slotEffect: SlotEffect
@@ -156,6 +162,12 @@ export abstract class FlatNote extends Note {
             : this.effects.linear.id
     }
 
+    get laneEffectId() {
+        return 'laneFallback' in this.laneEffects && !this.laneEffects.lane.exists
+            ? this.laneEffects.laneFallback.id
+            : this.laneEffects.lane.id
+    }
+
     get hitTime() {
         return this.targetTime + (replay.isReplay ? this.import.accuracy : 0)
     }
@@ -245,7 +257,7 @@ export abstract class FlatNote extends Note {
                 lane: this.import.lane,
                 shear: 0,
             }),
-            0.5,
+            1,
             false,
         )
     }
@@ -258,20 +270,7 @@ export abstract class FlatNote extends Note {
                 w: 1.75,
                 h: 1.05,
             }),
-            0.6,
-            false,
-        )
-    }
-
-    playLaneEffects() {
-        particle.effects.lane.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            0.3,
+            1,
             false,
         )
     }
@@ -292,5 +291,19 @@ export abstract class FlatNote extends Note {
             lane: this.import.lane,
             size: this.import.size,
         })
+    }
+
+    playLaneEffects() {
+        particle.effects.spawn(
+            this.laneEffectId,
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        )
     }
 }

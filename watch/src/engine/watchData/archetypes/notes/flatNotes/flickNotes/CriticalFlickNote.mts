@@ -20,8 +20,15 @@ export class CriticalFlickNote extends FlickNote {
     }
 
     effects = {
-        circular: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalNoteLinear,
+        circular: particle.effects.criticalFlickNoteCircular,
+        circularFallback: particle.effects.criticalNoteCircular,
+        linear: particle.effects.criticalFlickNoteLinear,
+        linearFallback: particle.effects.criticalNoteLinear,
+    }
+
+    laneEffects = {
+        lane: particle.effects.criticalFlickLane,
+        laneFallback: particle.effects.lane,
     }
 
     arrowSprites = {

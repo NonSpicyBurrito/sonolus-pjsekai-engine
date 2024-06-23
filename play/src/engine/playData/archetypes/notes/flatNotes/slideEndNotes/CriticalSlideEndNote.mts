@@ -20,8 +20,15 @@ export class CriticalSlideEndNote extends SlideEndNote {
     }
 
     effects = {
-        circular: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalNoteLinear,
+        circular: particle.effects.criticalSlideNoteCircular,
+        circularFallback: particle.effects.criticalNoteCircular,
+        linear: particle.effects.criticalSlideNoteLinear,
+        linearFallback: particle.effects.criticalNoteLinear,
+    }
+
+    laneEffects = {
+        lane: particle.effects.criticalTapLane,
+        laneFallback: particle.effects.lane,
     }
 
     windows = windows.slideEndNote.critical
@@ -34,5 +41,9 @@ export class CriticalSlideEndNote extends SlideEndNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
+    }
+
+    get laneEffect() {
+        return particle.effects.criticalTapLane ?? particle.effects.lane
     }
 }

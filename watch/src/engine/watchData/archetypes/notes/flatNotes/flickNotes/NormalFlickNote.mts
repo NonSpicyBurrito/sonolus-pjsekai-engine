@@ -58,4 +58,8 @@ export class NormalFlickNote extends FlickNote {
     get slotGlowEffect() {
         return archetypes.FlickSlotGlowEffect
     }
+
+    playLaneEffects() {
+        // removed
+    }
 }

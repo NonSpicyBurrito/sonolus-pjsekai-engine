@@ -25,6 +25,10 @@ export class NormalTapNote extends FlatNote {
         linear: particle.effects.normalNoteLinear,
     }
 
+    laneEffects = {
+        lane: particle.effects.lane,
+    }
+
     windows = windows.tapNote.normal
 
     bucket = buckets.normalTapNote

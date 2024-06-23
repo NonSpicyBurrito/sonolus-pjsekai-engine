@@ -104,12 +104,18 @@ npm install sonolus-pjsekai-engine
 
 ### Particle Effects
 
-| Name                               |
-| ---------------------------------- |
-| `Sekai Trace Note Circular Green`  |
-| `Sekai Trace Note Linear Green`    |
-| `Sekai Trace Note Circular Yellow` |
-| `Sekai Trace Note Linear Yellow`   |
+| Name                                   |
+| -------------------------------------- |
+| `Sekai Trace Note Circular Green`      |
+| `Sekai Trace Note Linear Green`        |
+| `Sekai Trace Note Circular Yellow`     |
+| `Sekai Trace Note Linear Yellow`       |
+| `Sekai Slide Tap Note Circular Yellow` |
+| `Sekai Slide Tap Note Linear Yellow`   |
+| `Sekai Flick Note Circular Yellow`     |
+| `Sekai Flick Note Linear Yellow`       |
+| `Sekai Tap Lane Linear Yellow`         |
+| `Sekai Flick Lane Linear Yellow`       |
 
 ## Documentation
 

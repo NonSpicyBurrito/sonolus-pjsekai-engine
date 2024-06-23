@@ -112,7 +112,7 @@ export abstract class TraceNote extends FlatNote {
         particle.effects.spawn(
             this.circularEffectId,
             flatEffectLayout({ lane: this.import.lane }),
-            0.6,
+            1,
             false,
         )
     }

@@ -54,10 +54,6 @@ export abstract class TraceFlickNote extends FlickNote {
         this.playDirectionalNoteEffect()
     }
 
-    playLaneEffects() {
-        // removed
-    }
-
     spawnSlotEffects() {
         // removed
     }

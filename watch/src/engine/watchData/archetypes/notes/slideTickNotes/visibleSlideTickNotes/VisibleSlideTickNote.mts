@@ -141,6 +141,6 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     }
 
     playNoteEffect() {
-        this.effect.spawn(flatEffectLayout({ lane: this.import.lane }), 0.6, false)
+        this.effect.spawn(flatEffectLayout({ lane: this.import.lane }), 1, false)
     }
 }

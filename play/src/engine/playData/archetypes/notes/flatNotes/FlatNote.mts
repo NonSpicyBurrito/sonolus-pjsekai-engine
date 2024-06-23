@@ -8,6 +8,7 @@ import { getZ, layer } from '../../../skin.mjs'
 import { SlotEffect } from '../../slotEffects/SlotEffect.mjs'
 import { SlotGlowEffect } from '../../slotGlowEffects/SlotGlowEffect.mjs'
 import { Note } from '../Note.mjs'
+import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 
 export abstract class FlatNote extends Note {
     abstract sprites: {

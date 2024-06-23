@@ -59,4 +59,8 @@ export class NormalTraceFlickNote extends TraceFlickNote {
     get slotGlowEffect() {
         return archetypes.FlickSlotGlowEffect
     }
+
+    playSlotEffects() {
+        // removed
+    }
 }

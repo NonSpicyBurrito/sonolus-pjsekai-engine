@@ -63,9 +63,7 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
     }
 
     playLaneEffects() {
-    const laneEffect = particle.effects.criticalFlickLane.exists 
-        ? particle.effects.criticalFlickLane 
-        : particle.effects.lane;
+        const laneEffect = particle.effects.criticalFlickLane || particle.effects.lane;
 
         laneEffect.spawn(
             perspectiveLayout({

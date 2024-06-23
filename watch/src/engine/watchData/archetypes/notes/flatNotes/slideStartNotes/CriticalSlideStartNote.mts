@@ -41,7 +41,7 @@ export class CriticalSlideStartNote extends SlideStartNote {
     }
 
     get laneEffect() {
-        return particle.effects.criticalTapLane.exists ? particle.effects.criticalTapLane : particle.effects.lane;
+        return particle.effects.criticalTapLane ?? particle.effects.lane
     }
 
     playLaneEffects() {

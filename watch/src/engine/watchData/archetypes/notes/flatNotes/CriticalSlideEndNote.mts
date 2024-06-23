@@ -41,7 +41,7 @@ export class CriticalSlideEndNote extends FlatNote {
     }
 
     get laneEffect() {
-        return particle.effects.criticalTapLane.exists ? particle.effects.criticalTapLane : particle.effects.lane;
+        return particle.effects.criticalTapLane ?? particle.effects.lane
     }
 
     playLaneEffects() {

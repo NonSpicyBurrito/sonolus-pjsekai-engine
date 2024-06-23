@@ -35,4 +35,21 @@ export class CriticalSlideStartNote extends SlideStartNote {
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
     }
+
+    playLaneEffects() {
+    const laneEffect = particle.effects.criticalTapLane.exists 
+        ? particle.effects.criticalTapLane 
+        : particle.effects.lane;
+
+        laneEffect.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        );
+    }
 }

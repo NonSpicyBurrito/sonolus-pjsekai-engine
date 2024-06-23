@@ -45,7 +45,7 @@ export class CriticalTapNote extends TapNote {
     }
 
     playLaneEffects() {
-        const laneEffect = this.laneEffect;
+        const laneEffect = this.LaneEffect;
 
         laneEffect.spawn(
             perspectiveLayout({

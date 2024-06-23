@@ -6,7 +6,7 @@ import { skin } from '../../../../../skin.mjs'
 import { archetypes } from '../../../../index.mjs'
 import { SingleFlickNote } from './SingleFlickNote.mjs'
 import { perspectiveLayout } from '../../../../../../../../../shared/src/engine/data/utils.mjs'
-import { lane } from '../../../../lane.mjs'
+import { lane } from '../../../../../lane.mjs'
 
 export class CriticalFlickNote extends SingleFlickNote {
     sprites = {

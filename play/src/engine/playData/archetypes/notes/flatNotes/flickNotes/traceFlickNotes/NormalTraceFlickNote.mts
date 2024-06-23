@@ -60,7 +60,7 @@ export class NormalTraceFlickNote extends TraceFlickNote {
         return archetypes.FlickSlotGlowEffect
     }
 
-    playSlotEffects() {
+    playLaneEffects() {
         // removed
     }
 }

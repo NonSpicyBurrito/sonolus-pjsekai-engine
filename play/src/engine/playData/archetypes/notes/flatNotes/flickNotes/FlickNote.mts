@@ -127,7 +127,7 @@ export abstract class FlickNote extends FlatNote {
                 lane: this.import.lane,
                 shear: this.flickImport.direction,
             }),
-            0.32,
+            1,
             false,
         )
     }

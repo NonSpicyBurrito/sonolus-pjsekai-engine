@@ -41,7 +41,9 @@ export class CriticalSlideEndNote extends SlideEndNote {
     }
 
     playLaneEffects() {
-        const laneEffect = particle.effects.criticalTapLane || particle.effects.lane;
+        const laneEffect = particle.effects.criticalTapLane.exists 
+            ? particle.effects.criticalTapLane 
+            : particle.effects.lane;
 
         laneEffect.spawn(
             perspectiveLayout({

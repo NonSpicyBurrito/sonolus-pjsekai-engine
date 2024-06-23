@@ -63,7 +63,7 @@ export class CriticalFlickNote extends SingleFlickNote {
     }
 
     get laneEffect() {
-        return particle.effects.criticalFlickLane || particle.effects.lane
+        return particle.effects.criticalFlickLane ?? particle.effects.lane
     }
 
     playLaneEffects() {

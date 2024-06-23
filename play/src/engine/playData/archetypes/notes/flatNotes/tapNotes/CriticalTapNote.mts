@@ -5,7 +5,7 @@ import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { TapNote } from './TapNote.mjs'
-import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class CriticalTapNote extends TapNote {
     sprites = {

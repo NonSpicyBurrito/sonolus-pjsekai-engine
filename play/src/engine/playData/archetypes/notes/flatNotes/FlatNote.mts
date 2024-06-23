@@ -1,5 +1,4 @@
 import { approach } from '../../../../../../../shared/src/engine/data/note.mjs'
-import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../configuration/options.mjs'
 import { getScheduleSFXTime, sfxDistance } from '../../../effect.mjs'
 import { getHitbox, lane } from '../../../lane.mjs'
@@ -268,16 +267,6 @@ export abstract class FlatNote extends Note {
         })
     }
 
-    playLaneEffects() {
-        particle.effects.lane.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            0.3,
-            false,
-        )
+    abstract playLaneEffects(): void
     }
 }

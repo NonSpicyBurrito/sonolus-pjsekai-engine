@@ -5,6 +5,8 @@ import { particle } from '../../../particle.mjs'
 import { skin } from '../../../skin.mjs'
 import { archetypes } from '../../index.mjs'
 import { FlatNote } from './FlatNote.mjs'
+import { lane } from '../../../../../../../shared/src/engine/data/lane.mjs'
+import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class CriticalSlideEndNote extends FlatNote {
     sprites = {
@@ -20,8 +22,10 @@ export class CriticalSlideEndNote extends FlatNote {
     }
 
     effects = {
-        circular: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalNoteLinear,
+        circular: particle.effects.criticalSlideNoteCircular,
+        circularFallback: particle.effects.criticalNoteCircular,
+        linear: particle.effects.criticalSlideNoteLinear,
+        linearFallback: particle.effects.criticalNoteLinear,
     }
 
     windows = windows.slideEndNote.critical
@@ -34,5 +38,35 @@ export class CriticalSlideEndNote extends FlatNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
+    }
+
+    playLaneEffects() {
+        const laneEffect = particle.effects.criticalTapLane || particle.effects.lane;
+
+        laneEffect.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        );
+    }
+
+    playLaneEffects() {
+        const laneEffect = particle.effects.criticalTapLane || particle.effects.lane;
+
+        laneEffect.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        );
     }
 }

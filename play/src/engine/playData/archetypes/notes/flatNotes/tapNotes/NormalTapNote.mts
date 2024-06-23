@@ -45,7 +45,7 @@ export class NormalTapNote extends TapNote {
                 b: lane.b,
                 t: lane.t,
             }),
-            0.3,
+            1,
             false,
         )
     }

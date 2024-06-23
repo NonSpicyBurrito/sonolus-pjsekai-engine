@@ -5,6 +5,7 @@ import { particle } from '../../../../../particle.mjs'
 import { skin } from '../../../../../skin.mjs'
 import { archetypes } from '../../../../index.mjs'
 import { SingleFlickNote } from './SingleFlickNote.mjs'
+import { perspectiveLayout } from '../../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class CriticalFlickNote extends SingleFlickNote {
     sprites = {
@@ -56,5 +57,22 @@ export class CriticalFlickNote extends SingleFlickNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
+    }
+
+    playLaneEffects() {
+    const laneEffect = particle.effects.criticalFlickLane.exists 
+        ? particle.effects.criticalFlickLane 
+        : particle.effects.lane;
+
+        laneEffect.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        );
     }
 }

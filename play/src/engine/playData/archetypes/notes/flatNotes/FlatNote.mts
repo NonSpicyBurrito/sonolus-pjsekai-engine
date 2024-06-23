@@ -269,4 +269,3 @@ export abstract class FlatNote extends Note {
 
     abstract playLaneEffects(): void
     }
-}

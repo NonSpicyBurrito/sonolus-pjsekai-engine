@@ -1,7 +1,7 @@
 import { approach } from '../../../../../../../shared/src/engine/data/note.mjs'
 import { options } from '../../../../configuration/options.mjs'
 import { getScheduleSFXTime, sfxDistance } from '../../../effect.mjs'
-import { getHitbox, lane } from '../../../lane.mjs'
+import { getHitbox } from '../../../lane.mjs'
 import { note } from '../../../note.mjs'
 import { circularEffectLayout, linearEffectLayout, particle } from '../../../particle.mjs'
 import { getZ, layer } from '../../../skin.mjs'

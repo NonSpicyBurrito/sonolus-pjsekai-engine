@@ -38,8 +38,10 @@ export class CriticalTapNote extends TapNote {
         return archetypes.CriticalSlotGlowEffect
     }
 
-    get laneEffect() {
-        return particle.effects.criticalTapLane ?? particle.effects.lane
+    get LaneEffect() {
+        return particle.effects.criticalFlickLane !== undefined 
+            ? particle.effects.criticalFlickLane 
+            : particle.effects.lane;
     }
 
     playLaneEffects() {

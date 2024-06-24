@@ -30,20 +30,20 @@ export class CriticalTapNote extends TapNote {
 
     bucket = buckets.criticalTapNote
 
+    get laneEffect() {
+        if (particle.effects.criticalTapLane) {
+            return particle.effects.criticalTapLane;
+        } else {
+            return particle.effects.lane;
+        }
+    }
+
     get slotEffect() {
         return archetypes.CriticalSlotEffect
     }
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
-    }
-
-    get laneEffect() {
-        if (particle.effects.criticalTapLane.exists) {
-            return particle.effects.criticalTapLane;
-        } else {
-            return particle.effects.lane;
-        }
     }
 
     playLaneEffects() {

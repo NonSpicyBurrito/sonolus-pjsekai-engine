@@ -5,8 +5,6 @@ import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { SlideStartNote } from './SlideStartNote.mjs'
-import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
-import { lane } from '../../../../lane.mjs'
 
 export class NormalSlideStartNote extends SlideStartNote {
     sprites = {

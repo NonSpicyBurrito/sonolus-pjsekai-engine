@@ -26,6 +26,11 @@ export class CriticalTapNote extends TapNote {
         linear: particle.effects.criticalNoteLinear,
     }
 
+    laneEffect = {
+        lane: particle.effects.criticalTapLane,
+        laneFallback: particle.effects.lane,
+    }
+
     windows = windows.tapNote.critical
 
     bucket = buckets.criticalTapNote
@@ -38,15 +43,7 @@ export class CriticalTapNote extends TapNote {
         return archetypes.CriticalSlotGlowEffect
     }
 
-    get laneEffect() {
-        return particle.effects.criticalTapLane && !particle.effects.criticalTapLane.exists
-           ? particle.effects.criticalTapLane
-           : particle.effects.lane;
-    }
-
     playLaneEffects() {
-        const laneEffect = this.laneEffect;
-
         laneEffect.spawn(
             perspectiveLayout({
                 l: this.import.lane - this.import.size,

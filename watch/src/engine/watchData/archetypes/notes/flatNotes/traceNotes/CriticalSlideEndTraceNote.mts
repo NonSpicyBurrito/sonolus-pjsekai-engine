@@ -27,6 +27,8 @@ export class CriticalSlideEndTraceNote extends TraceNote {
         linearFallback: particle.effects.criticalNoteLinear,
     }
 
+    laneEffects = {};
+
     windows = windows.slideEndTraceNote.critical
 
     bucket = buckets.criticalSlideEndTraceNote

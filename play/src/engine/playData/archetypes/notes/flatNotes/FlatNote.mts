@@ -1,7 +1,7 @@
 import { approach } from '../../../../../../../shared/src/engine/data/note.mjs'
 import { options } from '../../../../configuration/options.mjs'
 import { getScheduleSFXTime, sfxDistance } from '../../../effect.mjs'
-import { getHitbox } from '../../../lane.mjs'
+import { getHitbox, lane } from '../../../lane.mjs'
 import { note } from '../../../note.mjs'
 import { circularEffectLayout, linearEffectLayout, particle } from '../../../particle.mjs'
 import { getZ, layer } from '../../../skin.mjs'
@@ -32,7 +32,7 @@ export abstract class FlatNote extends Note {
         linearFallback?: ParticleEffect
     }
 
-    abstract laneEffect: {
+    abstract laneEffects: {
         lane: ParticleEffect
         laneFallback?: ParticleEffect
     }
@@ -176,6 +176,12 @@ export abstract class FlatNote extends Note {
             : this.effects.linear.id
     }
 
+    get laneEffectId() {
+        return 'laneFallback' in this.laneEffects && !this.laneEffects.lane.exists
+            ? this.laneEffects.laneFallback.id
+            : this.laneEffects.lane.id
+    }
+
     scheduleSFX() {
         if ('fallback' in this.clips && this.useFallbackClip) {
             this.clips.fallback.schedule(this.targetTime, sfxDistance)
@@ -273,5 +279,17 @@ export abstract class FlatNote extends Note {
         })
     }
 
-    abstract playLaneEffects(): void
+    playLaneEffects() {
+        particle.effects.spawn(
+            this.laneEffectId,
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        )
     }
+}

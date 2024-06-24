@@ -27,6 +27,10 @@ export class NormalSlideEndNote extends SlideEndNote {
         linear: particle.effects.slideNoteLinear,
     }
 
+    laneEffects = {
+        lane: particle.effects.lane,
+    }
+
     windows = windows.slideEndNote.normal
 
     bucket = buckets.normalSlideEndNote

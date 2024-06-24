@@ -27,6 +27,8 @@ export class NormalSlideEndTraceNote extends TraceNote {
         linearFallback: particle.effects.slideNoteLinear,
     }
 
+    laneEffects = {}
+
     windows = windows.slideEndTraceNote.normal
 
     bucket = buckets.normalSlideEndTraceNote

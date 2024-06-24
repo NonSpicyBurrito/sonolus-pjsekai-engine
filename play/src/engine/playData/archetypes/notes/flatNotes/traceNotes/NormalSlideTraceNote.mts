@@ -20,8 +20,6 @@ export class NormalSlideTraceNote extends TraceNote {
         fallback: effect.clips.normalPerfect,
     }
 
-    laneEffects = {}
-
     effects = {
         circular: particle.effects.normalTraceNoteCircular,
         circularFallback: particle.effects.normalSlideTickNote,

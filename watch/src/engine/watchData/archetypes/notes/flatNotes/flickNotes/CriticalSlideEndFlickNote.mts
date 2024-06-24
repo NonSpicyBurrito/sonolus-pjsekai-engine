@@ -5,8 +5,6 @@ import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { FlickNote } from './FlickNote.mjs'
-import { lane } from '../../../../../../../../shared/src/engine/data/lane.mjs'
-import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class CriticalSlideEndFlickNote extends FlickNote {
     sprites = {
@@ -26,6 +24,11 @@ export class CriticalSlideEndFlickNote extends FlickNote {
         circularFallback: particle.effects.criticalNoteCircular,
         linear: particle.effects.criticalFlickNoteLinear,
         linearFallback: particle.effects.criticalNoteLinear,
+    }
+
+    laneEffects = {
+        lane: particle.effects.criticalFlickLane,
+        laneFallback: particle.effects.lane,
     }
 
     arrowSprites = {
@@ -60,24 +63,5 @@ export class CriticalSlideEndFlickNote extends FlickNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
-    }
-
-    get laneEffect() {
-        return particle.effects.criticalFlickLane ?? particle.effects.lane
-    }
-
-    playLaneEffects() {
-        const laneEffect = this.laneEffect;
-
-        laneEffect.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            1,
-            false,
-        );
     }
 }

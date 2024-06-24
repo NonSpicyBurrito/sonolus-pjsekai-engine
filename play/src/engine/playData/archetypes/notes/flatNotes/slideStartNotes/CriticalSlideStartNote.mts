@@ -28,6 +28,11 @@ export class CriticalSlideStartNote extends SlideStartNote {
         linearFallback: particle.effects.criticalNoteLinear,
     }
 
+    laneEffects = {
+        lane: particle.effects.criticalTapLane,
+        laneFallback: particle.effects.lane,
+    }
+
     windows = windows.slideStartNote.critical
 
     bucket = buckets.criticalSlideStartNote
@@ -42,20 +47,5 @@ export class CriticalSlideStartNote extends SlideStartNote {
 
     get laneEffect() {
         return particle.effects.criticalTapLane ?? particle.effects.lane
-    }
-
-    playLaneEffects() {
-        const laneEffect = this.laneEffect;
-
-        laneEffect.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            1,
-            false,
-        );
     }
 }

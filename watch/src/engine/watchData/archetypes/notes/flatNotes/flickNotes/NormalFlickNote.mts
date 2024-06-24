@@ -25,7 +25,7 @@ export class NormalFlickNote extends FlickNote {
         linear: particle.effects.flickNoteLinear,
     }
 
-    laneEffects = {};
+    laneEffects = {}
 
     arrowSprites = {
         up: [

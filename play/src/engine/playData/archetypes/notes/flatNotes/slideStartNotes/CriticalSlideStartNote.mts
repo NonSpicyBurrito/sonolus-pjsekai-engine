@@ -44,8 +44,4 @@ export class CriticalSlideStartNote extends SlideStartNote {
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
     }
-
-    get laneEffect() {
-        return particle.effects.criticalTapLane ?? particle.effects.lane
-    }
 }

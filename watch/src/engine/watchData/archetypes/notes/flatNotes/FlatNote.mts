@@ -8,6 +8,8 @@ import { getZ, layer } from '../../../skin.mjs'
 import { SlotEffect } from '../../slotEffects/SlotEffect.mjs'
 import { SlotGlowEffect } from '../../slotGlowEffects/SlotGlowEffect.mjs'
 import { Note } from '../Note.mjs'
+import { lane } from '../../../../../../../shared/src/engine/data/lane.mjs'
+import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 
 export abstract class FlatNote extends Note {
     abstract sprites: {
@@ -29,6 +31,11 @@ export abstract class FlatNote extends Note {
         circularFallback?: ParticleEffect
         linear: ParticleEffect
         linearFallback?: ParticleEffect
+    }
+
+    abstract laneEffects: {
+        lane: ParticleEffect
+        laneFallback?: ParticleEffect
     }
 
     abstract slotEffect: SlotEffect
@@ -153,6 +160,12 @@ export abstract class FlatNote extends Note {
         return 'linearFallback' in this.effects && !this.effects.linear.exists
             ? this.effects.linearFallback.id
             : this.effects.linear.id
+    }
+
+    get laneEffectId() {
+        return 'laneFallback' in this.laneEffects && !this.laneEffects.lane.exists
+            ? this.laneEffects.laneFallback.id
+            : this.laneEffects.lane.id
     }
 
     get hitTime() {
@@ -280,5 +293,17 @@ export abstract class FlatNote extends Note {
         })
     }
 
-    abstract playLaneEffects(): void
+    playLaneEffects() {
+        particle.effects.spawn(
+            this.laneEffectId,
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            1,
+            false,
+        )
+    }
 }

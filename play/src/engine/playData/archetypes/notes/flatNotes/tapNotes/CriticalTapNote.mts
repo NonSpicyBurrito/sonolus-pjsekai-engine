@@ -40,11 +40,10 @@ export class CriticalTapNote extends TapNote {
 
     get laneEffect() {
         if (particle.effects.criticalTapLane.exists) {
-        return particle.effects.criticalTapLane;
+            return particle.effects.criticalTapLane;
         } else {
-        return particle.effects.lane;
-    }
-}
+            return particle.effects.lane;
+        }
     }
 
     playLaneEffects() {

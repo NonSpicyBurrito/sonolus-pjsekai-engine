@@ -28,6 +28,11 @@ export class CriticalFlickNote extends SingleFlickNote {
         linearFallback: particle.effects.criticalNoteLinear,
     }
 
+    laneEffects = {
+        lane: particle.effects.criticalFlickLane,
+        laneFallback: particle.effects.lane,
+    }
+
     arrowSprites = {
         up: [
             skin.sprites.criticalArrowUp1,
@@ -60,24 +65,5 @@ export class CriticalFlickNote extends SingleFlickNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
-    }
-
-    get laneEffect() {
-        return particle.effects.criticalFlickLane ?? particle.effects.lane
-    }
-
-    playLaneEffects() {
-        const laneEffect = this.laneEffect;
-
-        laneEffect.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            1,
-            false,
-        );
     }
 }

@@ -32,7 +32,7 @@ export abstract class FlatNote extends Note {
         linearFallback?: ParticleEffect
     }
 
-    abstract laneEffects: {
+    abstract laneEffect: {
         lane: ParticleEffect
         laneFallback?: ParticleEffect
     }

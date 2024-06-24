@@ -25,8 +25,6 @@ export class NormalFlickNote extends SingleFlickNote {
         linear: particle.effects.flickNoteLinear,
     }
 
-    laneEffects = {}
-
     arrowSprites = {
         up: [
             skin.sprites.flickArrowUp1,

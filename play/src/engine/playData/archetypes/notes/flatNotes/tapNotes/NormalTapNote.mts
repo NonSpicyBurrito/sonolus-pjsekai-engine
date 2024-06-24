@@ -27,6 +27,10 @@ export class NormalTapNote extends TapNote {
         linear: particle.effects.normalNoteLinear,
     }
 
+    laneEffects = {
+        lane: particle.effects.lane,
+    }
+
     windows = windows.tapNote.normal
 
     bucket = buckets.normalTapNote
@@ -37,19 +41,5 @@ export class NormalTapNote extends TapNote {
 
     get slotGlowEffect() {
         return archetypes.NormalSlotGlowEffect
-
-    }
-
-    playLaneEffects() {
-        particle.effects.lane.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            1,
-            false,
-        )
     }
 }

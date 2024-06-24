@@ -5,8 +5,6 @@ import { particle } from '../../../../../particle.mjs'
 import { skin } from '../../../../../skin.mjs'
 import { archetypes } from '../../../../index.mjs'
 import { TraceFlickNote } from './TraceFlickNote.mjs'
-import { perspectiveLayout } from '../../../../../../../../../shared/src/engine/data/utils.mjs'
-import { lane } from '../../../../../lane.mjs'
 
 export class CriticalTraceFlickNote extends TraceFlickNote {
     sprites = {

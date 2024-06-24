@@ -32,6 +32,11 @@ export abstract class FlatNote extends Note {
         linearFallback?: ParticleEffect
     }
 
+    abstract laneEffects: {
+        lane: ParticleEffect
+        laneFallback?: ParticleEffect
+    }
+
     abstract slotEffect: SlotEffect
     abstract slotGlowEffect: SlotGlowEffect
 

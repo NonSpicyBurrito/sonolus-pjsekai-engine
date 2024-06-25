@@ -1,29 +1,5 @@
 import { EffectClipName } from '@sonolus/core'
 
-const maxInstances = 15
-
-const effectPools: { [key: string]: HTMLAudioElement[] } = {}
-
-Object.values(EffectClipName).forEach((clipName) => {
-    effectPools[clipName] = Array.from({ length: maxInstances }, () => new effect(`path/to/effect/${clipName}.mp3`))
-})
-
-const getNextEffectInstance = (clipName: string): HTMLAudioElement => {
-    const pool = effectPools[clipName]
-    for (const effect of pool) {
-        if (effect.paused) {
-            return effect
-        }
-    }
-    return pool[0]
-}
-
-const playEffect = (clipName: string) => {
-    const audio = getNextAudioInstance(clipName)
-    audio.currentTime = 0
-    audio.play()
-}
-
 export const effect = defineEffect({
     clips: {
         stage: EffectClipName.Stage,
@@ -58,5 +34,3 @@ export const sfxDistance = 0.02
 
 export const getScheduleSFXTime = (targetTime: number) =>
     targetTime - 0.5 - Math.max(audio.offset, 0)
-
-// Example usage: playEffect(effect.clips.normalPerfect)

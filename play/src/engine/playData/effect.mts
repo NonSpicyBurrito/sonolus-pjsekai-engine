@@ -1,36 +1,61 @@
 import { EffectClipName } from '@sonolus/core'
 
-export const effect = defineEffect({
-    clips: {
-        stage: EffectClipName.Stage,
+const MaxInstances = 15
 
-        normalPerfect: EffectClipName.Perfect,
-        normalGreat: EffectClipName.Great,
-        normalGood: EffectClipName.Good,
+const AudioPools: { [key: string]: HTMLAudioElement[] } = {}
 
-        flickPerfect: EffectClipName.PerfectAlternative,
-        flickGreat: EffectClipName.GreatAlternative,
-        flickGood: EffectClipName.GoodAlternative,
+Object.values(EffectClipName).forEach((clipName) => {
+    AudioPools[clipName] = Array.from({ length: MaxInstances }, () => new Audio(clipName))
+})
 
-        normalHold: EffectClipName.Hold,
+const GetNextAudioInstance = (clipName: string): HTMLAudioElement => {
+    const pool = AudioPools[clipName]
+    for (const audio of pool) {
+        if (audio.paused) {
+            return audio
+        }
+    }
+    return pool[0]
+}
 
-        normalTick: 'Sekai Tick',
+const PlayEffect = (clipName: string) => {
+    const audio = GetNextAudioInstance(clipName)
+    audio.currentTime = 0
+    audio.play()
+}
 
-        normalTrace: 'Sekai Trace',
+// Define effects
+export const Effect = DefineEffect({
+    Clips: {
+        Stage: EffectClipName.Stage,
 
-        criticalTap: 'Sekai Critical Tap',
+        NormalPerfect: EffectClipName.Perfect,
+        NormalGreat: EffectClipName.Great,
+        NormalGood: EffectClipName.Good,
 
-        criticalFlick: 'Sekai Critical Flick',
+        FlickPerfect: EffectClipName.PerfectAlternative,
+        FlickGreat: EffectClipName.GreatAlternative,
+        FlickGood: EffectClipName.GoodAlternative,
 
-        criticalHold: 'Sekai Critical Hold',
+        NormalHold: EffectClipName.Hold,
 
-        criticalTick: 'Sekai Critical Tick',
+        NormalTick: 'Sekai Tick',
 
-        criticalTrace: 'Sekai Critical Trace',
+        NormalTrace: 'Sekai Trace',
+
+        CriticalTap: 'Sekai Critical Tap',
+
+        CriticalFlick: 'Sekai Critical Flick',
+
+        CriticalHold: 'Sekai Critical Hold',
+
+        CriticalTick: 'Sekai Critical Tick',
+
+        CriticalTrace: 'Sekai Critical Trace',
     },
 })
 
-export const sfxDistance = 0.02
+export const SfxDistance = 0.02
 
-export const getScheduleSFXTime = (targetTime: number) =>
+export const GetScheduleSfxTime = (targetTime: number) =>
     targetTime - 0.5 - Math.max(audio.offset, 0)

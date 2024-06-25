@@ -28,4 +28,4 @@ export const effect = defineEffect({
     },
 })
 
-export const sfxDistance = 0.02
+export const sfxDistance = 0

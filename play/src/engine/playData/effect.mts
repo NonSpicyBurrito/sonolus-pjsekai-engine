@@ -5,7 +5,7 @@ const maxInstances = 15
 const effectPools: { [key: string]: HTMLAudioElement[] } = {}
 
 Object.values(EffectClipName).forEach((clipName) => {
-    effectPools[clipName] = Array.from({ length: maxInstances }, () => new Effect(`path/to/effect/${clipName}.mp3`))
+    effectPools[clipName] = Array.from({ length: maxInstances }, () => new effect(`path/to/effect/${clipName}.mp3`))
 })
 
 const getNextEffectInstance = (clipName: string): HTMLAudioElement => {

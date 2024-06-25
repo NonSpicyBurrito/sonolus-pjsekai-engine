@@ -2,17 +2,17 @@ import { EffectClipName } from '@sonolus/core'
 
 const maxInstances = 15
 
-const audioPools: { [key: string]: HTMLAudioElement[] } = {}
+const effectPools: { [key: string]: HTMLAudioElement[] } = {}
 
 Object.values(EffectClipName).forEach((clipName) => {
-    audioPools[clipName] = Array.from({ length: maxInstances }, () => new Audio(`path/to/audio/${clipName}.mp3`))
+    effectPools[clipName] = Array.from({ length: maxInstances }, () => new Effect(`path/to/effect/${clipName}.mp3`))
 })
 
-const getNextAudioInstance = (clipName: string): HTMLAudioElement => {
-    const pool = audioPools[clipName]
-    for (const audio of pool) {
-        if (audio.paused) {
-            return audio
+const getNextEffectInstance = (clipName: string): HTMLAudioElement => {
+    const pool = effectPools[clipName]
+    for (const effect of pool) {
+        if (effect.paused) {
+            return effect
         }
     }
     return pool[0]

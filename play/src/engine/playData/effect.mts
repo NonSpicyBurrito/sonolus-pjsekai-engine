@@ -1,15 +1,15 @@
 import { EffectClipName } from '@sonolus/core'
 
-const MaxInstances = 15
+const maxInstances = 15
 
-const AudioPools: { [key: string]: HTMLAudioElement[] } = {}
+const audioPools: { [key: string]: HTMLAudioElement[] } = {}
 
 Object.values(EffectClipName).forEach((clipName) => {
-    AudioPools[clipName] = Array.from({ length: MaxInstances }, () => new Audio(clipName))
+    audioPools[clipName] = Array.from({ length: maxInstances }, () => new Audio(`path/to/audio/${clipName}.mp3`))
 })
 
-const GetNextAudioInstance = (clipName: string): HTMLAudioElement => {
-    const pool = AudioPools[clipName]
+const getNextAudioInstance = (clipName: string): HTMLAudioElement => {
+    const pool = audioPools[clipName]
     for (const audio of pool) {
         if (audio.paused) {
             return audio
@@ -18,44 +18,45 @@ const GetNextAudioInstance = (clipName: string): HTMLAudioElement => {
     return pool[0]
 }
 
-const PlayEffect = (clipName: string) => {
-    const audio = GetNextAudioInstance(clipName)
+const playEffect = (clipName: string) => {
+    const audio = getNextAudioInstance(clipName)
     audio.currentTime = 0
     audio.play()
 }
 
-// Define effects
-export const Effect = DefineEffect({
-    Clips: {
-        Stage: EffectClipName.Stage,
+export const effect = defineEffect({
+    clips: {
+        stage: EffectClipName.Stage,
 
-        NormalPerfect: EffectClipName.Perfect,
-        NormalGreat: EffectClipName.Great,
-        NormalGood: EffectClipName.Good,
+        normalPerfect: EffectClipName.Perfect,
+        normalGreat: EffectClipName.Great,
+        normalGood: EffectClipName.Good,
 
-        FlickPerfect: EffectClipName.PerfectAlternative,
-        FlickGreat: EffectClipName.GreatAlternative,
-        FlickGood: EffectClipName.GoodAlternative,
+        flickPerfect: EffectClipName.PerfectAlternative,
+        flickGreat: EffectClipName.GreatAlternative,
+        flickGood: EffectClipName.GoodAlternative,
 
-        NormalHold: EffectClipName.Hold,
+        normalHold: EffectClipName.Hold,
 
-        NormalTick: 'Sekai Tick',
+        normalTick: 'Sekai Tick',
 
-        NormalTrace: 'Sekai Trace',
+        normalTrace: 'Sekai Trace',
 
-        CriticalTap: 'Sekai Critical Tap',
+        criticalTap: 'Sekai Critical Tap',
 
-        CriticalFlick: 'Sekai Critical Flick',
+        criticalFlick: 'Sekai Critical Flick',
 
-        CriticalHold: 'Sekai Critical Hold',
+        criticalHold: 'Sekai Critical Hold',
 
-        CriticalTick: 'Sekai Critical Tick',
+        criticalTick: 'Sekai Critical Tick',
 
-        CriticalTrace: 'Sekai Critical Trace',
+        criticalTrace: 'Sekai Critical Trace',
     },
 })
 
-export const SfxDistance = 0.02
+export const sfxDistance = 0.02
 
-export const GetScheduleSfxTime = (targetTime: number) =>
+export const getScheduleSfxTime = (targetTime: number) =>
     targetTime - 0.5 - Math.max(audio.offset, 0)
+
+// Example usage: playEffect(effect.clips.normalPerfect)

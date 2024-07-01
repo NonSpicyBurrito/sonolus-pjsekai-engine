@@ -15,7 +15,7 @@ export class CriticalSlideStartNote extends SlideStartNote {
     }
 
     clips = {
-        perfect: effect.clips.criticalTap,
+        perfect: effect.clips.normalPerfect,
         fallback: effect.clips.normalPerfect,
     }
 

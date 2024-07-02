@@ -16,8 +16,6 @@ export class NormalSlideEndNote extends FlatNote {
 
     clips = {
         perfect: effect.clips.normalPerfect,
-        great: effect.clips.normalPerfect,
-        good: effect.clips.normalPerfect,
     }
 
     effects = {

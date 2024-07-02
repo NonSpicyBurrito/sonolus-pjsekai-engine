@@ -15,7 +15,7 @@ export class CriticalSlideEndNote extends FlatNote {
     }
 
     clips = {
-        perfect: effect.clips.criticalTap,
+        perfect: effect.clips.normalPerfect,
         fallback: effect.clips.normalPerfect,
     }
 

@@ -16,8 +16,6 @@ export class NormalSlideStartNote extends SlideStartNote {
 
     clips = {
         perfect: effect.clips.normalPerfect,
-        great: effect.clips.normalPerfect,
-        good: effect.clips.normalPerfect,
     }
 
     effects = {

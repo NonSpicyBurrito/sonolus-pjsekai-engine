@@ -10,7 +10,7 @@ export default {
         try {
             copyFileSync('./shared/src/level/bgm.mp3', './.dev/bgm.mp3')
 
-            const level = sonolus.db.levels[0]
+            const level = sonolus.level.items[0]
             level.bgm = {
                 hash: hash(readFileSync('./.dev/bgm.mp3')),
                 url: '/bgm.mp3',

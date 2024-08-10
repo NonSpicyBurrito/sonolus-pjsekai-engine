@@ -80,7 +80,12 @@ export abstract class FlatNote extends Note {
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
         this.visualTime.min = this.visualTime.max - note.duration
 
-        this.spawnTime = this.visualTime.min
+        this.inputTime.min = this.targetTime + this.windows.good.min + input.offset
+
+        this.spawnTime = Math.min(
+            this.visualTime.min,
+            timeScaleChanges.at(this.inputTime.min).scaledTime,
+        )
 
         if (this.shouldScheduleSFX) this.scheduleSFX()
     }
@@ -89,7 +94,6 @@ export abstract class FlatNote extends Note {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
-        this.inputTime.min = this.targetTime + this.windows.good.min + input.offset
         this.inputTime.max = this.targetTime + this.windows.good.max + input.offset
 
         const l = this.import.lane - this.import.size

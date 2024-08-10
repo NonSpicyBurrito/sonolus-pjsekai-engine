@@ -38,7 +38,10 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
         this.visualTime.min = this.visualTime.max - note.duration
 
-        this.spawnTime = this.visualTime.min
+        this.spawnTime = Math.min(
+            this.visualTime.min,
+            timeScaleChanges.at(this.inputTime).scaledTime,
+        )
 
         if (this.shouldScheduleSFX) this.scheduleSFX()
     }

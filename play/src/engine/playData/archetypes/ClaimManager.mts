@@ -15,7 +15,7 @@ export class ClaimManager {
         fullHitbox: Rect,
         checkTouch: (touch: Touch) => boolean,
     ) {
-        // eslint-disable-next-line no-constant-condition, @typescript-eslint/no-unnecessary-condition
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         while (true) {
             const touchIndex = this.findBestTouchIndex(time, hitbox, fullHitbox, checkTouch)
             if (touchIndex === -1) return

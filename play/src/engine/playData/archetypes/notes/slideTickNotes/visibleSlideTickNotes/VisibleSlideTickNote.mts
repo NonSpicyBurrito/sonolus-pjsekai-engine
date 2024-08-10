@@ -1,7 +1,7 @@
 import { approach } from '../../../../../../../../shared/src/engine/data/note.mjs'
 import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../../configuration/options.mjs'
-import { getScheduleSFXTime, sfxDistance } from '../../../../effect.mjs'
+import { sfxDistance } from '../../../../effect.mjs'
 import { note } from '../../../../note.mjs'
 import { flatEffectLayout } from '../../../../particle.mjs'
 import { scaledScreen } from '../../../../scaledScreen.mjs'
@@ -21,15 +21,11 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
 
     abstract effect: ParticleEffect
 
-    scheduleSFXTime = this.entityMemory(Number)
-
     visualTime = this.entityMemory({
         min: Number,
         max: Number,
         hidden: Number,
     })
-
-    hasSFXScheduled = this.entityMemory(Boolean)
 
     spriteLayout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
@@ -39,15 +35,12 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     preprocess() {
         super.preprocess()
 
-        this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
-
         this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
         this.visualTime.min = this.visualTime.max - note.duration
 
-        this.spawnTime = Math.min(
-            this.visualTime.min,
-            timeScaleChanges.at(this.scheduleSFXTime).scaledTime,
-        )
+        this.spawnTime = this.visualTime.min
+
+        if (this.shouldScheduleSFX) this.scheduleSFX()
     }
 
     initialize() {
@@ -84,9 +77,6 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         super.updateParallel()
         if (this.despawn) return
 
-        if (this.shouldScheduleSFX && !this.hasSFXScheduled && time.now >= this.scheduleSFXTime)
-            this.scheduleSFX()
-
         if (time.scaled < this.visualTime.min) return
         if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
 
@@ -115,8 +105,6 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         } else {
             this.clips.tick.schedule(this.targetTime, sfxDistance)
         }
-
-        this.hasSFXScheduled = true
     }
 
     render() {

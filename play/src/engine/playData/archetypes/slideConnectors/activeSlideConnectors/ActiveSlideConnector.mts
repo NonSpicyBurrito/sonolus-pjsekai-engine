@@ -1,6 +1,6 @@
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../configuration/options.mjs'
-import { effect, getScheduleSFXTime } from '../../../effect.mjs'
+import { effect } from '../../../effect.mjs'
 import { note } from '../../../note.mjs'
 import { circularEffectLayout, linearEffectLayout, particle } from '../../../particle.mjs'
 import { scaledScreen } from '../../../scaledScreen.mjs'
@@ -27,10 +27,6 @@ export abstract class ActiveSlideConnector extends SlideConnector {
         linear: ParticleEffect
     }
 
-    scheduleSFXTime = this.entityMemory(Number)
-
-    hasSFXScheduled = this.entityMemory(Boolean)
-
     sfxInstanceId = this.entityMemory(LoopedEffectClipInstanceId)
     effectInstanceIds = this.entityMemory({
         circular: ParticleEffectInstanceId,
@@ -44,12 +40,7 @@ export abstract class ActiveSlideConnector extends SlideConnector {
     preprocess() {
         super.preprocess()
 
-        this.scheduleSFXTime = getScheduleSFXTime(this.head.time)
-
-        this.spawnTime = Math.min(
-            this.visualTime.min,
-            timeScaleChanges.at(this.scheduleSFXTime).scaledTime,
-        )
+        if (this.shouldScheduleSFX) this.scheduleSFX()
     }
 
     initialize() {
@@ -67,9 +58,6 @@ export abstract class ActiveSlideConnector extends SlideConnector {
             this.despawn = true
             return
         }
-
-        if (this.shouldScheduleSFX && !this.hasSFXScheduled && time.now >= this.scheduleSFXTime)
-            this.scheduleSFX()
 
         if (time.scaled < this.visualTime.min) return
 
@@ -160,8 +148,6 @@ export abstract class ActiveSlideConnector extends SlideConnector {
             ? this.clips.fallback.scheduleLoop(this.head.time)
             : this.clips.hold.scheduleLoop(this.head.time)
         effect.clips.scheduleStopLoop(id, this.tail.time)
-
-        this.hasSFXScheduled = true
     }
 
     playSFX() {

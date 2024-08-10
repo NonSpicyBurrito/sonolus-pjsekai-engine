@@ -31,6 +31,3 @@ export const effect = defineEffect({
 })
 
 export const sfxDistance = 0.02
-
-export const getScheduleSFXTime = (targetTime: number) =>
-    targetTime - 0.5 - Math.max(audio.offset, 0)

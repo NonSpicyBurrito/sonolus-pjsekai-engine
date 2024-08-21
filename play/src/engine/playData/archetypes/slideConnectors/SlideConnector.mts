@@ -75,6 +75,9 @@ export abstract class SlideConnector extends Archetype {
         this.head.time = bpmChanges.at(this.headImport.beat).time
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime
 
+        this.tail.time = bpmChanges.at(this.tailImport.beat).time
+        this.tail.scaledTime = timeScaleChanges.at(this.tail.time).scaledTime
+
         this.visualTime.min = this.head.scaledTime - note.duration
 
         this.spawnTime = this.visualTime.min
@@ -95,9 +98,7 @@ export abstract class SlideConnector extends Archetype {
         this.head.l = this.head.lane - this.headImport.size
         this.head.r = this.head.lane + this.headImport.size
 
-        this.tail.time = bpmChanges.at(this.tailImport.beat).time
         this.tail.lane = this.tailImport.lane
-        this.tail.scaledTime = timeScaleChanges.at(this.tail.time).scaledTime
         this.tail.l = this.tail.lane - this.tailImport.size
         this.tail.r = this.tail.lane + this.tailImport.size
 

@@ -15,7 +15,7 @@ export default {
                 hash: hash(readFileSync('./.dev/bgm.mp3')),
                 url: '/bgm.mp3',
             }
-        } catch (_) {
+        } catch {
             error('Error: failed to setup bgm, using fallback')
             log()
         }

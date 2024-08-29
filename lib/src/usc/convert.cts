@@ -369,6 +369,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
     const connectors: Intermediate[] = []
 
     const start = cis[0]
+    const end = cis[cis.length - 1]
 
     for (const [i, joint] of joints.entries()) {
         if (i === 0) continue
@@ -386,6 +387,7 @@ const slide: Handler<USCSlideNote> = (object, append) => {
                   : 'NormalSlideConnector',
             data: {
                 start,
+                end,
                 head,
                 tail: joint,
                 ease: eases[head.ease],

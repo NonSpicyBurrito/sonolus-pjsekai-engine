@@ -30,6 +30,7 @@ export abstract class SlideConnector extends Archetype {
 
     import = this.defineImport({
         startRef: { name: 'start', type: Number },
+        endRef: { name: 'end', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },
@@ -39,6 +40,11 @@ export abstract class SlideConnector extends Archetype {
 
     start = this.entityMemory({
         time: Number,
+        scaledTime: Number,
+    })
+    end = this.entityMemory({
+        time: Number,
+        scaledTime: Number,
     })
     head = this.entityMemory({
         time: Number,
@@ -93,6 +99,10 @@ export abstract class SlideConnector extends Archetype {
 
     initialize() {
         this.start.time = bpmChanges.at(this.startImport.beat).time
+        this.start.scaledTime = timeScaleChanges.at(this.start.time).scaledTime
+
+        this.end.time = bpmChanges.at(this.endImport.beat).time
+        this.end.scaledTime = timeScaleChanges.at(this.end.time).scaledTime
 
         this.head.lane = this.headImport.lane
         this.head.l = this.head.lane - this.headImport.size
@@ -157,6 +167,10 @@ export abstract class SlideConnector extends Archetype {
 
     get startSharedMemory() {
         return this.slideStartNote.sharedMemory.get(this.import.startRef)
+    }
+
+    get endImport() {
+        return this.slideStartNote.import.get(this.import.endRef)
     }
 
     get headImport() {
@@ -246,7 +260,7 @@ export abstract class SlideConnector extends Archetype {
             }
 
             const a =
-                this.getAlpha(this.head.scaledTime, this.tail.scaledTime, scaledTime.min) *
+                this.getAlpha(this.start.scaledTime, this.end.scaledTime, scaledTime.min) *
                 options.connectorAlpha
 
             if (this.useFallbackSprite) {

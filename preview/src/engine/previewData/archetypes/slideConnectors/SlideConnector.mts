@@ -12,12 +12,18 @@ export abstract class SlideConnector extends Archetype {
 
     import = this.defineImport({
         startRef: { name: 'start', type: Number },
+        endRef: { name: 'end', type: Number },
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },
     })
 
     render() {
+        const ft = {
+            min: bpmChanges.at(this.startImport.beat).time,
+            max: bpmChanges.at(this.endImport.beat).time,
+        }
+
         const t = {
             min: bpmChanges.at(this.headImport.beat).time,
             max: bpmChanges.at(this.tailImport.beat).time,
@@ -74,7 +80,7 @@ export abstract class SlideConnector extends Archetype {
                     p4: pos.min.translate(Math.lerp(r.min, r.max, s.min), 0),
                 })
 
-                const a = this.getAlpha(t.min, t.max, st.min) * options.connectorAlpha
+                const a = this.getAlpha(ft.min, ft.max, st.min) * options.connectorAlpha
 
                 if (this.useFallbackSprite) {
                     this.sprites.fallback.draw(layout, z, a)
@@ -91,6 +97,10 @@ export abstract class SlideConnector extends Archetype {
 
     get startImport() {
         return archetypes.NormalTapNote.import.get(this.import.startRef)
+    }
+
+    get endImport() {
+        return archetypes.NormalTapNote.import.get(this.import.endRef)
     }
 
     get headImport() {

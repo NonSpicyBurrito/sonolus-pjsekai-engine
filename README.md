@@ -121,30 +121,6 @@ Package version.
 
 Partial database engine item compatible with [sonolus-express](https://github.com/NonSpicyBurrito/sonolus-express).
 
-### `engineConfigurationPath`
-
-Path to Engine Configuration file.
-
-### `enginePlayDataPath`
-
-Path to Engine Play Data file.
-
-### `engineWatchDataPath`
-
-Path to Engine Watch Data file.
-
-### `enginePreviewDataPath`
-
-Path to Engine Preview Data file.
-
-### `engineTutorialDataPath`
-
-Path to Engine Tutorial Data file.
-
-### `engineThumbnailPath`
-
-Path to Engine Thumbnail file.
-
 ### `susToUSC(sus)`
 
 Converts sus chart to USC (Universal Sekai Chart).
@@ -157,3 +133,16 @@ Converts USC (Universal Sekai Chart) to Level Data.
 
 -   `usc`: usc chart.
 -   `offset`: offset (default: `0`).
+
+### Assets
+
+The following assets are exposed as package entry points:
+
+-   `EngineConfiguration`
+-   `EnginePlayData`
+-   `EngineWatchData`
+-   `EnginePreviewData`
+-   `EngineTutorialData`
+-   `EngineThumbnail`
+
+In Node.js, you can obtain path to assets using `require.resolve('sonolus-pjsekai-engine/EngineConfiguration')` or `import.meta.resolve('sonolus-pjsekai-engine/EngineConfiguration')`.

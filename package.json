@@ -8,10 +8,18 @@
   "keywords": [
     "Sonolus"
   ],
-  "main": "dist/index.cjs",
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": "./dist/index.cjs",
+    "./EngineConfiguration": "./dist/EngineConfiguration",
+    "./EnginePlayData": "./dist/EnginePlayData",
+    "./EngineWatchData": "./dist/EngineWatchData",
+    "./EnginePreviewData": "./dist/EnginePreviewData",
+    "./EngineTutorialData": "./dist/EngineTutorialData",
+    "./EngineThumbnail": "./dist/thumbnail.png"
+  },
   "scripts": {
     "dev:play": "sonolus-cli --dev ./play",
     "dev:watch": "sonolus-cli --dev ./watch",

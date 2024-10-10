@@ -17,7 +17,9 @@
     "dev:watch": "sonolus-cli --dev ./watch",
     "dev:preview": "sonolus-cli --dev ./preview",
     "dev:tutorial": "sonolus-cli --dev ./tutorial",
-    "prebuild": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./watch --noEmit && tsc -p ./preview --noEmit && tsc -p ./tutorial --noEmit && eslint . && prettier . --check",
+    "check-type": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./watch --noEmit && tsc -p ./preview --noEmit && tsc -p ./tutorial --noEmit",
+    "check-lint": "eslint .",
+    "check-format": "prettier . --check",
     "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./watch && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.mjs"
   },
   "dependencies": {

@@ -1,10 +1,24 @@
+export type Windows = {
+    perfect: Range
+    great: Range
+    good: Range
+}
+
+const toMs = ({ min, max }: Range) => new Range(Math.round(min * 1000), Math.round(max * 1000))
+
+export const toBucketWindows = (windows: Windows) => ({
+    perfect: toMs(windows.perfect),
+    great: toMs(windows.great),
+    good: toMs(windows.good),
+})
+
 type Frames = number | [min: number, max: number]
 
 const fromFrames = (perfect: Frames, great: Frames, good: Frames) => {
     const toWindow = (frames: Frames) =>
         typeof frames === 'number'
-            ? { min: -frames / 60, max: frames / 60 }
-            : { min: -frames[0] / 60, max: frames[1] / 60 }
+            ? Range.one.mul(frames).div(60)
+            : new Range(-frames[0], frames[1]).div(60)
 
     return {
         perfect: toWindow(perfect),

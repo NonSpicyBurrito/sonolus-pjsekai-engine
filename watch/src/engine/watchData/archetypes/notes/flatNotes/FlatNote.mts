@@ -1,6 +1,7 @@
 import { lane } from '../../../../../../../shared/src/engine/data/lane.mjs'
 import { approach } from '../../../../../../../shared/src/engine/data/note.mjs'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
+import { toBucketWindows, Windows } from '../../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../../configuration/options.mjs'
 import { sfxDistance } from '../../../effect.mjs'
 import { note } from '../../../note.mjs'
@@ -35,7 +36,7 @@ export abstract class FlatNote extends Note {
     abstract slotEffect: SlotEffect
     abstract slotGlowEffect: SlotGlowEffect
 
-    abstract windows: JudgmentWindows
+    abstract windows: Windows
 
     abstract bucket: Bucket
 
@@ -43,11 +44,8 @@ export abstract class FlatNote extends Note {
         despawnTime: Number,
     })
 
-    visualTime = this.entityMemory({
-        min: Number,
-        max: Number,
-        hidden: Number,
-    })
+    visualTime = this.entityMemory(Range)
+    hiddenTime = this.entityMemory(Number)
 
     initialized = this.entityMemory(Boolean)
 
@@ -61,16 +59,7 @@ export abstract class FlatNote extends Note {
     y = this.entityMemory(Number)
 
     globalPreprocess() {
-        const toMs = ({ min, max }: RangeLike) => ({
-            min: Math.round(min * 1000),
-            max: Math.round(max * 1000),
-        })
-
-        this.bucket.set({
-            perfect: toMs(this.windows.perfect),
-            great: toMs(this.windows.great),
-            good: toMs(this.windows.good),
-        })
+        this.bucket.set(toBucketWindows(this.windows))
 
         this.life.miss = -80
     }
@@ -78,8 +67,9 @@ export abstract class FlatNote extends Note {
     preprocess() {
         super.preprocess()
 
-        this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
-        this.visualTime.min = this.visualTime.max - note.duration
+        this.visualTime.copyFrom(
+            Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime),
+        )
 
         this.sharedMemory.despawnTime = timeScaleChanges.at(this.hitTime).scaledTime
 
@@ -119,7 +109,7 @@ export abstract class FlatNote extends Note {
     }
 
     updateParallel() {
-        if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
+        if (options.hidden > 0 && time.scaled > this.hiddenTime) return
 
         this.render()
     }
@@ -162,7 +152,7 @@ export abstract class FlatNote extends Note {
 
     globalInitialize() {
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
+            this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         const l = this.import.lane - this.import.size
         const r = this.import.lane + this.import.size

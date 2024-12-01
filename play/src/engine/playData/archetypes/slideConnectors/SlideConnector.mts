@@ -65,8 +65,8 @@ export abstract class SlideConnector extends Archetype {
 
     visualTime = this.entityMemory({
         min: Number,
-        hidden: Number,
     })
+    hiddenTime = this.entityMemory(Number)
 
     spawnTime = this.entityMemory(Number)
 
@@ -113,7 +113,7 @@ export abstract class SlideConnector extends Archetype {
         this.tail.r = this.tail.lane + this.tailImport.size
 
         if (options.hidden > 0)
-            this.visualTime.hidden = this.tail.scaledTime - note.duration * options.hidden
+            this.hiddenTime = this.tail.scaledTime - note.duration * options.hidden
 
         this.z = getZ(layer.note.connector, this.start.time, this.startImport.lane)
 
@@ -223,7 +223,7 @@ export abstract class SlideConnector extends Archetype {
     }
 
     renderConnector() {
-        if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
+        if (options.hidden > 0 && time.scaled > this.hiddenTime) return
 
         const hiddenDuration = options.hidden > 0 ? note.duration * options.hidden : 0
 

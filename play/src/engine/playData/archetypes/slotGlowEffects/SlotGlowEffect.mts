@@ -12,14 +12,8 @@ export abstract class SlotGlowEffect extends SpawnableArchetype({
     endTime = this.entityMemory(Number)
 
     layout = this.entityMemory({
-        l: {
-            min: Number,
-            max: Number,
-        },
-        r: {
-            min: Number,
-            max: Number,
-        },
+        l: Range,
+        r: Range,
         h: Number,
     })
     z = this.entityMemory(Number)

@@ -21,11 +21,8 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
 
     abstract effect: ParticleEffect
 
-    visualTime = this.entityMemory({
-        min: Number,
-        max: Number,
-        hidden: Number,
-    })
+    visualTime = this.entityMemory(Range)
+    hiddenTime = this.entityMemory(Number)
 
     spriteLayout = this.entityMemory(Quad)
     z = this.entityMemory(Number)
@@ -35,8 +32,9 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
     preprocess() {
         super.preprocess()
 
-        this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
-        this.visualTime.min = this.visualTime.max - note.duration
+        this.visualTime.copyFrom(
+            Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime),
+        )
 
         this.spawnTime = Math.min(
             this.visualTime.min,
@@ -50,7 +48,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         super.initialize()
 
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
+            this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         const b = 1 + note.h
         const t = 1 - note.h
@@ -81,7 +79,7 @@ export abstract class VisibleSlideTickNote extends SlideTickNote {
         if (this.despawn) return
 
         if (time.scaled < this.visualTime.min) return
-        if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
+        if (options.hidden > 0 && time.scaled > this.hiddenTime) return
 
         this.render()
     }

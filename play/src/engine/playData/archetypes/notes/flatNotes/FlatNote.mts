@@ -1,5 +1,6 @@
 import { approach } from '../../../../../../../shared/src/engine/data/note.mjs'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
+import { toBucketWindows, Windows } from '../../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../../configuration/options.mjs'
 import { sfxDistance } from '../../../effect.mjs'
 import { getHitbox, lane } from '../../../lane.mjs'
@@ -35,20 +36,14 @@ export abstract class FlatNote extends Note {
     abstract slotEffect: SlotEffect
     abstract slotGlowEffect: SlotGlowEffect
 
-    abstract windows: JudgmentWindows
+    abstract windows: Windows
 
     abstract bucket: Bucket
 
-    visualTime = this.entityMemory({
-        min: Number,
-        max: Number,
-        hidden: Number,
-    })
+    visualTime = this.entityMemory(Range)
+    hiddenTime = this.entityMemory(Number)
 
-    inputTime = this.entityMemory({
-        min: Number,
-        max: Number,
-    })
+    inputTime = this.entityMemory(Range)
 
     spriteLayouts = this.entityMemory({
         left: Quad,
@@ -60,16 +55,7 @@ export abstract class FlatNote extends Note {
     y = this.entityMemory(Number)
 
     globalPreprocess() {
-        const toMs = ({ min, max }: RangeLike) => ({
-            min: Math.round(min * 1000),
-            max: Math.round(max * 1000),
-        })
-
-        this.bucket.set({
-            perfect: toMs(this.windows.perfect),
-            great: toMs(this.windows.great),
-            good: toMs(this.windows.good),
-        })
+        this.bucket.set(toBucketWindows(this.windows))
 
         this.life.miss = -80
     }
@@ -77,10 +63,11 @@ export abstract class FlatNote extends Note {
     preprocess() {
         super.preprocess()
 
-        this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
-        this.visualTime.min = this.visualTime.max - note.duration
+        this.visualTime.copyFrom(
+            Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime),
+        )
 
-        this.inputTime.min = this.targetTime + this.windows.good.min + input.offset
+        this.inputTime.copyFrom(this.windows.good.add(this.targetTime).add(input.offset))
 
         this.spawnTime = Math.min(
             this.visualTime.min,
@@ -92,7 +79,7 @@ export abstract class FlatNote extends Note {
 
     initialize() {
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
+            this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         this.inputTime.max = this.targetTime + this.windows.good.max + input.offset
 
@@ -126,7 +113,7 @@ export abstract class FlatNote extends Note {
         if (this.despawn) return
 
         if (time.scaled < this.visualTime.min) return
-        if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
+        if (options.hidden > 0 && time.scaled > this.hiddenTime) return
 
         this.render()
     }

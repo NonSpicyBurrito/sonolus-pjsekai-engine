@@ -13,11 +13,8 @@ export class SimLine extends Archetype {
 
     targetTime = this.entityMemory(Number)
 
-    visualTime = this.entityMemory({
-        min: Number,
-        max: Number,
-        hidden: Number,
-    })
+    visualTime = this.entityMemory(Range)
+    hiddenTime = this.entityMemory(Number)
 
     initialized = this.entityMemory(Boolean)
 
@@ -29,8 +26,9 @@ export class SimLine extends Archetype {
 
         this.targetTime = bpmChanges.at(this.aImport.beat).time
 
-        this.visualTime.max = timeScaleChanges.at(this.targetTime).scaledTime
-        this.visualTime.min = this.visualTime.max - note.duration
+        this.visualTime.copyFrom(
+            Range.l.mul(note.duration).add(timeScaleChanges.at(this.targetTime).scaledTime),
+        )
     }
 
     spawnTime() {
@@ -55,7 +53,7 @@ export class SimLine extends Archetype {
     }
 
     updateParallel() {
-        if (options.hidden > 0 && time.scaled > this.visualTime.hidden) return
+        if (options.hidden > 0 && time.scaled > this.hiddenTime) return
 
         this.render()
     }
@@ -78,7 +76,7 @@ export class SimLine extends Archetype {
 
     globalInitialize() {
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
+            this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         let l = this.aImport.lane
         let r = this.bImport.lane

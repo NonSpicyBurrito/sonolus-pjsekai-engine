@@ -4,8 +4,8 @@ A recreation of Project Sekai: Colorful Stage! engine in [Sonolus](https://sonol
 
 ## Links
 
--   [Sonolus Website](https://sonolus.com)
--   [Sonolus Wiki](https://github.com/NonSpicyBurrito/sonolus-wiki)
+- [Sonolus Website](https://sonolus.com)
+- [Sonolus Wiki](https://github.com/NonSpicyBurrito/sonolus-wiki)
 
 ## Installation
 
@@ -125,24 +125,24 @@ Partial database engine item compatible with [sonolus-express](https://github.co
 
 Converts sus chart to USC (Universal Sekai Chart).
 
--   `sus`: sus chart.
+- `sus`: sus chart.
 
 ### `uscToLevelData(usc, offset?)`
 
 Converts USC (Universal Sekai Chart) to Level Data.
 
--   `usc`: usc chart.
--   `offset`: offset (default: `0`).
+- `usc`: usc chart.
+- `offset`: offset (default: `0`).
 
 ### Assets
 
 The following assets are exposed as package entry points:
 
--   `EngineConfiguration`
--   `EnginePlayData`
--   `EngineWatchData`
--   `EnginePreviewData`
--   `EngineTutorialData`
--   `EngineThumbnail`
+- `EngineConfiguration`
+- `EnginePlayData`
+- `EngineWatchData`
+- `EnginePreviewData`
+- `EngineTutorialData`
+- `EngineThumbnail`
 
 In Node.js, you can obtain path to assets using `require.resolve('sonolus-pjsekai-engine/EngineConfiguration')` or `import.meta.resolve('sonolus-pjsekai-engine/EngineConfiguration')`.

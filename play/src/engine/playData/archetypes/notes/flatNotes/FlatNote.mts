@@ -81,8 +81,6 @@ export abstract class FlatNote extends Note {
         if (options.hidden > 0)
             this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
-        this.inputTime.max = this.targetTime + this.windows.good.max + input.offset
-
         const l = this.import.lane - this.import.size
         const r = this.import.lane + this.import.size
 

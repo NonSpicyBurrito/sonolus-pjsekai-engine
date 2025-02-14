@@ -1,4 +1,5 @@
 import { EngineArchetypeDataName } from '@sonolus/core'
+import { options } from '../../configuration/options.mjs'
 import { print } from '../print.mjs'
 import { line, skin } from '../skin.mjs'
 
@@ -9,6 +10,8 @@ export class TimeScaleChange extends Archetype {
     })
 
     render() {
+        if (!options.previewTimeScale) return
+
         line(skin.sprites.timeScaleChangeLine, this.import.beat, 0.5)
 
         print(

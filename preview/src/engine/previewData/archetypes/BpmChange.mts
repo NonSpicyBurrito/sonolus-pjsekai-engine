@@ -1,4 +1,5 @@
 import { EngineArchetypeDataName } from '@sonolus/core'
+import { options } from '../../configuration/options.mjs'
 import { print } from '../print.mjs'
 import { line, skin } from '../skin.mjs'
 
@@ -9,6 +10,8 @@ export class BpmChange extends Archetype {
     })
 
     render() {
+        if (!options.previewBpm) return
+
         line(skin.sprites.bpmChangeLine, this.import.beat, 0.5)
 
         print(

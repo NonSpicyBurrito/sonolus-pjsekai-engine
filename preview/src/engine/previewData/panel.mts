@@ -1,8 +1,11 @@
+import { options } from '../configuration/options.mjs'
 import { chart } from './chart.mjs'
 
 export const panel = {
     w: 20,
-    h: 2,
+    get h() {
+        return 2 / options.previewVerticalScale
+    },
 
     get count() {
         return Math.ceil(chart.duration / this.h)

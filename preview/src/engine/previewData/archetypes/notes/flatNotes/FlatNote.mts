@@ -11,11 +11,13 @@ export abstract class FlatNote extends Note {
         fallback: SkinSprite
     }
 
+    layer = layer.note.body
+
     render() {
         const time = bpmChanges.at(this.import.beat).time
         const pos = panel.getPos(time)
 
-        const z = getZ(layer.note.body, time, this.import.lane)
+        const z = getZ(this.layer, time, this.import.lane)
 
         const l = this.import.lane - this.import.size
         const r = this.import.lane + this.import.size

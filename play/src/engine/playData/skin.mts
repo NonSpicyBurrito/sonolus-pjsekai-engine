@@ -130,8 +130,9 @@ export const layer = {
         arrow: 102,
         tick: 101,
         body: 100,
-        slide: 99,
-        connector: 98,
+        trace: 99,
+        slide: 98,
+        connector: 97,
     },
 
     simLine: 90,

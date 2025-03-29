@@ -1,7 +1,6 @@
 import { SkinSpriteName } from '@sonolus/core'
 
 export const skin = defineSkin({
-    renderMode: 'lightweight',
     sprites: {
         lane: SkinSpriteName.Lane,
         judgmentLine: SkinSpriteName.JudgmentLine,

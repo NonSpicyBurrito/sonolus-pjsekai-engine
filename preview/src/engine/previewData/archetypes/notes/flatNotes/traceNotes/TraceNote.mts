@@ -12,6 +12,8 @@ export abstract class TraceNote extends FlatNote {
         fallback: SkinSprite
     }
 
+    layer = layer.note.trace
+
     render() {
         const { time, pos } = super.render()
 

@@ -40,6 +40,8 @@ export abstract class FlatNote extends Note {
 
     abstract bucket: Bucket
 
+    layer = layer.note.body
+
     visualTime = this.entityMemory(Range)
     hiddenTime = this.entityMemory(Number)
 
@@ -101,7 +103,7 @@ export abstract class FlatNote extends Note {
             perspectiveLayout({ l: mr, r, b, t }).copyTo(this.spriteLayouts.right)
         }
 
-        this.z = getZ(layer.note.body, this.targetTime, this.import.lane)
+        this.z = getZ(this.layer, this.targetTime, this.import.lane)
 
         this.result.accuracy = this.windows.good.max
     }

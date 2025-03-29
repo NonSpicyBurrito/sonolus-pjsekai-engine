@@ -13,6 +13,8 @@ export abstract class TraceNote extends FlatNote {
         fallback: SkinSprite
     }
 
+    layer = layer.note.trace
+
     diamondLayout = this.entityMemory(Rect)
 
     diamondZ = this.entityMemory(Number)

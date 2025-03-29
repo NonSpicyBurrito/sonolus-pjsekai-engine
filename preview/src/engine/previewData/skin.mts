@@ -108,7 +108,8 @@ export const layer = {
         arrow: 102,
         tick: 101,
         body: 100,
-        connector: 99,
+        trace: 99,
+        connector: 98,
     },
 
     simLine: 90,

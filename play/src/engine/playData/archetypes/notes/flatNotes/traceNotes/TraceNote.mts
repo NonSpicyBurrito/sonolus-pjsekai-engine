@@ -16,6 +16,8 @@ export abstract class TraceNote extends FlatNote {
 
     leniency = 1
 
+    layer = layer.note.trace
+
     earlyInputTime = this.entityMemory(Number)
     earlyHitTime = this.entityMemory(Number)
 

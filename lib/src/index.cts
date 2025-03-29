@@ -24,7 +24,7 @@ export const databaseEngineItem = {
         zht: '世界計畫 繽紛舞台！',
     },
     author: {
-        en: 'Burrito',
+        en: 'Burrito#1000',
     },
     description: {
         en: [

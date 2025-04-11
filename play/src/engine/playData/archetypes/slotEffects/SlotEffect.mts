@@ -14,11 +14,11 @@ export abstract class SlotEffect extends SpawnableArchetype({
     z = this.entityMemory(Number)
 
     initialize() {
-        this.endTime = this.spawnData.startTime + 0.33
+        this.endTime = this.spawnData.startTime + 0.5
 
         perspectiveLayout({
-            l: this.spawnData.lane - 0.2,
-            r: this.spawnData.lane + 0.2,
+            l: this.spawnData.lane - 0.5,
+            r: this.spawnData.lane + 0.5,
             b: 1 + note.h,
             t: 1 - note.h,
         }).copyTo(this.layout)

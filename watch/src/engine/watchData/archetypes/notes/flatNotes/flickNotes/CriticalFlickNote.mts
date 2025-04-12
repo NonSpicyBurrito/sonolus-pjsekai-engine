@@ -61,15 +61,28 @@ export class CriticalFlickNote extends FlickNote {
         return archetypes.CriticalSlotGlowEffect
     }
     playLaneEffects() {
-        particle.effects.criticalLane.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            1,
-            false,
-        )
+        if (particle.effects.criticalLane.exists) {
+            particle.effects.criticalLane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
+        } else {
+            particle.effects.lane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
+        }
     }
 }

@@ -248,15 +248,28 @@ export abstract class FlatNote extends Note {
     }
 
     playLaneEffects() {
-        particle.effects.lane.spawn(
-            perspectiveLayout({
-                l: this.import.lane - this.import.size,
-                r: this.import.lane + this.import.size,
-                b: lane.b,
-                t: lane.t,
-            }),
-            0.3,
-            false,
-        )
+        if (particle.effects.noteLane.exists) {
+            particle.effects.noteLane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
+        } else {
+            particle.effects.lane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
+        }
     }
 }

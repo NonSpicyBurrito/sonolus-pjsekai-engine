@@ -69,7 +69,7 @@ export class CriticalSlideEndFlickNote extends FlickNote {
                 b: lane.b,
                 t: lane.t,
             }),
-            0.3,
+            1,
             false,
         )
     }

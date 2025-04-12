@@ -5,6 +5,8 @@ import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { FlickNote } from './FlickNote.mjs'
+import { lane } from '../../../../../../../../shared/src/engine/data/lane.mjs'
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class CriticalSlideEndFlickNote extends FlickNote {
     sprites = {

@@ -264,7 +264,7 @@ export abstract class FlatNote extends Note {
                     b: lane.b,
                     t: lane.t,
                 }),
-                1,
+                0.3,
                 false,
             )
         } else {
@@ -275,7 +275,7 @@ export abstract class FlatNote extends Note {
                     b: lane.b,
                     t: lane.t,
                 }),
-                1,
+                0.3,
                 false,
             )
         }

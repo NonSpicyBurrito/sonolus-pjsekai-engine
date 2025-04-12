@@ -74,16 +74,7 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
                 false,
             )
         } else {
-            particle.effects.lane.spawn(
-                perspectiveLayout({
-                    l: this.import.lane - this.import.size,
-                    r: this.import.lane + this.import.size,
-                    b: lane.b,
-                    t: lane.t,
-                }),
-                0.3,
-                false,
-            )
+            
         }
     }
 }

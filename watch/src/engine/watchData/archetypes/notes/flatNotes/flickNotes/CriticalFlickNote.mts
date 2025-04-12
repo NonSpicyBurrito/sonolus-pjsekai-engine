@@ -57,4 +57,16 @@ export class CriticalFlickNote extends FlickNote {
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
     }
+    playLaneEffects() {
+        particle.effects.criticalLane.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            0.3,
+            false,
+        )
+    }
 }

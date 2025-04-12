@@ -73,8 +73,6 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
                 1,
                 false,
             )
-        } else {
-           
         }
     }
 }

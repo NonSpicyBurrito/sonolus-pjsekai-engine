@@ -80,7 +80,7 @@ export class CriticalFlickNote extends FlickNote {
                     b: lane.b,
                     t: lane.t,
                 }),
-                1,
+                0.3,
                 false,
             )
         }

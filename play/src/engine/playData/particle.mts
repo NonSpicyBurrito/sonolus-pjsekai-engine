@@ -5,6 +5,7 @@ import { scaledScreen } from './scaledScreen.mjs'
 export const particle = defineParticle({
     effects: {
         lane: ParticleEffectName.LaneLinear,
+        criticalLane: 'Sekai Critical Lane Linear',
 
         normalNoteCircular: ParticleEffectName.NoteCircularTapCyan,
         normalNoteLinear: ParticleEffectName.NoteLinearTapCyan,

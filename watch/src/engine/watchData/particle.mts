@@ -22,6 +22,8 @@ export const particle = defineParticle({
         criticalNoteLinear: ParticleEffectName.NoteLinearTapYellow,
         criticalNoteDirectional: ParticleEffectName.NoteLinearAlternativeYellow,
         criticalFlickNoteCircular: 'Sekai Critical Flick Circular Yellow',
+        criticalSlideEndCircular: 'Sekai Critical Slide End Circular Yellow',
+        criticalSlideEndLinear: 'Sekai Critical Slide End Linear Yellow',
 
         normalTraceNoteCircular: 'Sekai Trace Note Circular Green',
         normalTraceNoteLinear: 'Sekai Trace Note Linear Green',

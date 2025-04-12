@@ -20,7 +20,8 @@ export class CriticalSlideEndFlickNote extends FlickNote {
     }
 
     effects = {
-        circular: particle.effects.criticalNoteCircular,
+        circular: particle.effects.criticalFlickNoteCircular,
+        circularFallback: particle.effects.criticalNoteCircular,
         linear: particle.effects.criticalNoteLinear,
     }
 
@@ -56,5 +57,18 @@ export class CriticalSlideEndFlickNote extends FlickNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
+    }
+
+    playLaneEffects() {
+        particle.effects.criticalLane.spawn(
+            perspectiveLayout({
+                l: this.import.lane - this.import.size,
+                r: this.import.lane + this.import.size,
+                b: lane.b,
+                t: lane.t,
+            }),
+            0.3,
+            false,
+        )
     }
 }

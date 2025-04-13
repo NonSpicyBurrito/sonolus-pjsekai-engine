@@ -24,7 +24,8 @@ export class CriticalSlideEndFlickNote extends FlickNote {
     effects = {
         circular: particle.effects.criticalFlickNoteCircular,
         circularFallback: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalNoteLinear,
+        linear: particle.effects.criticalFlickNoteLinear,
+        linearFallback: particle.effects.criticalNoteLinear,
     }
 
     arrowSprites = {

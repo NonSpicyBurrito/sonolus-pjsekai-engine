@@ -115,6 +115,7 @@ npm install sonolus-pjsekai-engine
 | `Sekai Critical Slide End Circular Yellow` |
 | `Sekai Critical Slide End Linear Yellow`   |
 | `Sekai Critical Flick Circular Yellow`     |
+| `Sekai Critical Flick Linear Yellow`       |
 
 ## Documentation
 

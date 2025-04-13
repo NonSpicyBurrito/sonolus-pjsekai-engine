@@ -24,7 +24,7 @@ export class CriticalFlickNote extends SingleFlickNote {
     effects = {
         circular: particle.effects.criticalFlickNoteCircular,
         circularFallback: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalFlickNoteLircular,
+        linear: particle.effects.criticalFlickNoteLinear,
         linearFallback: particle.effects.criticalNoteLinear,
     }
 

@@ -62,8 +62,8 @@ export class CriticalTraceFlickNote extends TraceFlickNote {
     }
 
     playLaneEffects() {
-        if (particle.effects.criticalLane.exists) {
-            particle.effects.criticalLane.spawn(
+        if (particle.effects.criticalFlickLane.exists) {
+            particle.effects.criticalFlickLane.spawn(
                 perspectiveLayout({
                     l: this.import.lane - this.import.size,
                     r: this.import.lane + this.import.size,

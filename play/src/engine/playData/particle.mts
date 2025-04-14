@@ -7,6 +7,7 @@ export const particle = defineParticle({
         lane: ParticleEffectName.LaneLinear,
         noteLane: 'Sekai Note Lane Linear',
         criticalLane: 'Sekai Critical Lane Linear',
+        criticalFlickLane: 'Sekai Critical Flick Lane Linear',
 
         normalNoteCircular: ParticleEffectName.NoteCircularTapCyan,
         normalNoteLinear: ParticleEffectName.NoteLinearTapCyan,

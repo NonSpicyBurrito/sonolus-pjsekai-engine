@@ -112,6 +112,7 @@ npm install sonolus-pjsekai-engine
 | `Sekai Trace Note Linear Yellow`           |
 | `Sekai Note Lane Linear`                   |
 | `Sekai Critical Lane Linear`               |
+| `Sekai Critical Flick Lane Linear`         |
 | `Sekai Critical Slide Circular Yellow`     |
 | `Sekai Critical Slide Linear Yellow`       |
 | `Sekai Critical Flick Circular Yellow`     |

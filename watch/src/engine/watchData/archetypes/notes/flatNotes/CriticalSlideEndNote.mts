@@ -49,7 +49,7 @@ export class CriticalSlideEndNote extends FlatNote {
                     t: lane.t,
                 }),
                 1,
-                false,
+                false, 
             )
         } else {
             particle.effects.lane.spawn(

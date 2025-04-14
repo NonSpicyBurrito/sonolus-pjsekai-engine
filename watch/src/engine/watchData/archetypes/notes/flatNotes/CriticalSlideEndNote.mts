@@ -19,9 +19,9 @@ export class CriticalSlideEndNote extends FlatNote {
     }
 
     effects = {
-        circular: particle.effects.criticalSlideEndCircular,
+        circular: particle.effects.criticalSlideCircular,
         circularFallback: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalSlideEndLinear,
+        linear: particle.effects.criticalSlideLinear,
         linearFallback: particle.effects.criticalNoteLinear,
     }
 

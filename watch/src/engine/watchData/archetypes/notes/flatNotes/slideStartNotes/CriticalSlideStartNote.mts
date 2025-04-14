@@ -49,7 +49,7 @@ export class CriticalSlideStartNote extends SlideStartNote {
                     t: lane.t,
                 }),
                 1,
-                false,
+                false, 
             )
         } else {
             particle.effects.lane.spawn(

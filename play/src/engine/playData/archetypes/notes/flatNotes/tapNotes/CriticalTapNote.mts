@@ -50,6 +50,17 @@ export class CriticalTapNote extends TapNote {
                 1,
                 false,
             )
+        } else if (particle.effects.noteLane.exists) {
+            particle.effects.noteLane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
         } else {
             particle.effects.lane.spawn(
                 perspectiveLayout({

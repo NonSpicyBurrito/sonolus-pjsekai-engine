@@ -63,7 +63,7 @@ export class CriticalSlideEndFlickNote extends FlickNote {
     }
 
     playLaneEffects() {
-        if (particle.effects.criticalLane.exists) {
+        if (particle.effects.criticalFlickLane.exists) {
             particle.effects.criticalFlickLane.spawn(
                 perspectiveLayout({
                     l: this.import.lane - this.import.size,

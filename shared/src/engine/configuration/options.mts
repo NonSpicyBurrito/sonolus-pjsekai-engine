@@ -115,6 +115,12 @@ export const optionsDefinition = {
         step: 0.05,
         unit: Text.PercentageUnit,
     },
+    V3SlotEnabled: {
+        name: "V3 Style Slot Effect",
+        scope: 'Sekai',
+        type: 'toggle',
+        def: 1,
+    },
     stageCover: {
         name: Text.StageCoverVertical,
         advanced: true,

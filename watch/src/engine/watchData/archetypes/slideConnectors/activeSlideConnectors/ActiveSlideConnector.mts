@@ -135,20 +135,21 @@ export abstract class ActiveSlideConnector extends SlideConnector {
 
         const shear = 1 + 0.25 * options.slotEffectSize
         const h = 4 * options.slotEffectSize * scaledScreen.wToH
+        const w = 0.2
 
         this.glowSprite.draw(
             {
-                x1: l,
-                x2: l * shear,
-                x3: r * shear,
-                x4: r,
+                x1: l - w,
+                x2: l * shear - w,
+                x3: r * shear + w,
+                x4: r + w,
                 y1: 1,
                 y2: 1 - h,
                 y3: 1 - h,
                 y4: 1,
             },
             this.glowZ,
-            (Math.cos((time.now - this.start.time) * 8 * Math.PI) + 1) / 20 + 0.1,
+            (Math.cos((time.now - this.start.time) * 8 * Math.PI) + 1) / 20 + 0.2,
         )
     }
 

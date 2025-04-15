@@ -119,7 +119,7 @@ export const optionsDefinition = {
         name: "V3 Style Slot Effect",
         scope: 'Sekai',
         type: 'toggle',
-        def: 1,
+        def: 0,
     },
     stageCover: {
         name: Text.StageCoverVertical,

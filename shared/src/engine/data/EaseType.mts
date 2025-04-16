@@ -12,7 +12,7 @@ export const ease = (ease: EaseType, s: number) => {
         case EaseType.Out:
             return Math.ease('Out', 'Quad', s)
         case EaseType.InOut:
-                return Math.ease('InOut', 'Quint', s)
+                return Math.ease('InOut', 'Circ', s)
         default:
             return s
     }

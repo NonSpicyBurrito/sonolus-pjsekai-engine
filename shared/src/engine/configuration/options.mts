@@ -116,7 +116,7 @@ export const optionsDefinition = {
         unit: Text.PercentageUnit,
     },
     V3SlotEnabled: {
-        name: "V3 Style Slot Effect",
+        name: 'V3 Style Slot Effect',
         scope: 'Sekai',
         type: 'toggle',
         def: 0,

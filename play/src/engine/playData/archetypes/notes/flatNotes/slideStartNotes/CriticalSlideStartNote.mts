@@ -1,12 +1,12 @@
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
 import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
+import { lane } from '../../../../lane.mjs'
 import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { SlideStartNote } from './SlideStartNote.mjs'
-import { lane } from '../../../../lane.mjs'
-import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class CriticalSlideStartNote extends SlideStartNote {
     sprites = {

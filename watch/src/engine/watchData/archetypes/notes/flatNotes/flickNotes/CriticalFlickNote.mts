@@ -1,3 +1,5 @@
+import { lane } from '../../../../../../../../shared/src/engine/data/lane.mjs'
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
 import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
@@ -5,8 +7,6 @@ import { particle } from '../../../../particle.mjs'
 import { skin } from '../../../../skin.mjs'
 import { archetypes } from '../../../index.mjs'
 import { FlickNote } from './FlickNote.mjs'
-import { lane } from '../../../../../../../../shared/src/engine/data/lane.mjs'
-import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 
 export class CriticalFlickNote extends FlickNote {
     sprites = {

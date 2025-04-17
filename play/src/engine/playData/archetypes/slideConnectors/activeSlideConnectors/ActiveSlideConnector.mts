@@ -237,7 +237,7 @@ export abstract class ActiveSlideConnector extends SlideConnector {
             },
             this.glowZ,
             Math.min(1, Math.max(0, (time.now - this.start.time) / 0.25)) *
-            ((Math.cos((time.now - this.start.time) * 8 * Math.PI / 2) + 1) / 20 + 0.2),
+                ((Math.cos(((time.now - this.start.time) * 8 * Math.PI) / 2) + 1) / 20 + 0.2),
         )
     }
 

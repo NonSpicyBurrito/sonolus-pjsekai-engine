@@ -1,3 +1,5 @@
+import { lane } from '../../../../../../../../shared/src/engine/data/lane.mjs'
+import { perspectiveLayout } from '../../../../../../../../shared/src/engine/data/utils.mjs'
 import { windows } from '../../../../../../../../shared/src/engine/data/windows.mjs'
 import { buckets } from '../../../../buckets.mjs'
 import { effect } from '../../../../effect.mjs'
@@ -19,8 +21,10 @@ export class CriticalSlideStartNote extends SlideStartNote {
     }
 
     effects = {
-        circular: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalNoteLinear,
+        circular: particle.effects.criticalSlideCircular,
+        circularFallback: particle.effects.criticalNoteCircular,
+        linear: particle.effects.criticalSlideLinear,
+        linearFallback: particle.effects.criticalNoteLinear,
     }
 
     windows = windows.slideStartNote.critical
@@ -33,5 +37,42 @@ export class CriticalSlideStartNote extends SlideStartNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
+    }
+
+    playLaneEffects() {
+        if (particle.effects.criticalLane.exists) {
+            particle.effects.criticalLane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
+        } else if (particle.effects.noteLane.exists) {
+            particle.effects.noteLane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
+        } else {
+            particle.effects.lane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                0.3,
+                false,
+            )
+        }
     }
 }

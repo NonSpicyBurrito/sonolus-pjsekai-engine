@@ -266,7 +266,7 @@ export abstract class SlideConnector extends Archetype {
             if (this.useFallbackSprite) {
                 this.sprites.fallback.draw(layout, this.z, a)
             } else if (options.connectorAnimation && this.visual === VisualType.Activated) {
-                const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2
+                const normalA = (Math.cos((time.now - this.start.time) * 4 * Math.PI) + 1) / 2
 
                 this.sprites.normal.draw(layout, this.z, a * (0.7 + 0.3 * normalA))
                 this.sprites.active.draw(layout, this.z, a * (1 - normalA) * 0.5)

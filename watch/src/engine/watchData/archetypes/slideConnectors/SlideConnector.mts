@@ -209,7 +209,7 @@ export abstract class SlideConnector extends Archetype {
                 const normalA = (Math.cos((time.now - this.start.time) * 2 * Math.PI) + 1) / 2
 
                 this.sprites.normal.draw(layout, this.z, a * (0.7 + 0.3 * normalA))
-                this.sprites.active.draw(layout, this.z, a * (1 - normalA) * 0.3)
+                this.sprites.active.draw(layout, this.z, a * (1 - normalA) * 0.5)
             } else {
                 this.sprites.normal.draw(layout, this.z, a)
             }

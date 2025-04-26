@@ -48,7 +48,7 @@ export abstract class SlotGlowEffect extends SpawnableArchetype({
 
     updateParallel() {
         const a = Math.unlerp(this.endTime, this.spawnData.startTime, time.now)
-        const p = options.removeSlotA ? 1 : 1 - a ** 3
+        const p = options.simplifySlotA ? Math.min(1, a / 0.03) : 1 - a ** 3;
 
         const t = 1 - this.layout.h * p
 

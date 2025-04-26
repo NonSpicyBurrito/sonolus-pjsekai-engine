@@ -115,11 +115,11 @@ export const optionsDefinition = {
         step: 0.05,
         unit: Text.PercentageUnit,
     },
-    removeSlotA: {
-        name: 'Remove Slot Animation',
+    simplifySlotA: {
+        name: 'Simplify slot animation',
         scope: 'Sekai',
         type: 'toggle',
-        def: 0,
+        def: 1,
     },
     stageCover: {
         name: Text.StageCoverVertical,

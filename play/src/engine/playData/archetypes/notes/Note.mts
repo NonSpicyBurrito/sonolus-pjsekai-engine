@@ -14,6 +14,7 @@ export abstract class Note extends Archetype {
 
     sharedMemory = this.defineSharedMemory({
         lastActiveTime: Number,
+        exportStartTime: Number,
     })
 
     targetTime = this.entityMemory(Number)
@@ -25,6 +26,7 @@ export abstract class Note extends Archetype {
 
     preprocess() {
         this.sharedMemory.lastActiveTime = -1000
+        this.sharedMemory.exportStartTime = -1000
 
         this.targetTime = bpmChanges.at(this.import.beat).time
 

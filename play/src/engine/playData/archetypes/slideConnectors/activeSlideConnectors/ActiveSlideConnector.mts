@@ -52,8 +52,6 @@ export abstract class ActiveSlideConnector extends SlideConnector {
     }
 
     updateParallel() {
-        this.updateExport()
-
         if (time.now >= this.tail.time) {
             this.despawn = true
             return
@@ -67,9 +65,29 @@ export abstract class ActiveSlideConnector extends SlideConnector {
 
         if (time.now < this.head.time) return
 
-        if (this.effectInstanceIds.circular) this.updateCircularEffect()
+        if (this.visual === VisualType.Activated) {
+            if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX()
 
-        if (this.effectInstanceIds.linear) this.updateLinearEffect()
+            if (this.shouldPlayCircularEffect) {
+                if (!this.effectInstanceIds.circular) this.spawnCircularEffect()
+
+                this.updateCircularEffect()
+            }
+
+            if (this.shouldPlayLinearEffect) {
+                if (!this.effectInstanceIds.linear) this.spawnLinearEffect()
+
+                this.updateLinearEffect()
+            }
+        } else {
+            if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
+
+            if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)
+                this.destroyCircularEffect()
+
+            if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear)
+                this.destroyLinearEffect()
+        }
 
         this.renderGlow()
 
@@ -77,28 +95,6 @@ export abstract class ActiveSlideConnector extends SlideConnector {
     }
 
     terminate() {
-        if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
-
-        if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)
-            this.destroyCircularEffect()
-
-        if (this.shouldPlayLinearEffect && this.effectInstanceIds.linear) this.destroyLinearEffect()
-    }
-
-    onActivate() {
-        super.onActivate()
-
-        if (this.shouldPlaySFX && !this.sfxInstanceId) this.playSFX()
-
-        if (this.shouldPlayCircularEffect && !this.effectInstanceIds.circular)
-            this.spawnCircularEffect()
-
-        if (this.shouldPlayLinearEffect && !this.effectInstanceIds.linear) this.spawnLinearEffect()
-    }
-
-    onDeactivate() {
-        super.onDeactivate()
-
         if (this.shouldPlaySFX && this.sfxInstanceId) this.stopSFX()
 
         if (this.shouldPlayCircularEffect && this.effectInstanceIds.circular)

@@ -1,6 +1,8 @@
+import { perspectiveLayout } from '../../../../../../../../../shared/src/engine/data/utils.mjs'
 import { windows } from '../../../../../../../../../shared/src/engine/data/windows.mjs'
 import { buckets } from '../../../../../buckets.mjs'
 import { effect } from '../../../../../effect.mjs'
+import { lane } from '../../../../../lane.mjs'
 import { particle } from '../../../../../particle.mjs'
 import { skin } from '../../../../../skin.mjs'
 import { archetypes } from '../../../../index.mjs'
@@ -20,8 +22,10 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
     }
 
     effects = {
-        circular: particle.effects.criticalNoteCircular,
-        linear: particle.effects.criticalNoteLinear,
+        circular: particle.effects.criticalFlickNoteCircular,
+        circularFallback: particle.effects.criticalNoteCircular,
+        linear: particle.effects.criticalFlickNoteLinear,
+        linearFallback: particle.effects.criticalNoteLinear,
     }
 
     arrowSprites = {
@@ -56,5 +60,31 @@ export class CriticalSlideEndFlickNote extends SlideEndFlickNote {
 
     get slotGlowEffect() {
         return archetypes.CriticalSlotGlowEffect
+    }
+
+    playLaneEffects() {
+        if (particle.effects.criticalFlickLane.exists) {
+            particle.effects.criticalFlickLane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                1,
+                false,
+            )
+        } else {
+            particle.effects.lane.spawn(
+                perspectiveLayout({
+                    l: this.import.lane - this.import.size,
+                    r: this.import.lane + this.import.size,
+                    b: lane.b,
+                    t: lane.t,
+                }),
+                0.3,
+                false,
+            )
+        }
     }
 }

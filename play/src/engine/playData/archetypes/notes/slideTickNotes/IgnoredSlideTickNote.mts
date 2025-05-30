@@ -6,7 +6,7 @@ export class IgnoredSlideTickNote extends Note {
     leniency = 0
 
     spawnOrder() {
-        return 100000
+        return 999999
     }
 
     shouldSpawn() {

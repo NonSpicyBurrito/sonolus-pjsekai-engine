@@ -36,7 +36,7 @@ export class SimLine extends Archetype {
     }
 
     spawnOrder() {
-        if (!options.simLineEnabled) return 100000
+        if (!options.simLineEnabled) return 999999
 
         return 1000 + this.spawnTime
     }

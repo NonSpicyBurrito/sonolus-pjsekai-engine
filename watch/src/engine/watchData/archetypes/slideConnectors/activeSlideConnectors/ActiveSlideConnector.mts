@@ -1,4 +1,3 @@
-import { slideConnectorReplayKeys } from '../../../../../../../shared/src/engine/data/slideConnector.mjs'
 import { perspectiveLayout } from '../../../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../../../configuration/options.mjs'
 import { effect } from '../../../effect.mjs'
@@ -42,13 +41,7 @@ export abstract class ActiveSlideConnector extends SlideConnector {
 
         if (options.sfxEnabled) {
             if (replay.isReplay) {
-                for (const [, start, end] of slideConnectorReplayKeys) {
-                    const startTime = this.import[start]
-                    const endTime = this.import[end]
-                    if (startTime >= endTime) continue
-
-                    this.scheduleSFX(startTime, endTime)
-                }
+                this.scheduleReplaySFX()
             } else {
                 this.scheduleSFX(this.head.time, this.tail.time)
             }
@@ -67,15 +60,23 @@ export abstract class ActiveSlideConnector extends SlideConnector {
         if (time.now < this.head.time) return
 
         if (this.visual === VisualType.Activated) {
-            if (this.shouldScheduleCircularEffect && !this.effectInstanceIds.circular)
-                this.spawnCircularEffect()
+            if (this.shouldScheduleCircularEffect) {
+                if (!this.effectInstanceIds.circular) this.spawnCircularEffect()
 
-            if (this.shouldScheduleLinearEffect && !this.effectInstanceIds.linear)
-                this.spawnLinearEffect()
+                this.updateCircularEffect()
+            }
 
-            if (this.effectInstanceIds.circular) this.updateCircularEffect()
+            if (this.shouldScheduleLinearEffect) {
+                if (!this.effectInstanceIds.linear) this.spawnLinearEffect()
 
-            if (this.effectInstanceIds.linear) this.updateLinearEffect()
+                this.updateLinearEffect()
+            }
+        } else {
+            if (this.shouldScheduleCircularEffect && this.effectInstanceIds.circular)
+                this.destroyCircularEffect()
+
+            if (this.shouldScheduleLinearEffect && this.effectInstanceIds.linear)
+                this.destroyLinearEffect()
         }
 
         this.renderGlow()
@@ -170,6 +171,22 @@ export abstract class ActiveSlideConnector extends SlideConnector {
             this.slideSprites.left.draw(perspectiveLayout({ l, r: ml, b, t }), this.slideZ, 1)
             this.slideSprites.middle.draw(perspectiveLayout({ l: ml, r: mr, b, t }), this.slideZ, 1)
             this.slideSprites.right.draw(perspectiveLayout({ l: mr, r, b, t }), this.slideZ, 1)
+        }
+    }
+
+    scheduleReplaySFX() {
+        if (this.import.startRef !== this.import.headRef) return
+
+        let key = -999999
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        while (true) {
+            const startTime = streams.getNextKey(this.import.startRef, key)
+            if (startTime === key) break
+
+            const endTime = streams.getValue(this.import.startRef, startTime)
+            this.scheduleSFX(startTime, Math.min(endTime, this.end.time))
+
+            key = startTime
         }
     }
 

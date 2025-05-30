@@ -1,9 +1,5 @@
 import { EaseType, ease } from '../../../../../../shared/src/engine/data/EaseType.mjs'
 import { approach } from '../../../../../../shared/src/engine/data/note.mjs'
-import {
-    slideConnectorReplayImport,
-    slideConnectorReplayKeys,
-} from '../../../../../../shared/src/engine/data/slideConnector.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { getHitbox } from '../../lane.mjs'
 import { note } from '../../note.mjs'
@@ -35,8 +31,6 @@ export abstract class SlideConnector extends Archetype {
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },
     })
-
-    export = this.defineExport(slideConnectorReplayImport)
 
     start = this.entityMemory({
         time: Number,
@@ -73,9 +67,6 @@ export abstract class SlideConnector extends Archetype {
     z = this.entityMemory(Number)
 
     visual = this.entityMemory(DataType<VisualType>)
-
-    exportIndex = this.entityMemory(Number)
-    exportStartTime = this.entityMemory(Number)
 
     preprocess() {
         this.head.time = bpmChanges.at(this.headImport.beat).time
@@ -116,13 +107,11 @@ export abstract class SlideConnector extends Archetype {
             this.hiddenTime = this.tail.scaledTime - note.duration * options.hidden
 
         this.z = getZ(layer.note.connector, this.start.time, this.startImport.lane)
-
-        this.exportStartTime = -1000
     }
 
     updateSequentialOrder = 1
     updateSequential() {
-        if (time.now < this.head.time) return
+        if (time.now < this.head.time || time.now >= this.tail.time) return
 
         const s = this.getScale(timeScaleChanges.at(time.now - input.offset).scaledTime)
 
@@ -138,17 +127,23 @@ export abstract class SlideConnector extends Archetype {
 
             disallowEmpty(touch)
 
-            this.onActivate()
+            this.startSharedMemory.lastActiveTime = time.now
         }
 
-        if (this.startSharedMemory.lastActiveTime === time.now) return
+        if (this.startSharedMemory.lastActiveTime === time.now) {
+            if (this.startSharedMemory.exportStartTime !== -1000) return
 
-        this.onDeactivate()
+            streams.set(this.import.startRef, time.now, 999999)
+            this.startSharedMemory.exportStartTime = time.now
+        } else {
+            if (this.startSharedMemory.exportStartTime === -1000) return
+
+            streams.set(this.import.startRef, this.startSharedMemory.exportStartTime, time.now)
+            this.startSharedMemory.exportStartTime = -1000
+        }
     }
 
     updateParallel() {
-        this.updateExport()
-
         if (time.now >= this.tail.time) {
             this.despawn = true
             return
@@ -183,34 +178,6 @@ export abstract class SlideConnector extends Archetype {
 
     get useFallbackSprite() {
         return !this.sprites.normal.exists || !this.sprites.active.exists
-    }
-
-    onActivate() {
-        this.startSharedMemory.lastActiveTime = time.now
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onDeactivate() {}
-
-    updateExport() {
-        if (this.exportStartTime === -1000) {
-            if (this.startSharedMemory.lastActiveTime !== time.now) return
-
-            this.exportStartTime = time.now
-        } else {
-            if (this.startSharedMemory.lastActiveTime === time.now && time.now < this.tail.time)
-                return
-
-            for (const [i, start, end] of slideConnectorReplayKeys) {
-                if (i !== this.exportIndex) continue
-
-                this.export(start, this.exportStartTime)
-                this.export(end, time.now)
-            }
-
-            this.exportIndex++
-            this.exportStartTime = -1000
-        }
     }
 
     updateVisualType() {

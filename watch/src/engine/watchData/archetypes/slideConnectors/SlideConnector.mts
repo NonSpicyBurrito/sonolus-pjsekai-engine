@@ -1,9 +1,5 @@
 import { EaseType, ease } from '../../../../../../shared/src/engine/data/EaseType.mjs'
 import { approach } from '../../../../../../shared/src/engine/data/note.mjs'
-import {
-    slideConnectorReplayImport,
-    slideConnectorReplayKeys,
-} from '../../../../../../shared/src/engine/data/slideConnector.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { note } from '../../note.mjs'
 import { getZ, layer } from '../../skin.mjs'
@@ -30,7 +26,6 @@ export abstract class SlideConnector extends Archetype {
         headRef: { name: 'head', type: Number },
         tailRef: { name: 'tail', type: Number },
         ease: { name: 'ease', type: DataType<EaseType> },
-        ...slideConnectorReplayImport,
     })
 
     initialized = this.entityMemory(Boolean)
@@ -70,6 +65,8 @@ export abstract class SlideConnector extends Archetype {
     visual = this.entityMemory(DataType<VisualType>)
 
     preprocess() {
+        this.end.time = bpmChanges.at(this.endImport.beat).time
+
         this.head.time = bpmChanges.at(this.headImport.beat).time
         this.head.scaledTime = timeScaleChanges.at(this.head.time).scaledTime
 
@@ -124,7 +121,6 @@ export abstract class SlideConnector extends Archetype {
         this.start.time = bpmChanges.at(this.startImport.beat).time
         this.start.scaledTime = timeScaleChanges.at(this.start.time).scaledTime
 
-        this.end.time = bpmChanges.at(this.endImport.beat).time
         this.end.scaledTime = timeScaleChanges.at(this.end.time).scaledTime
 
         this.head.lane = this.headImport.lane
@@ -147,13 +143,13 @@ export abstract class SlideConnector extends Archetype {
             return
         }
 
-        for (const [, start, end] of slideConnectorReplayKeys) {
-            const startTime = this.import[start]
-            const endTime = this.import[end]
-            if (time.now < startTime || time.now >= endTime) continue
-
-            this.visual = VisualType.Activated
-            return
+        const startTime = streams.getPreviousKey(this.import.startRef, time.now)
+        if (startTime < time.now) {
+            const endTime = streams.getValue(this.import.startRef, startTime)
+            if (time.now < endTime) {
+                this.visual = VisualType.Activated
+                return
+            }
         }
 
         this.visual =

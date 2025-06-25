@@ -3,10 +3,13 @@ import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.m
 import { options } from '../../configuration/options.mjs'
 import { effect, sfxDistance } from '../effect.mjs'
 import { note } from '../note.mjs'
+import { particle } from '../particle.mjs'
 import { scaledScreen } from '../scaledScreen.mjs'
 import { layer, skin } from '../skin.mjs'
 
 export class Stage extends Archetype {
+    nextTimes = this.entityMemory(Tuple(12, Number))
+
     spawnTime() {
         return -999999
     }
@@ -35,6 +38,8 @@ export class Stage extends Archetype {
         }
 
         this.drawStageCover()
+
+        this.playEmptyLaneEffects()
     }
 
     get useFallbackStage() {
@@ -90,5 +95,33 @@ export class Stage extends Archetype {
             layer.cover,
             1,
         )
+    }
+
+    playEmptyLaneEffects() {
+        for (let i = 0; i < 12; i++) {
+            const l = i - 6
+
+            let shouldUpdate = false
+            let shouldSpawn = false
+            if (time.skip) {
+                shouldUpdate = true
+            } else if (time.now >= this.nextTimes.get(i)) {
+                shouldUpdate = true
+                shouldSpawn = true
+            }
+
+            if (shouldUpdate) {
+                this.nextTimes.set(i, streams.getNextKey(l, time.now))
+                if (this.nextTimes.get(i) === time.now) this.nextTimes.set(i, 999999)
+            }
+
+            if (shouldSpawn) {
+                particle.effects.lane.spawn(
+                    perspectiveLayout({ l, r: l + 1, b: lane.b, t: lane.t }),
+                    0.3,
+                    false,
+                )
+            }
+        }
     }
 }

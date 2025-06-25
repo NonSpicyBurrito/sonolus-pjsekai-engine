@@ -4,7 +4,7 @@ export { susToUSC } from './sus/convert.cjs'
 export { uscToLevelData } from './usc/convert.cjs'
 export * from './usc/index.cjs'
 
-export const version = '1.8.7'
+export const version = '1.8.8'
 
 export const databaseEngineItem = {
     name: 'pjsekai',

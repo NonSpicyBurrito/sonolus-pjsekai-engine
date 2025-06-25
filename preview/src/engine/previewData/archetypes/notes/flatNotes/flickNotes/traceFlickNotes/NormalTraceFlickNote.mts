@@ -6,7 +6,7 @@ export class NormalTraceFlickNote extends TraceFlickNote {
         left: skin.sprites.traceFlickNoteLeft,
         middle: skin.sprites.traceFlickNoteMiddle,
         right: skin.sprites.traceFlickNoteRight,
-        diamond: skin.sprites.traceFlickNoteRight,
+        diamond: skin.sprites.traceFlickNoteDiamond,
         fallback: skin.sprites.traceFlickNoteFallback,
     }
 

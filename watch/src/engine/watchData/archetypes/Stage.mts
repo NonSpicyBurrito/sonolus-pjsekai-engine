@@ -1,6 +1,7 @@
 import { lane } from '../../../../../shared/src/engine/data/lane.mjs'
 import { perspectiveLayout } from '../../../../../shared/src/engine/data/utils.mjs'
 import { options } from '../../configuration/options.mjs'
+import { effect, sfxDistance } from '../effect.mjs'
 import { note } from '../note.mjs'
 import { scaledScreen } from '../scaledScreen.mjs'
 import { layer, skin } from '../skin.mjs'
@@ -12,6 +13,18 @@ export class Stage extends Archetype {
 
     despawnTime() {
         return 999999
+    }
+
+    preprocess() {
+        let t = -999999
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        while (true) {
+            const nt = streams.getNextKey(-9999, t)
+            if (nt === t) break
+
+            t = nt
+            effect.clips.stage.schedule(t, sfxDistance)
+        }
     }
 
     updateParallel() {

@@ -17,20 +17,24 @@ export class Stage extends Archetype {
     }
 
     preprocess() {
-        let t = -999999
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        while (true) {
-            const nt = streams.getNextKey(-9999, t)
-            if (nt === t) break
+        if (options.sfxEnabled) {
+            let t = -999999
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            while (true) {
+                const nt = streams.getNextKey(-9999, t)
+                if (nt === t) break
 
-            t = nt
-            effect.clips.stage.schedule(t, sfxDistance)
+                t = nt
+                effect.clips.stage.schedule(t, sfxDistance)
+            }
         }
 
-        for (let i = 0; i < 12; i++) {
-            archetypes.EmptyEffect.spawn({
-                l: i - 6,
-            })
+        if (options.laneEffectEnabled) {
+            for (let i = 0; i < 12; i++) {
+                archetypes.EmptyEffect.spawn({
+                    l: i - 6,
+                })
+            }
         }
     }
 

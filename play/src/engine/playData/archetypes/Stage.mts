@@ -74,6 +74,7 @@ export class Stage extends Archetype {
 
     playEmptySFX() {
         effect.clips.stage.play(sfxDistance)
+        streams.set(-9999, time.now, 0)
     }
 
     playEmptyLaneEffects(l: number) {

@@ -11,8 +11,9 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "exports": {
-    ".": "./dist/index.cjs",
+    ".": "./dist/index.js",
     "./EngineConfiguration": "./dist/EngineConfiguration",
     "./EnginePlayData": "./dist/EnginePlayData",
     "./EngineWatchData": "./dist/EngineWatchData",
@@ -28,7 +29,7 @@
     "check-type": "tsc -p ./lib --noEmit && tsc -p ./shared --noEmit && tsc -p ./play --noEmit && tsc -p ./watch --noEmit && tsc -p ./preview --noEmit && tsc -p ./tutorial --noEmit",
     "check-lint": "eslint .",
     "check-format": "prettier . --check",
-    "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./watch && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.mjs"
+    "build": "tsc -p ./lib && sonolus-cli --build ./play && sonolus-cli --build ./watch && sonolus-cli --build ./preview && sonolus-cli --build ./tutorial && node ./lib/build.js"
   },
   "dependencies": {
     "@sonolus/core": "~7.13.3"

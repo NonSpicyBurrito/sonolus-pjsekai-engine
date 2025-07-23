@@ -4,7 +4,7 @@ export { susToUSC } from './sus/convert.js'
 export { uscToLevelData } from './usc/convert.js'
 export * from './usc/index.js'
 
-export const version = '1.8.8'
+export const version = '1.9.0'
 
 export const databaseEngineItem = {
     name: 'pjsekai',

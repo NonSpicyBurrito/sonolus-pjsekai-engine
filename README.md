@@ -145,4 +145,4 @@ The following assets are exposed as package entry points:
 - `EngineTutorialData`
 - `EngineThumbnail`
 
-In Node.js, you can obtain path to assets using `require.resolve('sonolus-pjsekai-engine/EngineConfiguration')` or `import.meta.resolve('sonolus-pjsekai-engine/EngineConfiguration')`.
+In Node.js, you can obtain path to assets `import.meta.resolve('sonolus-pjsekai-engine/EngineConfiguration')`.

@@ -1,0 +1,35 @@
+[
+  {
+    "name": "だきしめるまで。",
+    "version": 1,
+    "rating": 17,
+    "engine": "PJSekai",
+    "useSkin": {
+      "useDefault": true
+    },
+    "useBackground": {
+      "useDefault": true
+    },
+    "useEffect": {
+      "useDefault": true
+    },
+    "useParticle": {
+      "useDefault": true
+    },
+    "title": "だきしめるまで。",
+    "artists": "MIMI",
+    "author": "itx42",
+    "cover": {
+      "type": "LevelCover",
+      "url": "https://itx42.github.io/<リポジトリ名>/levels/だきしめるまで。/bg.png"
+    },
+    "bgm": {
+      "type": "LevelBgm",
+      "url": "https://itx42.github.io/<リポジトリ名>/levels/だきしめるまで。/music.mp3"
+    },
+    "data": {
+      "type": "LevelData",
+      "url": "https://itx42.github.io/<リポジトリ名>/levels/だきしめるまで。/data.json"
+    }
+  }
+]

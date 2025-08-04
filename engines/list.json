@@ -1,0 +1,42 @@
+[
+  {
+    "name": "PJSekai",
+    "version": 6,
+    "title": "Project Sekai",
+    "subtitle": "NonSpicyBurrito",
+    "author": "NonSpicyBurrito",
+    "description": "NonSpicyBurrito氏のエンジンのフォーク",
+    "thumbnail": {
+      "type": "EngineThumbnail",
+      "url": "https://raw.githubusercontent.com/NonSpicyBurrito/sonolus-pjsekai-engine/main/thumbnail.png"
+    },
+    "data": {
+      "type": "EngineData",
+      "url": "https://raw.githubusercontent.com/NonSpicyBurrito/sonolus-pjsekai-engine/main/dist/pjsekai-engine-data.json"
+    },
+    "configuration": {
+      "type": "EngineConfiguration",
+      "url": "https://raw.githubusercontent.com/NonSpicyBurrito/sonolus-pjsekai-engine/main/dist/pjsekai-engine-configuration.json"
+    },
+    "skin": {
+      "type": "Skin",
+      "name": "PJSekai",
+      "version": 1,
+      "title": "Project Sekai",
+      "subtitle": "NonSpicyBurrito",
+      "author": "NonSpicyBurrito",
+      "thumbnail": {
+        "type": "SkinThumbnail",
+        "url": "https://raw.githubusercontent.com/NonSpicyBurrito/sonolus-pjsekai-engine/main/thumbnail.png"
+      },
+      "data": {
+        "type": "SkinData",
+        "url": "https://raw.githubusercontent.com/NonSpicyBurrito/sonolus-pjsekai-engine/main/dist/pjsekai-skin-data.json"
+      },
+      "texture": {
+        "type": "Texture",
+        "url": "https://raw.githubusercontent.com/NonSpicyBurrito/sonolus-pjsekai-engine/main/dist/pjsekai-texture.png"
+      }
+    }
+  }
+]

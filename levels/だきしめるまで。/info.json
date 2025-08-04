@@ -1,0 +1,19 @@
+{
+  "title": "だきしめるまで。",
+  "artists": "MIMI",
+  "author": "itx42",
+  "rating": 17,
+  "bg": {
+    "type": "LevelCover",
+    "url": "./bg.png"
+  },
+  "music": {
+    "type": "LevelBgm",
+    "url": "./music.mp3"
+  },
+  "data": {
+    "type": "LevelData",
+    "url": "./data.json"
+  },
+  "engine": "PJSekai"
+}

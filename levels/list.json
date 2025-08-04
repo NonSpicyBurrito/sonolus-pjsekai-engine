@@ -21,15 +21,15 @@
     "author": "itx42",
     "cover": {
       "type": "LevelCover",
-      "url": "https://itx42.github.io/<リポジトリ名>/levels/だきしめるまで。/bg.png"
+      "url": "https://itx42.github.io/sonolus-pjsekai-engine/levels/だきしめるまで。/bg.png"
     },
     "bgm": {
       "type": "LevelBgm",
-      "url": "https://itx42.github.io/<リポジトリ名>/levels/だきしめるまで。/music.mp3"
+      "url": "https://itx42.github.io/sonolus-pjsekai-engine/levels/だきしめるまで。/music.mp3"
     },
     "data": {
       "type": "LevelData",
-      "url": "https://itx42.github.io/<リポジトリ名>/levels/だきしめるまで。/data.json"
+      "url": "https://itx42.github.io/sonolus-pjsekai-engine/levels/だきしめるまで。/data.json"
     }
   }
 ]

@@ -1,5 +1,8 @@
 # Sonolus PJSekai Engine
 
+> [!IMPORTANT]
+> This engine is no longer being maintained, please use https://github.com/Next-SEKAI/sonolus-next-sekai-engine instead.
+
 A recreation of Project Sekai: Colorful Stage! engine in [Sonolus](https://sonolus.com).
 
 ## Links
